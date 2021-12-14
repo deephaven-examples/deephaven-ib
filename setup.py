@@ -5,7 +5,7 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-version = os.environ["DH_IB_VERSION"]
+version = os.getenv("DH_IB_VERSION", default="0.0.0")
 
 setuptools.setup(
     name="deephaven-ib",
