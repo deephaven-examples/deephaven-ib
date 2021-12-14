@@ -6,5 +6,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 # TODO: no users need to see this
-class IbListener(EWrapper):
+class _IbListener(EWrapper):
+    """Listener for data from IB."""
     pass

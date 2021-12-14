@@ -1,15 +1,15 @@
-from ._client import IbClient
-from ._listener import IbListener
+from ._client import _IbClient
+from ._listener import _IbListener
 
-__all__ = ["IbTws"]
+__all__ = ["IbSessionTws"]
 
 
-class IbTws:
-    """ IB TWS connection."""
+class IbSessionTws:
+    """ IB TWS session."""
 
     def __init__(self):
-        self._listener = IbListener()
-        self._client = IbClient(self._listener)
+        self._listener = _IbListener()
+        self._client = _IbClient(self._listener)
 
     def connect(self, host: str = "", port: int = 7497, clientId: int = 0) -> None:
         """Connect to an IB TWS session.  Raises an exception if already connected.
@@ -33,13 +33,10 @@ class IbTws:
         self._client.connect(host, port, clientId)
 
     def disconnect(self) -> None:
-        """Disconnect from an IB TWS session.  Raises an exception if not already connected.
+        """Disconnect from an IB TWS session.
 
         Returns:
             None
-
-        Raises:
-            Exception
         """
 
         self._client.disconnect()
