@@ -5,7 +5,7 @@ on: push
 jobs:
   build-and-publish:
     name: Build and publish to PyPI
-    runs-on: ubuntu***
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@master
     - name: Setup Python
@@ -19,17 +19,10 @@ jobs:
     - name: Build
       env:
         DH_IB_VERSION: ${{ github.event.release.tag_name }}
-        XXX: YYY
       run: |
         python -m build
-    - name: Publish
-      if: xxxx
-      python -m twine upload --repository testpypi dist/*
+#    - name: Publish
+#      if: xxxx
+#      python -m twine upload --repository testpypi dist/*
 
-    - name: Publish
-      if: xxxx
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN }}
-      
         
