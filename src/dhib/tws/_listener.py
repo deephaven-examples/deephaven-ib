@@ -25,13 +25,52 @@ class _IbListener(EWrapper):
             [dht.string, *_IbListener._contract_types(), dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64])
 
+        self.account_summary = DynamicTableWriter(["ReqId", "Account", "Tag", "Value", "Currency"],
+                                                  [dht.int64, dht.string, dht.string, dht.string, dht.string])
+
     def connect(self, client: _IbClient):
         self._client = client
 
         client.reqManagedAccts()
 
-        # client.reqAccountSummary()
-        # client.reqAccountUpdates() -> account value and portfolio
+        account_summary_tags = [
+            "accountountType",
+            "NetLiquidation",
+            "TotalCashValue",
+            "SettledCash",
+            "TotalCashValue",
+            "AccruedCash",
+            "BuyingPower",
+            "EquityWithLoanValue",
+            "PreviousDayEquityWithLoanValue",
+            "GrossPositionValue",
+            "RegTEquity",
+            "RegTMargin",
+            "SMA",
+            "InitMarginReq",
+            "MaintMarginReq",
+            "AvailableFunds",
+            "ExcessLiquidity",
+            "Cushion",
+            "FullInitMarginReq",
+            "FullMaintMarginReq",
+            "FullAvailableFunds",
+            "FullExcessLiquidity",
+            "LookAheadNextChange",
+            "LookAheadInitMarginReq",
+            "LookAheadMaintMarginReq",
+            "LookAheadAvailableFunds",
+            "LookAheadExcessLiquidity",
+            "HighestSeverity",
+            "DayTradesRemaining",
+            "Leverage",
+            "$LEDGER",
+        ]
+
+        client.reqAccountSummary(0, "All", ",".join(account_summary_tags))
+
+
+
         # client.reqAllOpenOrders()
         # client.reqContractDetails()
         # client.reqHistoricalData()
@@ -137,3 +176,7 @@ class _IbListener(EWrapper):
                                  realizedPNL, accountName)
         self.portfolio.logRow(accountName, *_IbListener._contract_vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
+
+    def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
+        EWrapper.accountSummary(self, reqId, account, tag, value, currency)
+        self.account_summary.logRow(reqId, account, tag, value, currency)

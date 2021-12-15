@@ -50,10 +50,7 @@ class IbSessionTws:
 
     # #TODO: move this to the listener
     # def _subscribe(self):
-    #     self._client.reqManagedAccts()
     #
-    #     self._client.reqAccountSummary()
-    #     self._client.reqAccountUpdates()
     #     self._client.reqAllOpenOrders()
     #     self._client.reqContractDetails()
     #     self._client.reqHistoricalData()
