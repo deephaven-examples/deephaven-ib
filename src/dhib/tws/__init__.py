@@ -63,7 +63,6 @@ class IbSessionTws:
     #     self._client.reqFundamentalData()
     #     self._client.reqAutoOpenOrders()
     #     self._client.reqCompletedOrders()
-    #     self._client.reqExecutions()
     #     self._client.reqFamilyCodes()
     #     self._client.reqGlobalCancel()
     #     self._client.reqMktData()

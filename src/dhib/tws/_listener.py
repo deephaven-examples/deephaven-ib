@@ -2,7 +2,9 @@ import logging
 from typing import List
 
 from deephaven import DynamicTableWriter, Types as dht
+from ibapi.commission_report import CommissionReport
 from ibapi.contract import Contract
+from ibapi.execution import Execution, ExecutionFilter
 from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
@@ -33,6 +35,23 @@ class _IbListener(EWrapper):
 
         self.news_bulletins = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
                                                  [dht.int64, dht.int64, dht.string, dht.string])
+
+        self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *_IbListener._contract_names(),
+                                                "Exchange", "Side", "Shares", "Price",
+                                                "CumQty", "AvgPrice", "Liquidation",
+                                                "EvRule", "EvMultiplier", "ModelCode", "LastLiquidity"
+                                                                                       "ExecId", "PermId", "ClientId",
+                                                "OrderId", "OrderRef"],
+                                               [dht.int64, dht.string, dht.string, *_IbListener._contract_types(),
+                                                dht.string, dht.string, dht.float64, dht.float64,
+                                                dht.float64, dht.float64, dht.int64,
+                                                dht.string, dht.float64, dht.string, dht.int64,
+                                                dht.string, dht.int64, dht.int64, dht.int64, dht.string])
+
+        self.commission_report = DynamicTableWriter(
+            ["ExecId", "Currency", "Commission", "RealizedPnl", "Yield", "YieldRedemptionDate"],
+            [dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.int64])
+
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -76,6 +95,7 @@ class _IbListener(EWrapper):
         client.reqAccountSummary(reqId=0, groupName="All", tags=",".join(account_summary_tags))
         client.reqPositions()
         client.reqNewsBulletins(allMsgs=True)
+        client.reqExecutions(reqId=0, execFilter=ExecutionFilter())
 
 
     def disconnect(self):
@@ -138,11 +158,19 @@ class _IbListener(EWrapper):
             contract.multiplier,
         ]
 
+    ####
+    # reqManagedAccts
+    ####
+
     def managedAccounts(self, accountsList: str):
         EWrapper.managedAccounts(self, accountsList)
 
         for account in accountsList.split(","):
             self._client.reqAccountUpdates(subscribe=True, acctCode=account)
+
+    ####
+    # reqAccountUpdates
+    ####
 
     def updateAccountValue(self, key: str, val: str, currency: str, accountName: str):
         EWrapper.updateAccountValue(key, val, currency, accountName)
@@ -157,14 +185,49 @@ class _IbListener(EWrapper):
         self.portfolio.logRow(accountName, *_IbListener._contract_vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
 
+    ####
+    # reqAccountSummary
+    ####
+
     def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
         EWrapper.accountSummary(self, reqId, account, tag, value, currency)
         self.account_summary.logRow(reqId, account, tag, value, currency)
+
+    ####
+    # reqPositions
+    ####
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(account, contract, position, avgCost)
         self.positions.logRow(account, *_IbListener._contract_vals(contract), position, avgCost)
 
+    ####
+    # reqNewsBulletins
+    ####
+
     def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
         EWrapper.updateNewsBulletin(msgId, msgType, newsMessage, originExch)
         self.news_bulletins.logRow(msgId, msgType, newsMessage, originExch)
+
+    ####
+    # reqExecutions
+    ####
+
+    def execDetails(self, reqId: int, contract: Contract, execution: Execution):
+        EWrapper.execDetails(self, reqId, contract, execution)
+        self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *_IbListener._contract_vals(contract),
+                                 execution.exchange, execution.side, execution.shares, execution.price,
+                                 execution.cumQty, execution.avgPrice, execution.liquidation,
+                                 execution.evRule, execution.evMultiplier, execution.modelCode, execution.lastLiquidity,
+                                 execution.execId, execution.permId, execution.clientId, execution.orderId,
+                                 execution.orderRef)
+
+    def execDetailsEnd(self, reqId: int):
+        # do not need to implement
+        EWrapper.execDetailsEnd(self, reqId)
+
+    def commissionReport(self, commissionReport: CommissionReport):
+        EWrapper.commissionReport(self, commissionReport)
+        self.commission_report.logRow(commissionReport.execId, commissionReport.currency, commissionReport.commission,
+                                      commissionReport.realizedPNL, commissionReport.yield_,
+                                      commissionReport.yieldRedemptionDate)
