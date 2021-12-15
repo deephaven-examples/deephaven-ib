@@ -31,6 +31,9 @@ class _IbListener(EWrapper):
         self.positions = DynamicTableWriter(["Account", *_IbListener._contract_names(), "Position", "AvgCost"],
                                             [dht.string, *_IbListener._contract_types(), dht.float64, dht.float64])
 
+        self.news_bulletins = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
+                                                 [dht.int64, dht.int64, dht.string, dht.string])
+
     def connect(self, client: _IbClient):
         self._client = client
 
@@ -70,36 +73,10 @@ class _IbListener(EWrapper):
             "$LEDGER",
         ]
 
-        client.reqAccountSummary(0, "All", ",".join(account_summary_tags))
+        client.reqAccountSummary(reqId=0, groupName="All", tags=",".join(account_summary_tags))
         client.reqPositions()
+        client.reqNewsBulletins(allMsgs=True)
 
-
-
-        # client.reqAllOpenOrders()
-        # client.reqContractDetails()
-        # client.reqHistoricalData()
-        # client.reqHistoricalNews()
-        # client.reqHistoricalTicks()
-        # client.reqIds()
-        # client.reqMarketDataType()
-        # client.reqMarketRule()
-        # client.reqMatchingSymbols()
-        # client.reqNewsArticle()
-        # client.reqNewsBulletins()
-        # client.reqNewsProviders()
-        # client.reqFundamentalData()
-        # client.reqOpenOrders()
-        # client.reqAutoOpenOrders()
-        # client.reqCompletedOrders()
-        # client.reqExecutions()
-        # client.reqFamilyCodes()
-        # client.reqGlobalCancel()
-        # client.reqMktData()
-        # client.reqContractDetails()
-        # client.reqPnL()
-        # client.reqPositionsMulti()
-        # client.reqRealTimeBars()
-        # client.reqTickByTickData()
 
     def disconnect(self):
         self._client = None
@@ -187,3 +164,7 @@ class _IbListener(EWrapper):
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(account, contract, position, avgCost)
         self.positions.logRow(account, *_IbListener._contract_vals(contract), position, avgCost)
+
+    def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
+        EWrapper.updateNewsBulletin(msgId, msgType, newsMessage, originExch)
+        self.news_bulletins.logRow(msgId, msgType, newsMessage, originExch)

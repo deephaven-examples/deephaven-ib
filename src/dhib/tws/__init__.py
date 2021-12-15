@@ -51,28 +51,28 @@ class IbSessionTws:
     # #TODO: move this to the listener
     # def _subscribe(self):
     #
-    #     self._client.reqAllOpenOrders()
+    #     self._client.reqAllOpenOrders() -> requires state management (openOrder, orderStatus, orderEnd)
     #     self._client.reqContractDetails() -> for a particular contract
     #     self._client.reqHistoricalData()
     #     self._client.reqHistoricalNews()
     #     self._client.reqHistoricalTicks()
-    #     self._client.reqIds() --> get next valid id for placing orders
     #     self._client.reqMarketDataType()
-    #     self._client.reqMarketRule()
     #     self._client.reqMatchingSymbols()
     #     self._client.reqNewsArticle()
-    #     self._client.reqNewsBulletins()
     #     self._client.reqNewsProviders()
     #     self._client.reqFundamentalData()
-    #     self._client.reqOpenOrders()
     #     self._client.reqAutoOpenOrders()
     #     self._client.reqCompletedOrders()
     #     self._client.reqExecutions()
     #     self._client.reqFamilyCodes()
     #     self._client.reqGlobalCancel()
     #     self._client.reqMktData()
-    #     self._client.reqContractDetails()
-    #     self._client.reqPnL()
-    #     self._client.reqPositionsMulti()
     #     self._client.reqRealTimeBars()
     #     self._client.reqTickByTickData()
+
+    #     self._client.reqIds() --> get next valid id for placing orders
+
+    #     self._client.reqMarketRule() --> request min ticks (needed?)
+    #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
+    #     self._client.reqPnL() --> daily pnl by account and model code (needed?)
+    #     self._client.reqPositionsMulti() --> req positions by account and model (needed?)
