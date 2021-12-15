@@ -3,6 +3,7 @@ from typing import List
 
 from deephaven import DynamicTableWriter, Types as dht
 from ibapi.commission_report import CommissionReport
+from ibapi.common import ListOfNewsProviders
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.wrapper import EWrapper
@@ -52,6 +53,8 @@ class _IbListener(EWrapper):
             ["ExecId", "Currency", "Commission", "RealizedPnl", "Yield", "YieldRedemptionDate"],
             [dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.int64])
 
+        self.news_providers = DynamicTableWriter(["Provider"], [dht.string])
+
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -96,6 +99,8 @@ class _IbListener(EWrapper):
         client.reqPositions()
         client.reqNewsBulletins(allMsgs=True)
         client.reqExecutions(reqId=0, execFilter=ExecutionFilter())
+        client.reqCompletedOrders(apiOnly=False)
+        client.reqNewsProviders()
 
 
     def disconnect(self):
@@ -231,3 +236,33 @@ class _IbListener(EWrapper):
         self.commission_report.logRow(commissionReport.execId, commissionReport.currency, commissionReport.commission,
                                       commissionReport.realizedPNL, commissionReport.yield_,
                                       commissionReport.yieldRedemptionDate)
+
+    ####
+    # reqNewsProviders
+    ####
+
+    def newsProviders(self, newsProviders: ListOfNewsProviders):
+        EWrapper.newsProviders(self, newsProviders)
+
+        for provider in newsProviders:
+            self.news_providers.logRow(provider)
+
+    ####
+    # reqCompletedOrders
+    ####
+
+    # def completedOrder(self, contract:Contract, order:Order, orderState:OrderState):
+    #
+    #     ***
+    #
+    #     """This function is called to feed in completed orders.
+    #
+    #     contract: Contract - The Contract class attributes describe the contract.
+    #     order: Order - The Order class gives the details of the completed order.
+    #     orderState: OrderState - The orderState class includes completed order status details."""
+    #
+    #     self.logAnswer(current_fn_name(), vars())
+    #
+    # def completedOrdersEnd(self):
+    #     # do not ned to implement
+    #     EWrapper.completedOrdersEnd(self)
