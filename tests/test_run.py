@@ -2,7 +2,12 @@ import dhib.tws as tws
 
 client = tws.IbSessionTws()
 
+print(f"IsConnected: {client.is_connected()}")
+
 client.connect()
+
+print(f"IsConnected: {client.is_connected()}")
+
 
 # # Below is the program execution
 #

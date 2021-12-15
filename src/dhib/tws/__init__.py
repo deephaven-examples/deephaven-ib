@@ -31,6 +31,7 @@ class IbSessionTws:
         """
 
         self._client.connect(host, port, clientId)
+        self._listener.connect(self._client)
 
     def disconnect(self) -> None:
         """Disconnect from an IB TWS session.
@@ -40,3 +41,42 @@ class IbSessionTws:
         """
 
         self._client.disconnect()
+        self._listener.disconnect()
+
+    def is_connected(self):
+        """Is there a connection with TWS?"""
+
+        return self._client.isConnected()
+
+    # #TODO: move this to the listener
+    # def _subscribe(self):
+    #     self._client.reqManagedAccts()
+    #
+    #     self._client.reqAccountSummary()
+    #     self._client.reqAccountUpdates()
+    #     self._client.reqAllOpenOrders()
+    #     self._client.reqContractDetails()
+    #     self._client.reqHistoricalData()
+    #     self._client.reqHistoricalNews()
+    #     self._client.reqHistoricalTicks()
+    #     self._client.reqIds()
+    #     self._client.reqMarketDataType()
+    #     self._client.reqMarketRule()
+    #     self._client.reqMatchingSymbols()
+    #     self._client.reqNewsArticle()
+    #     self._client.reqNewsBulletins()
+    #     self._client.reqNewsProviders()
+    #     self._client.reqFundamentalData()
+    #     self._client.reqOpenOrders()
+    #     self._client.reqAutoOpenOrders()
+    #     self._client.reqCompletedOrders()
+    #     self._client.reqExecutions()
+    #     self._client.reqFamilyCodes()
+    #     self._client.reqGlobalCancel()
+    #     self._client.reqMktData()
+    #     self._client.reqContractDetails()
+    #     self._client.reqPnL()
+    #     self._client.reqPositions()
+    #     self._client.reqPositionsMulti()
+    #     self._client.reqRealTimeBars()
+    #     self._client.reqTickByTickData()
