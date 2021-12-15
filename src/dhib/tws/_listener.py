@@ -28,6 +28,9 @@ class _IbListener(EWrapper):
         self.account_summary = DynamicTableWriter(["ReqId", "Account", "Tag", "Value", "Currency"],
                                                   [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
+        self.positions = DynamicTableWriter(["Account", *_IbListener._contract_names(), "Position", "AvgCost"],
+                                            [dht.string, *_IbListener._contract_types(), dht.float64, dht.float64])
+
     def connect(self, client: _IbClient):
         self._client = client
 
@@ -68,6 +71,7 @@ class _IbListener(EWrapper):
         ]
 
         client.reqAccountSummary(0, "All", ",".join(account_summary_tags))
+        client.reqPositions()
 
 
 
@@ -93,7 +97,6 @@ class _IbListener(EWrapper):
         # client.reqMktData()
         # client.reqContractDetails()
         # client.reqPnL()
-        # client.reqPositions()
         # client.reqPositionsMulti()
         # client.reqRealTimeBars()
         # client.reqTickByTickData()
@@ -180,3 +183,7 @@ class _IbListener(EWrapper):
     def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
         EWrapper.accountSummary(self, reqId, account, tag, value, currency)
         self.account_summary.logRow(reqId, account, tag, value, currency)
+
+    def position(self, account: str, contract: Contract, position: float, avgCost: float):
+        EWrapper.position(account, contract, position, avgCost)
+        self.positions.logRow(account, *_IbListener._contract_vals(contract), position, avgCost)

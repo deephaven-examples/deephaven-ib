@@ -52,11 +52,11 @@ class IbSessionTws:
     # def _subscribe(self):
     #
     #     self._client.reqAllOpenOrders()
-    #     self._client.reqContractDetails()
+    #     self._client.reqContractDetails() -> for a particular contract
     #     self._client.reqHistoricalData()
     #     self._client.reqHistoricalNews()
     #     self._client.reqHistoricalTicks()
-    #     self._client.reqIds()
+    #     self._client.reqIds() --> get next valid id for placing orders
     #     self._client.reqMarketDataType()
     #     self._client.reqMarketRule()
     #     self._client.reqMatchingSymbols()
@@ -73,7 +73,6 @@ class IbSessionTws:
     #     self._client.reqMktData()
     #     self._client.reqContractDetails()
     #     self._client.reqPnL()
-    #     self._client.reqPositions()
     #     self._client.reqPositionsMulti()
     #     self._client.reqRealTimeBars()
     #     self._client.reqTickByTickData()
