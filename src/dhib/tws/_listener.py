@@ -1,18 +1,74 @@
 import logging
-from typing import List
+from typing import Any, List
 
 from deephaven import DynamicTableWriter, Types as dht
+from ibapi import news
 from ibapi.commission_report import CommissionReport
 from ibapi.common import ListOfNewsProviders
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.wrapper import EWrapper
-from ibapi import news
 
 from ._client import _IbClient
 
 logging.basicConfig(level=logging.DEBUG)
 
+
+def _contract_names() -> List[str]:
+    return [
+        "ContractId",
+        "SecId",
+        "SecIdType",
+        "SecType",
+        "Symbol",
+        "LocalSymbol",
+        "TradingClass",
+        "Currency",
+        "Exchange",
+        "PrimaryExchange",
+        "LastTradeDateOrContractMonth",
+        "Strike",
+        "Right",
+        "Multiplier",
+    ]
+
+
+def _contract_types() -> List[Any]:
+    return [
+        dht.int64,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.string,
+        dht.float64,
+        dht.string,
+        dht.string,
+    ]
+
+
+def _contract_vals(contract: Contract) -> List[Any]:
+    return [
+        contract.conId,
+        contract.secId,
+        contract.secIdType,
+        contract.secType,
+        contract.symbol,
+        contract.localSymbol,
+        contract.tradingClass,
+        contract.currency,
+        contract.exchange,
+        contract.primaryExchange,
+        contract.lastTradeDateOrContractMonth,
+        contract.strike,
+        contract.right,
+        contract.multiplier,
+    ]
 
 # TODO: no users need to see this
 class _IbListener(EWrapper):
@@ -24,27 +80,27 @@ class _IbListener(EWrapper):
         self.account_value = DynamicTableWriter(["Account", "Currency", "Key", "Value"],
                                                 [dht.string, dht.string, dht.string, dht.string])
         self.portfolio = DynamicTableWriter(
-            ["Account", *_IbListener._contract_names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
+            ["Account", *_contract_names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
              "UnrealizedPnl", "RealizedPnl"],
-            [dht.string, *_IbListener._contract_types(), dht.float64, dht.float64, dht.float64, dht.float64,
+            [dht.string, *_contract_types(), dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64])
 
         self.account_summary = DynamicTableWriter(["ReqId", "Account", "Tag", "Value", "Currency"],
                                                   [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
-        self.positions = DynamicTableWriter(["Account", *_IbListener._contract_names(), "Position", "AvgCost"],
-                                            [dht.string, *_IbListener._contract_types(), dht.float64, dht.float64])
+        self.positions = DynamicTableWriter(["Account", *_contract_names(), "Position", "AvgCost"],
+                                            [dht.string, *_contract_types(), dht.float64, dht.float64])
 
         self.news_bulletins = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
                                                  [dht.int64, dht.string, dht.string, dht.string])
 
-        self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *_IbListener._contract_names(),
+        self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *_contract_names(),
                                                 "Exchange", "Side", "Shares", "Price",
                                                 "CumQty", "AvgPrice", "Liquidation",
                                                 "EvRule", "EvMultiplier", "ModelCode", "LastLiquidity"
                                                                                        "ExecId", "PermId", "ClientId",
                                                 "OrderId", "OrderRef"],
-                                               [dht.int64, dht.string, dht.string, *_IbListener._contract_types(),
+                                               [dht.int64, dht.string, dht.string, *_contract_types(),
                                                 dht.string, dht.string, dht.float64, dht.float64,
                                                 dht.float64, dht.float64, dht.int64,
                                                 dht.string, dht.float64, dht.string, dht.int64,
@@ -107,62 +163,7 @@ class _IbListener(EWrapper):
     def disconnect(self):
         self._client = None
 
-    @staticmethod
-    def _contract_names() -> List[str]:
-        return [
-            "ContractId",
-            "SecId",
-            "SecIdType",
-            "SecType",
-            "Symbol",
-            "LocalSymbol",
-            "TradingClass",
-            "Currency",
-            "Exchange",
-            "PrimaryExchange",
-            "LastTradeDateOrContractMonth",
-            "Strike",
-            "Right",
-            "Multiplier",
-        ]
 
-    @staticmethod
-    def _contract_types() -> List:
-        return [
-            dht.int64,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.string,
-            dht.float64,
-            dht.string,
-            dht.string,
-        ]
-
-    @staticmethod
-    def _contract_vals(contract: Contract) -> List:
-        return [
-            contract.conId,
-            contract.secId,
-            contract.secIdType,
-            contract.secType,
-            contract.symbol,
-            contract.localSymbol,
-            contract.tradingClass,
-            contract.currency,
-            contract.exchange,
-            contract.primaryExchange,
-            contract.lastTradeDateOrContractMonth,
-            contract.strike,
-            contract.right,
-            contract.multiplier,
-        ]
 
     ####
     # reqManagedAccts
@@ -188,7 +189,7 @@ class _IbListener(EWrapper):
                         realizedPNL: float, accountName: str):
         EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
                                  realizedPNL, accountName)
-        self.portfolio.logRow(accountName, *_IbListener._contract_vals(contract), position, marketPrice, marketValue,
+        self.portfolio.logRow(accountName, *_contract_vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
 
     ####
@@ -205,7 +206,7 @@ class _IbListener(EWrapper):
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(account, contract, position, avgCost)
-        self.positions.logRow(account, *_IbListener._contract_vals(contract), position, avgCost)
+        self.positions.logRow(account, *_contract_vals(contract), position, avgCost)
 
     ####
     # reqNewsBulletins
@@ -213,7 +214,7 @@ class _IbListener(EWrapper):
 
     def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
         EWrapper.updateNewsBulletin(msgId, msgType, newsMessage, originExch)
-        
+
         if msgType == news.NEWS_MSG:
             mtype = "NEWS"
         elif msgType == news.EXCHANGE_AVAIL_MSG:
@@ -231,7 +232,7 @@ class _IbListener(EWrapper):
 
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
         EWrapper.execDetails(self, reqId, contract, execution)
-        self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *_IbListener._contract_vals(contract),
+        self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *_contract_vals(contract),
                                  execution.exchange, execution.side, execution.shares, execution.price,
                                  execution.cumQty, execution.avgPrice, execution.liquidation,
                                  execution.evRule, execution.evMultiplier, execution.modelCode, execution.lastLiquidity,

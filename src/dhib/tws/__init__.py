@@ -75,8 +75,8 @@ class IbSessionTws:
     #     self._client.reqAllOpenOrders() -> requires state management (openOrder, orderStatus, orderEnd)
     #     self._client.reqContractDetails() -> for a particular contract
     #     self._client.reqHistoricalNews()
-    #     self._client.reqHistoricalTicks()
     #     self._client.reqNewsArticle()
+    #     self._client.reqHistoricalTicks()
     #     self._client.reqFundamentalData()
 
     #     self._client.reqIds() --> get next valid id for placing orders
