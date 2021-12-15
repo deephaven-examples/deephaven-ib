@@ -7,6 +7,7 @@ from ibapi.common import ListOfNewsProviders
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.wrapper import EWrapper
+from ibapi import news
 
 from ._client import _IbClient
 
@@ -35,7 +36,7 @@ class _IbListener(EWrapper):
                                             [dht.string, *_IbListener._contract_types(), dht.float64, dht.float64])
 
         self.news_bulletins = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
-                                                 [dht.int64, dht.int64, dht.string, dht.string])
+                                                 [dht.int64, dht.string, dht.string, dht.string])
 
         self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *_IbListener._contract_names(),
                                                 "Exchange", "Side", "Shares", "Price",
@@ -212,7 +213,17 @@ class _IbListener(EWrapper):
 
     def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
         EWrapper.updateNewsBulletin(msgId, msgType, newsMessage, originExch)
-        self.news_bulletins.logRow(msgId, msgType, newsMessage, originExch)
+        
+        if msgType == news.NEWS_MSG:
+            mtype = "NEWS"
+        elif msgType == news.EXCHANGE_AVAIL_MSG:
+            mtype = "EXCHANGE_AVAILABLE"
+        elif msgType == news.EXCHANGE_UNAVAIL_MSG:
+            mtype = "EXCHANGE_UNAVAILABLE"
+        else:
+            mtype = f"UNKNOWN({msgType})"
+
+        self.news_bulletins.logRow(msgId, mtype, newsMessage, originExch)
 
     ####
     # reqExecutions
