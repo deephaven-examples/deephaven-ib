@@ -11,7 +11,7 @@ from ibapi.order_state import OrderState
 from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
-from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger
+from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, _map_values
 from ..utils import next_unique_id
 
 logging.basicConfig(level=logging.DEBUG)
@@ -80,9 +80,13 @@ class _IbListener(EWrapper):
             ["OrderId", *_ib_contract_logger.names(), *_ib_order_logger.names(), *_ib_order_state_logger.names()],
             [dht.int64, *_ib_contract_logger.types(), *_ib_order_logger.types(), *_ib_order_state_logger.types()])
 
-        self.historical_news = DynamicTableWriter(
+        self.news_historical = DynamicTableWriter(
             ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
             [dht.int64, dht.string, dht.string, dht.string, dht.string])
+
+        self.news_article = DynamicTableWriter(
+            ["RequestId", "ArticleType", "ArticleText"],
+            [dht.int64, dht.string, dht.string])
 
 
     def connect(self, client: _IbClient):
@@ -273,8 +277,17 @@ class _IbListener(EWrapper):
 
     def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
         EWrapper.historicalNews(requestId, time, providerCode, articleId, headline)
-        self.historical_news.logRow(requestId, time, providerCode, articleId, headline)
+        self.news_historical.logRow(requestId, time, providerCode, articleId, headline)
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
         # do not ned to implement
         self.historicalNewsEnd(requestId, hasMore)
+
+    ####
+    # reqNewsArticle
+    ####
+
+    def newsArticle(self, requestId: int, articleType: int, articleText: str):
+        EWrapper.newsArticle(self, requestId, articleType, articleText)
+        at = _map_values(articleType, {0: "Plain_Text_Or_Html", 1: "Binary_Data_Or_Pdf"})
+        self.news_article.logRow(requestId, at, articleText)

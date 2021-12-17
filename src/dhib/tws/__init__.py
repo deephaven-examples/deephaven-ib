@@ -74,7 +74,7 @@ class IbSessionTws:
 
     # TODO: how to handle conId?
     def request_historical_news(self, conId: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
-                                total_results: int = 100):
+                                total_results: int = 100) -> int:
         """ Request historical news for a contract.
 
         Args:
@@ -93,14 +93,28 @@ class IbSessionTws:
                                        totalResults=total_results, historicalNewsOptions=[])
         return req_id
 
+    def request_news_article(self, providerCode: str, article_id: str) -> int:
+        """ Request the text of a news article.
+
+        Args:
+            provider_code (str): short code indicating news provider, e.g. FLY
+            article_id (str): id of the specific article
+
+        Returns:
+            Request ID
+        """
+        req_id = next_unique_id()
+        self._client.reqNewsArticle(reqId=req_id, providerCode=providerCode, articleId=article_id,
+                                    newsArticleOptions=[])
+        return req_id
+
+
     #     self._client.reqContractDetails() -> for a particular contract
 
     #     self._client.reqTickByTickData() -> get tick data.  Limits on subscriptions so need to remove
     #     self._client.reqHistoricalData()
     #     self._client.reqMktData()
     #     self._client.reqRealTimeBars()
-
-    #     self._client.reqNewsArticle()
     #     self._client.reqHistoricalTicks()
 
     #     self._client.reqIds() --> get next valid id for placing orders
