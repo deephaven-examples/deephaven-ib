@@ -1,10 +1,15 @@
 from enum import Enum
 
+from deephaven import DateTimeUtils as dtu
+
 from ._client import _IbClient
 from ._listener import _IbListener
+from ..utils import next_unique_id, dh_to_ib_datetime
 
 __all__ = ["MarketDataType", "IbSessionTws"]
 
+
+# TODO: automatically set request ids
 
 class MarketDataType(Enum):
     """Type of market data to use after the close."""
@@ -63,27 +68,49 @@ class IbSessionTws:
         """Cancel all open orders."""
         self._client.reqGlobalCancel()
 
-    def market_data_type(self, type: MarketDataType):
+    def market_data_type(self, type: MarketDataType) -> None:
         """Sets the type of market data to use after the close."""
         self._client.reqMarketDataType(marketDataType=type.value)
+
+    # TODO: how to handle conId?
+    def request_historical_news(self, conId: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
+                                total_results: int = 100):
+        """ Request historical news for a contract.
+
+        Args:
+            conId (int): contract id of ticker
+            provider_codes (str): a '+'-separated list of provider codes
+            start (DateTime): marks the (exclusive) start of the date range.
+            end (DateTime): marks the (inclusive) end of the date range.
+            total_results (int): the maximum number of headlines to fetch (1 - 300)
+
+        Returns:
+            Request ID
+        """
+        req_id = next_unique_id()
+        self._client.reqHistoricalNews(reqId=req_id, conId=conId, providerCodes=provider_codes,
+                                       startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
+                                       totalResults=total_results, historicalNewsOptions=[])
+        return req_id
+
+    #     self._client.reqContractDetails() -> for a particular contract
 
     #     self._client.reqTickByTickData() -> get tick data.  Limits on subscriptions so need to remove
     #     self._client.reqHistoricalData()
     #     self._client.reqMktData()
     #     self._client.reqRealTimeBars()
 
-    #     self._client.reqContractDetails() -> for a particular contract
-    #     self._client.reqHistoricalNews()
     #     self._client.reqNewsArticle()
     #     self._client.reqHistoricalTicks()
-    #     self._client.reqFundamentalData()
 
     #     self._client.reqIds() --> get next valid id for placing orders
 
-    #     self._client.reqMatchingSymbols() -> search for partial matches for tickers (?)
+    ### Don't Do vvvvvvv
 
+    #     self._client.reqMatchingSymbols() -> search for partial matches for tickers (?)
     #     self._client.reqFamilyCodes() --> doesn't look important
     #     self._client.reqMarketRule() --> request min ticks (needed?)
     #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
     #     self._client.reqPnL() --> daily pnl by account and model code (needed?)
     #     self._client.reqPositionsMulti() --> req positions by account and model (needed?)
+    #     self._client.reqFundamentalData() (deprecated)

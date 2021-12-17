@@ -12,6 +12,7 @@ from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
 from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger
+from ..utils import next_unique_id
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -20,7 +21,8 @@ _ib_order_logger = IbOrderLogger()
 _ib_order_state_logger = IbOrderStateLogger()
 
 
-# TODO map string "" to None
+# TODO: map string "" to None
+# TODO: parse time strings
 
 # TODO: no users need to see this
 class _IbListener(EWrapper):
@@ -78,6 +80,11 @@ class _IbListener(EWrapper):
             ["OrderId", *_ib_contract_logger.names(), *_ib_order_logger.names(), *_ib_order_state_logger.names()],
             [dht.int64, *_ib_contract_logger.types(), *_ib_order_logger.types(), *_ib_order_state_logger.types()])
 
+        self.historical_news = DynamicTableWriter(
+            ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
+            [dht.int64, dht.string, dht.string, dht.string, dht.string])
+
+
     def connect(self, client: _IbClient):
         self._client = client
 
@@ -117,10 +124,10 @@ class _IbListener(EWrapper):
             "$LEDGER",
         ]
 
-        client.reqAccountSummary(reqId=0, groupName="All", tags=",".join(account_summary_tags))
+        client.reqAccountSummary(reqId=next_unique_id(), groupName="All", tags=",".join(account_summary_tags))
         client.reqPositions()
         client.reqNewsBulletins(allMsgs=True)
-        client.reqExecutions(reqId=0, execFilter=ExecutionFilter())
+        client.reqExecutions(reqId=next_unique_id(), execFilter=ExecutionFilter())
         client.reqCompletedOrders(apiOnly=False)
         client.reqNewsProviders()
         client.reqAllOpenOrders()
@@ -246,7 +253,7 @@ class _IbListener(EWrapper):
                     remaining: float, avgFillPrice: float, permId: int,
                     parentId: int, lastFillPrice: float, clientId: int,
                     whyHeld: str, mktCapPrice: float):
-        EWrapper.orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
+        EWrapper.orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
                              clientId, whyHeld, mktCapPrice)
         self.orders_status.logRow(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
                                   clientId, whyHeld, mktCapPrice)
@@ -258,4 +265,16 @@ class _IbListener(EWrapper):
 
     def openOrderEnd(self):
         # do not ned to implement
-        EWrapper.openOrderEnd()
+        EWrapper.openOrderEnd(self)
+
+    ####
+    # reqHistoricalNews
+    ####
+
+    def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
+        EWrapper.historicalNews(requestId, time, providerCode, articleId, headline)
+        self.historical_news.logRow(requestId, time, providerCode, articleId, headline)
+
+    def historicalNewsEnd(self, requestId: int, hasMore: bool):
+        # do not ned to implement
+        self.historicalNewsEnd(requestId, hasMore)
