@@ -3,7 +3,7 @@ import logging
 from deephaven import DynamicTableWriter, Types as dht
 from ibapi import news
 from ibapi.commission_report import CommissionReport
-from ibapi.common import ListOfNewsProviders
+from ibapi.common import ListOfNewsProviders, OrderId
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
@@ -68,6 +68,15 @@ class _IbListener(EWrapper):
             [*_ib_contract_logger.names(), *_ib_order_logger.names(), *_ib_order_state_logger.names()],
             [*_ib_contract_logger.types(), *_ib_order_logger.types(), *_ib_order_state_logger.types()])
 
+        self.orders_status = DynamicTableWriter(
+            ["OrderId", "Status", "Filled", "Remaining", "AvgFillPrice", "PermId", "ParentId", "LastFillPrice",
+             "ClientId", "WhyHeld", "MktCapPrice"],
+            [dht.int64, dht.string, dht.float64, dht.float64, dht.float64, dht.int64, dht.int64, dht.float64, dht.int64,
+             dht.string, dht.float64])
+
+        self.orders_open = DynamicTableWriter(
+            ["OrderId", *_ib_contract_logger.names(), *_ib_order_logger.names(), *_ib_order_state_logger.names()],
+            [dht.int64, *_ib_contract_logger.types(), *_ib_order_logger.types(), *_ib_order_state_logger.types()])
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -114,6 +123,7 @@ class _IbListener(EWrapper):
         client.reqExecutions(reqId=0, execFilter=ExecutionFilter())
         client.reqCompletedOrders(apiOnly=False)
         client.reqNewsProviders()
+        client.reqAllOpenOrders()
 
 
     def disconnect(self):
@@ -228,4 +238,24 @@ class _IbListener(EWrapper):
         # do not ned to implement
         EWrapper.completedOrdersEnd(self)
 
+    ####
+    # reqAllOpenOrders
+    ####
 
+    def orderStatus(self, orderId: OrderId, status: str, filled: float,
+                    remaining: float, avgFillPrice: float, permId: int,
+                    parentId: int, lastFillPrice: float, clientId: int,
+                    whyHeld: str, mktCapPrice: float):
+        EWrapper.orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
+                             clientId, whyHeld, mktCapPrice)
+        self.orders_status.logRow(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
+                                  clientId, whyHeld, mktCapPrice)
+
+    def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
+        EWrapper.openOrder(orderId, contract, order, orderState)
+        self.orders_open.logRow(orderId, *_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
+                                *_ib_order_state_logger.vals(orderState))
+
+    def openOrderEnd(self):
+        # do not ned to implement
+        EWrapper.openOrderEnd()
