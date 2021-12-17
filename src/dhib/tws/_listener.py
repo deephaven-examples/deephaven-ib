@@ -3,15 +3,16 @@ import logging
 from deephaven import DynamicTableWriter, Types as dht
 from ibapi import news
 from ibapi.commission_report import CommissionReport
-from ibapi.common import ListOfNewsProviders, OrderId
+from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickType, TickAttrib
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
 from ibapi.order_state import OrderState
+from ibapi.ticktype import TickTypeEnum
 from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
-from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, _map_values
+from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, _map_values
 from ..utils import next_unique_id
 
 logging.basicConfig(level=logging.DEBUG)
@@ -19,6 +20,7 @@ logging.basicConfig(level=logging.DEBUG)
 _ib_contract_logger = IbContractLogger()
 _ib_order_logger = IbOrderLogger()
 _ib_order_state_logger = IbOrderStateLogger()
+_ib_tick_attrib_logger = IbTickAttribLogger()
 
 
 # TODO: map string "" to None
@@ -88,6 +90,35 @@ class _IbListener(EWrapper):
             ["RequestId", "ArticleType", "ArticleText"],
             [dht.int64, dht.string, dht.string])
 
+        self.tick_price = DynamicTableWriter(
+            ["RequestId", "TickType", "Price", *_ib_tick_attrib_logger.names()],
+            [dht.int64, dht.string, dht.float64, *_ib_tick_attrib_logger.types()])
+
+        self.tick_size = DynamicTableWriter(
+            ["RequestId", "TickType", "Size"],
+            [dht.int64, dht.string, dht.int64])
+
+        self.tick_string = DynamicTableWriter(
+            ["RequestId", "TickType", "Value"],
+            [dht.int64, dht.string, dht.string])
+
+        # exchange for physical
+        self.tick_efp = DynamicTableWriter(
+            ["RequestId", "TickType", "BasisPoints", "FormattedBasisPoints", "TotalDividends", "HoldDays",
+             "FutureLastTradeDate", "DividendImpact", "DividendsToLastTradeDate"],
+            [dht.int64, dht.string, dht.float64, dht.string, dht.float64, dht.int64, dht.string, dht.float64,
+             dht.float64])
+
+        self.tick_generic = DynamicTableWriter(
+            ["RequestId", "TickType", "Value"],
+            [dht.int64, dht.string, dht.float64])
+
+        self.tick_option_computation = DynamicTableWriter(
+            ["RequestId", "TickType", "TickAttrib", "ImpliedVol", "Delta", "OptPrice", "PvDividend", "Gamma", "Vega",
+             "Theta", "UndPrice"],
+            [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
+             dht.float64, dht.float64, dht.float64])
+
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -147,7 +178,7 @@ class _IbListener(EWrapper):
     ####
 
     def managedAccounts(self, accountsList: str):
-        EWrapper.managedAccounts(self, accountsList)
+        EWrapper.managedAccounts(accountsList)
 
         for account in accountsList.split(","):
             self._client.reqAccountUpdates(subscribe=True, acctCode=account)
@@ -164,7 +195,7 @@ class _IbListener(EWrapper):
                         marketPrice: float, marketValue: float,
                         averageCost: float, unrealizedPNL: float,
                         realizedPNL: float, accountName: str):
-        EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
+        EWrapper.updatePortfolio(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
                                  realizedPNL, accountName)
         self.portfolio.logRow(accountName, *_ib_contract_logger.vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
@@ -174,7 +205,7 @@ class _IbListener(EWrapper):
     ####
 
     def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
-        EWrapper.accountSummary(self, reqId, account, tag, value, currency)
+        EWrapper.accountSummary(reqId, account, tag, value, currency)
         self.account_summary.logRow(reqId, account, tag, value, currency)
 
     ####
@@ -208,7 +239,7 @@ class _IbListener(EWrapper):
     ####
 
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
-        EWrapper.execDetails(self, reqId, contract, execution)
+        EWrapper.execDetails(reqId, contract, execution)
         self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *_ib_contract_logger.vals(contract),
                                  execution.exchange, execution.side, execution.shares, execution.price,
                                  execution.cumQty, execution.avgPrice, execution.liquidation,
@@ -218,10 +249,10 @@ class _IbListener(EWrapper):
 
     def execDetailsEnd(self, reqId: int):
         # do not need to implement
-        EWrapper.execDetailsEnd(self, reqId)
+        EWrapper.execDetailsEnd(reqId)
 
     def commissionReport(self, commissionReport: CommissionReport):
-        EWrapper.commissionReport(self, commissionReport)
+        EWrapper.commissionReport(commissionReport)
         self.commission_report.logRow(commissionReport.execId, commissionReport.currency, commissionReport.commission,
                                       commissionReport.realizedPNL, commissionReport.yield_,
                                       commissionReport.yieldRedemptionDate)
@@ -231,7 +262,7 @@ class _IbListener(EWrapper):
     ####
 
     def newsProviders(self, newsProviders: ListOfNewsProviders):
-        EWrapper.newsProviders(self, newsProviders)
+        EWrapper.newsProviders(newsProviders)
 
         for provider in newsProviders:
             self.news_providers.logRow(provider)
@@ -241,13 +272,13 @@ class _IbListener(EWrapper):
     ####
 
     def completedOrder(self, contract: Contract, order: Order, orderState: OrderState):
-        EWrapper.completedOrder(self, contract, order, orderState)
+        EWrapper.completedOrder(contract, order, orderState)
         self.orders_completed.logRow(*_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
                                      *_ib_order_state_logger.vals(orderState))
 
     def completedOrdersEnd(self):
         # do not ned to implement
-        EWrapper.completedOrdersEnd(self)
+        EWrapper.completedOrdersEnd()
 
     ####
     # reqAllOpenOrders
@@ -257,7 +288,7 @@ class _IbListener(EWrapper):
                     remaining: float, avgFillPrice: float, permId: int,
                     parentId: int, lastFillPrice: float, clientId: int,
                     whyHeld: str, mktCapPrice: float):
-        EWrapper.orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
+        EWrapper.orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
                              clientId, whyHeld, mktCapPrice)
         self.orders_status.logRow(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
                                   clientId, whyHeld, mktCapPrice)
@@ -269,7 +300,7 @@ class _IbListener(EWrapper):
 
     def openOrderEnd(self):
         # do not ned to implement
-        EWrapper.openOrderEnd(self)
+        EWrapper.openOrderEnd()
 
     ####
     # reqHistoricalNews
@@ -288,6 +319,58 @@ class _IbListener(EWrapper):
     ####
 
     def newsArticle(self, requestId: int, articleType: int, articleText: str):
-        EWrapper.newsArticle(self, requestId, articleType, articleText)
+        EWrapper.newsArticle(requestId, articleType, articleText)
         at = _map_values(articleType, {0: "Plain_Text_Or_Html", 1: "Binary_Data_Or_Pdf"})
         self.news_article.logRow(requestId, at, articleText)
+
+    ####
+    # reqMktData
+    ####
+
+    def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
+        EWrapper.tickPrice(reqId, tickType, price, attrib)
+
+        self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, price, *_ib_tick_attrib_logger.vals(attrib))
+
+        # TODO: need to relate request to security ***
+
+    def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
+        EWrapper.tickSize(reqId, tickType, size)
+        self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, size)
+
+        # TODO: need to relate request to security ***
+
+    def tickString(self, reqId: TickerId, tickType: TickType, value: str):
+        EWrapper.tickString(reqId, tickType, value)
+        self.tick_string.logRow(reqId, TickTypeEnum(tickType).name, value)
+
+        # TODO: need to relate request to security ***
+
+    def tickEFP(self, reqId: TickerId, tickType: TickType, basisPoints: float,
+                formattedBasisPoints: str, totalDividends: float,
+                holdDays: int, futureLastTradeDate: str, dividendImpact: float,
+                dividendsToLastTradeDate: float):
+        EWrapper.tickEFP(reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
+                         futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
+        self.tick_efp.logRow(reqId, TickTypeEnum(tickType).name, basisPoints, formattedBasisPoints, totalDividends,
+                             holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
+        # TODO: need to relate request to security ***
+
+    def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
+        EWrapper.tickGeneric(reqId, tickType, value)
+        self.tick_generic.logRow(reqId, TickTypeEnum(tickType).name, value)
+        # TODO: need to relate request to security ***
+
+    def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
+                              impliedVol: float, delta: float, optPrice: float, pvDividend: float,
+                              gamma: float, vega: float, theta: float, undPrice: float):
+        EWrapper.tickOptionComputation(reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma,
+                                       vega, theta, undPrice)
+        ta = _map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
+        self.tick_option_computation.logRow(reqId, TickTypeEnum(tickType).name, ta, impliedVol, delta, optPrice,
+                                            pvDividend, gamma, vega, theta, undPrice)
+        # TODO: need to relate request to security ***
+
+    def tickSnapshotEnd(self, reqId: int):
+        # do not ned to implement
+        self.tickSnapshotEnd(reqId)

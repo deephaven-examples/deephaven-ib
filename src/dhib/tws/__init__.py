@@ -1,6 +1,7 @@
 from enum import Enum
 
 from deephaven import DateTimeUtils as dtu
+from ibapi.contract import Contract
 
 from ._client import _IbClient
 from ._listener import _IbListener
@@ -10,6 +11,7 @@ __all__ = ["MarketDataType", "IbSessionTws"]
 
 
 # TODO: automatically set request ids
+# TODO: raise exception if no connection and certain methods are called
 
 class MarketDataType(Enum):
     """Type of market data to use after the close."""
@@ -93,7 +95,7 @@ class IbSessionTws:
                                        totalResults=total_results, historicalNewsOptions=[])
         return req_id
 
-    def request_news_article(self, providerCode: str, article_id: str) -> int:
+    def request_news_article(self, provider_code: str, article_id: str) -> int:
         """ Request the text of a news article.
 
         Args:
@@ -104,18 +106,49 @@ class IbSessionTws:
             Request ID
         """
         req_id = next_unique_id()
-        self._client.reqNewsArticle(reqId=req_id, providerCode=providerCode, articleId=article_id,
+        self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
         return req_id
+
+    # TODO: how to handle contract?
+    # TODO: fill in generic_tick_list with ContractSamples?
+    def request_market_data(self, contract: Contract, generic_tick_list: str, snapshot: bool = False,
+                            regulatory_snapshot: bool = False) -> int:
+        """ Request market data for a contract.
+
+        Args:
+            contract (Contract): contract data is requested for
+            generic_tick_list (str): A commma delimited list of generic tick types.
+                Tick types can be found in the Generic Tick Types page.
+                Prefixing w/ 'mdoff' indicates that top mkt data shouldn't tick.
+                You can specify the news source by postfixing w/ ':<source>.
+                Example: "mdoff,292:FLY+BRF"
+                See: https://interactivebrokers.github.io/tws-api/tick_types.html
+            snapshot (bool): True to return a single snapshot of Market data and have the market data subscription cancel.
+                Do not enter any genericTicklist values if you use snapshots.
+            regulatory_snapshot (bool): True to get a regulatory snapshot.  Requires the US Value Snapshot Bundle for stocks.
+        """
+
+        req_id = next_unique_id()
+        self._client.reqMktData(reqId=req_id, contract=contract, genericTickList=generic_tick_list, snapshot=snapshot,
+                                regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
+        return req_id
+
+    def cancelMktData(self, reqId: int):
+        """Cancel a market data request.
+
+        Args:
+            req_id (int): request id
+        """
+        self._client.cancelMktData(reqId=reqId)
 
 
     #     self._client.reqContractDetails() -> for a particular contract
 
     #     self._client.reqTickByTickData() -> get tick data.  Limits on subscriptions so need to remove
-    #     self._client.reqHistoricalData()
-    #     self._client.reqMktData()
-    #     self._client.reqRealTimeBars()
     #     self._client.reqHistoricalTicks()
+    #     self._client.reqHistoricalData()
+    #     self._client.reqRealTimeBars()
 
     #     self._client.reqIds() --> get next valid id for placing orders
 

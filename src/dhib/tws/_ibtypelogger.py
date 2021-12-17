@@ -323,3 +323,16 @@ class IbOrderStateLogger(IbComplexTypeLogger):
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbTickAttribLogger(IbComplexTypeLogger):
+    """ Logging for IB TickAttrib. """
+
+    def __init__(self):
+        column_details = [
+            ("CanAutoExecute", dht.bool_, lambda ta: ta.canAutoExecute),
+            ("PastLimit", dht.bool_, lambda ta: ta.pastLimit),
+            ("PreOpen", dht.bool_, lambda ta: ta.preOpen),
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)
