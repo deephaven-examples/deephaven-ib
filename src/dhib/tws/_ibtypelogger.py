@@ -294,3 +294,32 @@ class IbOrderLogger(IbComplexTypeLogger):
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbOrderStateLogger(IbComplexTypeLogger):
+    """ Logging for IB OrderStates. """
+
+    def __init__(self):
+        column_details = [
+            ("Status", dht.string, lambda os: os.status),
+
+            ("InitMarginBefore", dht.string, lambda os: os.initMarginBefore),
+            ("MaintMarginBefore", dht.string, lambda os: os.maintMarginBefore),
+            ("EquityWithLoanBefore", dht.string, lambda os: os.equityWithLoanBefore),
+            ("InitMarginChange", dht.string, lambda os: os.initMarginChange),
+            ("MaintMarginChange", dht.string, lambda os: os.maintMarginChange),
+            ("EquityWithLoanChange", dht.string, lambda os: os.equityWithLoanChange),
+            ("InitMarginAfter", dht.string, lambda os: os.initMarginAfter),
+            ("MaintMarginAfter", dht.string, lambda os: os.maintMarginAfter),
+            ("EquityWithLoanAfter", dht.string, lambda os: os.equityWithLoanAfter),
+
+            ("Commission", dht.float64, lambda os: os.commission),
+            ("MinCommission", dht.float64, lambda os: os.minCommission),
+            ("MaxCommission", dht.float64, lambda os: os.maxCommission),
+            ("CommissionCurrency", dht.string, lambda os: os.commissionCurrency),
+            ("WarningText", dht.string, lambda os: os.warningText),
+            ("CompletedTime", dht.string, lambda os: os.completedTime),
+            ("CompletedStatus", dht.string, lambda os: os.completedStatus),
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)

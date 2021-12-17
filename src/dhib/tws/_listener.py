@@ -11,13 +11,16 @@ from ibapi.order_state import OrderState
 from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
-from ._ibtypelogger import IbContractLogger, IbOrderLogger
+from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger
 
 logging.basicConfig(level=logging.DEBUG)
 
 _ib_contract_logger = IbContractLogger()
 _ib_order_logger = IbOrderLogger()
+_ib_order_state_logger = IbOrderStateLogger()
 
+
+# TODO map string "" to None
 
 # TODO: no users need to see this
 class _IbListener(EWrapper):
@@ -60,6 +63,10 @@ class _IbListener(EWrapper):
             [dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.int64])
 
         self.news_providers = DynamicTableWriter(["Provider"], [dht.string])
+
+        self.orders_completed = DynamicTableWriter(
+            [*_ib_contract_logger.names(), *_ib_order_logger.names(), *_ib_order_state_logger.names()],
+            [*_ib_contract_logger.types(), *_ib_order_logger.types(), *_ib_order_state_logger.types()])
 
 
     def connect(self, client: _IbClient):
@@ -213,15 +220,9 @@ class _IbListener(EWrapper):
     ####
 
     def completedOrder(self, contract: Contract, order: Order, orderState: OrderState):
-
-        self.orders_completed = DynamicTableWriter(
-            [*_ib_contract_logger.names(), *_ib_order_logger.names(), *_order_state_names()],
-            [*_ib_contract_logger.types(), *_ib_order_logger.types(), *_order_state_types()])
-
         EWrapper.completedOrder(self, contract, order, orderState)
-
         self.orders_completed.logRow(*_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
-                                     *_order_state_vals(orderState))
+                                     *_ib_order_state_logger.vals(orderState))
 
     def completedOrdersEnd(self):
         # do not ned to implement
