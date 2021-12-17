@@ -56,9 +56,38 @@ class IbComplexTypeLogger:
         return [cd[2](ib_obj) for cd in self.column_details]
 
 
+class IbContractLogger(IbComplexTypeLogger):
+    """ Logging for IB Contracts. """
+
+    def __init__(self):
+        column_details = [
+            ("ContractId", dht.int64, lambda contract: contract.conId),
+            ("SecId", dht.string, lambda contract: contract.secId),
+            ("SecIdType", dht.string, lambda contract: contract.secIdType),
+            ("SecType", dht.string, lambda contract: contract.secType),
+            ("Symbol", dht.string, lambda contract: contract.symbol),
+            ("LocalSymbol", dht.string, lambda contract: contract.localSymbol),
+            ("TradingClass", dht.string, lambda contract: contract.tradingClass),
+            ("Currency", dht.string, lambda contract: contract.currency),
+            ("Exchange", dht.string, lambda contract: contract.exchange),
+            ("PrimaryExchange", dht.string, lambda contract: contract.primaryExchange),
+            ("LastTradeDateOrContractMonth", dht.string, lambda contract: contract.lastTradeDateOrContractMonth),
+            ("Strike", dht.float64, lambda contract: contract.strike),
+            ("Right", dht.string, lambda contract: contract.right),
+            ("Multiplier", dht.string, lambda contract: contract.multiplier),
+
+            # combos
+            ("ComboLegsDescrip", dht.string, lambda contract: contract.comboLegsDescrip),
+            ("ComboLegs", dht.stringset, lambda contract: _to_string_set(contract.comboLegs)),
+            ("DeltaNeutralContract", dht.string, lambda contract: _to_string_val(contract.deltaNeutralContract)),
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)
+
+
 class IbOrderLogger(IbComplexTypeLogger):
-    """ Class for logging IB Orders. """
-    
+    """ Logging for IB Orders. """
+
     def __init__(self):
         oca_types = {1: "CancelL_With_Block", 2: "Reduce_With_Block", 3: "Reduce_Non_Block"}
         trigger_methods = {0: "Default", 1: "Double_Bid_Ask", 2: "Last", 3: "Double_Last", 4: "Bid_Ask",
@@ -264,4 +293,4 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("SoftDollarTier", dht.string, lambda o: _to_string_val(o.softDollarTier)),
         ]
 
-        IbComplexTypeLogger.__init__(column_details)
+        IbComplexTypeLogger.__init__(self, column_details)
