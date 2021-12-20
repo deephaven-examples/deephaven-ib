@@ -13,6 +13,7 @@ __all__ = ["MarketDataType", "IbSessionTws"]
 # TODO: automatically set request ids
 # TODO: raise exception if no connection and certain methods are called
 
+# TODO: rename?
 class MarketDataType(Enum):
     """Type of market data to use after the close."""
 
@@ -20,6 +21,65 @@ class MarketDataType(Enum):
     """Real time market data."""
     FROZEN = 2
     """Market data frozen at the close."""
+
+
+class BarSize(Enum):
+    """Valid historical data bar sizes."""
+
+    SEC_1 = "1 sec"
+    SEC_5 = "5 secs"
+    SEC_15 = "15 secs"
+    SEC_30 = "30 secs"
+    MIN_1 = "1 min"
+    MIN_2 = "2 mins"
+    MIN_3 = "3 mins"
+    MIN_5 = "5 mins"
+    MIN_15 = "15 mins"
+    MIN_30 = "30 mins"
+    HOUR_1 = "1 hour"
+    DAY_1 = "1 day"
+
+
+class BarDataType(Enum):
+    """ Historical data type. """
+
+    TRADES = 1
+    MIDPOINT = 2
+    BID = 3
+    ASK = 4
+    BID_ASK = 5
+    HISTORICAL_VOLATILITY = 6
+    OPTION_IMPLIED_VOLATILITY = 7
+
+
+class Duration:
+    """Query duration."""
+
+    def __init__(self, value):
+        self.value = value
+
+    @staticmethod
+    def seconds(value: int):
+        return Duration(f"{value} S")
+
+    @staticmethod
+    def days(value: int):
+        return Duration(f"{value} D")
+
+    @staticmethod
+    def weeks(value: int):
+        return Duration(f"{value} W")
+
+    @staticmethod
+    def months(value: int):
+        return Duration(f"{value} M")
+
+    @staticmethod
+    def years(value: int):
+        return Duration(f"{value} Y")
+
+
+
 
 
 class IbSessionTws:
@@ -134,7 +194,7 @@ class IbSessionTws:
                                 regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
         return req_id
 
-    def cancelMktData(self, reqId: int):
+    def cancel_market_data(self, reqId: int):
         """Cancel a market data request.
 
         Args:
@@ -142,12 +202,44 @@ class IbSessionTws:
         """
         self._client.cancelMktData(reqId=reqId)
 
+    # TODO: how to handle contract?
+    def request_historical_data(self, contract: Contract, end: dtu.DateTime,
+                                duration: Duration, barSize: BarSize, barType: BarDataType,
+                                type: MarketDataType = MarketDataType.FROZEN, keepUpToDate: bool = True) -> int:
+        """Requests historical data for a contract.
+
+        Args:
+            contract (Contract): contract data is requested for
+            end (DateTime): Ending timestamp of the requested data.
+            duration (Duration): Duration of data being requested by the query.
+            barSize (BarSize): Size of the bars that will be returned.
+            barType (BarDataType): Type of bars that will be returned.
+            type (MarketDataType): Type of market data to return after the close.
+            keepUpToDate (bool): True to continuously update bars
+
+        Returns:
+            Request ID
+        """
+        req_id = next_unique_id()
+        self._client.reqHistoricalData(reqId=req_id, contract=contract, endDateTime=dh_to_ib_datetime(end),
+                                       durationStr=duration.value, barSizeSetting=barSize.value,
+                                       whatToShow=barType.name, useRTH=type.value, formatDate=2,
+                                       keepUpToDate=keepUpToDate, chartOptions=[])
+        return req_id
+
+    def cancel_historical_data(self, req_id: int):
+        """Cancel a historical data request.
+
+        Args:
+            req_id (int): request id
+
+        """
+        self._client.cancelHistoricalData(reqId=req_id)
 
     #     self._client.reqContractDetails() -> for a particular contract
 
     #     self._client.reqTickByTickData() -> get tick data.  Limits on subscriptions so need to remove
     #     self._client.reqHistoricalTicks()
-    #     self._client.reqHistoricalData()
     #     self._client.reqRealTimeBars()
 
     #     self._client.reqIds() --> get next valid id for placing orders

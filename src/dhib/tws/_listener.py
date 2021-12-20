@@ -3,16 +3,17 @@ import logging
 from deephaven import DynamicTableWriter, Types as dht
 from ibapi import news
 from ibapi.commission_report import CommissionReport
-from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickType, TickAttrib
+from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
 from ibapi.order_state import OrderState
-from ibapi.ticktype import TickTypeEnum
+from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
-from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, _map_values
+from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, IbBarDataLogger, \
+    _map_values
 from ..utils import next_unique_id
 
 logging.basicConfig(level=logging.DEBUG)
@@ -21,6 +22,7 @@ _ib_contract_logger = IbContractLogger()
 _ib_order_logger = IbOrderLogger()
 _ib_order_state_logger = IbOrderStateLogger()
 _ib_tick_attrib_logger = IbTickAttribLogger()
+_ib_bar_data_logger = IbBarDataLogger()
 
 
 # TODO: map string "" to None
@@ -119,6 +121,9 @@ class _IbListener(EWrapper):
             [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64, dht.float64])
 
+        self.historical_data = DynamicTableWriter(
+            ["RequestId", *_ib_bar_data_logger.names()],
+            [dht.int64, *_ib_bar_data_logger.types()])
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -373,4 +378,17 @@ class _IbListener(EWrapper):
 
     def tickSnapshotEnd(self, reqId: int):
         # do not ned to implement
-        self.tickSnapshotEnd(reqId)
+        EWrapper.tickSnapshotEnd(reqId)
+
+    ####
+    # reqHistoricalData
+    ####
+
+    def historicalData(self, reqId: int, bar: BarData):
+        EWrapper.historicalData(self, reqId, bar)
+        self.historical_data.logRow(reqId, *_ib_bar_data_logger.vals(bar))
+        # TODO: need to relate request to security ***
+
+    def historicalDataEnd(self, reqId: int, start: str, end: str):
+        # do not ned to implement
+        EWrapper.historicalDataEnd(reqId, start, end)

@@ -1,5 +1,6 @@
 from typing import Any, List, Tuple
 
+import deephaven.DateTimeUtils as dtu
 import jpy
 from deephaven import Types as dht
 
@@ -333,6 +334,24 @@ class IbTickAttribLogger(IbComplexTypeLogger):
             ("CanAutoExecute", dht.bool_, lambda ta: ta.canAutoExecute),
             ("PastLimit", dht.bool_, lambda ta: ta.pastLimit),
             ("PreOpen", dht.bool_, lambda ta: ta.preOpen),
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbBarDataLogger(IbComplexTypeLogger):
+    """ Logging for IB BarData. """
+
+    def __init__(self):
+        column_details = [
+            ("Timestamp", dht.datetime, lambda bd: dtu.DateTime(int(bd.date) * dtu.SECOND)),
+            ("Open", dht.float64, lambda bd: bd.open),
+            ("High", dht.float64, lambda bd: bd.high),
+            ("Low", dht.float64, lambda bd: bd.low),
+            ("Close", dht.float64, lambda bd: bd.close),
+            ("Volume", dht.int64, lambda bd: bd.volume),
+            ("BarCount", dht.int64, lambda bd: bd.barCount),
+            ("Average", dht.float64, lambda bd: bd.average),
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
