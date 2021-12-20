@@ -13,6 +13,7 @@ __all__ = ["MarketDataType", "IbSessionTws"]
 # TODO: automatically set request ids
 # TODO: raise exception if no connection and certain methods are called
 # TODO: make a request ID type?
+# TODO: document request functions with the table names they go with
 
 # TODO: rename?
 class MarketDataType(Enum):
@@ -82,6 +83,15 @@ class Duration:
         return Duration(f"{value} Y")
 
 
+class TickByTickDataType(Enum):
+    """ Tick-by-tick data type. """
+
+    LAST = "Last"
+    "Most recent trades."
+    BID_ASK = "BidAsk"
+    "Most recent bid and ask."
+    MIDPOINT = "MidPoint"
+    "Most recent midpoint."
 
 
 
@@ -270,11 +280,38 @@ class IbSessionTws:
         """
         self._client.cancelRealTimeBars(reqId=req_id)
 
+    def request_tick_by_tick_data(self, contract: Contract, tickType: TickByTickDataType,
+                                  numberOfTicks: int = 0, ignoreSize: bool = False) -> int:
+        """Requests tick-by-tick data.
+
+        Args:
+            contract (Contract): Contract data is requested for
+            tickType (TickByTickDataType): Type of market data to return.
+            numberOfTicks (int): Number of historical ticks to request.
+
+        Returns:
+            Request ID
+        """
+
+        req_id = next_unique_id()
+        self._client.reqTickByTickData(reqId=req_id, contract=contract, tickType=tickType.value,
+                                       numberOfTicks=numberOfTicks, ignoreSize=ignoreSize)
+        return req_id
+
+    def cancel_tick_by_tick_data(self, req_id: int):
+        """Cancel a tick-by-tick data request.
+
+        Args:
+            req_id (int): request id
+
+        """
+        self._client.cancelTickByTickData(reqId=req_id)
+
+
     #### To do ######
 
     #     self._client.reqContractDetails() -> for a particular contract
 
-    #     self._client.reqTickByTickData() -> get tick data.  Limits on subscriptions so need to remove
     #     self._client.reqHistoricalTicks()
 
     #     self._client.reqIds() --> get next valid id for placing orders

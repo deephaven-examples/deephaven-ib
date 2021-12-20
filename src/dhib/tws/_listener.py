@@ -3,7 +3,9 @@ import logging
 from deephaven import DynamicTableWriter, Types as dht
 from ibapi import news
 from ibapi.commission_report import CommissionReport
-from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData
+from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData, TickAttribLast, \
+    ListOfHistoricalTickLast, TickAttribBidAsk, ListOfHistoricalTickBidAsk, ListOfHistoricalTick, HistoricalTickBidAsk, \
+    HistoricalTickLast
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
@@ -13,6 +15,7 @@ from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
 from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, IbBarDataLogger, \
+    IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, \
     _map_values
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
@@ -23,7 +26,8 @@ _ib_order_logger = IbOrderLogger()
 _ib_order_state_logger = IbOrderStateLogger()
 _ib_tick_attrib_logger = IbTickAttribLogger()
 _ib_bar_data_logger = IbBarDataLogger()
-
+_ib_hist_tick_last_logger = IbHistoricalTickLastLogger()
+_ib_hist_tick_bid_ask_logger = IbHistoricalTickBidAskLogger()
 
 # TODO: map string "" to None
 # TODO: parse time strings
@@ -129,6 +133,18 @@ class _IbListener(EWrapper):
             ["RequestId", "Timestamp", "Open", "High", "Low", "Close", "Volume", "WAP", "Count"],
             [dht.int64, dht.datetime, dht.float64, dht.float64, dht.float64, dht.float64, dht.int64, dht.float64,
              dht.int64])
+
+        self.tick_last = DynamicTableWriter(
+            ["RequestId", *_ib_hist_tick_last_logger.names()],
+            [dht.int64, *_ib_hist_tick_last_logger.types()])
+
+        self.tick_bid_ask = DynamicTableWriter(
+            ["RequestId", *_ib_hist_tick_bid_ask_logger.names()],
+            [dht.int64, *_ib_hist_tick_bid_ask_logger.types()])
+
+        self.tick_mid_point = DynamicTableWriter(
+            ["RequestId", "Timestamp", "MidPoint"],
+            [dht.int64, dht.datetime, dht.float64])
 
 
     def connect(self, client: _IbClient):
@@ -405,5 +421,61 @@ class _IbListener(EWrapper):
 
     def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
                     volume: int, wap: float, count: int):
-        EWrapper.realtimeBar(reqId, time, open_, high, low, close, volume, wap, count)
+        EWrapper.realtimeBar(self, reqId, time, open_, high, low, close, volume, wap, count)
         self.realtime_bar.logRow(reqId, unix_sec_to_dh_datetime(time), open_, high, low, close, volume, wap, count)
+
+    ####
+    # reqTickByTickData
+    ####
+
+    def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
+                          size: int, tickAttribLast: TickAttribLast, exchange: str,
+                          specialConditions: str):
+        EWrapper.tickByTickAllLast(self, reqId, tickType, time, price, size, tickAttribLast, exchange,
+                                   specialConditions)
+
+        t = HistoricalTickLast()
+        t.time = time
+        t.tickAttribLast = tickAttribLast
+        t.price = price
+        t.size = size
+        t.exchange = exchange
+        t.specialConditions = specialConditions
+
+        self.tick_last.logRow(reqId, *_ib_hist_tick_last_logger.vals(t))
+
+    # noinspection PyUnusedLocal
+    def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
+        EWrapper.historicalTicksLast(self, reqId, ticks, done)
+
+        for t in ticks:
+            self.tick_last.logRow(reqId, *_ib_hist_tick_last_logger.vals(t))
+
+    def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
+                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
+        EWrapper.tickByTickBidAsk(self, reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)
+
+        t = HistoricalTickBidAsk()
+        t.time = time
+        t.tickAttribBidAsk = tickAttribBidAsk
+        t.priceBid = bidPrice
+        t.priceAsk = askPrice
+        t.sizeBid = bidSize
+        t.sizeAsk = askSize
+
+        self.tick_bid_ask.logRow(reqId, *_ib_hist_tick_bid_ask_logger.vals(t))
+
+    def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickBidAsk, done: bool):
+
+        for t in ticks:
+            self.tick_bid_ask.logRow(reqId, *_ib_hist_tick_bid_ask_logger.vals(t))
+
+    def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
+        EWrapper.tickByTickMidPoint(self, reqId, time, midPoint)
+        self.tick_mid_point.logRow(reqId, unix_sec_to_dh_datetime(time), midPoint)
+
+    def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTick, done: bool):
+        EWrapper.historicalTicks(self, reqId, ticks, done)
+
+        for t in ticks:
+            self.tick_mid_point.logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)

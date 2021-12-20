@@ -356,3 +356,37 @@ class IbBarDataLogger(IbComplexTypeLogger):
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbHistoricalTickLastLogger(IbComplexTypeLogger):
+    """Logging for HistoricalTickLast."""
+
+    def __init__(self):
+        column_details = [
+            ("Timestamp", dht.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
+            ("Price", dht.float64, lambda t: t.price),
+            ("Size", dht.int64, lambda t: t.size),
+            ("PastLimit", dht.bool_, lambda t: t.tickAttribLast.pastLimit),
+            ("Unreported", dht.bool_, lambda t: t.tickAttribLast.unreported),
+            ("Exchange", dht.string, lambda t: t.exchange),
+            ("SpecialConditions", dht.string, lambda t: t.specialConditions)
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbHistoricalTickBidAskLogger(IbComplexTypeLogger):
+    """Logging for HistoricalTickBidAsk."""
+
+    def __init__(self):
+        column_details = [
+            ("Timestamp", dht.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
+            ("BidPrice", dht.float64, lambda t: t.priceBid),
+            ("AskPrice", dht.float64, lambda t: t.priceAsk),
+            ("BidSize", dht.int64, lambda t: t.sizeBid),
+            ("AskSize", dht.int64, lambda t: t.sizeAsk),
+            ("BidPastLow", dht.bool_, lambda t: t.tickAttribBidAsk.bidPastLow),
+            ("AskPastHigh", dht.bool_, lambda t: t.tickAttribBidAsk.askPastHigh),
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)
