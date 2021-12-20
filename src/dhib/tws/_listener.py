@@ -425,7 +425,7 @@ class _IbListener(EWrapper):
         self.realtime_bar.logRow(reqId, unix_sec_to_dh_datetime(time), open_, high, low, close, volume, wap, count)
 
     ####
-    # reqTickByTickData
+    # reqTickByTickData and reqHistoricalTicks
     ####
 
     def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,

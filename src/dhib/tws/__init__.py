@@ -94,7 +94,6 @@ class TickByTickDataType(Enum):
     "Most recent midpoint."
 
 
-
 class IbSessionTws:
     """ IB TWS session."""
 
@@ -280,6 +279,7 @@ class IbSessionTws:
         """
         self._client.cancelRealTimeBars(reqId=req_id)
 
+    # TODO: how to handle contract?
     def request_tick_by_tick_data(self, contract: Contract, tickType: TickByTickDataType,
                                   numberOfTicks: int = 0, ignoreSize: bool = False) -> int:
         """Requests tick-by-tick data.
@@ -288,6 +288,7 @@ class IbSessionTws:
             contract (Contract): Contract data is requested for
             tickType (TickByTickDataType): Type of market data to return.
             numberOfTicks (int): Number of historical ticks to request.
+            ignoreSize (bool): should size values be ignored.
 
         Returns:
             Request ID
@@ -307,12 +308,41 @@ class IbSessionTws:
         """
         self._client.cancelTickByTickData(reqId=req_id)
 
+    # TODO: how to handle contract?
+    def request_historical_ticks(self, contract: Contract, start: dtu.DateTime, end: dtu.DateTime,
+                                 tickType: TickByTickDataType, numberOfTicks: int,
+                                 type: MarketDataType = MarketDataType.FROZEN,
+                                 ignoreSize: bool = False) -> int:
+        """Requests historical tick-by-tick data.
+
+        Args:
+            contract (Contract): Contract data is requested for
+            start (DateTime): marks the (exclusive) start of the date range.
+            end (DateTime): marks the (inclusive) end of the date range.
+            tickType (TickByTickDataType): Type of market data to return.
+            numberOfTicks (int): Number of historical ticks to request.
+            type (MarketDataType): Type of market data to return after the close.
+            ignoreSize (bool): should size values be ignored.
+
+        Returns:
+            Request ID
+
+        """
+        req_id = next_unique_id()
+        whatToShow = tickType.value
+
+        if whatToShow == "Last":
+            whatToShow = "Trades"
+
+        self._client.reqHistoricalTicks(reqId=req_id, contract=contract, startDateTime=dh_to_ib_datetime(start),
+                                        endDateTime=dh_to_ib_datetime(end),
+                                        numberOfTicks=numberOfTicks, whatToShow=whatToShow, useRth=type.value,
+                                        ignoreSize=ignoreSize, miscOptions=[])
+        return req_id
 
     #### To do ######
 
     #     self._client.reqContractDetails() -> for a particular contract
-
-    #     self._client.reqHistoricalTicks()
 
     #     self._client.reqIds() --> get next valid id for placing orders
 
