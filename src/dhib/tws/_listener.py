@@ -14,7 +14,7 @@ from ibapi.wrapper import EWrapper
 from ._client import _IbClient
 from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, IbBarDataLogger, \
     _map_values
-from ..utils import next_unique_id
+from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -124,6 +124,12 @@ class _IbListener(EWrapper):
         self.historical_data = DynamicTableWriter(
             ["RequestId", *_ib_bar_data_logger.names()],
             [dht.int64, *_ib_bar_data_logger.types()])
+
+        self.realtime_bar = DynamicTableWriter(
+            ["RequestId", "Timestamp", "Open", "High", "Low", "Close", "Volume", "WAP", "Count"],
+            [dht.int64, dht.datetime, dht.float64, dht.float64, dht.float64, dht.float64, dht.int64, dht.float64,
+             dht.int64])
+
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -392,3 +398,12 @@ class _IbListener(EWrapper):
     def historicalDataEnd(self, reqId: int, start: str, end: str):
         # do not ned to implement
         EWrapper.historicalDataEnd(reqId, start, end)
+
+    ####
+    # reqRealTimeBars
+    ####
+
+    def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
+                    volume: int, wap: float, count: int):
+        EWrapper.realtimeBar(reqId, time, open_, high, low, close, volume, wap, count)
+        self.realtime_bar.logRow(reqId, unix_sec_to_dh_datetime(time), open_, high, low, close, volume, wap, count)

@@ -1,8 +1,9 @@
 from typing import Any, List, Tuple
 
-import deephaven.DateTimeUtils as dtu
 import jpy
 from deephaven import Types as dht
+
+from ..utils import unix_sec_to_dh_datetime
 
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
 
@@ -344,7 +345,7 @@ class IbBarDataLogger(IbComplexTypeLogger):
 
     def __init__(self):
         column_details = [
-            ("Timestamp", dht.datetime, lambda bd: dtu.DateTime(int(bd.date) * dtu.SECOND)),
+            ("Timestamp", dht.datetime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
             ("Open", dht.float64, lambda bd: bd.open),
             ("High", dht.float64, lambda bd: bd.high),
             ("Low", dht.float64, lambda bd: bd.low),

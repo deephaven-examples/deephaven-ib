@@ -12,6 +12,7 @@ __all__ = ["MarketDataType", "IbSessionTws"]
 
 # TODO: automatically set request ids
 # TODO: raise exception if no connection and certain methods are called
+# TODO: make a request ID type?
 
 # TODO: rename?
 class MarketDataType(Enum):
@@ -50,6 +51,8 @@ class BarDataType(Enum):
     BID_ASK = 5
     HISTORICAL_VOLATILITY = 6
     OPTION_IMPLIED_VOLATILITY = 7
+    FEE_RATE = 8
+    REBATE_RATE = 9
 
 
 class Duration:
@@ -223,7 +226,7 @@ class IbSessionTws:
         req_id = next_unique_id()
         self._client.reqHistoricalData(reqId=req_id, contract=contract, endDateTime=dh_to_ib_datetime(end),
                                        durationStr=duration.value, barSizeSetting=barSize.value,
-                                       whatToShow=barType.name, useRTH=type.value, formatDate=2,
+                                       whatToShow=barType.name, useRTH=(type == MarketDataType.FROZEN), formatDate=2,
                                        keepUpToDate=keepUpToDate, chartOptions=[])
         return req_id
 
@@ -236,11 +239,43 @@ class IbSessionTws:
         """
         self._client.cancelHistoricalData(reqId=req_id)
 
+    # TODO: how to handle contract?
+    def reqRealTimeBars(self, contract: Contract, barType: BarDataType, barSize: int = 5,
+                        type: MarketDataType = MarketDataType.FROZEN) -> int:
+        """Requests real time bar data for a contract.
+
+        Args:
+            contract (Contract): contract data is requested for
+            barType (BarDataType): Type of bars that will be returned.
+            barSize (int): Bar size in seconds.
+            type (MarketDataType): Type of market data to return after the close.
+
+
+        Returns:
+            Request ID
+        """
+
+        req_id = next_unique_id()
+        self._client.reqRealTimeBars(reqId=req_id, contract=contract, barSize=barSize,
+                                     whatToShow=barType.name, useRTH=(type == MarketDataType.FROZEN),
+                                     realTimeBarsOptions=[])
+        return req_id
+
+    def cancel_real_time_bars(self, req_id: int):
+        """Cancel a real-time bar request.
+
+        Args:
+            req_id (int): request id
+
+        """
+        self._client.cancelRealTimeBars(reqId=req_id)
+
+    #### To do ######
+
     #     self._client.reqContractDetails() -> for a particular contract
 
     #     self._client.reqTickByTickData() -> get tick data.  Limits on subscriptions so need to remove
     #     self._client.reqHistoricalTicks()
-    #     self._client.reqRealTimeBars()
 
     #     self._client.reqIds() --> get next valid id for placing orders
 

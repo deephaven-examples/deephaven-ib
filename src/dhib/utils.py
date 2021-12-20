@@ -36,3 +36,12 @@ def ib_to_dh_datetime(time: str) -> dtu.DateTime:
         return None
 
     return dtu.DateTime.of(_ib_date_time_formatter.parse(time).toInstant())
+
+
+def unix_sec_to_dh_datetime(time: int) -> dtu.DateTime:
+    """Convert Unix seconds since the epoch to a DH DateTime."""
+
+    if time is None:
+        return None
+
+    return dtu.DateTime(int(time) * dtu.SECOND)
