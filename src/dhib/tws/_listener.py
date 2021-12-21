@@ -15,7 +15,7 @@ from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
 from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, IbBarDataLogger, \
-    IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, IbFamilyCodeLogger, \
+    IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, IbFamilyCodeLogger, IbPriceIncrementLogger, \
     _map_values, _to_string_set
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
@@ -29,6 +29,7 @@ _ib_bar_data_logger = IbBarDataLogger()
 _ib_hist_tick_last_logger = IbHistoricalTickLastLogger()
 _ib_hist_tick_bid_ask_logger = IbHistoricalTickBidAskLogger()
 _ib_family_code_logger = IbFamilyCodeLogger()
+_ib_price_increment_logger = IbPriceIncrementLogger()
 
 # TODO: map string "" to None
 # TODO: parse time strings
@@ -154,6 +155,10 @@ class _IbListener(EWrapper):
         self.matching_symbols = DynamicTableWriter(
             ["RequestId", *_ib_contract_logger.names(), "DerivativeSecTypes"],
             [dht.int64, *_ib_contract_logger.types(), dht.string])
+
+        self.price_increment = DynamicTableWriter(
+            ["MarketRuleId", *_ib_price_increment_logger.names()],
+            [dht.int64, *_ib_price_increment_logger.types()])
 
 
     def connect(self, client: _IbClient):
@@ -510,3 +515,13 @@ class _IbListener(EWrapper):
         for cd in contractDescriptions:
             self.matching_symbols.logRow(reqId, *_ib_contract_logger.vals(cd.contract),
                                          _to_string_set(cd.derivativeSecTypes))
+
+    ####
+    # reqMarketRule
+    ####
+
+    def marketRule(self, marketRuleId: int, priceIncrements: ListOfPriceIncrements):
+        EWrapper.marketRule(self, marketRuleId, priceIncrements)
+
+        for pi in priceIncrements:
+            self.price_increment.logRow(marketRuleId, *_ib_price_increment_logger.vals(pi))

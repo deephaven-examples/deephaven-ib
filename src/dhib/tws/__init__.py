@@ -353,6 +353,9 @@ class IbSessionTws:
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return req_id
 
+    # TODO: subscribe to price increment market rules
+    # *** explicit request marketRule or from contract details??? (marketRuleIds)
+    # https: // interactivebrokers.github.io / tws - api / minimum_increment.html
 
     #### To do ######
 
@@ -362,7 +365,6 @@ class IbSessionTws:
 
     ### Don't Do vvvvvvv
 
-    #     self._client.reqMarketRule() --> request min ticks (needed?)
     #     self._client.reqPnL() --> daily pnl by account and model code (needed?)
     #     self._client.reqPositionsMulti() --> req positions by account and model (needed?)
 

@@ -402,3 +402,15 @@ class IbFamilyCodeLogger(IbComplexTypeLogger):
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbPriceIncrementLogger(IbComplexTypeLogger):
+    """Logging for PriceIncrement."""
+
+    def __init__(self):
+        column_details = [
+            ("LowEdge", dht.float64, lambda pi: pi.lowEdge),
+            ("Increment", dht.float64, lambda pi: pi.increment),
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)
