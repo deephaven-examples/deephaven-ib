@@ -160,6 +160,10 @@ class _IbListener(EWrapper):
             ["MarketRuleId", *_ib_price_increment_logger.names()],
             [dht.int64, *_ib_price_increment_logger.types()])
 
+        self.pnl = DynamicTableWriter(
+            ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
+            [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
+
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -525,3 +529,12 @@ class _IbListener(EWrapper):
 
         for pi in priceIncrements:
             self.price_increment.logRow(marketRuleId, *_ib_price_increment_logger.vals(pi))
+
+    ####
+    # reqPnL
+    ####
+
+    def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
+        EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
+        self.pnl.logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
+        # TODO: need to be able to associate an account with the request id and data.

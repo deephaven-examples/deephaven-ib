@@ -353,6 +353,18 @@ class IbSessionTws:
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return req_id
 
+    def request_pnl(self, account: str = "All", model_code: str = "") -> int:
+        """Request PNL updates.
+
+        Args:
+            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
+            model_code (str): Model used to evaluate PNL.
+        """
+        req_id = next_unique_id()
+        self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
+        return req_id
+
+
     # TODO: subscribe to price increment market rules
     # *** explicit request marketRule or from contract details??? (marketRuleIds)
     # https: // interactivebrokers.github.io / tws - api / minimum_increment.html
@@ -365,7 +377,6 @@ class IbSessionTws:
 
     ### Don't Do vvvvvvv
 
-    #     self._client.reqPnL() --> daily pnl by account and model code (needed?)
     #     self._client.reqPositionsMulti() --> req positions by account and model (needed?)
 
     #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
