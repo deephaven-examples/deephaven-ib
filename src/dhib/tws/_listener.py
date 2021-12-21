@@ -16,24 +16,12 @@ from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
 from ._client import IbClient
-from ._ibtypelogger import IbContractLogger, IbContractDetailsLogger, IbOrderLogger, IbOrderStateLogger, \
-    IbTickAttribLogger, IbBarDataLogger, \
-    IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, IbFamilyCodeLogger, IbPriceIncrementLogger, \
-    map_values, to_string_set
+from ._ibtypelogger import logger_contract, logger_contract_details, logger_order, logger_order_state, \
+    logger_tick_attrib, logger_bar_data, logger_hist_tick_last, logger_hist_tick_bid_ask, logger_family_code, \
+    logger_price_increment
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
 logging.basicConfig(level=logging.DEBUG)
-
-_ib_contract_logger = IbContractLogger()
-_ib_contract_details_logger = IbContractDetailsLogger()
-_ib_order_logger = IbOrderLogger()
-_ib_order_state_logger = IbOrderStateLogger()
-_ib_tick_attrib_logger = IbTickAttribLogger()
-_ib_bar_data_logger = IbBarDataLogger()
-_ib_hist_tick_last_logger = IbHistoricalTickLastLogger()
-_ib_hist_tick_bid_ask_logger = IbHistoricalTickBidAskLogger()
-_ib_family_code_logger = IbFamilyCodeLogger()
-_ib_price_increment_logger = IbPriceIncrementLogger()
 
 _error_code_map = {e.code(): e.msg() for e in dir(errors) if isinstance(e, errors.CodeMsgPair)}
 
@@ -59,31 +47,31 @@ class _IbListener(EWrapper):
         self.account_value = DynamicTableWriter(["Account", "Currency", "Key", "Value"],
                                                 [dht.string, dht.string, dht.string, dht.string])
         self.contract_details = DynamicTableWriter(
-            ["RequestId", *_ib_contract_details_logger.names()],
-            [dht.int64, *_ib_contract_details_logger.types()])
+            ["RequestId", *logger_contract_details.names()],
+            [dht.int64, *logger_contract_details.types()])
 
         self.portfolio = DynamicTableWriter(
-            ["Account", *_ib_contract_logger.names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
+            ["Account", *logger_contract.names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
              "UnrealizedPnl", "RealizedPnl"],
-            [dht.string, *_ib_contract_logger.types(), dht.float64, dht.float64, dht.float64, dht.float64,
+            [dht.string, *logger_contract.types(), dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64])
 
         self.account_summary = DynamicTableWriter(["ReqId", "Account", "Tag", "Value", "Currency"],
                                                   [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
-        self.positions = DynamicTableWriter(["Account", *_ib_contract_logger.names(), "Position", "AvgCost"],
-                                            [dht.string, *_ib_contract_logger.types(), dht.float64, dht.float64])
+        self.positions = DynamicTableWriter(["Account", *logger_contract.names(), "Position", "AvgCost"],
+                                            [dht.string, *logger_contract.types(), dht.float64, dht.float64])
 
         self.news_bulletins = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
                                                  [dht.int64, dht.string, dht.string, dht.string])
 
-        self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *_ib_contract_logger.names(),
+        self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *logger_contract.names(),
                                                 "Exchange", "Side", "Shares", "Price",
                                                 "CumQty", "AvgPrice", "Liquidation",
                                                 "EvRule", "EvMultiplier", "ModelCode", "LastLiquidity"
                                                                                        "ExecId", "PermId", "ClientId",
                                                 "OrderId", "OrderRef"],
-                                               [dht.int64, dht.string, dht.string, *_ib_contract_logger.types(),
+                                               [dht.int64, dht.string, dht.string, *logger_contract.types(),
                                                 dht.string, dht.string, dht.float64, dht.float64,
                                                 dht.float64, dht.float64, dht.int64,
                                                 dht.string, dht.float64, dht.string, dht.int64,
@@ -96,8 +84,8 @@ class _IbListener(EWrapper):
         self.news_providers = DynamicTableWriter(["Provider"], [dht.string])
 
         self.orders_completed = DynamicTableWriter(
-            [*_ib_contract_logger.names(), *_ib_order_logger.names(), *_ib_order_state_logger.names()],
-            [*_ib_contract_logger.types(), *_ib_order_logger.types(), *_ib_order_state_logger.types()])
+            [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
+            [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
         self.orders_status = DynamicTableWriter(
             ["OrderId", "Status", "Filled", "Remaining", "AvgFillPrice", "PermId", "ParentId", "LastFillPrice",
@@ -106,8 +94,8 @@ class _IbListener(EWrapper):
              dht.string, dht.float64])
 
         self.orders_open = DynamicTableWriter(
-            ["OrderId", *_ib_contract_logger.names(), *_ib_order_logger.names(), *_ib_order_state_logger.names()],
-            [dht.int64, *_ib_contract_logger.types(), *_ib_order_logger.types(), *_ib_order_state_logger.types()])
+            ["OrderId", *logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
+            [dht.int64, *logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
         self.news_historical = DynamicTableWriter(
             ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
@@ -118,8 +106,8 @@ class _IbListener(EWrapper):
             [dht.int64, dht.string, dht.string])
 
         self.tick_price = DynamicTableWriter(
-            ["RequestId", "TickType", "Price", *_ib_tick_attrib_logger.names()],
-            [dht.int64, dht.string, dht.float64, *_ib_tick_attrib_logger.types()])
+            ["RequestId", "TickType", "Price", *logger_tick_attrib.names()],
+            [dht.int64, dht.string, dht.float64, *logger_tick_attrib.types()])
 
         self.tick_size = DynamicTableWriter(
             ["RequestId", "TickType", "Size"],
@@ -147,8 +135,8 @@ class _IbListener(EWrapper):
              dht.float64, dht.float64, dht.float64])
 
         self.historical_data = DynamicTableWriter(
-            ["RequestId", *_ib_bar_data_logger.names()],
-            [dht.int64, *_ib_bar_data_logger.types()])
+            ["RequestId", *logger_bar_data.names()],
+            [dht.int64, *logger_bar_data.types()])
 
         self.realtime_bar = DynamicTableWriter(
             ["RequestId", "Timestamp", "Open", "High", "Low", "Close", "Volume", "WAP", "Count"],
@@ -156,28 +144,28 @@ class _IbListener(EWrapper):
              dht.int64])
 
         self.tick_last = DynamicTableWriter(
-            ["RequestId", *_ib_hist_tick_last_logger.names()],
-            [dht.int64, *_ib_hist_tick_last_logger.types()])
+            ["RequestId", *logger_hist_tick_last.names()],
+            [dht.int64, *logger_hist_tick_last.types()])
 
         self.tick_bid_ask = DynamicTableWriter(
-            ["RequestId", *_ib_hist_tick_bid_ask_logger.names()],
-            [dht.int64, *_ib_hist_tick_bid_ask_logger.types()])
+            ["RequestId", *logger_hist_tick_bid_ask.names()],
+            [dht.int64, *logger_hist_tick_bid_ask.types()])
 
         self.tick_mid_point = DynamicTableWriter(
             ["RequestId", "Timestamp", "MidPoint"],
             [dht.int64, dht.datetime, dht.float64])
 
         self.family_codes = DynamicTableWriter(
-            [*_ib_family_code_logger.names()],
-            [*_ib_family_code_logger.types()])
+            [*logger_family_code.names()],
+            [*logger_family_code.types()])
 
         self.matching_symbols = DynamicTableWriter(
-            ["RequestId", *_ib_contract_logger.names(), "DerivativeSecTypes"],
-            [dht.int64, *_ib_contract_logger.types(), dht.string])
+            ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
+            [dht.int64, *logger_contract.types(), dht.string])
 
         self.price_increment = DynamicTableWriter(
-            ["MarketRuleId", *_ib_price_increment_logger.names()],
-            [dht.int64, *_ib_price_increment_logger.types()])
+            ["MarketRuleId", *logger_price_increment.names()],
+            [dht.int64, *logger_price_increment.types()])
 
         self.pnl = DynamicTableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
@@ -276,7 +264,7 @@ class _IbListener(EWrapper):
                         realizedPNL: float, accountName: str):
         EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
                                  realizedPNL, accountName)
-        self.portfolio.logRow(accountName, *_ib_contract_logger.vals(contract), position, marketPrice, marketValue,
+        self.portfolio.logRow(accountName, *logger_contract.vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
         self.request_contract_details(contract)
 
@@ -294,7 +282,7 @@ class _IbListener(EWrapper):
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(self, account, contract, position, avgCost)
-        self.positions.logRow(account, *_ib_contract_logger.vals(contract), position, avgCost)
+        self.positions.logRow(account, *logger_contract.vals(contract), position, avgCost)
         self.request_contract_details(contract)
 
     ####
@@ -322,7 +310,7 @@ class _IbListener(EWrapper):
 
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
         EWrapper.execDetails(self, reqId, contract, execution)
-        self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *_ib_contract_logger.vals(contract),
+        self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *logger_contract.vals(contract),
                                  execution.exchange, execution.side, execution.shares, execution.price,
                                  execution.cumQty, execution.avgPrice, execution.liquidation,
                                  execution.evRule, execution.evMultiplier, execution.modelCode, execution.lastLiquidity,
@@ -356,8 +344,8 @@ class _IbListener(EWrapper):
 
     def completedOrder(self, contract: Contract, order: Order, orderState: OrderState):
         EWrapper.completedOrder(self, contract, order, orderState)
-        self.orders_completed.logRow(*_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
-                                     *_ib_order_state_logger.vals(orderState))
+        self.orders_completed.logRow(*logger_contract.vals(contract), *logger_order.vals(order),
+                                     *logger_order_state.vals(orderState))
         self.request_contract_details(contract)
 
     def completedOrdersEnd(self):
@@ -379,8 +367,8 @@ class _IbListener(EWrapper):
 
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
         EWrapper.openOrder(self, orderId, contract, order, orderState)
-        self.orders_open.logRow(orderId, *_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
-                                *_ib_order_state_logger.vals(orderState))
+        self.orders_open.logRow(orderId, *logger_contract.vals(contract), *logger_order.vals(order),
+                                *logger_order_state.vals(orderState))
         self.request_contract_details(contract)
 
     def openOrderEnd(self):
@@ -415,7 +403,7 @@ class _IbListener(EWrapper):
     def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
         EWrapper.tickPrice(self, reqId, tickType, price, attrib)
 
-        self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, price, *_ib_tick_attrib_logger.vals(attrib))
+        self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, price, *logger_tick_attrib.vals(attrib))
 
         # TODO: need to relate request to security ***
 
@@ -466,7 +454,7 @@ class _IbListener(EWrapper):
 
     def historicalData(self, reqId: int, bar: BarData):
         EWrapper.historicalData(self, reqId, bar)
-        self.historical_data.logRow(reqId, *_ib_bar_data_logger.vals(bar))
+        self.historical_data.logRow(reqId, *logger_bar_data.vals(bar))
         # TODO: need to relate request to security ***
 
     def historicalDataEnd(self, reqId: int, start: str, end: str):
@@ -500,14 +488,14 @@ class _IbListener(EWrapper):
         t.exchange = exchange
         t.specialConditions = specialConditions
 
-        self.tick_last.logRow(reqId, *_ib_hist_tick_last_logger.vals(t))
+        self.tick_last.logRow(reqId, *logger_hist_tick_last.vals(t))
 
     # noinspection PyUnusedLocal
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
         EWrapper.historicalTicksLast(self, reqId, ticks, done)
 
         for t in ticks:
-            self.tick_last.logRow(reqId, *_ib_hist_tick_last_logger.vals(t))
+            self.tick_last.logRow(reqId, *logger_hist_tick_last.vals(t))
 
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
                          bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
@@ -521,12 +509,12 @@ class _IbListener(EWrapper):
         t.sizeBid = bidSize
         t.sizeAsk = askSize
 
-        self.tick_bid_ask.logRow(reqId, *_ib_hist_tick_bid_ask_logger.vals(t))
+        self.tick_bid_ask.logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
 
     def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickBidAsk, done: bool):
 
         for t in ticks:
-            self.tick_bid_ask.logRow(reqId, *_ib_hist_tick_bid_ask_logger.vals(t))
+            self.tick_bid_ask.logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
 
     def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
         EWrapper.tickByTickMidPoint(self, reqId, time, midPoint)
@@ -546,7 +534,7 @@ class _IbListener(EWrapper):
         EWrapper.familyCodes(self, familyCodes)
 
         for fc in familyCodes:
-            self.family_codes.logRow(*_ib_family_code_logger.vals(fc))
+            self.family_codes.logRow(*logger_family_code.vals(fc))
 
     ####
     # reqMatchingSymbols
@@ -556,7 +544,7 @@ class _IbListener(EWrapper):
         EWrapper.symbolSamples(self, reqId, contractDescriptions)
 
         for cd in contractDescriptions:
-            self.matching_symbols.logRow(reqId, *_ib_contract_logger.vals(cd.contract),
+            self.matching_symbols.logRow(reqId, *logger_contract.vals(cd.contract),
                                          to_string_set(cd.derivativeSecTypes))
             self.request_contract_details(cd.contract)
 
@@ -568,7 +556,7 @@ class _IbListener(EWrapper):
         EWrapper.marketRule(self, marketRuleId, priceIncrements)
 
         for pi in priceIncrements:
-            self.price_increment.logRow(marketRuleId, *_ib_price_increment_logger.vals(pi))
+            self.price_increment.logRow(marketRuleId, *logger_price_increment.vals(pi))
 
     ####
     # reqPnL
@@ -585,12 +573,12 @@ class _IbListener(EWrapper):
 
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.contractDetails(self, reqId, contractDetails)
-        self.contract_details.logRow(reqId, *_ib_contract_details_logger.vals(contractDetails))
+        self.contract_details.logRow(reqId, *logger_contract_details.vals(contractDetails))
         self._registered_contracts.add(contractDetails.contract)
 
     def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.bondContractDetails(self, reqId, contractDetails)
-        self.contract_details.logRow(reqId, *_ib_contract_details_logger.vals(contractDetails))
+        self.contract_details.logRow(reqId, *logger_contract_details.vals(contractDetails))
         self._registered_contracts.add(contractDetails.contract)
 
     def contractDetailsEnd(self, reqId: int):
