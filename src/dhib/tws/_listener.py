@@ -60,9 +60,17 @@ class _IbListener(EWrapper):
             ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
             [dht.int64, *logger_contract.types(), dht.string])
 
+        table_writers["price_increment"] = DynamicTableWriter(
+            ["MarketRuleId", *logger_price_increment.names()],
+            [dht.int64, *logger_price_increment.types()])
+
         # Accounts
 
         table_writers["managed_accounts"] = DynamicTableWriter(["Account"], [dht.string])
+
+        table_writers["family_codes"] = DynamicTableWriter(
+            [*logger_family_code.names()],
+            [*logger_family_code.types()])
 
         table_writers["account_value"] = DynamicTableWriter(["Account", "Currency", "Key", "Value"],
                                                 [dht.string, dht.string, dht.string, dht.string])
@@ -79,6 +87,9 @@ class _IbListener(EWrapper):
         table_writers["positions"] = DynamicTableWriter(["Account", *logger_contract.names(), "Position", "AvgCost"],
                                             [dht.string, *logger_contract.types(), dht.float64, dht.float64])
 
+        table_writers["pnl"] = DynamicTableWriter(
+            ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
+            [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
 
 
 
@@ -182,18 +193,9 @@ class _IbListener(EWrapper):
             ["RequestId", "Timestamp", "MidPoint"],
             [dht.int64, dht.datetime, dht.float64])
 
-        self.family_codes = DynamicTableWriter(
-            [*logger_family_code.names()],
-            [*logger_family_code.types()])
 
 
-        self.price_increment = DynamicTableWriter(
-            ["MarketRuleId", *logger_price_increment.names()],
-            [dht.int64, *logger_price_increment.types()])
 
-        self.pnl = DynamicTableWriter(
-            ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
-            [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
 
         return table_writers
 
@@ -308,6 +310,16 @@ class _IbListener(EWrapper):
             self._table_writers["matching_symbols"].logRow(reqId, *logger_contract.vals(cd.contract), to_string_set(cd.derivativeSecTypes))
             self.request_contract_details(cd.contract)
 
+    ####
+    # reqMarketRule
+    ####
+
+    def marketRule(self, marketRuleId: int, priceIncrements: ListOfPriceIncrements):
+        EWrapper.marketRule(self, marketRuleId, priceIncrements)
+
+        for pi in priceIncrements:
+            self._table_writers["price_increment"].logRow(marketRuleId, *logger_price_increment.vals(pi))
+
 
     ####################################################################################################################
     ####################################################################################################################
@@ -325,6 +337,16 @@ class _IbListener(EWrapper):
         for account in accountsList.split(","):
             self._table_writers["managed_accounts"].logRow(account)
             self._client.reqAccountUpdates(subscribe=True, acctCode=account)
+
+    ####
+    # reqFamilyCodes
+    ####
+
+    def familyCodes(self, familyCodes: ListOfFamilyCode):
+        EWrapper.familyCodes(self, familyCodes)
+
+        for fc in familyCodes:
+            self._table_writers["family_codes"].logRow(*logger_family_code.vals(fc))
 
     ####
     # reqAccountUpdates
@@ -362,6 +384,14 @@ class _IbListener(EWrapper):
         self.request_contract_details(contract)
 
 
+    ####
+    # reqPnL
+    ####
+
+    def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
+        EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
+        self.pnl.logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
+        # TODO: need to be able to associate an account with the request id and data.
 
     #????
 
@@ -610,32 +640,5 @@ class _IbListener(EWrapper):
         for t in ticks:
             self.tick_mid_point.logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
 
-    ####
-    # reqFamilyCodes
-    ####
 
-    def familyCodes(self, familyCodes: ListOfFamilyCode):
-        EWrapper.familyCodes(self, familyCodes)
-
-        for fc in familyCodes:
-            self.family_codes.logRow(*logger_family_code.vals(fc))
-
-    ####
-    # reqMarketRule
-    ####
-
-    def marketRule(self, marketRuleId: int, priceIncrements: ListOfPriceIncrements):
-        EWrapper.marketRule(self, marketRuleId, priceIncrements)
-
-        for pi in priceIncrements:
-            self.price_increment.logRow(marketRuleId, *logger_price_increment.vals(pi))
-
-    ####
-    # reqPnL
-    ####
-
-    def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
-        EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
-        self.pnl.logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
-        # TODO: need to be able to associate an account with the request id and data.
 
