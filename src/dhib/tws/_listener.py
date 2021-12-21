@@ -107,6 +107,7 @@ class _IbListener(EWrapper):
             ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
             [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
+        # Market Data
 
         #?????
 
@@ -394,7 +395,7 @@ class _IbListener(EWrapper):
 
     def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
         EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
-        self.pnl.logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
+        self._table_writers["pnl"].logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
         # TODO: need to be able to associate an account with the request id and data.
 
     ####################################################################################################################
@@ -454,6 +455,14 @@ class _IbListener(EWrapper):
         # do not need to implement
         self.historicalNewsEnd(requestId, hasMore)
 
+
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Market Data
+    ####################################################################################################################
+    ####################################################################################################################
+
+    
 
 
     #????
