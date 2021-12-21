@@ -1,5 +1,6 @@
 from typing import Any, List, Tuple, Callable
 
+# noinspection PyPep8Naming
 from deephaven import Types as dht
 
 from .._logging_utils import map_values, to_string_val, to_string_set
@@ -188,6 +189,20 @@ def _details_tick_attrib() -> List[Tuple]:
 logger_tick_attrib = IbComplexTypeLogger("TickAttrib", _details_tick_attrib())
 
 
+###
+
+def _details_tick_attrib_last() -> List[Tuple]:
+    """Details for logging TickAttribLast."""
+
+    return [
+        ("PastLimit", dht.bool_, lambda ta: ta.pastLimit),
+        ("Unreported", dht.bool_, lambda ta: ta.unreported),
+    ]
+
+
+logger_tick_attrib_last = IbComplexTypeLogger("TickAttribLast", _details_tick_attrib_last())
+
+
 ####
 
 def _details_historical_tick_last() -> List[Tuple]:
@@ -197,14 +212,27 @@ def _details_historical_tick_last() -> List[Tuple]:
         ("Timestamp", dht.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("Price", dht.float64, lambda t: t.price),
         ("Size", dht.int64, lambda t: t.size),
-        ("PastLimit", dht.bool_, lambda t: t.tickAttribLast.pastLimit),  # TODO: clean up
-        ("Unreported", dht.bool_, lambda t: t.tickAttribLast.unreported),  # TODO: clean up
+        *_include_details(_details_tick_attrib_last(), lambda t: t.tickAttribLast),
         ("Exchange", dht.string, lambda t: t.exchange),
         ("SpecialConditions", dht.string, lambda t: t.specialConditions)
     ]
 
 
 logger_hist_tick_last = IbComplexTypeLogger("HistoricalTickLast", _details_historical_tick_last())
+
+
+####
+
+def _details_tick_attrib_bid_ask() -> List[Tuple]:
+    """Details for logging TickAttribBidAsk."""
+
+    return [
+        ("BidPastLow", dht.bool_, lambda ta: ta.bidPastLow),
+        ("AskPastHigh", dht.bool_, lambda ta: ta.askPastHigh),
+    ]
+
+
+logger_tick_attrib_bid_ask = IbComplexTypeLogger("TickAttribBidAsk", _details_tick_attrib_bid_ask())
 
 
 ####
@@ -218,8 +246,7 @@ def _details_historical_tick_bid_ask() -> List[Tuple]:
         ("AskPrice", dht.float64, lambda t: t.priceAsk),
         ("BidSize", dht.int64, lambda t: t.sizeBid),
         ("AskSize", dht.int64, lambda t: t.sizeAsk),
-        ("BidPastLow", dht.bool_, lambda t: t.tickAttribBidAsk.bidPastLow),  # TODO: clean up
-        ("AskPastHigh", dht.bool_, lambda t: t.tickAttribBidAsk.askPastHigh),  # TODO: clean up
+        *_include_details(_details_tick_attrib_bid_ask(), lambda t: t.tickAttribBidAsk),
     ]
 
 
