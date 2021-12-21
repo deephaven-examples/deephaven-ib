@@ -5,7 +5,7 @@ from ibapi.client import EClient
 from ._listener import _IbListener
 
 
-class _IbClient(EClient):
+class IbClient(EClient):
     """Client for connecting to IB TWS.  Can be used to request data, send orders, etc."""
 
     def __init__(self, listener: _IbListener):

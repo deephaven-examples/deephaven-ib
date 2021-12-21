@@ -1,42 +1,9 @@
 from typing import Any, List, Tuple
 
-import jpy
 from deephaven import Types as dht
 
+from .._logging_utils import map_values, to_string_val, to_string_set
 from ..utils import unix_sec_to_dh_datetime
-
-ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
-
-
-def _map_values(value, map, default=lambda v: f"UNKNOWN(v)"):
-    """ Maps one set of values to another.  A default value is used if the value is not in the map. """
-
-    if value is None:
-        return None
-
-    try:
-        return map[value]
-    except KeyError:
-        # TODO: log bad mapping
-        return default(value)
-
-
-def _to_string_val(value):
-    """ Converts a value to a string. """
-
-    if value is None:
-        return None
-
-    return str(value)
-
-
-def _to_string_set(value):
-    """ Converts an iterable to a string set. """
-
-    if value is None:
-        return None
-
-    return ArrayStringSet(",".join([_to_string_val(v) for v in value]))
 
 
 class IbComplexTypeLogger:
@@ -80,8 +47,8 @@ class IbContractLogger(IbComplexTypeLogger):
 
             # combos
             ("ComboLegsDescrip", dht.string, lambda contract: contract.comboLegsDescrip),
-            ("ComboLegs", dht.stringset, lambda contract: _to_string_set(contract.comboLegs)),
-            ("DeltaNeutralContract", dht.string, lambda contract: _to_string_val(contract.deltaNeutralContract)),
+            ("ComboLegs", dht.stringset, lambda contract: to_string_set(contract.comboLegs)),
+            ("DeltaNeutralContract", dht.string, lambda contract: to_string_val(contract.deltaNeutralContract)),
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
@@ -124,19 +91,19 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("ActiveStartTime", dht.string, lambda o: o.activeStartTime),
             ("ActiveStopTime", dht.string, lambda o: o.activeStopTime),
             ("OcaGroup", dht.string, lambda o: o.ocaGroup),
-            ("OcaType", dht.string, lambda o: _map_values(o.ocaType, oca_types)),
+            ("OcaType", dht.string, lambda o: map_values(o.ocaType, oca_types)),
             ("OrderRef", dht.string, lambda o: o.orderRef),
             ("Transmit", dht.bool_, lambda o: o.transmit),
             ("ParentId", dht.int64, lambda o: o.parentId),
             ("BlockOrder", dht.bool_, lambda o: o.blockOrder),
             ("SweepToFill", dht.bool_, lambda o: o.sweepToFill),
             ("DisplaySize", dht.int64, lambda o: o.displaySize),
-            ("TriggerMethod", dht.string, lambda o: _map_values(o.triggerMethod, trigger_methods)),
+            ("TriggerMethod", dht.string, lambda o: map_values(o.triggerMethod, trigger_methods)),
             ("OutsideRth", dht.bool_, lambda o: o.outsideRth),
             ("Hidden", dht.bool_, lambda o: o.hidden),
             ("GoodAfterTime", dht.string, lambda o: o.goodAfterTime),
             ("GoodTillDate", dht.string, lambda o: o.goodTillDate),
-            ("Rule80A", dht.string, lambda o: _map_values(o.rule80A, rule80_values)),
+            ("Rule80A", dht.string, lambda o: map_values(o.rule80A, rule80_values)),
             ("AllOrNone", dht.bool_, lambda o: o.allOrNone),
             ("MinQty", dht.int64, lambda o: o.minQty),
             ("PercentOffset", dht.float64, lambda o: o.percentOffset),
@@ -152,9 +119,9 @@ class IbOrderLogger(IbComplexTypeLogger):
 
             # institutional (ie non-cleared) only
             ("DesignatedLocation", dht.string, lambda o: o.designatedLocation),
-            ("OpenClose", dht.string, lambda o: _map_values(o.openClose, open_close_values)),
-            ("Origin", dht.string, lambda o: _map_values(o.origin, origin_values)),
-            ("ShortSaleSlot", dht.string, lambda o: _map_values(o.shortSaleSlot, short_sale_slot_values)),
+            ("OpenClose", dht.string, lambda o: map_values(o.openClose, open_close_values)),
+            ("Origin", dht.string, lambda o: map_values(o.origin, origin_values)),
+            ("ShortSaleSlot", dht.string, lambda o: map_values(o.shortSaleSlot, short_sale_slot_values)),
             ("ExemptClode", dht.int64, lambda o: o.exemptCode),
 
             # SMART routing only
@@ -165,7 +132,7 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("OptOutSmarRouting", dht.bool_, lambda o: o.optOutSmartRouting),
 
             # BOX exchange orders only
-            ("AuctionStrategy", dht.string, lambda o: _map_values(o.auctionStrategy, auction_stragey_values)),
+            ("AuctionStrategy", dht.string, lambda o: map_values(o.auctionStrategy, auction_stragey_values)),
             ("StartingPrice", dht.float64, lambda o: o.startingPrice),
             ("StockRefPrice", dht.float64, lambda o: o.stockRefPrice),
             ("Delta", dht.float64, lambda o: o.delta),
@@ -179,7 +146,7 @@ class IbOrderLogger(IbComplexTypeLogger):
 
             # VOLATILITY ORDERS ONLY
             ("Volatility", dht.float64, lambda o: o.volatility),
-            ("VolatilityType", dht.string, lambda o: _map_values(o.volatilityType, volatility_type)),
+            ("VolatilityType", dht.string, lambda o: map_values(o.volatilityType, volatility_type)),
             ("DeltaNeutralOrderType", dht.string, lambda o: o.deltaNeutralOrderType),
             ("DeltaNeutralAuxPrice", dht.float64, lambda o: o.deltaNeutralAuxPrice),
             ("DeltaNeutralConId", dht.int64, lambda o: o.deltaNeutralConId),
@@ -191,7 +158,7 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("DeltaNeutralShortSaleSlot", dht.int64, lambda o: o.deltaNeutralShortSaleSlot),
             ("DeltaNeutralDesignatedLocation", dht.string, lambda o: o.deltaNeutralDesignatedLocation),
             ("ContinuousUpdate", dht.bool_, lambda o: o.continuousUpdate),
-            ("ReferencePriceType", dht.string, lambda o: _map_values(o.referencePriceType, reference_price_type)),
+            ("ReferencePriceType", dht.string, lambda o: map_values(o.referencePriceType, reference_price_type)),
 
             # COMBO ORDERS ONLY
             ("BasisPoints", dht.float64, lambda o: o.basisPoints),
@@ -211,7 +178,7 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("ScaleTable", dht.string, lambda o: o.scaleTable),
 
             # HEDGE ORDERS
-            ("HedgeType", dht.string, lambda o: _map_values(o.hedgeType, hedge_type)),
+            ("HedgeType", dht.string, lambda o: map_values(o.hedgeType, hedge_type)),
             ("HedgeParam", dht.string, lambda o: o.hedgeParam),
 
             # Clearing info
@@ -223,8 +190,8 @@ class IbOrderLogger(IbComplexTypeLogger):
             # ALGO ORDERS ONLY
             ("AlgoStrategy", dht.string, lambda o: o.algoStrategy),
 
-            ("AlgoParams", dht.stringset, lambda o: _to_string_set(o.algoParams)),
-            ("SmartComboRoutingParams", dht.stringset, lambda o: _to_string_set(o.smartComboRoutingParams)),
+            ("AlgoParams", dht.stringset, lambda o: to_string_set(o.algoParams)),
+            ("SmartComboRoutingParams", dht.stringset, lambda o: to_string_set(o.smartComboRoutingParams)),
 
             ("AlgoId", dht.string, lambda o: o.algoId),
 
@@ -240,9 +207,9 @@ class IbOrderLogger(IbComplexTypeLogger):
 
             # order combo legs
 
-            ("OrderComboLegs", dht.stringset, lambda o: _to_string_set(o.orderComboLegs)),
+            ("OrderComboLegs", dht.stringset, lambda o: to_string_set(o.orderComboLegs)),
 
-            ("OrderMiscOptions", dht.stringset, lambda o: _to_string_set(o.orderMiscOptions)),
+            ("OrderMiscOptions", dht.stringset, lambda o: to_string_set(o.orderMiscOptions)),
 
             # VER PEG2BENCH fields:
             ("ReferenceContractId", dht.int64, lambda o: o.referenceContractId),
@@ -259,7 +226,7 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("AdjustableTrailingUnit", dht.int64, lambda o: o.adjustableTrailingUnit),
             ("LmtPriceOffset", dht.float64, lambda o: o.lmtPriceOffset),
 
-            ("Conditions", dht.stringset, lambda o: _to_string_set(o.conditions)),
+            ("Conditions", dht.stringset, lambda o: to_string_set(o.conditions)),
             ("ConditionsCancelOrder", dht.bool_, lambda o: o.conditionsCancelOrder),
             ("ConditionsIgnoreRth", dht.bool_, lambda o: o.conditionsIgnoreRth),
 
@@ -292,7 +259,7 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("UsePriceMgmtAlgo", dht.bool_, lambda o: o.usePriceMgmtAlgo),
 
             # soft dollars
-            ("SoftDollarTier", dht.string, lambda o: _to_string_val(o.softDollarTier)),
+            ("SoftDollarTier", dht.string, lambda o: to_string_val(o.softDollarTier)),
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
@@ -443,7 +410,7 @@ class IbContractDetailsLogger(IbComplexTypeLogger):
             ("UnderSymbol", dht.string, lambda cd: cd.underSymbol),
             ("UnderSecType", dht.string, lambda cd: cd.underSecType),
             ("MarketRuleIds", dht.string, lambda cd: cd.marketRuleIds),
-            ("SecIdList", dht.stringset, lambda cd: _to_string_set(cd.secIdList)),  # TODO: right type?
+            ("SecIdList", dht.stringset, lambda cd: to_string_set(cd.secIdList)),  # TODO: right type?
             ("RealExpirationDate", dht.string, lambda cd: cd.realExpirationDate),
             ("LastTradeTime", dht.string, lambda cd: cd.lastTradeTime),
             ("StockType", dht.string, lambda cd: cd.stockType),

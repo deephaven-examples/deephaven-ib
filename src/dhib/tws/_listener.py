@@ -1,6 +1,8 @@
 import logging
 
+# noinspection PyPep8Naming
 from deephaven import DynamicTableWriter, Types as dht
+from ibapi import errors
 from ibapi import news
 from ibapi.commission_report import CommissionReport
 from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData, TickAttribLast, \
@@ -13,11 +15,11 @@ from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
-from ._client import _IbClient
+from ._client import IbClient
 from ._ibtypelogger import IbContractLogger, IbContractDetailsLogger, IbOrderLogger, IbOrderStateLogger, \
     IbTickAttribLogger, IbBarDataLogger, \
     IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, IbFamilyCodeLogger, IbPriceIncrementLogger, \
-    _map_values, _to_string_set
+    map_values, to_string_set
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
 logging.basicConfig(level=logging.DEBUG)
@@ -33,10 +35,14 @@ _ib_hist_tick_bid_ask_logger = IbHistoricalTickBidAskLogger()
 _ib_family_code_logger = IbFamilyCodeLogger()
 _ib_price_increment_logger = IbPriceIncrementLogger()
 
+_error_code_map = {e.code(): e.msg() for e in dir(errors) if isinstance(e, errors.CodeMsgPair)}
+
+
 # TODO: map string "" to None
 # TODO: parse time strings
 
 # TODO: no users need to see this
+# noinspection PyPep8Naming
 class _IbListener(EWrapper):
     """Listener for data from IB."""
 
@@ -44,6 +50,12 @@ class _IbListener(EWrapper):
         EWrapper.__init__(self)
         self._client = None
         self._registered_contracts = None
+
+        self.error = DynamicTableWriter(
+            ["RequestId", "ErrorCode", "ErrorDescription", "Error"],
+            [dht.int64, dht.int64, dht.string, dht.string])
+
+
         self.account_value = DynamicTableWriter(["Account", "Currency", "Key", "Value"],
                                                 [dht.string, dht.string, dht.string, dht.string])
         self.contract_details = DynamicTableWriter(
@@ -171,8 +183,7 @@ class _IbListener(EWrapper):
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
             [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
 
-
-    def connect(self, client: _IbClient):
+    def connect(self, client: IbClient):
         self._client = client
         self._registered_contracts = set()
 
@@ -232,13 +243,21 @@ class _IbListener(EWrapper):
             req_id = next_unique_id()
             self._client.reqContractDetails(reqId=req_id, contract=contract)
 
+    ####
+    # Always present
+    ####
+
+    def error(self, reqId: TickerId, errorCode: int, errorString: str):
+        EWrapper.error(self, reqId, errorCode, errorString)
+        self.error.logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
+
 
     ####
     # reqManagedAccts
     ####
 
     def managedAccounts(self, accountsList: str):
-        EWrapper.managedAccounts(accountsList)
+        EWrapper.managedAccounts(self, accountsList)
 
         for account in accountsList.split(","):
             self._client.reqAccountUpdates(subscribe=True, acctCode=account)
@@ -248,14 +267,14 @@ class _IbListener(EWrapper):
     ####
 
     def updateAccountValue(self, key: str, val: str, currency: str, accountName: str):
-        EWrapper.updateAccountValue(key, val, currency, accountName)
+        EWrapper.updateAccountValue(self, key, val, currency, accountName)
         self.account_value.logRow(accountName, currency, key, val)
 
     def updatePortfolio(self, contract: Contract, position: float,
                         marketPrice: float, marketValue: float,
                         averageCost: float, unrealizedPNL: float,
                         realizedPNL: float, accountName: str):
-        EWrapper.updatePortfolio(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
+        EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
                                  realizedPNL, accountName)
         self.portfolio.logRow(accountName, *_ib_contract_logger.vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
@@ -266,7 +285,7 @@ class _IbListener(EWrapper):
     ####
 
     def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
-        EWrapper.accountSummary(reqId, account, tag, value, currency)
+        EWrapper.accountSummary(self, reqId, account, tag, value, currency)
         self.account_summary.logRow(reqId, account, tag, value, currency)
 
     ####
@@ -274,7 +293,7 @@ class _IbListener(EWrapper):
     ####
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
-        EWrapper.position(account, contract, position, avgCost)
+        EWrapper.position(self, account, contract, position, avgCost)
         self.positions.logRow(account, *_ib_contract_logger.vals(contract), position, avgCost)
         self.request_contract_details(contract)
 
@@ -283,8 +302,9 @@ class _IbListener(EWrapper):
     ####
 
     def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
-        EWrapper.updateNewsBulletin(msgId, msgType, newsMessage, originExch)
+        EWrapper.updateNewsBulletin(self, msgId, msgType, newsMessage, originExch)
 
+        # TODO: Clean up with better mapping
         if msgType == news.NEWS_MSG:
             mtype = "NEWS"
         elif msgType == news.EXCHANGE_AVAIL_MSG:
@@ -301,7 +321,7 @@ class _IbListener(EWrapper):
     ####
 
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
-        EWrapper.execDetails(reqId, contract, execution)
+        EWrapper.execDetails(self, reqId, contract, execution)
         self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *_ib_contract_logger.vals(contract),
                                  execution.exchange, execution.side, execution.shares, execution.price,
                                  execution.cumQty, execution.avgPrice, execution.liquidation,
@@ -312,10 +332,10 @@ class _IbListener(EWrapper):
 
     def execDetailsEnd(self, reqId: int):
         # do not need to implement
-        EWrapper.execDetailsEnd(reqId)
+        EWrapper.execDetailsEnd(self, reqId)
 
     def commissionReport(self, commissionReport: CommissionReport):
-        EWrapper.commissionReport(commissionReport)
+        EWrapper.commissionReport(self, commissionReport)
         self.commission_report.logRow(commissionReport.execId, commissionReport.currency, commissionReport.commission,
                                       commissionReport.realizedPNL, commissionReport.yield_,
                                       commissionReport.yieldRedemptionDate)
@@ -325,7 +345,7 @@ class _IbListener(EWrapper):
     ####
 
     def newsProviders(self, newsProviders: ListOfNewsProviders):
-        EWrapper.newsProviders(newsProviders)
+        EWrapper.newsProviders(self, newsProviders)
 
         for provider in newsProviders:
             self.news_providers.logRow(provider)
@@ -335,14 +355,14 @@ class _IbListener(EWrapper):
     ####
 
     def completedOrder(self, contract: Contract, order: Order, orderState: OrderState):
-        EWrapper.completedOrder(contract, order, orderState)
+        EWrapper.completedOrder(self, contract, order, orderState)
         self.orders_completed.logRow(*_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
                                      *_ib_order_state_logger.vals(orderState))
         self.request_contract_details(contract)
 
     def completedOrdersEnd(self):
         # do not ned to implement
-        EWrapper.completedOrdersEnd()
+        EWrapper.completedOrdersEnd(self)
 
     ####
     # reqAllOpenOrders
@@ -352,27 +372,27 @@ class _IbListener(EWrapper):
                     remaining: float, avgFillPrice: float, permId: int,
                     parentId: int, lastFillPrice: float, clientId: int,
                     whyHeld: str, mktCapPrice: float):
-        EWrapper.orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
+        EWrapper.orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
                              clientId, whyHeld, mktCapPrice)
         self.orders_status.logRow(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
                                   clientId, whyHeld, mktCapPrice)
 
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
-        EWrapper.openOrder(orderId, contract, order, orderState)
+        EWrapper.openOrder(self, orderId, contract, order, orderState)
         self.orders_open.logRow(orderId, *_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
                                 *_ib_order_state_logger.vals(orderState))
         self.request_contract_details(contract)
 
     def openOrderEnd(self):
         # do not ned to implement
-        EWrapper.openOrderEnd()
+        EWrapper.openOrderEnd(self)
 
     ####
     # reqHistoricalNews
     ####
 
     def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
-        EWrapper.historicalNews(requestId, time, providerCode, articleId, headline)
+        EWrapper.historicalNews(self, requestId, time, providerCode, articleId, headline)
         self.news_historical.logRow(requestId, time, providerCode, articleId, headline)
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
@@ -384,8 +404,8 @@ class _IbListener(EWrapper):
     ####
 
     def newsArticle(self, requestId: int, articleType: int, articleText: str):
-        EWrapper.newsArticle(requestId, articleType, articleText)
-        at = _map_values(articleType, {0: "Plain_Text_Or_Html", 1: "Binary_Data_Or_Pdf"})
+        EWrapper.newsArticle(self, requestId, articleType, articleText)
+        at = map_values(articleType, {0: "Plain_Text_Or_Html", 1: "Binary_Data_Or_Pdf"})
         self.news_article.logRow(requestId, at, articleText)
 
     ####
@@ -393,20 +413,20 @@ class _IbListener(EWrapper):
     ####
 
     def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
-        EWrapper.tickPrice(reqId, tickType, price, attrib)
+        EWrapper.tickPrice(self, reqId, tickType, price, attrib)
 
         self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, price, *_ib_tick_attrib_logger.vals(attrib))
 
         # TODO: need to relate request to security ***
 
     def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
-        EWrapper.tickSize(reqId, tickType, size)
+        EWrapper.tickSize(self, reqId, tickType, size)
         self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, size)
 
         # TODO: need to relate request to security ***
 
     def tickString(self, reqId: TickerId, tickType: TickType, value: str):
-        EWrapper.tickString(reqId, tickType, value)
+        EWrapper.tickString(self, reqId, tickType, value)
         self.tick_string.logRow(reqId, TickTypeEnum(tickType).name, value)
 
         # TODO: need to relate request to security ***
@@ -415,30 +435,30 @@ class _IbListener(EWrapper):
                 formattedBasisPoints: str, totalDividends: float,
                 holdDays: int, futureLastTradeDate: str, dividendImpact: float,
                 dividendsToLastTradeDate: float):
-        EWrapper.tickEFP(reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
+        EWrapper.tickEFP(self, reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
                          futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
         self.tick_efp.logRow(reqId, TickTypeEnum(tickType).name, basisPoints, formattedBasisPoints, totalDividends,
                              holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
         # TODO: need to relate request to security ***
 
     def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
-        EWrapper.tickGeneric(reqId, tickType, value)
+        EWrapper.tickGeneric(self, reqId, tickType, value)
         self.tick_generic.logRow(reqId, TickTypeEnum(tickType).name, value)
         # TODO: need to relate request to security ***
 
     def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
                               impliedVol: float, delta: float, optPrice: float, pvDividend: float,
                               gamma: float, vega: float, theta: float, undPrice: float):
-        EWrapper.tickOptionComputation(reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma,
+        EWrapper.tickOptionComputation(self, reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma,
                                        vega, theta, undPrice)
-        ta = _map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
+        ta = map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
         self.tick_option_computation.logRow(reqId, TickTypeEnum(tickType).name, ta, impliedVol, delta, optPrice,
                                             pvDividend, gamma, vega, theta, undPrice)
         # TODO: need to relate request to security ***
 
     def tickSnapshotEnd(self, reqId: int):
         # do not ned to implement
-        EWrapper.tickSnapshotEnd(reqId)
+        EWrapper.tickSnapshotEnd(self, reqId)
 
     ####
     # reqHistoricalData
@@ -451,7 +471,7 @@ class _IbListener(EWrapper):
 
     def historicalDataEnd(self, reqId: int, start: str, end: str):
         # do not ned to implement
-        EWrapper.historicalDataEnd(reqId, start, end)
+        EWrapper.historicalDataEnd(self, reqId, start, end)
 
     ####
     # reqRealTimeBars
@@ -523,7 +543,7 @@ class _IbListener(EWrapper):
     ####
 
     def familyCodes(self, familyCodes: ListOfFamilyCode):
-        EWrapper.familyCodes(familyCodes)
+        EWrapper.familyCodes(self, familyCodes)
 
         for fc in familyCodes:
             self.family_codes.logRow(*_ib_family_code_logger.vals(fc))
@@ -537,7 +557,7 @@ class _IbListener(EWrapper):
 
         for cd in contractDescriptions:
             self.matching_symbols.logRow(reqId, *_ib_contract_logger.vals(cd.contract),
-                                         _to_string_set(cd.derivativeSecTypes))
+                                         to_string_set(cd.derivativeSecTypes))
             self.request_contract_details(cd.contract)
 
     ####
