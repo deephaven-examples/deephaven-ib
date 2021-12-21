@@ -5,8 +5,8 @@ from ibapi import news
 from ibapi.commission_report import CommissionReport
 from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData, TickAttribLast, \
     ListOfHistoricalTickLast, TickAttribBidAsk, ListOfHistoricalTickBidAsk, ListOfHistoricalTick, HistoricalTickBidAsk, \
-    HistoricalTickLast, ListOfFamilyCode, ListOfContractDescription
-from ibapi.contract import Contract
+    HistoricalTickLast, ListOfFamilyCode, ListOfContractDescription, ListOfPriceIncrements
+from ibapi.contract import Contract, ContractDetails
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
 from ibapi.order_state import OrderState
@@ -14,7 +14,8 @@ from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
-from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, IbBarDataLogger, \
+from ._ibtypelogger import IbContractLogger, IbContractDetailsLogger, IbOrderLogger, IbOrderStateLogger, \
+    IbTickAttribLogger, IbBarDataLogger, \
     IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, IbFamilyCodeLogger, IbPriceIncrementLogger, \
     _map_values, _to_string_set
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
@@ -22,6 +23,7 @@ from ..utils import next_unique_id, unix_sec_to_dh_datetime
 logging.basicConfig(level=logging.DEBUG)
 
 _ib_contract_logger = IbContractLogger()
+_ib_contract_details_logger = IbContractDetailsLogger()
 _ib_order_logger = IbOrderLogger()
 _ib_order_state_logger = IbOrderStateLogger()
 _ib_tick_attrib_logger = IbTickAttribLogger()
@@ -41,8 +43,13 @@ class _IbListener(EWrapper):
     def __init__(self):
         EWrapper.__init__(self)
         self._client = None
+        self._registered_contracts = None
         self.account_value = DynamicTableWriter(["Account", "Currency", "Key", "Value"],
                                                 [dht.string, dht.string, dht.string, dht.string])
+        self.contract_details = DynamicTableWriter(
+            ["RequestId", *_ib_contract_details_logger.names()],
+            [dht.int64, *_ib_contract_details_logger.types()])
+
         self.portfolio = DynamicTableWriter(
             ["Account", *_ib_contract_logger.names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
              "UnrealizedPnl", "RealizedPnl"],
@@ -167,6 +174,7 @@ class _IbListener(EWrapper):
 
     def connect(self, client: _IbClient):
         self._client = client
+        self._registered_contracts = set()
 
         client.reqManagedAccts()
 
@@ -217,6 +225,12 @@ class _IbListener(EWrapper):
     def disconnect(self):
         self._client = None
 
+    def request_contract_details(self, contract: Contract):
+        # TODO: Is checking to see if a contract is in the set sufficient to see if it has been registered?
+
+        if contract not in self._registered_contracts:
+            req_id = next_unique_id()
+            self._client.reqContractDetails(reqId=req_id, contract=contract)
 
 
     ####
@@ -245,6 +259,7 @@ class _IbListener(EWrapper):
                                  realizedPNL, accountName)
         self.portfolio.logRow(accountName, *_ib_contract_logger.vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
+        self.request_contract_details(contract)
 
     ####
     # reqAccountSummary
@@ -261,6 +276,7 @@ class _IbListener(EWrapper):
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(account, contract, position, avgCost)
         self.positions.logRow(account, *_ib_contract_logger.vals(contract), position, avgCost)
+        self.request_contract_details(contract)
 
     ####
     # reqNewsBulletins
@@ -292,6 +308,7 @@ class _IbListener(EWrapper):
                                  execution.evRule, execution.evMultiplier, execution.modelCode, execution.lastLiquidity,
                                  execution.execId, execution.permId, execution.clientId, execution.orderId,
                                  execution.orderRef)
+        self.request_contract_details(contract)
 
     def execDetailsEnd(self, reqId: int):
         # do not need to implement
@@ -321,6 +338,7 @@ class _IbListener(EWrapper):
         EWrapper.completedOrder(contract, order, orderState)
         self.orders_completed.logRow(*_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
                                      *_ib_order_state_logger.vals(orderState))
+        self.request_contract_details(contract)
 
     def completedOrdersEnd(self):
         # do not ned to implement
@@ -343,6 +361,7 @@ class _IbListener(EWrapper):
         EWrapper.openOrder(orderId, contract, order, orderState)
         self.orders_open.logRow(orderId, *_ib_contract_logger.vals(contract), *_ib_order_logger.vals(order),
                                 *_ib_order_state_logger.vals(orderState))
+        self.request_contract_details(contract)
 
     def openOrderEnd(self):
         # do not ned to implement
@@ -519,6 +538,7 @@ class _IbListener(EWrapper):
         for cd in contractDescriptions:
             self.matching_symbols.logRow(reqId, *_ib_contract_logger.vals(cd.contract),
                                          _to_string_set(cd.derivativeSecTypes))
+            self.request_contract_details(cd.contract)
 
     ####
     # reqMarketRule
@@ -538,3 +558,21 @@ class _IbListener(EWrapper):
         EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
         self.pnl.logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
         # TODO: need to be able to associate an account with the request id and data.
+
+    ####
+    # reqContractDetails
+    ####
+
+    def contractDetails(self, reqId: int, contractDetails: ContractDetails):
+        EWrapper.contractDetails(self, reqId, contractDetails)
+        self.contract_details.logRow(reqId, *_ib_contract_details_logger.vals(contractDetails))
+        self._registered_contracts.add(contractDetails.contract)
+
+    def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
+        EWrapper.bondContractDetails(self, reqId, contractDetails)
+        self.contract_details.logRow(reqId, *_ib_contract_details_logger.vals(contractDetails))
+        self._registered_contracts.add(contractDetails.contract)
+
+    def contractDetailsEnd(self, reqId: int):
+        # do not ned to implement
+        EWrapper.contractDetailsEnd(self, reqId)

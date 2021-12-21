@@ -353,6 +353,7 @@ class IbSessionTws:
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return req_id
 
+    # TODO request by default when pull accounts?
     def request_pnl(self, account: str = "All", model_code: str = "") -> int:
         """Request PNL updates.
 
@@ -364,6 +365,9 @@ class IbSessionTws:
         self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return req_id
 
+    # TODO: *** add contract details requests in this file ***
+
+    #TODO: placeOrder, cancelOrder, reqGlobalCancel
 
     # TODO: subscribe to price increment market rules
     # *** explicit request marketRule or from contract details??? (marketRuleIds)
@@ -371,13 +375,11 @@ class IbSessionTws:
 
     #### To do ######
 
-    #     self._client.reqContractDetails() -> for a particular contract
-
     #     self._client.reqIds() --> get next valid id for placing orders
 
     ### Don't Do vvvvvvv
 
-    #     self._client.reqPositionsMulti() --> req positions by account and model (needed?)
+    #     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
+
 
     #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
-    #     self._client.reqFundamentalData() (deprecated)

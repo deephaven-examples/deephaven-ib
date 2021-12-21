@@ -274,7 +274,7 @@ class IbOrderLogger(IbComplexTypeLogger):
             ("Mifid2ExecutionTrader", dht.string, lambda o: o.mifid2ExecutionTrader),
             ("Mifid2ExecutionAlgo", dht.string, lambda o: o.mifid2ExecutionAlgo),
 
-            ("Don'tUseAutoPriceForHedge", dht.bool_, lambda o: o.dontUseAutoPriceForHedge),
+            ("DontUseAutoPriceForHedge", dht.bool_, lambda o: o.dontUseAutoPriceForHedge),
 
             ("IsOmsContainer", dht.bool_, lambda o: o.isOmsContainer),
 
@@ -414,3 +414,55 @@ class IbPriceIncrementLogger(IbComplexTypeLogger):
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbContractDetailsLogger(IbComplexTypeLogger):
+    """Logging for ContractDetails."""
+
+    def __init__(self):
+        contract_details = [
+            (** * contractstuff ** * cd.contract),
+            ("MarketName", dht.string, lambda cd: cd.marketName),
+            ("MinTick", dht.float64, lambda cd: cd.minTick),
+            ("OrderTypes", dht.string, lambda cd: cd.orderTypes),
+            ("ValidExchanges", dht.string, lambda cd: cd.validExchanges),
+            ("PriceMagnifier", dht.int64, lambda cd: cd.priceMagnifier),
+            ("UnderConId", dht.int64, lambda cd: cd.underConId),
+            ("LongName", dht.string, lambda cd: cd.longName),
+            ("ContractMonth", dht.string, lambda cd: cd.contractMonth),
+            ("Industry", dht.string, lambda cd: cd.industry),
+            ("Category", dht.string, lambda cd: cd.category),
+            ("SubCategory", dht.string, lambda cd: cd.subcategory),
+            ("TimeZoneId", dht.string, lambda cd: cd.timeZoneId),
+            ("TradingHours", dht.string, lambda cd: cd.tradingHours),
+            ("LiquidHours", dht.string, lambda cd: cd.liquidHours),
+            ("EvRule", dht.string, lambda cd: cd.evRule),
+            ("EvMultiplier", dht.int64, lambda cd: cd.evMultiplier),
+            ("MdSizeMultiplier", dht.int64, lambda cd: cd.mdSizeMultiplier),
+            ("AggGroup", dht.int64, lambda cd: cd.aggGroup),  # TODO: map?
+            ("UnderSymbol", dht.string, lambda cd: cd.underSymbol),
+            ("UnderSecType", dht.string, lambda cd: cd.underSecType),
+            ("MarketRuleIds", dht.string, lambda cd: cd.marketRuleIds),
+            ("SecIdList", dht.stringset, lambda cd: _to_string_set(cd.secIdList)),  # TODO: right type?
+            ("RealExpirationDate", dht.string, lambda cd: cd.realExpirationDate),
+            ("LastTradeTime", dht.string, lambda cd: cd.lastTradeTime),
+            ("StockType", dht.string, lambda cd: cd.stockType),
+            # BOND values
+            ("CUSIP", dht.string, lambda cd: cd.cusip),
+            ("Ratings", dht.string, lambda cd: cd.ratings),
+            ("DescAppend", dht.string, lambda cd: cd.descAppend),
+            ("BondType", dht.string, lambda cd: cd.bondType),
+            ("CouponType", dht.string, lambda cd: cd.couponType),
+            ("Callable", dht.bool_, lambda cd: cd.callable),
+            ("Putable", dht.bool_, lambda cd: cd.putable),
+            ("Coupon", dht.int64, lambda cd: cd.coupon),
+            ("Convertible", dht.bool_, lambda cd: cd.convertible),
+            ("Maturity", dht.string, lambda cd: cd.maturity),  # TODO: convert date time?
+            ("IssueDate", dht.string, lambda cd: cd.issueDate),  # TODO: convert date time?
+            ("NextOptionDate", dht.string, lambda cd: cd.nextOptionDate),  # TODO: convert date time?
+            ("NextOptionType", dht.string, lambda cd: cd.nextOptionType),
+            ("NextOptionPartial", dht.bool_, lambda cd: cd.nextOptionPartial),
+            ("Notes", dht.string, lambda cd: cd.notes),
+        ]
+
+        IbComplexTypeLogger.__init__(self, contract_details)
