@@ -1,4 +1,5 @@
 import logging
+from typing import Dict
 
 # noinspection PyPep8Naming
 from deephaven import DynamicTableWriter, Types as dht
@@ -16,9 +17,7 @@ from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
 from ._client import IbClient
-from ._ibtypelogger import logger_contract, logger_contract_details, logger_order, logger_order_state, \
-    logger_tick_attrib, logger_bar_data, logger_hist_tick_last, logger_hist_tick_bid_ask, logger_family_code, \
-    logger_price_increment
+from ._ibtypelogger import *
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
 logging.basicConfig(level=logging.DEBUG)
@@ -38,29 +37,57 @@ class _IbListener(EWrapper):
         EWrapper.__init__(self)
         self._client = None
         self._registered_contracts = None
+        self._table_writers = _IbListener._build_table_writers()
 
-        self.error = DynamicTableWriter(
+    @staticmethod
+    def _build_table_writers() -> Dict[str,Any]:
+        table_writers = {}
+
+        # General
+
+        table_writers["error"] = DynamicTableWriter(
             ["RequestId", "ErrorCode", "ErrorDescription", "Error"],
             [dht.int64, dht.int64, dht.string, dht.string])
 
+        # Contracts
 
-        self.account_value = DynamicTableWriter(["Account", "Currency", "Key", "Value"],
-                                                [dht.string, dht.string, dht.string, dht.string])
-        self.contract_details = DynamicTableWriter(
+        table_writers["contract_details"] = DynamicTableWriter(
             ["RequestId", *logger_contract_details.names()],
             [dht.int64, *logger_contract_details.types()])
 
-        self.portfolio = DynamicTableWriter(
+        #TODO: rename
+        table_writers["matching_symbols"] = DynamicTableWriter(
+            ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
+            [dht.int64, *logger_contract.types(), dht.string])
+
+        # Accounts
+
+        table_writers["managed_accounts"] = DynamicTableWriter(["Account"], [dht.string])
+
+        table_writers["account_value"] = DynamicTableWriter(["Account", "Currency", "Key", "Value"],
+                                                [dht.string, dht.string, dht.string, dht.string])
+
+        table_writers["portfolio"] = DynamicTableWriter(
             ["Account", *logger_contract.names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
              "UnrealizedPnl", "RealizedPnl"],
             [dht.string, *logger_contract.types(), dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64])
 
-        self.account_summary = DynamicTableWriter(["ReqId", "Account", "Tag", "Value", "Currency"],
+        table_writers["account_summary"] = DynamicTableWriter(["ReqId", "Account", "Tag", "Value", "Currency"],
                                                   [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
-        self.positions = DynamicTableWriter(["Account", *logger_contract.names(), "Position", "AvgCost"],
+        table_writers["positions"] = DynamicTableWriter(["Account", *logger_contract.names(), "Position", "AvgCost"],
                                             [dht.string, *logger_contract.types(), dht.float64, dht.float64])
+
+
+
+
+
+        #?????
+
+
+
+
 
         self.news_bulletins = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
                                                  [dht.int64, dht.string, dht.string, dht.string])
@@ -159,9 +186,6 @@ class _IbListener(EWrapper):
             [*logger_family_code.names()],
             [*logger_family_code.types()])
 
-        self.matching_symbols = DynamicTableWriter(
-            ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
-            [dht.int64, *logger_contract.types(), dht.string])
 
         self.price_increment = DynamicTableWriter(
             ["MarketRuleId", *logger_price_increment.names()],
@@ -170,6 +194,9 @@ class _IbListener(EWrapper):
         self.pnl = DynamicTableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
             [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
+
+        return table_writers
+
 
     def connect(self, client: IbClient):
         self._client = client
@@ -231,14 +258,62 @@ class _IbListener(EWrapper):
             req_id = next_unique_id()
             self._client.reqContractDetails(reqId=req_id, contract=contract)
 
+    ####################################################################################################################
+    ####################################################################################################################
+    ## General
+    ####################################################################################################################
+    ####################################################################################################################
+
+
     ####
     # Always present
     ####
 
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
         EWrapper.error(self, reqId, errorCode, errorString)
-        self.error.logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
+        self._table_writers["error"].logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
 
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Contracts
+    ####################################################################################################################
+    ####################################################################################################################
+
+    ####
+    # reqContractDetails
+    ####
+
+    def contractDetails(self, reqId: int, contractDetails: ContractDetails):
+        EWrapper.contractDetails(self, reqId, contractDetails)
+        self._table_writers["contract_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
+        self._registered_contracts.add(contractDetails.contract)
+
+    def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
+        EWrapper.bondContractDetails(self, reqId, contractDetails)
+        self._table_writers["contract_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
+        self._registered_contracts.add(contractDetails.contract)
+
+    def contractDetailsEnd(self, reqId: int):
+        # do not ned to implement
+        EWrapper.contractDetailsEnd(self, reqId)
+
+    ####
+    # reqMatchingSymbols
+    ####
+
+    def symbolSamples(self, reqId: int, contractDescriptions: ListOfContractDescription):
+        EWrapper.symbolSamples(self, reqId, contractDescriptions)
+
+        for cd in contractDescriptions:
+            self._table_writers["matching_symbols"].logRow(reqId, *logger_contract.vals(cd.contract), to_string_set(cd.derivativeSecTypes))
+            self.request_contract_details(cd.contract)
+
+
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Accounts
+    ####################################################################################################################
+    ####################################################################################################################
 
     ####
     # reqManagedAccts
@@ -248,6 +323,7 @@ class _IbListener(EWrapper):
         EWrapper.managedAccounts(self, accountsList)
 
         for account in accountsList.split(","):
+            self._table_writers["managed_accounts"].logRow(account)
             self._client.reqAccountUpdates(subscribe=True, acctCode=account)
 
     ####
@@ -256,7 +332,7 @@ class _IbListener(EWrapper):
 
     def updateAccountValue(self, key: str, val: str, currency: str, accountName: str):
         EWrapper.updateAccountValue(self, key, val, currency, accountName)
-        self.account_value.logRow(accountName, currency, key, val)
+        self._table_writers["account_value"].logRow(accountName, currency, key, val)
 
     def updatePortfolio(self, contract: Contract, position: float,
                         marketPrice: float, marketValue: float,
@@ -264,7 +340,7 @@ class _IbListener(EWrapper):
                         realizedPNL: float, accountName: str):
         EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
                                  realizedPNL, accountName)
-        self.portfolio.logRow(accountName, *logger_contract.vals(contract), position, marketPrice, marketValue,
+        self._table_writers["portfolio"].logRow(accountName, *logger_contract.vals(contract), position, marketPrice, marketValue,
                               averageCost, unrealizedPNL, realizedPNL)
         self.request_contract_details(contract)
 
@@ -274,7 +350,7 @@ class _IbListener(EWrapper):
 
     def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
         EWrapper.accountSummary(self, reqId, account, tag, value, currency)
-        self.account_summary.logRow(reqId, account, tag, value, currency)
+        self._table_writers["account_summary"].logRow(reqId, account, tag, value, currency)
 
     ####
     # reqPositions
@@ -282,8 +358,16 @@ class _IbListener(EWrapper):
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(self, account, contract, position, avgCost)
-        self.positions.logRow(account, *logger_contract.vals(contract), position, avgCost)
+        self._table_writers["positions"].logRow(account, *logger_contract.vals(contract), position, avgCost)
         self.request_contract_details(contract)
+
+
+
+    #????
+
+
+
+
 
     ####
     # reqNewsBulletins
@@ -537,18 +621,6 @@ class _IbListener(EWrapper):
             self.family_codes.logRow(*logger_family_code.vals(fc))
 
     ####
-    # reqMatchingSymbols
-    ####
-
-    def symbolSamples(self, reqId: int, contractDescriptions: ListOfContractDescription):
-        EWrapper.symbolSamples(self, reqId, contractDescriptions)
-
-        for cd in contractDescriptions:
-            self.matching_symbols.logRow(reqId, *logger_contract.vals(cd.contract),
-                                         to_string_set(cd.derivativeSecTypes))
-            self.request_contract_details(cd.contract)
-
-    ####
     # reqMarketRule
     ####
 
@@ -567,20 +639,3 @@ class _IbListener(EWrapper):
         self.pnl.logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
         # TODO: need to be able to associate an account with the request id and data.
 
-    ####
-    # reqContractDetails
-    ####
-
-    def contractDetails(self, reqId: int, contractDetails: ContractDetails):
-        EWrapper.contractDetails(self, reqId, contractDetails)
-        self.contract_details.logRow(reqId, *logger_contract_details.vals(contractDetails))
-        self._registered_contracts.add(contractDetails.contract)
-
-    def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
-        EWrapper.bondContractDetails(self, reqId, contractDetails)
-        self.contract_details.logRow(reqId, *logger_contract_details.vals(contractDetails))
-        self._registered_contracts.add(contractDetails.contract)
-
-    def contractDetailsEnd(self, reqId: int):
-        # do not ned to implement
-        EWrapper.contractDetailsEnd(self, reqId)
