@@ -5,7 +5,7 @@ from ibapi import news
 from ibapi.commission_report import CommissionReport
 from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData, TickAttribLast, \
     ListOfHistoricalTickLast, TickAttribBidAsk, ListOfHistoricalTickBidAsk, ListOfHistoricalTick, HistoricalTickBidAsk, \
-    HistoricalTickLast, ListOfFamilyCode
+    HistoricalTickLast, ListOfFamilyCode, ListOfContractDescription
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
@@ -16,7 +16,7 @@ from ibapi.wrapper import EWrapper
 from ._client import _IbClient
 from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, IbBarDataLogger, \
     IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, IbFamilyCodeLogger, \
-    _map_values
+    _map_values, _to_string_set
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
 logging.basicConfig(level=logging.DEBUG)
@@ -150,6 +150,10 @@ class _IbListener(EWrapper):
         self.family_codes = DynamicTableWriter(
             [*_ib_family_code_logger.names()],
             [*_ib_family_code_logger.types()])
+
+        self.matching_symbols = DynamicTableWriter(
+            ["RequestId", *_ib_contract_logger.names(), "DerivativeSecTypes"],
+            [dht.int64, *_ib_contract_logger.types(), dht.string])
 
 
     def connect(self, client: _IbClient):
@@ -495,3 +499,14 @@ class _IbListener(EWrapper):
 
         for fc in familyCodes:
             self.family_codes.logRow(*_ib_family_code_logger.vals(fc))
+
+    ####
+    # reqMatchingSymbols
+    ####
+
+    def symbolSamples(self, reqId: int, contractDescriptions: ListOfContractDescription):
+        EWrapper.symbolSamples(self, reqId, contractDescriptions)
+
+        for cd in contractDescriptions:
+            self.matching_symbols.logRow(reqId, *_ib_contract_logger.vals(cd.contract),
+                                         _to_string_set(cd.derivativeSecTypes))

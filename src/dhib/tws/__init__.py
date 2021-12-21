@@ -340,6 +340,20 @@ class IbSessionTws:
                                         ignoreSize=ignoreSize, miscOptions=[])
         return req_id
 
+    def request_matching_symbols(self, pattern: str) -> int:
+        """Request contracts matching a pattern.
+
+        Args:
+            pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
+
+        Returns:
+            Request ID
+        """
+        req_id = next_unique_id()
+        self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
+        return req_id
+
+
     #### To do ######
 
     #     self._client.reqContractDetails() -> for a particular contract
@@ -348,7 +362,6 @@ class IbSessionTws:
 
     ### Don't Do vvvvvvv
 
-    #     self._client.reqMatchingSymbols() -> search for partial matches for tickers (?)
     #     self._client.reqMarketRule() --> request min ticks (needed?)
     #     self._client.reqPnL() --> daily pnl by account and model code (needed?)
     #     self._client.reqPositionsMulti() --> req positions by account and model (needed?)
