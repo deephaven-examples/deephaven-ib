@@ -91,7 +91,21 @@ class _IbListener(EWrapper):
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
             [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
 
+        # News
 
+        table_writers["news_providers"] = DynamicTableWriter(["Provider"], [dht.string])
+
+
+        table_writers["news_bulletins"] = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
+                                                 [dht.int64, dht.string, dht.string, dht.string])
+
+        table_writers["news_article"] = DynamicTableWriter(
+            ["RequestId", "ArticleType", "ArticleText"],
+            [dht.int64, dht.string, dht.string])
+
+        table_writers["news_historical"] = DynamicTableWriter(
+            ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
+            [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
 
         #?????
@@ -100,8 +114,6 @@ class _IbListener(EWrapper):
 
 
 
-        self.news_bulletins = DynamicTableWriter(["MsgId", "MsgType", "Message", "OriginExch"],
-                                                 [dht.int64, dht.string, dht.string, dht.string])
 
         self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *logger_contract.names(),
                                                 "Exchange", "Side", "Shares", "Price",
@@ -119,7 +131,6 @@ class _IbListener(EWrapper):
             ["ExecId", "Currency", "Commission", "RealizedPnl", "Yield", "YieldRedemptionDate"],
             [dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.int64])
 
-        self.news_providers = DynamicTableWriter(["Provider"], [dht.string])
 
         self.orders_completed = DynamicTableWriter(
             [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
@@ -135,13 +146,6 @@ class _IbListener(EWrapper):
             ["OrderId", *logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
             [dht.int64, *logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
-        self.news_historical = DynamicTableWriter(
-            ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
-            [dht.int64, dht.string, dht.string, dht.string, dht.string])
-
-        self.news_article = DynamicTableWriter(
-            ["RequestId", "ArticleType", "ArticleText"],
-            [dht.int64, dht.string, dht.string])
 
         self.tick_price = DynamicTableWriter(
             ["RequestId", "TickType", "Price", *logger_tick_attrib.names()],
@@ -393,10 +397,21 @@ class _IbListener(EWrapper):
         self.pnl.logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
         # TODO: need to be able to associate an account with the request id and data.
 
-    #????
+    ####################################################################################################################
+    ####################################################################################################################
+    ## News
+    ####################################################################################################################
+    ####################################################################################################################
 
+    ####
+    # reqNewsProviders
+    ####
 
+    def newsProviders(self, newsProviders: ListOfNewsProviders):
+        EWrapper.newsProviders(self, newsProviders)
 
+        for provider in newsProviders:
+            self._table_writers["news_providers"].logRow(provider)
 
 
     ####
@@ -416,7 +431,38 @@ class _IbListener(EWrapper):
         else:
             mtype = f"UNKNOWN({msgType})"
 
-        self.news_bulletins.logRow(msgId, mtype, newsMessage, originExch)
+        self._table_writers["news_bulletins"].logRow(msgId, mtype, newsMessage, originExch)
+
+    ####
+    # reqNewsArticle
+    ####
+
+    def newsArticle(self, requestId: int, articleType: int, articleText: str):
+        EWrapper.newsArticle(self, requestId, articleType, articleText)
+        at = map_values(articleType, {0: "PlainTextOrHtml", 1: "BinaryDataOrPdf"})
+        self._table_writers["news_article"].logRow(requestId, at, articleText)
+
+    ####
+    # reqHistoricalNews
+    ####
+
+    def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
+        EWrapper.historicalNews(self, requestId, time, providerCode, articleId, headline)
+        self._table_writers["news_historical"].logRow(requestId, time, providerCode, articleId, headline)
+
+    def historicalNewsEnd(self, requestId: int, hasMore: bool):
+        # do not need to implement
+        self.historicalNewsEnd(requestId, hasMore)
+
+
+
+    #????
+
+
+
+
+
+
 
     ####
     # reqExecutions
@@ -441,16 +487,6 @@ class _IbListener(EWrapper):
         self.commission_report.logRow(commissionReport.execId, commissionReport.currency, commissionReport.commission,
                                       commissionReport.realizedPNL, commissionReport.yield_,
                                       commissionReport.yieldRedemptionDate)
-
-    ####
-    # reqNewsProviders
-    ####
-
-    def newsProviders(self, newsProviders: ListOfNewsProviders):
-        EWrapper.newsProviders(self, newsProviders)
-
-        for provider in newsProviders:
-            self.news_providers.logRow(provider)
 
     ####
     # reqCompletedOrders
@@ -488,27 +524,6 @@ class _IbListener(EWrapper):
     def openOrderEnd(self):
         # do not ned to implement
         EWrapper.openOrderEnd(self)
-
-    ####
-    # reqHistoricalNews
-    ####
-
-    def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
-        EWrapper.historicalNews(self, requestId, time, providerCode, articleId, headline)
-        self.news_historical.logRow(requestId, time, providerCode, articleId, headline)
-
-    def historicalNewsEnd(self, requestId: int, hasMore: bool):
-        # do not ned to implement
-        self.historicalNewsEnd(requestId, hasMore)
-
-    ####
-    # reqNewsArticle
-    ####
-
-    def newsArticle(self, requestId: int, articleType: int, articleText: str):
-        EWrapper.newsArticle(self, requestId, articleType, articleText)
-        at = map_values(articleType, {0: "Plain_Text_Or_Html", 1: "Binary_Data_Or_Pdf"})
-        self.news_article.logRow(requestId, at, articleText)
 
     ####
     # reqMktData
