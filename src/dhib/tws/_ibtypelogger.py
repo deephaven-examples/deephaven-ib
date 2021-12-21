@@ -258,10 +258,9 @@ logger_hist_tick_bid_ask = IbComplexTypeLogger("HistoricalTickBidAsk", _details_
 def _details_order() -> List[Tuple]:
     """ Details for logging Orders. """
 
-    # TODO: are these defined in the code anywhere?
-    oca_types = {1: "CancelL_With_Block", 2: "Reduce_With_Block", 3: "Reduce_Non_Block"}
-    trigger_methods = {0: "Default", 1: "Double_Bid_Ask", 2: "Last", 3: "Double_Last", 4: "Bid_Ask",
-                       7: "Last_or_Bid_Ask", 8: "Mid-point"}
+    oca_types = {1: "CancelWithBlock", 2: "ReduceWithBlock", 3: "ReduceNonBlock"}
+    trigger_methods = {0: "Default", 1: "DoubleBidAsk", 2: "Last", 3: "DoubleLast", 4: "BidAsk",
+                       7: "LastOrBidAsk", 8: "MidPoint"}
     rule80_values = {"I": "Individual", "A": "Agency", "W": "AgentOtherMember", "J": "IndividualPTIA",
                      "U": "AgencyPTIA", "M": "AgentOtherMemberPTIA", "K": "IndividualPT", "Y": "AgencyPT",
                      "N": "AgentOtherMemberPT"}
@@ -497,6 +496,4 @@ def _details_order_state() -> List[Tuple]:
 
 logger_order_state = IbComplexTypeLogger("OrderState", _details_order_state())
 
-####
-####
 ####
