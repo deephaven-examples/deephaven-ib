@@ -349,9 +349,9 @@ class IbSessionTws:
     ### Don't Do vvvvvvv
 
     #     self._client.reqMatchingSymbols() -> search for partial matches for tickers (?)
-    #     self._client.reqFamilyCodes() --> doesn't look important
     #     self._client.reqMarketRule() --> request min ticks (needed?)
-    #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
     #     self._client.reqPnL() --> daily pnl by account and model code (needed?)
     #     self._client.reqPositionsMulti() --> req positions by account and model (needed?)
+
+    #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
     #     self._client.reqFundamentalData() (deprecated)

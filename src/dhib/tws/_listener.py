@@ -5,7 +5,7 @@ from ibapi import news
 from ibapi.commission_report import CommissionReport
 from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData, TickAttribLast, \
     ListOfHistoricalTickLast, TickAttribBidAsk, ListOfHistoricalTickBidAsk, ListOfHistoricalTick, HistoricalTickBidAsk, \
-    HistoricalTickLast
+    HistoricalTickLast, ListOfFamilyCode
 from ibapi.contract import Contract
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
@@ -15,7 +15,7 @@ from ibapi.wrapper import EWrapper
 
 from ._client import _IbClient
 from ._ibtypelogger import IbContractLogger, IbOrderLogger, IbOrderStateLogger, IbTickAttribLogger, IbBarDataLogger, \
-    IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, \
+    IbHistoricalTickLastLogger, IbHistoricalTickBidAskLogger, IbFamilyCodeLogger, \
     _map_values
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
@@ -28,6 +28,7 @@ _ib_tick_attrib_logger = IbTickAttribLogger()
 _ib_bar_data_logger = IbBarDataLogger()
 _ib_hist_tick_last_logger = IbHistoricalTickLastLogger()
 _ib_hist_tick_bid_ask_logger = IbHistoricalTickBidAskLogger()
+_ib_family_code_logger = IbFamilyCodeLogger()
 
 # TODO: map string "" to None
 # TODO: parse time strings
@@ -146,6 +147,10 @@ class _IbListener(EWrapper):
             ["RequestId", "Timestamp", "MidPoint"],
             [dht.int64, dht.datetime, dht.float64])
 
+        self.family_codes = DynamicTableWriter(
+            [*_ib_family_code_logger.names()],
+            [*_ib_family_code_logger.types()])
+
 
     def connect(self, client: _IbClient):
         self._client = client
@@ -193,6 +198,7 @@ class _IbListener(EWrapper):
         client.reqCompletedOrders(apiOnly=False)
         client.reqNewsProviders()
         client.reqAllOpenOrders()
+        client.reqFamilyCodes()
 
 
     def disconnect(self):
@@ -479,3 +485,13 @@ class _IbListener(EWrapper):
 
         for t in ticks:
             self.tick_mid_point.logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
+
+    ####
+    # reqFamilyCodes
+    ####
+
+    def familyCodes(self, familyCodes: ListOfFamilyCode):
+        EWrapper.familyCodes(familyCodes)
+
+        for fc in familyCodes:
+            self.family_codes.logRow(*_ib_family_code_logger.vals(fc))

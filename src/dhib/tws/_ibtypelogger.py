@@ -390,3 +390,15 @@ class IbHistoricalTickBidAskLogger(IbComplexTypeLogger):
         ]
 
         IbComplexTypeLogger.__init__(self, column_details)
+
+
+class IbFamilyCodeLogger(IbComplexTypeLogger):
+    """Logging for FamilyCode."""
+
+    def __init__(self):
+        column_details = [
+            ("AccountID", dht.string, lambda fc: fc.accountID),
+            ("FamilyCode", dht.string, lambda fc: fc.familyCodeStr),
+        ]
+
+        IbComplexTypeLogger.__init__(self, column_details)
