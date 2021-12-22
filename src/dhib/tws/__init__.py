@@ -6,7 +6,7 @@ from ibapi.contract import Contract
 from ._twsclient import IbTwsClient as _IbTwsClient
 from ..utils import next_unique_id, dh_to_ib_datetime
 
-__all__ = ["MarketDataType", "IbSessionTws"]
+__all__ = ["MarketDataType", "BarSize", "BarDataType", "Duration", "TickByTickDataType", "IbSessionTws"]
 
 
 # TODO: automatically set request ids
@@ -18,12 +18,12 @@ __all__ = ["MarketDataType", "IbSessionTws"]
 
 # TODO: rename?
 class MarketDataType(Enum):
-    """Type of market data to use after the close."""
+    """Type of market data to use."""
 
     REAL_TIME = 1
-    """Real time market data."""
+    """Real-time market data."""
     FROZEN = 2
-    """Market data frozen at the close."""
+    """Real-time market data during regular trading hours, and frozen prices after the close."""
 
 
 class BarSize(Enum):
@@ -101,6 +101,12 @@ class IbSessionTws:
     def __init__(self):
         self._client = _IbTwsClient()
 
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Connect / Disconnect / Subscribe
+    ####################################################################################################################
+    ####################################################################################################################
+
     def connect(self, host: str = "", port: int = 7497, client_id: int = 0) -> None:
         """Connect to an IB TWS session.  Raises an exception if already connected.
 
@@ -136,13 +142,42 @@ class IbSessionTws:
 
         return self._client.isConnected()
 
-    def cancel_all_orders(self) -> None:
-        """Cancel all open orders."""
-        self._client.reqGlobalCancel()
+    ####################################################################################################################
+    ####################################################################################################################
+    ## General
+    ####################################################################################################################
+    ####################################################################################################################
 
-    def market_data_type(self, type: MarketDataType) -> None:
-        """Sets the type of market data to use after the close."""
-        self._client.reqMarketDataType(marketDataType=type.value)
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Contracts
+    ####################################################################################################################
+    ####################################################################################################################
+
+    def request_contracts_matching(self, pattern: str) -> int:
+        """Request contracts matching a pattern.
+
+        Args:
+            pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
+
+        Returns:
+            Request ID
+        """
+        req_id = next_unique_id()
+        self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
+        return req_id
+
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Accounts
+    ####################################################################################################################
+    ####################################################################################################################
+
+    ####################################################################################################################
+    ####################################################################################################################
+    ## News
+    ####################################################################################################################
+    ####################################################################################################################
 
     # TODO: how to handle conId?
     def request_news_historical(self, conId: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
@@ -179,6 +214,16 @@ class IbSessionTws:
         self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
         return req_id
+
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Market Data
+    ####################################################################################################################
+    ####################################################################################################################
+
+    def market_data_type(self, type: MarketDataType) -> None:
+        """Sets the type of market data to use after the close."""
+        self._client.reqMarketDataType(marketDataType=type.value)
 
     # TODO: how to handle contract?
     # TODO: fill in generic_tick_list with ContractSamples?
@@ -248,7 +293,7 @@ class IbSessionTws:
 
     # TODO: how to handle contract?
     def request_bars_realtime(self, contract: Contract, barType: BarDataType, barSize: int = 5,
-                        type: MarketDataType = MarketDataType.FROZEN) -> int:
+                              type: MarketDataType = MarketDataType.FROZEN) -> int:
         """Requests real time bars for a contract.
 
         Args:
@@ -338,18 +383,25 @@ class IbSessionTws:
                                         ignoreSize=ignoreSize, miscOptions=[])
         return req_id
 
-    def request_matching_symbols(self, pattern: str) -> int:
-        """Request contracts matching a pattern.
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Order Management System (OMS)
+    ####################################################################################################################
+    ####################################################################################################################
 
-        Args:
-            pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
+    def cancel_all_orders(self) -> None:
+        """Cancel all open orders."""
+        self._client.reqGlobalCancel()
 
-        Returns:
-            Request ID
-        """
-        req_id = next_unique_id()
-        self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
-        return req_id
+    ## ???????
+
+
+
+
+
+
+
+
 
     # TODO request by default when pull accounts?
     def request_pnl(self, account: str = "All", model_code: str = "") -> int:

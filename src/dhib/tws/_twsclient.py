@@ -28,6 +28,7 @@ _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_A
 
 
 # TODO: map string "" to None
+# TODO: remove all of the redirection to EWrapper for debug logging
 
 # noinspection PyPep8Naming
 class IbTwsClient(EWrapper, EClient):
