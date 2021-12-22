@@ -147,7 +147,7 @@ class IbSessionTws:
         self._client.reqMarketDataType(marketDataType=type.value)
 
     # TODO: how to handle conId?
-    def request_historical_news(self, conId: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
+    def request_news_historical(self, conId: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
                                 total_results: int = 100) -> int:
         """ Request historical news for a contract.
 
@@ -215,10 +215,10 @@ class IbSessionTws:
         self._client.cancelMktData(reqId=reqId)
 
     # TODO: how to handle contract?
-    def request_historical_data(self, contract: Contract, end: dtu.DateTime,
+    def request_bars_historical(self, contract: Contract, end: dtu.DateTime,
                                 duration: Duration, barSize: BarSize, barType: BarDataType,
                                 type: MarketDataType = MarketDataType.FROZEN, keepUpToDate: bool = True) -> int:
-        """Requests historical data for a contract.
+        """Requests historical bars for a contract.
 
         Args:
             contract (Contract): contract data is requested for
@@ -239,8 +239,8 @@ class IbSessionTws:
                                        keepUpToDate=keepUpToDate, chartOptions=[])
         return req_id
 
-    def cancel_historical_data(self, req_id: int):
-        """Cancel a historical data request.
+    def cancel_bars_historical(self, req_id: int):
+        """Cancel a historical bars request.
 
         Args:
             req_id (int): request id
@@ -249,9 +249,9 @@ class IbSessionTws:
         self._client.cancelHistoricalData(reqId=req_id)
 
     # TODO: how to handle contract?
-    def reqRealTimeBars(self, contract: Contract, barType: BarDataType, barSize: int = 5,
+    def request_bars_realtime(self, contract: Contract, barType: BarDataType, barSize: int = 5,
                         type: MarketDataType = MarketDataType.FROZEN) -> int:
-        """Requests real time bar data for a contract.
+        """Requests real time bars for a contract.
 
         Args:
             contract (Contract): contract data is requested for
@@ -270,7 +270,7 @@ class IbSessionTws:
                                      realTimeBarsOptions=[])
         return req_id
 
-    def cancel_real_time_bars(self, req_id: int):
+    def cancel_bars_realtime(self, req_id: int):
         """Cancel a real-time bar request.
 
         Args:

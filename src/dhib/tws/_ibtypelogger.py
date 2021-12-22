@@ -176,6 +176,27 @@ logger_bar_data = IbComplexTypeLogger("BarData", _details_bar_data())
 
 ####
 
+def _details_real_time_bar_data() -> List[Tuple]:
+    """ Details for logging RealTimeBarData. """
+
+    return [
+        ("Timestamp", dht.datetime, lambda bd: unix_sec_to_dh_datetime(bd.time)),
+        ("TimestampEnd", dht.datetime, lambda bd: unix_sec_to_dh_datetime(bd.endTime)),
+        ("Open", dht.float64, lambda bd: bd.open),
+        ("High", dht.float64, lambda bd: bd.high),
+        ("Low", dht.float64, lambda bd: bd.low),
+        ("Close", dht.float64, lambda bd: bd.close),
+        ("Volume", dht.int64, lambda bd: bd.volume),
+        ("WAP", dht.float64, lambda bd: bd.wap),
+        ("Count", dht.int64, lambda bd: bd.count),
+    ]
+
+
+logger_real_time_bar_data = IbComplexTypeLogger("RealTimeBarData", _details_real_time_bar_data())
+
+
+####
+
 def _details_tick_attrib() -> List[Tuple]:
     """ Details for logging TickAttrib. """
 

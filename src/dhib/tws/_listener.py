@@ -8,7 +8,7 @@ from ibapi import news
 from ibapi.commission_report import CommissionReport
 from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData, TickAttribLast, \
     ListOfHistoricalTickLast, TickAttribBidAsk, ListOfHistoricalTickBidAsk, ListOfHistoricalTick, HistoricalTickBidAsk, \
-    HistoricalTickLast, ListOfFamilyCode, ListOfContractDescription, ListOfPriceIncrements
+    HistoricalTickLast, ListOfFamilyCode, ListOfContractDescription, ListOfPriceIncrements, RealTimeBar
 from ibapi.contract import Contract, ContractDetails
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
@@ -40,8 +40,10 @@ class _IbListener(EWrapper):
         self._table_writers = _IbListener._build_table_writers()
 
     @staticmethod
-    def _build_table_writers() -> Dict[str,Any]:
+    def _build_table_writers() -> Dict[str,DynamicTableWriter]:
         table_writers = {}
+
+        #TODO: review all table names
 
         # General
 
@@ -109,6 +111,47 @@ class _IbListener(EWrapper):
 
         # Market Data
 
+        table_writers["tick_price"] = DynamicTableWriter(
+            ["RequestId", "TickType", "Price", *logger_tick_attrib.names()],
+            [dht.int64, dht.string, dht.float64, *logger_tick_attrib.types()])
+
+        table_writers["tick_size"] = DynamicTableWriter(
+            ["RequestId", "TickType", "Size"],
+            [dht.int64, dht.string, dht.int64])
+
+        table_writers["tick_string"] = DynamicTableWriter(
+            ["RequestId", "TickType", "Value"],
+            [dht.int64, dht.string, dht.string])
+
+        # exchange for physical
+        table_writers["tick_efp"] = DynamicTableWriter(
+            ["RequestId", "TickType", "BasisPoints", "FormattedBasisPoints", "TotalDividends", "HoldDays",
+             "FutureLastTradeDate", "DividendImpact", "DividendsToLastTradeDate"],
+            [dht.int64, dht.string, dht.float64, dht.string, dht.float64, dht.int64, dht.string, dht.float64,
+             dht.float64])
+
+        table_writers["tick_generic"] = DynamicTableWriter(
+            ["RequestId", "TickType", "Value"],
+            [dht.int64, dht.string, dht.float64])
+
+        table_writers["tick_option_computation"] = DynamicTableWriter(
+            ["RequestId", "TickType", "TickAttrib", "ImpliedVol", "Delta", "OptPrice", "PvDividend", "Gamma", "Vega",
+             "Theta", "UndPrice"],
+            [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
+             dht.float64, dht.float64, dht.float64])
+
+        table_writers["bars_historical"] = DynamicTableWriter(
+            ["RequestId", *logger_bar_data.names()],
+            [dht.int64, *logger_bar_data.types()])
+
+        #TODO: realtime or real_time?
+        table_writers["bars_realtime"] = DynamicTableWriter(
+            ["RequestId", *logger_real_time_bar_data.names()],
+            [dht.int64, *logger_real_time_bar_data.types()])
+
+
+
+
         #?????
 
 
@@ -148,43 +191,8 @@ class _IbListener(EWrapper):
             [dht.int64, *logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
 
-        self.tick_price = DynamicTableWriter(
-            ["RequestId", "TickType", "Price", *logger_tick_attrib.names()],
-            [dht.int64, dht.string, dht.float64, *logger_tick_attrib.types()])
 
-        self.tick_size = DynamicTableWriter(
-            ["RequestId", "TickType", "Size"],
-            [dht.int64, dht.string, dht.int64])
 
-        self.tick_string = DynamicTableWriter(
-            ["RequestId", "TickType", "Value"],
-            [dht.int64, dht.string, dht.string])
-
-        # exchange for physical
-        self.tick_efp = DynamicTableWriter(
-            ["RequestId", "TickType", "BasisPoints", "FormattedBasisPoints", "TotalDividends", "HoldDays",
-             "FutureLastTradeDate", "DividendImpact", "DividendsToLastTradeDate"],
-            [dht.int64, dht.string, dht.float64, dht.string, dht.float64, dht.int64, dht.string, dht.float64,
-             dht.float64])
-
-        self.tick_generic = DynamicTableWriter(
-            ["RequestId", "TickType", "Value"],
-            [dht.int64, dht.string, dht.float64])
-
-        self.tick_option_computation = DynamicTableWriter(
-            ["RequestId", "TickType", "TickAttrib", "ImpliedVol", "Delta", "OptPrice", "PvDividend", "Gamma", "Vega",
-             "Theta", "UndPrice"],
-            [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
-             dht.float64, dht.float64, dht.float64])
-
-        self.historical_data = DynamicTableWriter(
-            ["RequestId", *logger_bar_data.names()],
-            [dht.int64, *logger_bar_data.types()])
-
-        self.realtime_bar = DynamicTableWriter(
-            ["RequestId", "Timestamp", "Open", "High", "Low", "Close", "Volume", "WAP", "Count"],
-            [dht.int64, dht.datetime, dht.float64, dht.float64, dht.float64, dht.float64, dht.int64, dht.float64,
-             dht.int64])
 
         self.tick_last = DynamicTableWriter(
             ["RequestId", *logger_hist_tick_last.names()],
@@ -462,7 +470,80 @@ class _IbListener(EWrapper):
     ####################################################################################################################
     ####################################################################################################################
 
-    
+    ####
+    # reqMktData
+    ####
+
+    def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
+        EWrapper.tickPrice(self, reqId, tickType, price, attrib)
+        self._table_writers["tick_price"].logRow(reqId, TickTypeEnum(tickType).name, price, *logger_tick_attrib.vals(attrib))
+        # TODO: need to relate request to security ***
+
+    def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
+        EWrapper.tickSize(self, reqId, tickType, size)
+        self._table_writers["tick_size"].logRow(reqId, TickTypeEnum(tickType).name, size)
+        # TODO: need to relate request to security ***
+
+    def tickString(self, reqId: TickerId, tickType: TickType, value: str):
+        EWrapper.tickString(self, reqId, tickType, value)
+        self._table_writers["tick_string"].logRow(reqId, TickTypeEnum(tickType).name, value)
+        # TODO: need to relate request to security ***
+
+    def tickEFP(self, reqId: TickerId, tickType: TickType, basisPoints: float,
+                formattedBasisPoints: str, totalDividends: float,
+                holdDays: int, futureLastTradeDate: str, dividendImpact: float,
+                dividendsToLastTradeDate: float):
+        EWrapper.tickEFP(self, reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
+                         futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
+        self._table_writers["tick_efp"].logRow(reqId, TickTypeEnum(tickType).name, basisPoints, formattedBasisPoints, totalDividends,
+                             holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
+        # TODO: need to relate request to security ***
+
+    def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
+        EWrapper.tickGeneric(self, reqId, tickType, value)
+        self._table_writers["tick_generic"].logRow(reqId, TickTypeEnum(tickType).name, value)
+        # TODO: need to relate request to security ***
+
+    def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
+                              impliedVol: float, delta: float, optPrice: float, pvDividend: float,
+                              gamma: float, vega: float, theta: float, undPrice: float):
+        EWrapper.tickOptionComputation(self, reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma,
+                                       vega, theta, undPrice)
+        ta = map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
+        self._table_writers["tick_option_computation"].logRow(reqId, TickTypeEnum(tickType).name, ta, impliedVol, delta, optPrice,
+                                            pvDividend, gamma, vega, theta, undPrice)
+        # TODO: need to relate request to security ***
+
+    def tickSnapshotEnd(self, reqId: int):
+        # do not ned to implement
+        EWrapper.tickSnapshotEnd(self, reqId)
+
+    ####
+    # reqHistoricalData
+    ####
+
+    def historicalData(self, reqId: int, bar: BarData):
+        EWrapper.historicalData(self, reqId, bar)
+        self._table_writers["bars_historical"].logRow(reqId, *logger_bar_data.vals(bar))
+        # TODO: need to relate request to security ***
+
+    def historicalDataEnd(self, reqId: int, start: str, end: str):
+        # do not ned to implement
+        EWrapper.historicalDataEnd(self, reqId, start, end)
+
+    ####
+    # reqRealTimeBars
+    ####
+
+    def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
+                    volume: int, wap: float, count: int):
+        EWrapper.realtimeBar(self, reqId, time, open_, high, low, close, volume, wap, count)
+
+        # TODO: assumes 5 sec bars.  Add assertion or lookup?
+        bar = RealTimeBar(time=time, endTime=time + 5, open_=open_, high=high, low=low, close=close, volume=volume,
+                          wap=wap, count=count)
+        self._table_writers["bars_realtime"].logRow(reqId, *logger_real_time_bar_data.vals(bar))
+
 
 
     #????
@@ -534,79 +615,8 @@ class _IbListener(EWrapper):
         # do not ned to implement
         EWrapper.openOrderEnd(self)
 
-    ####
-    # reqMktData
-    ####
 
-    def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
-        EWrapper.tickPrice(self, reqId, tickType, price, attrib)
 
-        self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, price, *logger_tick_attrib.vals(attrib))
-
-        # TODO: need to relate request to security ***
-
-    def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
-        EWrapper.tickSize(self, reqId, tickType, size)
-        self.tick_price.logRow(reqId, TickTypeEnum(tickType).name, size)
-
-        # TODO: need to relate request to security ***
-
-    def tickString(self, reqId: TickerId, tickType: TickType, value: str):
-        EWrapper.tickString(self, reqId, tickType, value)
-        self.tick_string.logRow(reqId, TickTypeEnum(tickType).name, value)
-
-        # TODO: need to relate request to security ***
-
-    def tickEFP(self, reqId: TickerId, tickType: TickType, basisPoints: float,
-                formattedBasisPoints: str, totalDividends: float,
-                holdDays: int, futureLastTradeDate: str, dividendImpact: float,
-                dividendsToLastTradeDate: float):
-        EWrapper.tickEFP(self, reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
-                         futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
-        self.tick_efp.logRow(reqId, TickTypeEnum(tickType).name, basisPoints, formattedBasisPoints, totalDividends,
-                             holdDays, futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
-        # TODO: need to relate request to security ***
-
-    def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
-        EWrapper.tickGeneric(self, reqId, tickType, value)
-        self.tick_generic.logRow(reqId, TickTypeEnum(tickType).name, value)
-        # TODO: need to relate request to security ***
-
-    def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
-                              impliedVol: float, delta: float, optPrice: float, pvDividend: float,
-                              gamma: float, vega: float, theta: float, undPrice: float):
-        EWrapper.tickOptionComputation(self, reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma,
-                                       vega, theta, undPrice)
-        ta = map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
-        self.tick_option_computation.logRow(reqId, TickTypeEnum(tickType).name, ta, impliedVol, delta, optPrice,
-                                            pvDividend, gamma, vega, theta, undPrice)
-        # TODO: need to relate request to security ***
-
-    def tickSnapshotEnd(self, reqId: int):
-        # do not ned to implement
-        EWrapper.tickSnapshotEnd(self, reqId)
-
-    ####
-    # reqHistoricalData
-    ####
-
-    def historicalData(self, reqId: int, bar: BarData):
-        EWrapper.historicalData(self, reqId, bar)
-        self.historical_data.logRow(reqId, *logger_bar_data.vals(bar))
-        # TODO: need to relate request to security ***
-
-    def historicalDataEnd(self, reqId: int, start: str, end: str):
-        # do not ned to implement
-        EWrapper.historicalDataEnd(self, reqId, start, end)
-
-    ####
-    # reqRealTimeBars
-    ####
-
-    def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
-                    volume: int, wap: float, count: int):
-        EWrapper.realtimeBar(self, reqId, time, open_, high, low, close, volume, wap, count)
-        self.realtime_bar.logRow(reqId, unix_sec_to_dh_datetime(time), open_, high, low, close, volume, wap, count)
 
     ####
     # reqTickByTickData and reqHistoricalTicks
