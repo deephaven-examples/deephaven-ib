@@ -17,7 +17,7 @@ from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
-from ._ibtypelogger import *
+from .ibtypelogger import *
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
 logging.basicConfig(level=logging.DEBUG)

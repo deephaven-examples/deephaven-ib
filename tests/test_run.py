@@ -1,6 +1,6 @@
-import dhib.tws as tws
+import dhib
 
-client = tws.IbSessionTws()
+client = dhib.IbSessionTws()
 
 print(f"IsConnected: {client.is_connected()}")
 

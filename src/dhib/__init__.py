@@ -5,8 +5,8 @@ from typing import Dict, Any
 from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract
 
-from ._twsclient import IbTwsClient as _IbTwsClient
-from ..utils import next_unique_id, dh_to_ib_datetime
+from ._tws import IbTwsClient as IbTwsClient
+from .utils import next_unique_id, dh_to_ib_datetime
 
 __all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "IbSessionTws"]
 
@@ -155,7 +155,7 @@ class IbSessionTws:
     """
 
     def __init__(self):
-        self._client = _IbTwsClient()
+        self._client = IbTwsClient()
 
     ####################################################################################################################
     ####################################################################################################################
