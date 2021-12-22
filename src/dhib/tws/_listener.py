@@ -74,7 +74,7 @@ class _IbListener(EWrapper):
 
         table_writers["accounts_managed"] = DynamicTableWriter(["Account"], [dht.string])
 
-        table_writers["family_codes"] = DynamicTableWriter(
+        table_writers["accounts_family_codes"] = DynamicTableWriter(
             [*logger_family_code.names()],
             [*logger_family_code.types()])
 
@@ -82,8 +82,7 @@ class _IbListener(EWrapper):
             ["Account", "Currency", "Key", "Value"],
             [dht.string, dht.string, dht.string, dht.string])
 
-        # TODO: rename accounts_portfolio?
-        table_writers["portfolio"] = DynamicTableWriter(
+        table_writers["accounts_portfolio"] = DynamicTableWriter(
             ["Account", *logger_contract.names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
              "UnrealizedPnl", "RealizedPnl"],
             [dht.string, *logger_contract.types(), dht.float64, dht.float64, dht.float64, dht.float64,
@@ -93,13 +92,11 @@ class _IbListener(EWrapper):
             ["ReqId", "Account", "Tag", "Value", "Currency"],
             [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
-        #TODO: rename accounts_positions?
-        table_writers["positions"] = DynamicTableWriter(
+        table_writers["accounts_positions"] = DynamicTableWriter(
             ["Account", *logger_contract.names(), "Position", "AvgCost"],
             [dht.string, *logger_contract.types(), dht.float64, dht.float64])
 
-        #TODO: rename accounts_pnl
-        table_writers["pnl"] = DynamicTableWriter(
+        table_writers["accounts_pnl"] = DynamicTableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
             [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
 
@@ -154,16 +151,6 @@ class _IbListener(EWrapper):
             [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64, dht.float64])
 
-        #TODO: reorder bars?
-        table_writers["bars_historical"] = DynamicTableWriter(
-            ["RequestId", *logger_bar_data.names()],
-            [dht.int64, *logger_bar_data.types()])
-
-        # TODO: realtime or real_time?
-        table_writers["bars_realtime"] = DynamicTableWriter(
-            ["RequestId", *logger_real_time_bar_data.names()],
-            [dht.int64, *logger_real_time_bar_data.types()])
-
         table_writers["ticks_last"] = DynamicTableWriter(
             ["RequestId", *logger_hist_tick_last.names()],
             [dht.int64, *logger_hist_tick_last.types()])
@@ -175,6 +162,15 @@ class _IbListener(EWrapper):
         table_writers["ticks_mid_point"] = DynamicTableWriter(
             ["RequestId", "Timestamp", "MidPoint"],
             [dht.int64, dht.datetime, dht.float64])
+
+        table_writers["bars_historical"] = DynamicTableWriter(
+            ["RequestId", *logger_bar_data.names()],
+            [dht.int64, *logger_bar_data.types()])
+
+        # TODO: realtime or real_time?
+        table_writers["bars_realtime"] = DynamicTableWriter(
+            ["RequestId", *logger_real_time_bar_data.names()],
+            [dht.int64, *logger_real_time_bar_data.types()])
 
         ####
         # Order Management System (OMS)
@@ -353,7 +349,7 @@ class _IbListener(EWrapper):
         EWrapper.familyCodes(self, familyCodes)
 
         for fc in familyCodes:
-            self._table_writers["family_codes"].logRow(*logger_family_code.vals(fc))
+            self._table_writers["accounts_family_codes"].logRow(*logger_family_code.vals(fc))
 
     ####
     # reqAccountUpdates
@@ -369,8 +365,9 @@ class _IbListener(EWrapper):
                         realizedPNL: float, accountName: str):
         EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
                                  realizedPNL, accountName)
-        self._table_writers["portfolio"].logRow(accountName, *logger_contract.vals(contract), position, marketPrice,
-                                                marketValue, averageCost, unrealizedPNL, realizedPNL)
+        self._table_writers["accounts_portfolio"].logRow(accountName, *logger_contract.vals(contract), position,
+                                                         marketPrice,
+                                                         marketValue, averageCost, unrealizedPNL, realizedPNL)
         self.request_contract_details(contract)
 
     ####
@@ -387,7 +384,7 @@ class _IbListener(EWrapper):
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(self, account, contract, position, avgCost)
-        self._table_writers["positions"].logRow(account, *logger_contract.vals(contract), position, avgCost)
+        self._table_writers["accounts_positions"].logRow(account, *logger_contract.vals(contract), position, avgCost)
         self.request_contract_details(contract)
 
     ####
@@ -396,7 +393,7 @@ class _IbListener(EWrapper):
 
     def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
         EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
-        self._table_writers["pnl"].logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
+        self._table_writers["accounts_pnl"].logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
         # TODO: need to be able to associate an account with the request id and data.
 
     ####################################################################################################################
@@ -502,32 +499,6 @@ class _IbListener(EWrapper):
         EWrapper.tickSnapshotEnd(self, reqId)
 
     ####
-    # reqHistoricalData
-    ####
-
-    def historicalData(self, reqId: int, bar: BarData):
-        EWrapper.historicalData(self, reqId, bar)
-        self._table_writers["bars_historical"].logRow(reqId, *logger_bar_data.vals(bar))
-        # TODO: need to relate request to security ***
-
-    def historicalDataEnd(self, reqId: int, start: str, end: str):
-        # do not ned to implement
-        EWrapper.historicalDataEnd(self, reqId, start, end)
-
-    ####
-    # reqRealTimeBars
-    ####
-
-    def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
-                    volume: int, wap: float, count: int):
-        EWrapper.realtimeBar(self, reqId, time, open_, high, low, close, volume, wap, count)
-
-        # TODO: assumes 5 sec bars.  Add assertion or lookup?
-        bar = RealTimeBar(time=time, endTime=time + 5, open_=open_, high=high, low=low, close=close, volume=volume,
-                          wap=wap, count=count)
-        self._table_writers["bars_realtime"].logRow(reqId, *logger_real_time_bar_data.vals(bar))
-
-    ####
     # reqTickByTickData and reqHistoricalTicks
     ####
 
@@ -582,6 +553,32 @@ class _IbListener(EWrapper):
 
         for t in ticks:
             self._table_writers["ticks_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
+
+    ####
+    # reqHistoricalData
+    ####
+
+    def historicalData(self, reqId: int, bar: BarData):
+        EWrapper.historicalData(self, reqId, bar)
+        self._table_writers["bars_historical"].logRow(reqId, *logger_bar_data.vals(bar))
+        # TODO: need to relate request to security ***
+
+    def historicalDataEnd(self, reqId: int, start: str, end: str):
+        # do not ned to implement
+        EWrapper.historicalDataEnd(self, reqId, start, end)
+
+    ####
+    # reqRealTimeBars
+    ####
+
+    def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
+                    volume: int, wap: float, count: int):
+        EWrapper.realtimeBar(self, reqId, time, open_, high, low, close, volume, wap, count)
+
+        # TODO: assumes 5 sec bars.  Add assertion or lookup?
+        bar = RealTimeBar(time=time, endTime=time + 5, open_=open_, high=high, low=low, close=close, volume=volume,
+                          wap=wap, count=count)
+        self._table_writers["bars_realtime"].logRow(reqId, *logger_real_time_bar_data.vals(bar))
 
     ####################################################################################################################
     ####################################################################################################################
