@@ -161,16 +161,23 @@ class _IbListener(EWrapper):
             ["RequestId", "Timestamp", "MidPoint"],
             [dht.int64, dht.datetime, dht.float64])
 
+        ## Order Management System (OMS)
 
+        table_writers["orders_open"] = DynamicTableWriter(
+            ["OrderId", *logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
+            [dht.int64, *logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
-        #?????
+        table_writers["orders_status"] = DynamicTableWriter(
+            ["OrderId", "Status", "Filled", "Remaining", "AvgFillPrice", "PermId", "ParentId", "LastFillPrice",
+             "ClientId", "WhyHeld", "MktCapPrice"],
+            [dht.int64, dht.string, dht.float64, dht.float64, dht.float64, dht.int64, dht.int64, dht.float64, dht.int64,
+             dht.string, dht.float64])
 
+        table_writers["orders_completed"] = DynamicTableWriter(
+            [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
+            [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
-
-
-
-
-        self.exec_details = DynamicTableWriter(["ReqId", "Time", "Account", *logger_contract.names(),
+        table_writers["exec_details"] = DynamicTableWriter(["ReqId", "Time", "Account", *logger_contract.names(),
                                                 "Exchange", "Side", "Shares", "Price",
                                                 "CumQty", "AvgPrice", "Liquidation",
                                                 "EvRule", "EvMultiplier", "ModelCode", "LastLiquidity"
@@ -182,24 +189,22 @@ class _IbListener(EWrapper):
                                                 dht.string, dht.float64, dht.string, dht.int64,
                                                 dht.string, dht.int64, dht.int64, dht.int64, dht.string])
 
-        self.commission_report = DynamicTableWriter(
+        table_writers["commission_report"] = DynamicTableWriter(
             ["ExecId", "Currency", "Commission", "RealizedPnl", "Yield", "YieldRedemptionDate"],
             [dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.int64])
 
+        ## Done
+        #?????
 
-        self.orders_completed = DynamicTableWriter(
-            [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
-            [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
-        self.orders_status = DynamicTableWriter(
-            ["OrderId", "Status", "Filled", "Remaining", "AvgFillPrice", "PermId", "ParentId", "LastFillPrice",
-             "ClientId", "WhyHeld", "MktCapPrice"],
-            [dht.int64, dht.string, dht.float64, dht.float64, dht.float64, dht.int64, dht.int64, dht.float64, dht.int64,
-             dht.string, dht.float64])
 
-        self.orders_open = DynamicTableWriter(
-            ["OrderId", *logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
-            [dht.int64, *logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
+
+
+
+
+
+
+
 
 
 
@@ -601,14 +606,48 @@ class _IbListener(EWrapper):
             self._table_writers["tick_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
 
 
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Order Management System (OMS)
+    ####################################################################################################################
+    ####################################################################################################################
 
-    #????
+    ####
+    # reqAllOpenOrders
+    ####
 
+    def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
+        EWrapper.openOrder(self, orderId, contract, order, orderState)
+        self._table_writers["orders_open"].logRow(orderId, *logger_contract.vals(contract), *logger_order.vals(order),
+                                *logger_order_state.vals(orderState))
+        self.request_contract_details(contract)
 
+    def orderStatus(self, orderId: OrderId, status: str, filled: float,
+                    remaining: float, avgFillPrice: float, permId: int,
+                    parentId: int, lastFillPrice: float, clientId: int,
+                    whyHeld: str, mktCapPrice: float):
+        EWrapper.orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
+                             clientId, whyHeld, mktCapPrice)
+        self._table_writers["orders_status"].logRow(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
+                                  clientId, whyHeld, mktCapPrice)
 
+    def openOrderEnd(self):
+        # do not ned to implement
+        EWrapper.openOrderEnd(self)
 
+    ####
+    # reqCompletedOrders
+    ####
 
+    def completedOrder(self, contract: Contract, order: Order, orderState: OrderState):
+        EWrapper.completedOrder(self, contract, order, orderState)
+        self._table_writers["orders_completed"].logRow(*logger_contract.vals(contract), *logger_order.vals(order),
+                                     *logger_order_state.vals(orderState))
+        self.request_contract_details(contract)
 
+    def completedOrdersEnd(self):
+        # do not ned to implement
+        EWrapper.completedOrdersEnd(self)
 
     ####
     # reqExecutions
@@ -616,7 +655,7 @@ class _IbListener(EWrapper):
 
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
         EWrapper.execDetails(self, reqId, contract, execution)
-        self.exec_details.logRow(reqId, execution.time, execution.acctNumber, *logger_contract.vals(contract),
+        self._table_writers["exec_details"].logRow(reqId, execution.time, execution.acctNumber, *logger_contract.vals(contract),
                                  execution.exchange, execution.side, execution.shares, execution.price,
                                  execution.cumQty, execution.avgPrice, execution.liquidation,
                                  execution.evRule, execution.evMultiplier, execution.modelCode, execution.lastLiquidity,
@@ -630,46 +669,20 @@ class _IbListener(EWrapper):
 
     def commissionReport(self, commissionReport: CommissionReport):
         EWrapper.commissionReport(self, commissionReport)
-        self.commission_report.logRow(commissionReport.execId, commissionReport.currency, commissionReport.commission,
+        self._table_writers["commission_report"].logRow(commissionReport.execId, commissionReport.currency, commissionReport.commission,
                                       commissionReport.realizedPNL, commissionReport.yield_,
                                       commissionReport.yieldRedemptionDate)
 
-    ####
-    # reqCompletedOrders
-    ####
+    #????
 
-    def completedOrder(self, contract: Contract, order: Order, orderState: OrderState):
-        EWrapper.completedOrder(self, contract, order, orderState)
-        self.orders_completed.logRow(*logger_contract.vals(contract), *logger_order.vals(order),
-                                     *logger_order_state.vals(orderState))
-        self.request_contract_details(contract)
 
-    def completedOrdersEnd(self):
-        # do not ned to implement
-        EWrapper.completedOrdersEnd(self)
 
-    ####
-    # reqAllOpenOrders
-    ####
 
-    def orderStatus(self, orderId: OrderId, status: str, filled: float,
-                    remaining: float, avgFillPrice: float, permId: int,
-                    parentId: int, lastFillPrice: float, clientId: int,
-                    whyHeld: str, mktCapPrice: float):
-        EWrapper.orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
-                             clientId, whyHeld, mktCapPrice)
-        self.orders_status.logRow(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
-                                  clientId, whyHeld, mktCapPrice)
 
-    def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
-        EWrapper.openOrder(self, orderId, contract, order, orderState)
-        self.orders_open.logRow(orderId, *logger_contract.vals(contract), *logger_order.vals(order),
-                                *logger_order_state.vals(orderState))
-        self.request_contract_details(contract)
 
-    def openOrderEnd(self):
-        # do not ned to implement
-        EWrapper.openOrderEnd(self)
+
+
+
 
 
 
