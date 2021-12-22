@@ -72,7 +72,7 @@ class IbTwsClient(EWrapper, EClient):
             ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
             [dht.int64, *logger_contract.types(), dht.string])
 
-        table_writers["price_increment"] = DynamicTableWriter(
+        table_writers["market_rules"] = DynamicTableWriter(
             ["MarketRuleId", *logger_price_increment.names()],
             [dht.string, *logger_price_increment.types()])
 
@@ -159,7 +159,7 @@ class IbTwsClient(EWrapper, EClient):
             [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64, dht.float64])
 
-        table_writers["ticks_last"] = DynamicTableWriter(
+        table_writers["ticks_trade"] = DynamicTableWriter(
             ["RequestId", *logger_hist_tick_last.names()],
             [dht.int64, *logger_hist_tick_last.types()])
 
@@ -198,11 +198,11 @@ class IbTwsClient(EWrapper, EClient):
             [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
             [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
-        table_writers["exec_details"] = DynamicTableWriter(
+        table_writers["orders_exec_details"] = DynamicTableWriter(
             ["ReqId", *logger_contract.names(), *logger_execution.names()],
             [dht.int64, *logger_contract.types(), *logger_execution.types()])
 
-        table_writers["exec_commission_report"] = DynamicTableWriter(
+        table_writers["orders_exec_commission_report"] = DynamicTableWriter(
             [*logger_commission_report.names()],
             [*logger_commission_report.types()])
 
@@ -386,7 +386,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.marketRule(self, marketRuleId, priceIncrements)
 
         for pi in priceIncrements:
-            self._table_writers["price_increment"].logRow(str(marketRuleId), *logger_price_increment.vals(pi))
+            self._table_writers["market_rules"].logRow(str(marketRuleId), *logger_price_increment.vals(pi))
 
         self._registered_market_rules.add(str(marketRuleId))
 
@@ -583,14 +583,14 @@ class IbTwsClient(EWrapper, EClient):
         t.exchange = exchange
         t.specialConditions = specialConditions
 
-        self._table_writers["ticks_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
+        self._table_writers["ticks_trade"].logRow(reqId, *logger_hist_tick_last.vals(t))
 
     # noinspection PyUnusedLocal
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
         EWrapper.historicalTicksLast(self, reqId, ticks, done)
 
         for t in ticks:
-            self._table_writers["ticks_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
+            self._table_writers["ticks_trade"].logRow(reqId, *logger_hist_tick_last.vals(t))
 
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
                          bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
@@ -696,8 +696,8 @@ class IbTwsClient(EWrapper, EClient):
 
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
         EWrapper.execDetails(self, reqId, contract, execution)
-        self._table_writers["exec_details"].logRow(reqId, *logger_contract.vals(contract),
-                                                   logger_execution.vals(execution))
+        self._table_writers["orders_exec_details"].logRow(reqId, *logger_contract.vals(contract),
+                                                          logger_execution.vals(execution))
         self.request_contract_details(contract)
 
     def execDetailsEnd(self, reqId: int):
@@ -706,7 +706,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def commissionReport(self, commissionReport: CommissionReport):
         EWrapper.commissionReport(self, commissionReport)
-        self._table_writers["exec_commission_report"].logRow(*logger_commission_report.vals(commissionReport))
+        self._table_writers["orders_exec_commission_report"].logRow(*logger_commission_report.vals(commissionReport))
 
     ####################################################################################################################
     ####################################################################################################################

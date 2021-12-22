@@ -95,7 +95,70 @@ class Duration:
 
 
 class IbSessionTws:
-    """ IB TWS session."""
+    """ IB TWS session.
+    
+    Tables:
+        ####
+        # General
+        ####
+        errors: an error log
+
+        ####
+        # Contracts
+        ####
+        contract_details: details describing contracts of interest
+        contracts_matching: contracts matching query strings provided to `request_contracts_matching`.
+        market_rules: market rules indicating the price increment a contract can trade in.
+
+
+        ####
+        # Accounts
+        ####
+        accounts_managed: accounts managed by the TWS session login
+        accounts_family_codes: account family
+        accounts_managed: accounts managed by the TWS session login
+        accounts_family_codes: family codes used to group accounts together
+        accounts_value: account values
+        accounts_portfolio: account holdings
+        accounts_summary: account summary
+        accounts_positions: account positions
+        accounts_pnl: account PNL
+
+        ####
+        # News
+        ####
+
+        news_providers: currently subscribed news sources
+        news_bulletins: news bulletins
+        news_articles: the content of news articles requested via 'request_news_article'
+        news_historical: historical news headlines requested via 'request_news_historical'
+
+        ####
+        # Market Data
+        ####
+
+        ticks_price: real-time tick market data of price values
+        ticks_size: real-time tick market data of size values
+        ticks_string: real-time tick market data of string values
+        ticks_efp: real-time tick market data of exchange for physical (EFP) values
+        ticks_generic: real-time tick market data of generic values
+        ticks_option_computation: real-time tick market data of option computations
+        ticks_trade: real-time tick market data of trade prices
+        ticks_bid_ask: real-time tick market data of bid and ask prices
+        ticks_mid_point: real-time tick market data of mid-point prices
+        bars_historical: historical price bars
+        bars_realtime: real-time price bars
+
+        ####
+        # Order Management System (OMS)
+        ####
+
+        orders_open: open orders
+        orders_status: order statuses
+        orders_completed: completed orders
+        orders_exec_details: order execution details
+        orders_exec_commission_report: order execution commission report
+    """
 
     def __init__(self):
         self._client = _IbTwsClient()
@@ -220,8 +283,8 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def market_data_type(self, type: MarketDataType) -> None:
-        """Sets the type of market data to use after the close."""
+    def set_market_data_type(self, type: MarketDataType) -> None:
+        """Sets the default type of market data."""
         self._client.reqMarketDataType(marketDataType=type.value)
 
     # TODO: how to handle contract?
@@ -281,14 +344,14 @@ class IbSessionTws:
                                        keepUpToDate=keepUpToDate, chartOptions=[])
         return req_id
 
-    def cancel_bars_historical(self, req_id: int):
-        """Cancel a historical bars request.
-
-        Args:
-            req_id (int): request id
-
-        """
-        self._client.cancelHistoricalData(reqId=req_id)
+    # def cancel_bars_historical(self, req_id: int):
+    #     """Cancel a historical bars request.
+    # 
+    #     Args:
+    #         req_id (int): request id
+    # 
+    #     """
+    #     self._client.cancelHistoricalData(reqId=req_id)
 
     # TODO: how to handle contract?
     def request_bars_realtime(self, contract: Contract, barType: BarDataType, barSize: int = 5,
@@ -322,9 +385,9 @@ class IbSessionTws:
         self._client.cancelRealTimeBars(reqId=req_id)
 
     # TODO: how to handle contract?
-    def request_tick_by_tick_data(self, contract: Contract, tickType: TickDataType,
-                                  numberOfTicks: int = 0, ignoreSize: bool = False) -> int:
-        """Requests tick-by-tick data.
+    def request_tick_data_realtime(self, contract: Contract, tickType: TickDataType,
+                                   numberOfTicks: int = 0, ignoreSize: bool = False) -> int:
+        """Requests real-time tick-by-tick data.
 
         Args:
             contract (Contract): Contract data is requested for
@@ -341,8 +404,8 @@ class IbSessionTws:
                                        numberOfTicks=numberOfTicks, ignoreSize=ignoreSize)
         return req_id
 
-    def cancel_tick_by_tick_data(self, req_id: int):
-        """Cancel a tick-by-tick data request.
+    def cancel_tick_data_realtime(self, req_id: int):
+        """Cancel a real-time tick-by-tick data request.
 
         Args:
             req_id (int): request id
@@ -351,10 +414,10 @@ class IbSessionTws:
         self._client.cancelTickByTickData(reqId=req_id)
 
     # TODO: how to handle contract?
-    def request_historical_ticks(self, contract: Contract, start: dtu.DateTime, end: dtu.DateTime,
-                                 tickType: TickDataType, numberOfTicks: int,
-                                 type: MarketDataType = MarketDataType.FROZEN,
-                                 ignoreSize: bool = False) -> int:
+    def request_tick_data_historical(self, contract: Contract, start: dtu.DateTime, end: dtu.DateTime,
+                                     tickType: TickDataType, numberOfTicks: int,
+                                     type: MarketDataType = MarketDataType.FROZEN,
+                                     ignoreSize: bool = False) -> int:
         """Requests historical tick-by-tick data.
 
         Args:
@@ -388,6 +451,7 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
+    # TODO: rename?
     def cancel_all_orders(self) -> None:
         """Cancel all open orders."""
         self._client.reqGlobalCancel()
