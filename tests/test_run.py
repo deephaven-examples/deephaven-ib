@@ -1,4 +1,4 @@
-import dhib
+import deephaven_ib as dhib
 
 client = dhib.IbSessionTws()
 

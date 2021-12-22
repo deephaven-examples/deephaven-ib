@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 version = os.getenv("DH_IB_VERSION", default="0.0.0")
 
 setuptools.setup(
-    name="deephaven-ib",
+    name="deephaven_ib",
     version=version,
     author="David R. (Chip) Kent IV",
     author_email="chipkent@deephaven.io",
