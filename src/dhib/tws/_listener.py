@@ -45,13 +45,13 @@ class _IbListener(EWrapper):
 
         #TODO: review all table names
 
-        # General
+        ## General
 
         table_writers["error"] = DynamicTableWriter(
             ["RequestId", "ErrorCode", "ErrorDescription", "Error"],
             [dht.int64, dht.int64, dht.string, dht.string])
 
-        # Contracts
+        ## Contracts
 
         table_writers["contract_details"] = DynamicTableWriter(
             ["RequestId", *logger_contract_details.names()],
@@ -66,7 +66,7 @@ class _IbListener(EWrapper):
             ["MarketRuleId", *logger_price_increment.names()],
             [dht.int64, *logger_price_increment.types()])
 
-        # Accounts
+        ## Accounts
 
         table_writers["managed_accounts"] = DynamicTableWriter(["Account"], [dht.string])
 
@@ -93,7 +93,7 @@ class _IbListener(EWrapper):
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
             [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
 
-        # News
+        ## News
 
         table_writers["news_providers"] = DynamicTableWriter(["Provider"], [dht.string])
 
@@ -109,7 +109,7 @@ class _IbListener(EWrapper):
             ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
             [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
-        # Market Data
+        ## Market Data
 
         table_writers["tick_price"] = DynamicTableWriter(
             ["RequestId", "TickType", "Price", *logger_tick_attrib.names()],
@@ -149,6 +149,17 @@ class _IbListener(EWrapper):
             ["RequestId", *logger_real_time_bar_data.names()],
             [dht.int64, *logger_real_time_bar_data.types()])
 
+        table_writers["tick_last"] = DynamicTableWriter(
+            ["RequestId", *logger_hist_tick_last.names()],
+            [dht.int64, *logger_hist_tick_last.types()])
+
+        table_writers["tick_bid_ask"] = DynamicTableWriter(
+            ["RequestId", *logger_hist_tick_bid_ask.names()],
+            [dht.int64, *logger_hist_tick_bid_ask.types()])
+
+        table_writers["tick_mid_point"] = DynamicTableWriter(
+            ["RequestId", "Timestamp", "MidPoint"],
+            [dht.int64, dht.datetime, dht.float64])
 
 
 
@@ -194,17 +205,6 @@ class _IbListener(EWrapper):
 
 
 
-        self.tick_last = DynamicTableWriter(
-            ["RequestId", *logger_hist_tick_last.names()],
-            [dht.int64, *logger_hist_tick_last.types()])
-
-        self.tick_bid_ask = DynamicTableWriter(
-            ["RequestId", *logger_hist_tick_bid_ask.names()],
-            [dht.int64, *logger_hist_tick_bid_ask.types()])
-
-        self.tick_mid_point = DynamicTableWriter(
-            ["RequestId", "Timestamp", "MidPoint"],
-            [dht.int64, dht.datetime, dht.float64])
 
 
 
@@ -544,6 +544,62 @@ class _IbListener(EWrapper):
                           wap=wap, count=count)
         self._table_writers["bars_realtime"].logRow(reqId, *logger_real_time_bar_data.vals(bar))
 
+    ####
+    # reqTickByTickData and reqHistoricalTicks
+    ####
+
+    def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
+                          size: int, tickAttribLast: TickAttribLast, exchange: str,
+                          specialConditions: str):
+        EWrapper.tickByTickAllLast(self, reqId, tickType, time, price, size, tickAttribLast, exchange,
+                                   specialConditions)
+
+        t = HistoricalTickLast()
+        t.time = time
+        t.tickAttribLast = tickAttribLast
+        t.price = price
+        t.size = size
+        t.exchange = exchange
+        t.specialConditions = specialConditions
+
+        self._table_writers["tick_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
+
+    # noinspection PyUnusedLocal
+    def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
+        EWrapper.historicalTicksLast(self, reqId, ticks, done)
+
+        for t in ticks:
+            self._table_writers["tick_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
+
+    def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
+                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
+        EWrapper.tickByTickBidAsk(self, reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)
+
+        t = HistoricalTickBidAsk()
+        t.time = time
+        t.tickAttribBidAsk = tickAttribBidAsk
+        t.priceBid = bidPrice
+        t.priceAsk = askPrice
+        t.sizeBid = bidSize
+        t.sizeAsk = askSize
+
+        self._table_writers["tick_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
+
+    def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickBidAsk, done: bool):
+
+        for t in ticks:
+            self._table_writers["tick_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
+
+    def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
+        EWrapper.tickByTickMidPoint(self, reqId, time, midPoint)
+        self._table_writers["tick_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(time), midPoint)
+
+    def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTick, done: bool):
+        EWrapper.historicalTicks(self, reqId, ticks, done)
+
+        for t in ticks:
+            self._table_writers["tick_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
+
 
 
     #????
@@ -617,62 +673,6 @@ class _IbListener(EWrapper):
 
 
 
-
-    ####
-    # reqTickByTickData and reqHistoricalTicks
-    ####
-
-    def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
-                          size: int, tickAttribLast: TickAttribLast, exchange: str,
-                          specialConditions: str):
-        EWrapper.tickByTickAllLast(self, reqId, tickType, time, price, size, tickAttribLast, exchange,
-                                   specialConditions)
-
-        t = HistoricalTickLast()
-        t.time = time
-        t.tickAttribLast = tickAttribLast
-        t.price = price
-        t.size = size
-        t.exchange = exchange
-        t.specialConditions = specialConditions
-
-        self.tick_last.logRow(reqId, *logger_hist_tick_last.vals(t))
-
-    # noinspection PyUnusedLocal
-    def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
-        EWrapper.historicalTicksLast(self, reqId, ticks, done)
-
-        for t in ticks:
-            self.tick_last.logRow(reqId, *logger_hist_tick_last.vals(t))
-
-    def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
-                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
-        EWrapper.tickByTickBidAsk(self, reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)
-
-        t = HistoricalTickBidAsk()
-        t.time = time
-        t.tickAttribBidAsk = tickAttribBidAsk
-        t.priceBid = bidPrice
-        t.priceAsk = askPrice
-        t.sizeBid = bidSize
-        t.sizeAsk = askSize
-
-        self.tick_bid_ask.logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
-
-    def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickBidAsk, done: bool):
-
-        for t in ticks:
-            self.tick_bid_ask.logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
-
-    def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
-        EWrapper.tickByTickMidPoint(self, reqId, time, midPoint)
-        self.tick_mid_point.logRow(reqId, unix_sec_to_dh_datetime(time), midPoint)
-
-    def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTick, done: bool):
-        EWrapper.historicalTicks(self, reqId, ticks, done)
-
-        for t in ticks:
-            self.tick_mid_point.logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
 
 
 
