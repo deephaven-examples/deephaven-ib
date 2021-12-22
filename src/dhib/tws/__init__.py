@@ -9,14 +9,9 @@ from ..utils import next_unique_id, dh_to_ib_datetime
 __all__ = ["MarketDataType", "BarSize", "BarDataType", "Duration", "TickDataType", "IbSessionTws"]
 
 
-# TODO: automatically set request ids
-# TODO: raise exception if no connection and certain methods are called
 # TODO: make a request ID type?
-# TODO: document request functions with the table names they go with
 # TODO: get tables
-# TODO: document tables
 
-# TODO: rename?
 class MarketDataType(Enum):
     """Type of market data to use."""
 
@@ -222,7 +217,14 @@ class IbSessionTws:
 
         Returns:
             Request ID
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         req_id = next_unique_id()
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return req_id
@@ -253,7 +255,14 @@ class IbSessionTws:
 
         Returns:
             Request ID
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         req_id = next_unique_id()
         self._client.reqHistoricalNews(reqId=req_id, conId=conId, providerCodes=provider_codes,
                                        startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
@@ -269,7 +278,14 @@ class IbSessionTws:
 
         Returns:
             Request ID
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         req_id = next_unique_id()
         self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
@@ -282,7 +298,18 @@ class IbSessionTws:
     ####################################################################################################################
 
     def set_market_data_type(self, type: MarketDataType) -> None:
-        """Sets the default type of market data."""
+        """Sets the default type of market data.
+
+        Args:
+            type (MarketDataType): market data type
+
+        Raises:
+              Exception
+        """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         self._client.reqMarketDataType(marketDataType=type.value)
 
     # TODO: how to handle contract?
@@ -304,7 +331,13 @@ class IbSessionTws:
             snapshot (bool): True to return a single snapshot of Market data and have the market data subscription cancel.
                 Do not enter any genericTicklist values if you use snapshots.
             regulatory_snapshot (bool): True to get a regulatory snapshot.  Requires the US Value Snapshot Bundle for stocks.
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
         self._client.reqMktData(reqId=req_id, contract=contract, genericTickList=generic_tick_list, snapshot=snapshot,
@@ -316,6 +349,9 @@ class IbSessionTws:
 
         Args:
             req_id (int): request id
+
+        Raises:
+              Exception
         """
         self._client.cancelMktData(reqId=reqId)
 
@@ -336,22 +372,20 @@ class IbSessionTws:
 
         Returns:
             Request ID
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         req_id = next_unique_id()
         self._client.reqHistoricalData(reqId=req_id, contract=contract, endDateTime=dh_to_ib_datetime(end),
                                        durationStr=duration.value, barSizeSetting=barSize.value,
                                        whatToShow=barType.name, useRTH=(type == MarketDataType.FROZEN), formatDate=2,
                                        keepUpToDate=keepUpToDate, chartOptions=[])
         return req_id
-
-    # def cancel_bars_historical(self, req_id: int):
-    #     """Cancel a historical bars request.
-    # 
-    #     Args:
-    #         req_id (int): request id
-    # 
-    #     """
-    #     self._client.cancelHistoricalData(reqId=req_id)
 
     # TODO: how to handle contract?
     def request_bars_realtime(self, contract: Contract, barType: BarDataType, barSize: int = 5,
@@ -367,7 +401,13 @@ class IbSessionTws:
 
         Returns:
             Request ID
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
         self._client.reqRealTimeBars(reqId=req_id, contract=contract, barSize=barSize,
@@ -381,7 +421,14 @@ class IbSessionTws:
         Args:
             req_id (int): request id
 
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         self._client.cancelRealTimeBars(reqId=req_id)
 
     # TODO: how to handle contract?
@@ -398,7 +445,13 @@ class IbSessionTws:
 
         Returns:
             Request ID
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
         self._client.reqTickByTickData(reqId=req_id, contract=contract, tickType=tickType.value,
@@ -411,7 +464,14 @@ class IbSessionTws:
         Args:
             req_id (int): request id
 
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         self._client.cancelTickByTickData(reqId=req_id)
 
     # TODO: how to handle contract?
@@ -435,7 +495,13 @@ class IbSessionTws:
         Returns:
             Request ID
 
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         req_id = next_unique_id()
         whatToShow = tickType.value
 
@@ -456,7 +522,15 @@ class IbSessionTws:
 
     # TODO: rename?
     def cancel_all_orders(self) -> None:
-        """Cancel all open orders."""
+        """Cancel all open orders.
+
+        Raises:
+              Exception
+        """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         self._client.reqGlobalCancel()
 
     ## ???????
@@ -469,7 +543,14 @@ class IbSessionTws:
         Args:
             account (str): Account to request PNL for.  "All" requests PNL for all accounts.
             model_code (str): Model used to evaluate PNL.
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         req_id = next_unique_id()
         self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return req_id
