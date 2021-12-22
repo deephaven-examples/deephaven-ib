@@ -1,10 +1,13 @@
+
 import logging
+from threading import Thread
 from typing import Dict
 
 # noinspection PyPep8Naming
 from deephaven import DynamicTableWriter
 from ibapi import errors
 from ibapi import news
+from ibapi.client import EClient
 from ibapi.commission_report import CommissionReport
 from ibapi.common import *
 from ibapi.contract import Contract, ContractDetails
@@ -14,7 +17,6 @@ from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
-from ._client import IbClient
 from ._ibtypelogger import *
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
@@ -26,17 +28,22 @@ _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_A
 
 
 # TODO: map string "" to None
-# TODO: parse time strings
 
 # noinspection PyPep8Naming
-class _IbListener(EWrapper):
-    """Listener for data from IB."""
+class IbTwsClient(EWrapper, EClient):
+    """A client for communicating with IB TWS.
+
+    Almost all of the methods in this class are listeners for EWrapper and should not be called by users of the class.
+    """
 
     def __init__(self):
         EWrapper.__init__(self)
-        self._client = None
+        EClient.__init__(self, wrapper=self)
+        self._table_writers = IbTwsClient._build_table_writers()
+        self.tables = {name: tw.getTable() for (name, tw) in self._table_writers}
+        self.thread = None
         self._registered_contracts = None
-        self._table_writers = _IbListener._build_table_writers()
+
 
     @staticmethod
     def _build_table_writers() -> Dict[str, DynamicTableWriter]:
@@ -203,12 +210,57 @@ class _IbListener(EWrapper):
 
         return table_writers
 
-    def connect(self, client: IbClient):
-        # TODO: document
-        self._client = client
-        self._registered_contracts = set()
+    ####################################################################################################################
+    ####################################################################################################################
+    ## Connect / Disconnect / Subscribe
+    ####################################################################################################################
+    ####################################################################################################################
 
-        client.reqManagedAccts()
+    def connect(self, host: str = "", port: int = 7497, clientId: int = 0) -> None:
+        """Connect to an IB TWS session.  Raises an exception if already connected.
+
+        Args:
+            host (str): The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
+            port (int): TWS port, specified in TWS on the Configure>API>Socket Port field.
+                By default production trading uses port 7496 and paper trading uses port 7497.
+            clientId (int): A number used to identify this client connection.
+                All orders placed/modified from this client will be associated with this client identifier.
+
+                Note: Each client MUST connect with a unique clientId.
+
+        Returns:
+              None
+
+        Raises:
+              Exception
+        """
+
+        if self.isConnected():
+            raise Exception("IbTwsClient is already connected.")
+
+        EClient.connect(self, host, port, clientId)
+
+        self.thread = Thread(target=self.run)
+        self.thread.start()
+        setattr(self, "ib_thread", self.thread)
+
+        self._subscribe()
+
+    def disconnect(self) -> None:
+        """Disconnect from an IB TWS session.
+
+        Returns:
+            None
+        """
+
+        EClient.disconnect(self)
+        self.thread = None
+        self._registered_contracts = None
+
+    def _subscribe(self) -> None:
+        """Subscribe to IB data."""
+
+        self._registered_contracts = set()
 
         account_summary_tags = [
             "accountountType",
@@ -244,24 +296,15 @@ class _IbListener(EWrapper):
             "$LEDGER",
         ]
 
-        client.reqAccountSummary(reqId=next_unique_id(), groupName="All", tags=",".join(account_summary_tags))
-        client.reqPositions()
-        client.reqNewsBulletins(allMsgs=True)
-        client.reqExecutions(reqId=next_unique_id(), execFilter=ExecutionFilter())
-        client.reqCompletedOrders(apiOnly=False)
-        client.reqNewsProviders()
-        client.reqAllOpenOrders()
-        client.reqFamilyCodes()
-
-    def disconnect(self):
-        self._client = None
-
-    def request_contract_details(self, contract: Contract):
-        # TODO: Is checking to see if a contract is in the set sufficient to see if it has been registered?
-
-        if contract not in self._registered_contracts:
-            req_id = next_unique_id()
-            self._client.reqContractDetails(reqId=req_id, contract=contract)
+        self.reqManagedAccts()
+        self.reqAccountSummary(reqId=next_unique_id(), groupName="All", tags=",".join(account_summary_tags))
+        self.reqPositions()
+        self.reqNewsBulletins(allMsgs=True)
+        self.reqExecutions(reqId=next_unique_id(), execFilter=ExecutionFilter())
+        self.reqCompletedOrders(apiOnly=False)
+        self.reqNewsProviders()
+        self.reqAllOpenOrders()
+        self.reqFamilyCodes()
 
     ####################################################################################################################
     ####################################################################################################################
@@ -286,6 +329,14 @@ class _IbListener(EWrapper):
     ####
     # reqContractDetails
     ####
+
+    def request_contract_details(self, contract: Contract):
+        """Request contract details, if they have not yet been retrieved."""
+        # TODO: Is checking to see if a contract is in the set sufficient to see if it has been registered?
+
+        if contract not in self._registered_contracts:
+            req_id = next_unique_id()
+            self.reqContractDetails(reqId=req_id, contract=contract)
 
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.contractDetails(self, reqId, contractDetails)
@@ -338,7 +389,7 @@ class _IbListener(EWrapper):
 
         for account in accountsList.split(","):
             self._table_writers["accounts_managed"].logRow(account)
-            self._client.reqAccountUpdates(subscribe=True, acctCode=account)
+            self.reqAccountUpdates(subscribe=True, acctCode=account)
 
     ####
     # reqFamilyCodes
