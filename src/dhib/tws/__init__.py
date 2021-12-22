@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Dict, Any
 
 from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract
@@ -6,11 +7,10 @@ from ibapi.contract import Contract
 from ._twsclient import IbTwsClient as _IbTwsClient
 from ..utils import next_unique_id, dh_to_ib_datetime
 
-__all__ = ["MarketDataType", "BarSize", "BarDataType", "Duration", "TickDataType", "IbSessionTws"]
+__all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "IbSessionTws"]
 
 
 # TODO: make a request ID type?
-# TODO: get tables
 
 class MarketDataType(Enum):
     """Type of market data to use."""
@@ -202,6 +202,11 @@ class IbSessionTws:
     ## General
     ####################################################################################################################
     ####################################################################################################################
+
+    @property
+    def tables(self) -> Dict[str, Any]:
+        """Gets a dictionary of all data tables."""
+        return self._client.tables
 
     ####################################################################################################################
     ####################################################################################################################
