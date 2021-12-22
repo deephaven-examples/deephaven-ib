@@ -116,7 +116,7 @@ class IbSessionTws:
         accounts_portfolio: account holdings.  Automatically populated.
         accounts_summary: account summary.  Automatically populated.
         accounts_positions: account positions.  Automatically populated.
-        accounts_pnl: account PNL requested via 'request_pnl'.
+        accounts_pnl: account PNL requested via 'request_account_pnl'.
 
         ####
         # News
@@ -240,6 +240,25 @@ class IbSessionTws:
     ## Accounts
     ####################################################################################################################
     ####################################################################################################################
+
+    # TODO request by default when pull accounts?
+    def request_account_pnl(self, account: str = "All", model_code: str = "") -> int:
+        """Request PNL updates.  Results are returned in the `accounts_pnl` table.
+
+        Args:
+            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
+            model_code (str): Model used to evaluate PNL.
+
+        Raises:
+              Exception
+        """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
+        req_id = next_unique_id()
+        self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
+        return req_id
 
     ####################################################################################################################
     ####################################################################################################################
@@ -545,27 +564,9 @@ class IbSessionTws:
 
     ## ???????
 
-    # TODO: rename
-    # TODO request by default when pull accounts?
-    def request_pnl(self, account: str = "All", model_code: str = "") -> int:
-        """Request PNL updates.  Results are returned in the `accounts_pnl` table.
-
-        Args:
-            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
-            model_code (str): Model used to evaluate PNL.
-
-        Raises:
-              Exception
-        """
-
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
-        req_id = next_unique_id()
-        self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
-        return req_id
 
     # TODO: *** add contract details requests in this file ***
+    # TODO: maybe have a function to get a DH-ib contract, that is standardized.  E.g. an object that wraps a normalized IB contract?
 
     #TODO: placeOrder, cancelOrder, reqGlobalCancel
 

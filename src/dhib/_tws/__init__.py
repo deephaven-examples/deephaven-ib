@@ -175,7 +175,6 @@ class IbTwsClient(EWrapper, EClient):
             ["RequestId", *logger_bar_data.names()],
             [dht.int64, *logger_bar_data.types()])
 
-        # TODO: realtime or real_time?
         table_writers["bars_realtime"] = DynamicTableWriter(
             ["RequestId", *logger_real_time_bar_data.names()],
             [dht.int64, *logger_real_time_bar_data.types()])
