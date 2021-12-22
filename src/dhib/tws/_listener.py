@@ -6,9 +6,7 @@ from deephaven import DynamicTableWriter
 from ibapi import errors
 from ibapi import news
 from ibapi.commission_report import CommissionReport
-from ibapi.common import ListOfNewsProviders, OrderId, TickerId, TickAttrib, BarData, TickAttribLast, \
-    ListOfHistoricalTickLast, TickAttribBidAsk, ListOfHistoricalTickBidAsk, ListOfHistoricalTick, HistoricalTickBidAsk, \
-    HistoricalTickLast, ListOfFamilyCode, ListOfContractDescription, ListOfPriceIncrements, RealTimeBar
+from ibapi.common import *
 from ibapi.contract import Contract, ContractDetails
 from ibapi.execution import Execution, ExecutionFilter
 from ibapi.order import Order
@@ -42,6 +40,7 @@ class _IbListener(EWrapper):
 
     @staticmethod
     def _build_table_writers() -> Dict[str, DynamicTableWriter]:
+        # noinspection PyDictCreation
         table_writers = {}
 
         ####
@@ -115,8 +114,8 @@ class _IbListener(EWrapper):
             [dht.int64, dht.string, dht.string])
 
         table_writers["news_historical"] = DynamicTableWriter(
-            ["RequestId", "Time", "ProviderCode", "ArticleId", "Headline"],
-            [dht.int64, dht.string, dht.string, dht.string, dht.string])
+            ["RequestId", "Timestamp", "ProviderCode", "ArticleId", "Headline"],
+            [dht.int64, dht.datetime, dht.string, dht.string, dht.string])
 
         ####
         # Market Data
@@ -436,7 +435,8 @@ class _IbListener(EWrapper):
 
     def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
         EWrapper.historicalNews(self, requestId, time, providerCode, articleId, headline)
-        self._table_writers["news_historical"].logRow(requestId, time, providerCode, articleId, headline)
+        self._table_writers["news_historical"].logRow(requestId, ib_to_dh_datetime(time), providerCode, articleId,
+                                                      headline)
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
         # do not need to implement
