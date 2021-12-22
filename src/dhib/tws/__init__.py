@@ -106,30 +106,28 @@ class IbSessionTws:
         ####
         # Contracts
         ####
-        contract_details: details describing contracts of interest
+        contract_details: details describing contracts of interest.  Automatically populated.
         contracts_matching: contracts matching query strings provided to `request_contracts_matching`.
-        market_rules: market rules indicating the price increment a contract can trade in.
+        market_rules: market rules indicating the price increment a contract can trade in.  Automatically populated.
 
 
         ####
         # Accounts
         ####
-        accounts_managed: accounts managed by the TWS session login
-        accounts_family_codes: account family
-        accounts_managed: accounts managed by the TWS session login
-        accounts_family_codes: family codes used to group accounts together
-        accounts_value: account values
-        accounts_portfolio: account holdings
-        accounts_summary: account summary
-        accounts_positions: account positions
-        accounts_pnl: account PNL
+        accounts_managed: accounts managed by the TWS session login.  Automatically populated.
+        accounts_family_codes: account family.  Automatically populated.
+        accounts_value: account values.  Automatically populated.
+        accounts_portfolio: account holdings.  Automatically populated.
+        accounts_summary: account summary.  Automatically populated.
+        accounts_positions: account positions.  Automatically populated.
+        accounts_pnl: account PNL requested via 'request_pnl'.
 
         ####
         # News
         ####
 
-        news_providers: currently subscribed news sources
-        news_bulletins: news bulletins
+        news_providers: currently subscribed news sources.  Automatically populated.
+        news_bulletins: news bulletins.  Automatically populated.
         news_articles: the content of news articles requested via 'request_news_article'
         news_historical: historical news headlines requested via 'request_news_historical'
 
@@ -137,27 +135,27 @@ class IbSessionTws:
         # Market Data
         ####
 
-        ticks_price: real-time tick market data of price values
-        ticks_size: real-time tick market data of size values
-        ticks_string: real-time tick market data of string values
-        ticks_efp: real-time tick market data of exchange for physical (EFP) values
-        ticks_generic: real-time tick market data of generic values
-        ticks_option_computation: real-time tick market data of option computations
-        ticks_trade: real-time tick market data of trade prices
-        ticks_bid_ask: real-time tick market data of bid and ask prices
-        ticks_mid_point: real-time tick market data of mid-point prices
-        bars_historical: historical price bars
-        bars_realtime: real-time price bars
+        ticks_price: real-time tick market data of price values requested via 'request_market_data'.
+        ticks_size: real-time tick market data of size values requested via 'request_market_data'.
+        ticks_string: real-time tick market data of string values requested via 'request_market_data'.
+        ticks_efp: real-time tick market data of exchange for physical (EFP) values requested via 'request_market_data'.
+        ticks_generic: real-time tick market data of generic values requested via 'request_market_data'.
+        ticks_option_computation: real-time tick market data of option computations requested via 'request_market_data'.
+        ticks_trade: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+        ticks_bid_ask: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+        ticks_mid_point: real-time tick market data of mid-point prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+        bars_historical: historical price bars requested via 'request_bars_historical'
+        bars_realtime: real-time price bars requested via 'request_bars_realtime'
 
         ####
         # Order Management System (OMS)
         ####
 
-        orders_open: open orders
-        orders_status: order statuses
-        orders_completed: completed orders
-        orders_exec_details: order execution details
-        orders_exec_commission_report: order execution commission report
+        orders_open: open orders.  Automatically populated.
+        orders_status: order statuses.  Automatically populated.
+        orders_completed: completed orders.  Automatically populated.
+        orders_exec_details: order execution details.  Automatically populated.
+        orders_exec_commission_report: order execution commission report.  Automatically populated.
     """
 
     def __init__(self):
@@ -217,7 +215,7 @@ class IbSessionTws:
     ####################################################################################################################
 
     def request_contracts_matching(self, pattern: str) -> int:
-        """Request contracts matching a pattern.  Results are returned in the "contracts_matching" table.
+        """Request contracts matching a pattern.  Results are returned in the `contracts_matching` table.
 
         Args:
             pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
@@ -244,7 +242,7 @@ class IbSessionTws:
     # TODO: how to handle conId?
     def request_news_historical(self, conId: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
                                 total_results: int = 100) -> int:
-        """ Request historical news for a contract.  Results are returned in the "news_historical" table.
+        """ Request historical news for a contract.  Results are returned in the `news_historical` table.
 
         Args:
             conId (int): contract id of ticker
@@ -263,7 +261,7 @@ class IbSessionTws:
         return req_id
 
     def request_news_article(self, provider_code: str, article_id: str) -> int:
-        """ Request the text of a news article.  Results are returned in the "news_articles" table.
+        """ Request the text of a news article.  Results are returned in the `news_articles` table.
 
         Args:
             provider_code (str): short code indicating news provider, e.g. FLY
@@ -291,7 +289,9 @@ class IbSessionTws:
     # TODO: fill in generic_tick_list with ContractSamples?
     def request_market_data(self, contract: Contract, generic_tick_list: str, snapshot: bool = False,
                             regulatory_snapshot: bool = False) -> int:
-        """ Request market data for a contract.
+        """ Request market data for a contract.  Results are returned in the `ticks_price`, `ticks_size`,
+        `ticks_string`, `ticks_efp`, `ticks_generic`, and `ticks_option_computation` tables.
+
 
         Args:
             contract (Contract): contract data is requested for
@@ -323,7 +323,7 @@ class IbSessionTws:
     def request_bars_historical(self, contract: Contract, end: dtu.DateTime,
                                 duration: Duration, barSize: BarSize, barType: BarDataType,
                                 type: MarketDataType = MarketDataType.FROZEN, keepUpToDate: bool = True) -> int:
-        """Requests historical bars for a contract.
+        """Requests historical bars for a contract.  Results are returned in the `bars_historical` table.
 
         Args:
             contract (Contract): contract data is requested for
@@ -356,7 +356,7 @@ class IbSessionTws:
     # TODO: how to handle contract?
     def request_bars_realtime(self, contract: Contract, barType: BarDataType, barSize: int = 5,
                               type: MarketDataType = MarketDataType.FROZEN) -> int:
-        """Requests real time bars for a contract.
+        """Requests real time bars for a contract.  Results are returned in the `bars_realtime` table.
 
         Args:
             contract (Contract): contract data is requested for
@@ -387,7 +387,8 @@ class IbSessionTws:
     # TODO: how to handle contract?
     def request_tick_data_realtime(self, contract: Contract, tickType: TickDataType,
                                    numberOfTicks: int = 0, ignoreSize: bool = False) -> int:
-        """Requests real-time tick-by-tick data.
+        """Requests real-time tick-by-tick data.  Results are returned in the ticks_trade`, `ticks_bid_ask`,
+        and `ticks_mid_point` tables.
 
         Args:
             contract (Contract): Contract data is requested for
@@ -418,7 +419,9 @@ class IbSessionTws:
                                      tickType: TickDataType, numberOfTicks: int,
                                      type: MarketDataType = MarketDataType.FROZEN,
                                      ignoreSize: bool = False) -> int:
-        """Requests historical tick-by-tick data.
+        """Requests historical tick-by-tick data. Results are returned in the ticks_trade`, `ticks_bid_ask`,
+        and `ticks_mid_point` tables.
+
 
         Args:
             contract (Contract): Contract data is requested for
@@ -458,17 +461,10 @@ class IbSessionTws:
 
     ## ???????
 
-
-
-
-
-
-
-
-
+    # TODO: rename
     # TODO request by default when pull accounts?
     def request_pnl(self, account: str = "All", model_code: str = "") -> int:
-        """Request PNL updates.
+        """Request PNL updates.  Results are returned in the `accounts_pnl` table.
 
         Args:
             account (str): Account to request PNL for.  "All" requests PNL for all accounts.
