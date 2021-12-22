@@ -23,6 +23,8 @@ from ..utils import next_unique_id, unix_sec_to_dh_datetime
 logging.basicConfig(level=logging.DEBUG)
 
 _error_code_map = {e.code(): e.msg() for e in dir(errors) if isinstance(e, errors.CodeMsgPair)}
+_news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
+                     news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
 
 
 # TODO: map string "" to None
@@ -42,13 +44,11 @@ class _IbListener(EWrapper):
     def _build_table_writers() -> Dict[str, DynamicTableWriter]:
         table_writers = {}
 
-        # TODO: review all table names
-
         ####
         # General
         ####
 
-        table_writers["error"] = DynamicTableWriter(
+        table_writers["errors"] = DynamicTableWriter(
             ["RequestId", "ErrorCode", "ErrorDescription", "Error"],
             [dht.int64, dht.int64, dht.string, dht.string])
 
@@ -56,12 +56,11 @@ class _IbListener(EWrapper):
         # Contracts
         ####
 
-        table_writers["contract_details"] = DynamicTableWriter(
+        table_writers["contracts_details"] = DynamicTableWriter(
             ["RequestId", *logger_contract_details.names()],
             [dht.int64, *logger_contract_details.types()])
 
-        # TODO: rename
-        table_writers["matching_symbols"] = DynamicTableWriter(
+        table_writers["contracts_matching"] = DynamicTableWriter(
             ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
             [dht.int64, *logger_contract.types(), dht.string])
 
@@ -73,30 +72,33 @@ class _IbListener(EWrapper):
         # Accounts
         ####
 
-        table_writers["managed_accounts"] = DynamicTableWriter(["Account"], [dht.string])
+        table_writers["accounts_managed"] = DynamicTableWriter(["Account"], [dht.string])
 
         table_writers["family_codes"] = DynamicTableWriter(
             [*logger_family_code.names()],
             [*logger_family_code.types()])
 
-        table_writers["account_value"] = DynamicTableWriter(
+        table_writers["accounts_value"] = DynamicTableWriter(
             ["Account", "Currency", "Key", "Value"],
             [dht.string, dht.string, dht.string, dht.string])
 
+        # TODO: rename accounts_portfolio?
         table_writers["portfolio"] = DynamicTableWriter(
             ["Account", *logger_contract.names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
              "UnrealizedPnl", "RealizedPnl"],
             [dht.string, *logger_contract.types(), dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64])
 
-        table_writers["account_summary"] = DynamicTableWriter(
+        table_writers["accounts_summary"] = DynamicTableWriter(
             ["ReqId", "Account", "Tag", "Value", "Currency"],
             [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
+        #TODO: rename accounts_positions?
         table_writers["positions"] = DynamicTableWriter(
             ["Account", *logger_contract.names(), "Position", "AvgCost"],
             [dht.string, *logger_contract.types(), dht.float64, dht.float64])
 
+        #TODO: rename accounts_pnl
         table_writers["pnl"] = DynamicTableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
             [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
@@ -111,7 +113,7 @@ class _IbListener(EWrapper):
             ["MsgId", "MsgType", "Message", "OriginExch"],
             [dht.int64, dht.string, dht.string, dht.string])
 
-        table_writers["news_article"] = DynamicTableWriter(
+        table_writers["news_articles"] = DynamicTableWriter(
             ["RequestId", "ArticleType", "ArticleText"],
             [dht.int64, dht.string, dht.string])
 
@@ -123,35 +125,36 @@ class _IbListener(EWrapper):
         # Market Data
         ####
 
-        table_writers["tick_price"] = DynamicTableWriter(
+        table_writers["ticks_price"] = DynamicTableWriter(
             ["RequestId", "TickType", "Price", *logger_tick_attrib.names()],
             [dht.int64, dht.string, dht.float64, *logger_tick_attrib.types()])
 
-        table_writers["tick_size"] = DynamicTableWriter(
+        table_writers["ticks_size"] = DynamicTableWriter(
             ["RequestId", "TickType", "Size"],
             [dht.int64, dht.string, dht.int64])
 
-        table_writers["tick_string"] = DynamicTableWriter(
+        table_writers["ticks_string"] = DynamicTableWriter(
             ["RequestId", "TickType", "Value"],
             [dht.int64, dht.string, dht.string])
 
         # exchange for physical
-        table_writers["tick_efp"] = DynamicTableWriter(
+        table_writers["ticks_efp"] = DynamicTableWriter(
             ["RequestId", "TickType", "BasisPoints", "FormattedBasisPoints", "TotalDividends", "HoldDays",
              "FutureLastTradeDate", "DividendImpact", "DividendsToLastTradeDate"],
             [dht.int64, dht.string, dht.float64, dht.string, dht.float64, dht.int64,
              dht.string, dht.float64, dht.float64])
 
-        table_writers["tick_generic"] = DynamicTableWriter(
+        table_writers["ticks_generic"] = DynamicTableWriter(
             ["RequestId", "TickType", "Value"],
             [dht.int64, dht.string, dht.float64])
 
-        table_writers["tick_option_computation"] = DynamicTableWriter(
+        table_writers["ticks_option_computation"] = DynamicTableWriter(
             ["RequestId", "TickType", "TickAttrib", "ImpliedVol", "Delta", "OptPrice", "PvDividend", "Gamma",
              "Vega", "Theta", "UndPrice"],
             [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64, dht.float64])
 
+        #TODO: reorder bars?
         table_writers["bars_historical"] = DynamicTableWriter(
             ["RequestId", *logger_bar_data.names()],
             [dht.int64, *logger_bar_data.types()])
@@ -161,15 +164,15 @@ class _IbListener(EWrapper):
             ["RequestId", *logger_real_time_bar_data.names()],
             [dht.int64, *logger_real_time_bar_data.types()])
 
-        table_writers["tick_last"] = DynamicTableWriter(
+        table_writers["ticks_last"] = DynamicTableWriter(
             ["RequestId", *logger_hist_tick_last.names()],
             [dht.int64, *logger_hist_tick_last.types()])
 
-        table_writers["tick_bid_ask"] = DynamicTableWriter(
+        table_writers["ticks_bid_ask"] = DynamicTableWriter(
             ["RequestId", *logger_hist_tick_bid_ask.names()],
             [dht.int64, *logger_hist_tick_bid_ask.types()])
 
-        table_writers["tick_mid_point"] = DynamicTableWriter(
+        table_writers["ticks_mid_point"] = DynamicTableWriter(
             ["RequestId", "Timestamp", "MidPoint"],
             [dht.int64, dht.datetime, dht.float64])
 
@@ -195,7 +198,7 @@ class _IbListener(EWrapper):
             ["ReqId", *logger_contract.names(), *logger_execution.names()],
             [dht.int64, *logger_contract.types(), *logger_execution.types()])
 
-        table_writers["commission_report"] = DynamicTableWriter(
+        table_writers["exec_commission_report"] = DynamicTableWriter(
             [*logger_commission_report.names()],
             [*logger_commission_report.types()])
 
@@ -277,7 +280,7 @@ class _IbListener(EWrapper):
 
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
         EWrapper.error(self, reqId, errorCode, errorString)
-        self._table_writers["error"].logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
+        self._table_writers["errors"].logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
 
     ####################################################################################################################
     ####################################################################################################################
@@ -291,12 +294,12 @@ class _IbListener(EWrapper):
 
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.contractDetails(self, reqId, contractDetails)
-        self._table_writers["contract_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
+        self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
         self._registered_contracts.add(contractDetails.contract)
 
     def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.bondContractDetails(self, reqId, contractDetails)
-        self._table_writers["contract_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
+        self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
         self._registered_contracts.add(contractDetails.contract)
 
     def contractDetailsEnd(self, reqId: int):
@@ -311,7 +314,7 @@ class _IbListener(EWrapper):
         EWrapper.symbolSamples(self, reqId, contractDescriptions)
 
         for cd in contractDescriptions:
-            self._table_writers["matching_symbols"].logRow(reqId, *logger_contract.vals(cd.contract),
+            self._table_writers["contracts_matching"].logRow(reqId, *logger_contract.vals(cd.contract),
                                                            to_string_set(cd.derivativeSecTypes))
             self.request_contract_details(cd.contract)
 
@@ -339,7 +342,7 @@ class _IbListener(EWrapper):
         EWrapper.managedAccounts(self, accountsList)
 
         for account in accountsList.split(","):
-            self._table_writers["managed_accounts"].logRow(account)
+            self._table_writers["accounts_managed"].logRow(account)
             self._client.reqAccountUpdates(subscribe=True, acctCode=account)
 
     ####
@@ -358,7 +361,7 @@ class _IbListener(EWrapper):
 
     def updateAccountValue(self, key: str, val: str, currency: str, accountName: str):
         EWrapper.updateAccountValue(self, key, val, currency, accountName)
-        self._table_writers["account_value"].logRow(accountName, currency, key, val)
+        self._table_writers["accounts_value"].logRow(accountName, currency, key, val)
 
     def updatePortfolio(self, contract: Contract, position: float,
                         marketPrice: float, marketValue: float,
@@ -376,7 +379,7 @@ class _IbListener(EWrapper):
 
     def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
         EWrapper.accountSummary(self, reqId, account, tag, value, currency)
-        self._table_writers["account_summary"].logRow(reqId, account, tag, value, currency)
+        self._table_writers["accounts_summary"].logRow(reqId, account, tag, value, currency)
 
     ####
     # reqPositions
@@ -418,18 +421,8 @@ class _IbListener(EWrapper):
 
     def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
         EWrapper.updateNewsBulletin(self, msgId, msgType, newsMessage, originExch)
-
-        # TODO: Clean up with better mapping
-        if msgType == news.NEWS_MSG:
-            mtype = "NEWS"
-        elif msgType == news.EXCHANGE_AVAIL_MSG:
-            mtype = "EXCHANGE_AVAILABLE"
-        elif msgType == news.EXCHANGE_UNAVAIL_MSG:
-            mtype = "EXCHANGE_UNAVAILABLE"
-        else:
-            mtype = f"UNKNOWN({msgType})"
-
-        self._table_writers["news_bulletins"].logRow(msgId, mtype, newsMessage, originExch)
+        self._table_writers["news_bulletins"].logRow(msgId, map_values(msgType, _news_msgtype_map), newsMessage,
+                                                     originExch)
 
     ####
     # reqNewsArticle
@@ -438,7 +431,7 @@ class _IbListener(EWrapper):
     def newsArticle(self, requestId: int, articleType: int, articleText: str):
         EWrapper.newsArticle(self, requestId, articleType, articleText)
         at = map_values(articleType, {0: "PlainTextOrHtml", 1: "BinaryDataOrPdf"})
-        self._table_writers["news_article"].logRow(requestId, at, articleText)
+        self._table_writers["news_articles"].logRow(requestId, at, articleText)
 
     ####
     # reqHistoricalNews
@@ -464,18 +457,18 @@ class _IbListener(EWrapper):
 
     def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
         EWrapper.tickPrice(self, reqId, tickType, price, attrib)
-        self._table_writers["tick_price"].logRow(reqId, TickTypeEnum(tickType).name, price,
+        self._table_writers["ticks_price"].logRow(reqId, TickTypeEnum(tickType).name, price,
                                                  *logger_tick_attrib.vals(attrib))
         # TODO: need to relate request to security ***
 
     def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
         EWrapper.tickSize(self, reqId, tickType, size)
-        self._table_writers["tick_size"].logRow(reqId, TickTypeEnum(tickType).name, size)
+        self._table_writers["ticks_size"].logRow(reqId, TickTypeEnum(tickType).name, size)
         # TODO: need to relate request to security ***
 
     def tickString(self, reqId: TickerId, tickType: TickType, value: str):
         EWrapper.tickString(self, reqId, tickType, value)
-        self._table_writers["tick_string"].logRow(reqId, TickTypeEnum(tickType).name, value)
+        self._table_writers["ticks_string"].logRow(reqId, TickTypeEnum(tickType).name, value)
         # TODO: need to relate request to security ***
 
     def tickEFP(self, reqId: TickerId, tickType: TickType, basisPoints: float,
@@ -484,14 +477,14 @@ class _IbListener(EWrapper):
                 dividendsToLastTradeDate: float):
         EWrapper.tickEFP(self, reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
                          futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
-        self._table_writers["tick_efp"].logRow(reqId, TickTypeEnum(tickType).name, basisPoints, formattedBasisPoints,
+        self._table_writers["ticks_efp"].logRow(reqId, TickTypeEnum(tickType).name, basisPoints, formattedBasisPoints,
                                                totalDividends, holdDays, futureLastTradeDate, dividendImpact,
                                                dividendsToLastTradeDate)
         # TODO: need to relate request to security ***
 
     def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
         EWrapper.tickGeneric(self, reqId, tickType, value)
-        self._table_writers["tick_generic"].logRow(reqId, TickTypeEnum(tickType).name, value)
+        self._table_writers["ticks_generic"].logRow(reqId, TickTypeEnum(tickType).name, value)
         # TODO: need to relate request to security ***
 
     def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
@@ -500,7 +493,7 @@ class _IbListener(EWrapper):
         EWrapper.tickOptionComputation(self, reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend,
                                        gamma, vega, theta, undPrice)
         ta = map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
-        self._table_writers["tick_option_computation"].logRow(reqId, TickTypeEnum(tickType).name, ta, impliedVol, delta,
+        self._table_writers["ticks_option_computation"].logRow(reqId, TickTypeEnum(tickType).name, ta, impliedVol, delta,
                                                               optPrice, pvDividend, gamma, vega, theta, undPrice)
         # TODO: need to relate request to security ***
 
@@ -552,14 +545,14 @@ class _IbListener(EWrapper):
         t.exchange = exchange
         t.specialConditions = specialConditions
 
-        self._table_writers["tick_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
+        self._table_writers["ticks_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
 
     # noinspection PyUnusedLocal
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
         EWrapper.historicalTicksLast(self, reqId, ticks, done)
 
         for t in ticks:
-            self._table_writers["tick_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
+            self._table_writers["ticks_last"].logRow(reqId, *logger_hist_tick_last.vals(t))
 
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
                          bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
@@ -573,22 +566,22 @@ class _IbListener(EWrapper):
         t.sizeBid = bidSize
         t.sizeAsk = askSize
 
-        self._table_writers["tick_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
+        self._table_writers["ticks_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
 
     def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickBidAsk, done: bool):
 
         for t in ticks:
-            self._table_writers["tick_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
+            self._table_writers["ticks_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
 
     def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
         EWrapper.tickByTickMidPoint(self, reqId, time, midPoint)
-        self._table_writers["tick_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(time), midPoint)
+        self._table_writers["ticks_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(time), midPoint)
 
     def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTick, done: bool):
         EWrapper.historicalTicks(self, reqId, ticks, done)
 
         for t in ticks:
-            self._table_writers["tick_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
+            self._table_writers["ticks_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
 
     ####################################################################################################################
     ####################################################################################################################
@@ -649,7 +642,7 @@ class _IbListener(EWrapper):
 
     def commissionReport(self, commissionReport: CommissionReport):
         EWrapper.commissionReport(self, commissionReport)
-        self._table_writers["commission_report"].logRow(*logger_commission_report.vals(commissionReport))
+        self._table_writers["exec_commission_report"].logRow(*logger_commission_report.vals(commissionReport))
 
     ####################################################################################################################
     ####################################################################################################################
