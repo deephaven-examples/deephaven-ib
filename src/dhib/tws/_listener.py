@@ -2,7 +2,7 @@ import logging
 from typing import Dict
 
 # noinspection PyPep8Naming
-from deephaven import DynamicTableWriter, Types as dht
+from deephaven import DynamicTableWriter
 from ibapi import errors
 from ibapi import news
 from ibapi.commission_report import CommissionReport
@@ -192,16 +192,12 @@ class _IbListener(EWrapper):
             [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
         table_writers["exec_details"] = DynamicTableWriter(
-            ["ReqId", "Time", "Account", *logger_contract.names(), "Exchange", "Side", "Shares",
-             "Price", "CumQty", "AvgPrice", "Liquidation", "EvRule", "EvMultiplier", "ModelCode", "LastLiquidity",
-             "ExecId", "PermId", "ClientId", "OrderId", "OrderRef"],
-            [dht.int64, dht.string, dht.string, *logger_contract.types(), dht.string, dht.string, dht.float64,
-             dht.float64, dht.float64, dht.float64, dht.int64, dht.string, dht.float64, dht.string, dht.int64,
-             dht.string, dht.int64, dht.int64, dht.int64, dht.string])
+            ["ReqId", *logger_contract.names(), *logger_execution.names()],
+            [dht.int64, *logger_contract.types(), *logger_execution.types()])
 
         table_writers["commission_report"] = DynamicTableWriter(
-            ["ExecId", "Currency", "Commission", "RealizedPnl", "Yield", "YieldRedemptionDate"],
-            [dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.int64])
+            [*logger_commission_report.names()],
+            [*logger_commission_report.types()])
 
         ####
         # End
@@ -641,32 +637,19 @@ class _IbListener(EWrapper):
     # reqExecutions
     ####
 
-    #TODO: ***** look for objects that need loggers, like execution ****
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
         EWrapper.execDetails(self, reqId, contract, execution)
-        self._table_writers["exec_details"].logRow(reqId, execution.time, execution.acctNumber,
-                                                   *logger_contract.vals(contract),
-                                                   execution.exchange, execution.side, execution.shares,
-                                                   execution.price, execution.cumQty, execution.avgPrice,
-                                                   execution.liquidation,
-                                                   execution.evRule, execution.evMultiplier, execution.modelCode,
-                                                   execution.lastLiquidity,
-                                                   execution.execId, execution.permId, execution.clientId,
-                                                   execution.orderId,
-                                                   execution.orderRef)
+        self._table_writers["exec_details"].logRow(reqId, *logger_contract.vals(contract),
+                                                   logger_execution.vals(execution))
         self.request_contract_details(contract)
 
     def execDetailsEnd(self, reqId: int):
         # do not need to implement
         EWrapper.execDetailsEnd(self, reqId)
 
-    #TODO: ***** look for objects that need loggers, like commissionreport ****
     def commissionReport(self, commissionReport: CommissionReport):
         EWrapper.commissionReport(self, commissionReport)
-        self._table_writers["commission_report"].logRow(commissionReport.execId, commissionReport.currency,
-                                                        commissionReport.commission,
-                                                        commissionReport.realizedPNL, commissionReport.yield_,
-                                                        commissionReport.yieldRedemptionDate)
+        self._table_writers["commission_report"].logRow(*logger_commission_report.vals(commissionReport))
 
     ####################################################################################################################
     ####################################################################################################################

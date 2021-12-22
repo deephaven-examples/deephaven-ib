@@ -4,7 +4,7 @@ from typing import Any, List, Tuple, Callable
 from deephaven import Types as dht
 
 from .._logging_utils import map_values, to_string_val, to_string_set
-from ..utils import unix_sec_to_dh_datetime
+from ..utils import unix_sec_to_dh_datetime, ib_to_dh_datetime
 
 
 class IbComplexTypeLogger:
@@ -516,5 +516,59 @@ def _details_order_state() -> List[Tuple]:
 
 
 logger_order_state = IbComplexTypeLogger("OrderState", _details_order_state())
+
+
+####
+
+def _details_execution() -> List[Tuple]:
+    """ Details for logging Execution. """
+
+    return [
+        ("ExecId", dht.string, lambda e: e.execId),
+        ("Timestamp", dht.datetime, lambda e: ib_to_dh_datetime(e.time)),
+        ("AcctNumber", dht.string, lambda e: e.acctNumber),
+        ("Exchange", dht.string, lambda e: e.exchange),
+        ("Side", dht.string, lambda e: e.side),
+        ("Shares", dht.float64, lambda e: e.shares),
+        ("Price", dht.float64, lambda e: e.price),
+        ("PermId", dht.int64, lambda e: e.permId),
+        ("ClientId", dht.int64, lambda e: e.clientId),
+        ("OrderId", dht.int64, lambda e: e.orderId),
+        ("Liquidation", dht.int64, lambda e: e.liquidation),
+        ("CumQty", dht.float64, lambda e: e.cumQty),
+        ("AvgPrice", dht.float64, lambda e: e.avgPrice),
+        ("OrderRef", dht.string, lambda e: e.orderRef),
+        ("EvRule", dht.string, lambda e: e.evRule),
+        ("EvMultiplier", dht.float64, lambda e: e.evMultiplier),
+        ("ModelCode", dht.string, lambda e: e.modelCode),
+        ("LastLiquidity", dht.int64, lambda e: e.lastLiquidity),
+    ]
+
+
+logger_execution = IbComplexTypeLogger("Execution", _details_execution())
+
+####
+
+def _details_commission_report() -> List[Tuple]:
+    """ Details for logging CommissionReport. """
+
+    def format_yield_redemption_date(date: int) -> str:
+        # YYYYMMDD format
+        d = date % 100
+        m = int((date / 100) % 100)
+        y = int(date / 10000)
+        return f"{y:04}-{m:02}-{d:02}"
+
+    return [
+        ("ExecId", dht.string, lambda cr: cr.execId),
+        ("Commission", dht.float64, lambda cr: cr.commission),
+        ("Currency", dht.string, lambda cr: cr.currency),
+        ("RealizedPNL", dht.float64, lambda cr: cr.realizedPNL),
+        ("Yield", dht.float64, lambda cr: cr.yield_),
+        ("YieldRedemptionDate", dht.string, lambda cr: format_yield_redemption_date(cr.yieldRedemptionDate)),
+    ]
+
+
+logger_commission_report = IbComplexTypeLogger("CommissionReport", _details_commission_report())
 
 ####
