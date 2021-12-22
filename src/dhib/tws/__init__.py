@@ -6,7 +6,7 @@ from ibapi.contract import Contract
 from ._twsclient import IbTwsClient as _IbTwsClient
 from ..utils import next_unique_id, dh_to_ib_datetime
 
-__all__ = ["MarketDataType", "BarSize", "BarDataType", "Duration", "TickByTickDataType", "IbSessionTws"]
+__all__ = ["MarketDataType", "BarSize", "BarDataType", "Duration", "TickDataType", "IbSessionTws"]
 
 
 # TODO: automatically set request ids
@@ -26,8 +26,32 @@ class MarketDataType(Enum):
     """Real-time market data during regular trading hours, and frozen prices after the close."""
 
 
+class TickDataType(Enum):
+    """Tick data type."""
+
+    LAST = "Last"
+    "Most recent trade."
+    BID_ASK = "BidAsk"
+    "Most recent bid and ask."
+    MIDPOINT = "MidPoint"
+    "Most recent midpoint."
+
+
+class BarDataType(Enum):
+    """Bar data type."""
+
+    TRADES = 1
+    MIDPOINT = 2
+    BID = 3
+    ASK = 4
+    BID_ASK = 5
+    HISTORICAL_VOLATILITY = 6
+    OPTION_IMPLIED_VOLATILITY = 7
+    FEE_RATE = 8
+    REBATE_RATE = 9
+
 class BarSize(Enum):
-    """Valid historical data bar sizes."""
+    """Bar data sizes."""
 
     SEC_1 = "1 sec"
     SEC_5 = "5 secs"
@@ -43,22 +67,8 @@ class BarSize(Enum):
     DAY_1 = "1 day"
 
 
-class BarDataType(Enum):
-    """ Historical data type. """
-
-    TRADES = 1
-    MIDPOINT = 2
-    BID = 3
-    ASK = 4
-    BID_ASK = 5
-    HISTORICAL_VOLATILITY = 6
-    OPTION_IMPLIED_VOLATILITY = 7
-    FEE_RATE = 8
-    REBATE_RATE = 9
-
-
 class Duration:
-    """Query duration."""
+    """Time period to request data for."""
 
     def __init__(self, value):
         self.value = value
@@ -82,17 +92,6 @@ class Duration:
     @staticmethod
     def years(value: int):
         return Duration(f"{value} Y")
-
-
-class TickByTickDataType(Enum):
-    """ Tick-by-tick data type. """
-
-    LAST = "Last"
-    "Most recent trades."
-    BID_ASK = "BidAsk"
-    "Most recent bid and ask."
-    MIDPOINT = "MidPoint"
-    "Most recent midpoint."
 
 
 class IbSessionTws:
@@ -155,7 +154,7 @@ class IbSessionTws:
     ####################################################################################################################
 
     def request_contracts_matching(self, pattern: str) -> int:
-        """Request contracts matching a pattern.
+        """Request contracts matching a pattern.  Results are returned in the "contracts_matching" table.
 
         Args:
             pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
@@ -182,7 +181,7 @@ class IbSessionTws:
     # TODO: how to handle conId?
     def request_news_historical(self, conId: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
                                 total_results: int = 100) -> int:
-        """ Request historical news for a contract.
+        """ Request historical news for a contract.  Results are returned in the "news_historical" table.
 
         Args:
             conId (int): contract id of ticker
@@ -201,7 +200,7 @@ class IbSessionTws:
         return req_id
 
     def request_news_article(self, provider_code: str, article_id: str) -> int:
-        """ Request the text of a news article.
+        """ Request the text of a news article.  Results are returned in the "news_articles" table.
 
         Args:
             provider_code (str): short code indicating news provider, e.g. FLY
@@ -323,13 +322,13 @@ class IbSessionTws:
         self._client.cancelRealTimeBars(reqId=req_id)
 
     # TODO: how to handle contract?
-    def request_tick_by_tick_data(self, contract: Contract, tickType: TickByTickDataType,
+    def request_tick_by_tick_data(self, contract: Contract, tickType: TickDataType,
                                   numberOfTicks: int = 0, ignoreSize: bool = False) -> int:
         """Requests tick-by-tick data.
 
         Args:
             contract (Contract): Contract data is requested for
-            tickType (TickByTickDataType): Type of market data to return.
+            tickType (TickDataType): Type of market data to return.
             numberOfTicks (int): Number of historical ticks to request.
             ignoreSize (bool): should size values be ignored.
 
@@ -353,7 +352,7 @@ class IbSessionTws:
 
     # TODO: how to handle contract?
     def request_historical_ticks(self, contract: Contract, start: dtu.DateTime, end: dtu.DateTime,
-                                 tickType: TickByTickDataType, numberOfTicks: int,
+                                 tickType: TickDataType, numberOfTicks: int,
                                  type: MarketDataType = MarketDataType.FROZEN,
                                  ignoreSize: bool = False) -> int:
         """Requests historical tick-by-tick data.
@@ -362,7 +361,7 @@ class IbSessionTws:
             contract (Contract): Contract data is requested for
             start (DateTime): marks the (exclusive) start of the date range.
             end (DateTime): marks the (inclusive) end of the date range.
-            tickType (TickByTickDataType): Type of market data to return.
+            tickType (TickDataType): Type of market data to return.
             numberOfTicks (int): Number of historical ticks to request.
             type (MarketDataType): Type of market data to return after the close.
             ignoreSize (bool): should size values be ignored.
