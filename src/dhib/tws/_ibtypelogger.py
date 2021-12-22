@@ -113,7 +113,7 @@ def _details_contract_details() -> List[Tuple]:
         ("AggGroup", dht.int64, lambda cd: cd.aggGroup),  # TODO: map?
         ("UnderSymbol", dht.string, lambda cd: cd.underSymbol),
         ("UnderSecType", dht.string, lambda cd: cd.underSecType),
-        ("MarketRuleIds", dht.string, lambda cd: cd.marketRuleIds),
+        ("MarketRuleIds", dht.stringset, lambda cd: to_string_set(cd.marketRuleIds.split(","))),
         ("SecIdList", dht.stringset, lambda cd: to_string_set(cd.secIdList)),  # TODO: right type?
         ("RealExpirationDate", dht.string, lambda cd: cd.realExpirationDate),
         ("LastTradeTime", dht.string, lambda cd: cd.lastTradeTime),

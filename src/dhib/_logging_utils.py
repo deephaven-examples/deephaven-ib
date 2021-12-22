@@ -1,3 +1,5 @@
+from typing import Sequence
+
 import jpy
 
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
@@ -16,7 +18,7 @@ def map_values(value, map, default=lambda v: f"UNKNOWN(v)"):
         return default(value)
 
 
-def to_string_val(value):
+def to_string_val(value) -> str:
     """ Converts a value to a string. """
 
     if value is None:
@@ -25,10 +27,10 @@ def to_string_val(value):
     return str(value)
 
 
-def to_string_set(value):
+def to_string_set(value: Sequence):
     """ Converts an iterable to a string set. """
 
     if value is None:
         return None
 
-    return ArrayStringSet(",".join([to_string_val(v) for v in value]))
+    return ArrayStringSet([to_string_val(v) for v in value])

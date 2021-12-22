@@ -43,6 +43,7 @@ class IbTwsClient(EWrapper, EClient):
         self.tables = {name: tw.getTable() for (name, tw) in self._table_writers}
         self.thread = None
         self._registered_contracts = None
+        self._registered_market_rules = None
 
 
     @staticmethod
@@ -72,7 +73,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["price_increment"] = DynamicTableWriter(
             ["MarketRuleId", *logger_price_increment.names()],
-            [dht.int64, *logger_price_increment.types()])
+            [dht.string, *logger_price_increment.types()])
 
         ####
         # Accounts
@@ -256,11 +257,13 @@ class IbTwsClient(EWrapper, EClient):
         EClient.disconnect(self)
         self.thread = None
         self._registered_contracts = None
+        self._registered_market_rules = None
 
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
 
         self._registered_contracts = set()
+        self._registered_market_rules = set()
 
         account_summary_tags = [
             "accountountType",
@@ -326,9 +329,6 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
     ####################################################################################################################
 
-    ####
-    # reqContractDetails
-    ####
 
     def request_contract_details(self, contract: Contract):
         """Request contract details, if they have not yet been retrieved."""
@@ -338,15 +338,28 @@ class IbTwsClient(EWrapper, EClient):
             req_id = next_unique_id()
             self.reqContractDetails(reqId=req_id, contract=contract)
 
+    def request_market_rules(self, contractDetails: ContractDetails):
+        """Request price increment market quoting rules, if they have not yet been retrieved."""
+
+        for market_rule in contractDetails.marketRuleIds.split(","):
+            if market_rule not in self._registered_market_rules:
+                self.reqMarketRule(marketRuleId=int(market_rule))
+
+    ####
+    # reqContractDetails
+    ####
+
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.contractDetails(self, reqId, contractDetails)
         self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
         self._registered_contracts.add(contractDetails.contract)
+        self.request_market_rules(contractDetails)
 
     def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.bondContractDetails(self, reqId, contractDetails)
         self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
         self._registered_contracts.add(contractDetails.contract)
+        self.request_market_rules(contractDetails)
 
     def contractDetailsEnd(self, reqId: int):
         # do not ned to implement
@@ -372,7 +385,9 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.marketRule(self, marketRuleId, priceIncrements)
 
         for pi in priceIncrements:
-            self._table_writers["price_increment"].logRow(marketRuleId, *logger_price_increment.vals(pi))
+            self._table_writers["price_increment"].logRow(str(marketRuleId), *logger_price_increment.vals(pi))
+
+        self._registered_market_rules.add(str(marketRuleId))
 
     ####################################################################################################################
     ####################################################################################################################

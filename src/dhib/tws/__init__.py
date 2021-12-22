@@ -13,6 +13,8 @@ __all__ = ["MarketDataType", "IbSessionTws"]
 # TODO: raise exception if no connection and certain methods are called
 # TODO: make a request ID type?
 # TODO: document request functions with the table names they go with
+# TODO: get tables
+# TODO: document tables
 
 # TODO: rename?
 class MarketDataType(Enum):
@@ -364,10 +366,6 @@ class IbSessionTws:
     # TODO: *** add contract details requests in this file ***
 
     #TODO: placeOrder, cancelOrder, reqGlobalCancel
-
-    # TODO: subscribe to price increment market rules
-    # *** explicit request marketRule or from contract details??? (marketRuleIds)
-    # https: // interactivebrokers.github.io / tws - api / minimum_increment.html
 
     #### To do ######
 
