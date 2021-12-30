@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict, Any
+from typing import Dict, Any, Callable
 
 # noinspection PyPep8Naming
 from deephaven import DateTimeUtils as dtu
@@ -10,8 +10,6 @@ from .utils import next_unique_id, dh_to_ib_datetime
 
 __all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "IbSessionTws"]
 
-
-# TODO: make a request ID type?
 
 class MarketDataType(Enum):
     """Type of market data to use."""
@@ -88,6 +86,26 @@ class Duration:
     @staticmethod
     def years(value: int):
         return Duration(f"{value} Y")
+
+
+class Request:
+    """ IB session request. """
+
+    def __init__(self, request_id: int, cancel_func: Callable = None):
+        self.request_id = request_id
+        self.cancel_func = cancel_func
+
+    def is_cancellable(self) -> None:
+        """Is the request cancellable?"""
+        return self.cancel_func is not None
+
+    def cancel(self):
+        """Cancel the request."""
+
+        if not self.is_cancellable():
+            raise Exception("Request is not cancellable.")
+
+        self.cancel_func(self.request_id)
 
 
 class IbSessionTws:
@@ -215,14 +233,14 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_contracts_matching(self, pattern: str) -> int:
+    def request_contracts_matching(self, pattern: str) -> Request:
         """Request contracts matching a pattern.  Results are returned in the `contracts_matching` table.
 
         Args:
             pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
 
         Returns:
-            Request ID
+            Request
 
         Raises:
               Exception
@@ -233,7 +251,7 @@ class IbSessionTws:
 
         req_id = next_unique_id()
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
-        return req_id
+        return Request(request_id=req_id)
 
     ####################################################################################################################
     ####################################################################################################################
@@ -242,12 +260,15 @@ class IbSessionTws:
     ####################################################################################################################
 
     # TODO request by default when pull accounts?
-    def request_account_pnl(self, account: str = "All", model_code: str = "") -> int:
+    def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
         """Request PNL updates.  Results are returned in the `accounts_pnl` table.
 
         Args:
             account (str): Account to request PNL for.  "All" requests PNL for all accounts.
             model_code (str): Model used to evaluate PNL.
+
+        Returns:
+            Request
 
         Raises:
               Exception
@@ -258,7 +279,7 @@ class IbSessionTws:
 
         req_id = next_unique_id()
         self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
-        return req_id
+        return Request(request_id=req_id)
 
     ####################################################################################################################
     ####################################################################################################################
@@ -268,7 +289,7 @@ class IbSessionTws:
 
     # TODO: how to handle conId?
     def request_news_historical(self, con_id: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
-                                total_results: int = 100) -> int:
+                                total_results: int = 100) -> Request:
         """ Request historical news for a contract.  Results are returned in the `news_historical` table.
 
         Args:
@@ -279,7 +300,7 @@ class IbSessionTws:
             total_results (int): the maximum number of headlines to fetch (1 - 300)
 
         Returns:
-            Request ID
+            Request
 
         Raises:
               Exception
@@ -292,9 +313,9 @@ class IbSessionTws:
         self._client.reqHistoricalNews(reqId=req_id, conId=con_id, providerCodes=provider_codes,
                                        startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
                                        totalResults=total_results, historicalNewsOptions=[])
-        return req_id
+        return Request(request_id=req_id)
 
-    def request_news_article(self, provider_code: str, article_id: str) -> int:
+    def request_news_article(self, provider_code: str, article_id: str) -> Request:
         """ Request the text of a news article.  Results are returned in the `news_articles` table.
 
         Args:
@@ -302,7 +323,7 @@ class IbSessionTws:
             article_id (str): id of the specific article
 
         Returns:
-            Request ID
+            Request
 
         Raises:
               Exception
@@ -314,7 +335,7 @@ class IbSessionTws:
         req_id = next_unique_id()
         self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
-        return req_id
+        return Request(request_id=req_id)
 
     ####################################################################################################################
     ####################################################################################################################
@@ -340,7 +361,7 @@ class IbSessionTws:
     # TODO: how to handle contract?
     # TODO: fill in generic_tick_list with ContractSamples?
     def request_market_data(self, contract: Contract, generic_tick_list: str, snapshot: bool = False,
-                            regulatory_snapshot: bool = False) -> int:
+                            regulatory_snapshot: bool = False) -> Request:
         """ Request market data for a contract.  Results are returned in the `ticks_price`, `ticks_size`,
         `ticks_string`, `ticks_efp`, `ticks_generic`, and `ticks_option_computation` tables.
 
@@ -357,6 +378,9 @@ class IbSessionTws:
                 Do not enter any genericTicklist values if you use snapshots.
             regulatory_snapshot (bool): True to get a regulatory snapshot.  Requires the US Value Snapshot Bundle for stocks.
 
+        Returns:
+            Request
+
         Raises:
               Exception
         """
@@ -367,9 +391,9 @@ class IbSessionTws:
         req_id = next_unique_id()
         self._client.reqMktData(reqId=req_id, contract=contract, genericTickList=generic_tick_list, snapshot=snapshot,
                                 regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
-        return req_id
+        return Request(request_id=req_id, cancel_func=self._cancel_market_data)
 
-    def cancel_market_data(self, req_id: int):
+    def _cancel_market_data(self, req_id: int):
         """Cancel a market data request.
 
         Args:
@@ -384,7 +408,7 @@ class IbSessionTws:
     def request_bars_historical(self, contract: Contract, end: dtu.DateTime,
                                 duration: Duration, bar_size: BarSize, bar_type: BarDataType,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
-                                keep_up_to_date: bool = True) -> int:
+                                keep_up_to_date: bool = True) -> Request:
         """Requests historical bars for a contract.  Results are returned in the `bars_historical` table.
 
         Args:
@@ -397,7 +421,7 @@ class IbSessionTws:
             keep_up_to_date (bool): True to continuously update bars
 
         Returns:
-            Request ID
+            Request
 
         Raises:
               Exception
@@ -412,11 +436,11 @@ class IbSessionTws:
                                        whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
                                        formatDate=2,
                                        keepUpToDate=keep_up_to_date, chartOptions=[])
-        return req_id
+        return Request(request_id=req_id)
 
     # TODO: how to handle contract?
     def request_bars_realtime(self, contract: Contract, bar_type: BarDataType, bar_size: int = 5,
-                              market_data_type: MarketDataType = MarketDataType.FROZEN) -> int:
+                              market_data_type: MarketDataType = MarketDataType.FROZEN) -> Request:
         """Requests real time bars for a contract.  Results are returned in the `bars_realtime` table.
 
         Args:
@@ -425,9 +449,8 @@ class IbSessionTws:
             bar_size (int): Bar size in seconds.
             market_data_type (MarketDataType): Type of market data to return after the close.
 
-
         Returns:
-            Request ID
+            Request
 
         Raises:
               Exception
@@ -440,9 +463,9 @@ class IbSessionTws:
         self._client.reqRealTimeBars(reqId=req_id, contract=contract, barSize=bar_size,
                                      whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
                                      realTimeBarsOptions=[])
-        return req_id
+        return Request(request_id=req_id, cancel_func=self._cancel_bars_realtime)
 
-    def cancel_bars_realtime(self, req_id: int):
+    def _cancel_bars_realtime(self, req_id: int):
         """Cancel a real-time bar request.
 
         Args:
@@ -460,7 +483,7 @@ class IbSessionTws:
 
     # TODO: how to handle contract?
     def request_tick_data_realtime(self, contract: Contract, tick_type: TickDataType,
-                                   number_of_ticks: int = 0, ignore_size: bool = False) -> int:
+                                   number_of_ticks: int = 0, ignore_size: bool = False) -> Request:
         """Requests real-time tick-by-tick data.  Results are returned in the ticks_trade`, `ticks_bid_ask`,
         and `ticks_mid_point` tables.
 
@@ -471,7 +494,7 @@ class IbSessionTws:
             ignore_size (bool): should size values be ignored.
 
         Returns:
-            Request ID
+            Request
 
         Raises:
               Exception
@@ -483,9 +506,9 @@ class IbSessionTws:
         req_id = next_unique_id()
         self._client.reqTickByTickData(reqId=req_id, contract=contract, tickType=tick_type.value,
                                        numberOfTicks=number_of_ticks, ignoreSize=ignore_size)
-        return req_id
+        return Request(request_id=req_id, cancel_func=self._cancel_tick_data_realtime)
 
-    def cancel_tick_data_realtime(self, req_id: int):
+    def _cancel_tick_data_realtime(self, req_id: int):
         """Cancel a real-time tick-by-tick data request.
 
         Args:
@@ -505,7 +528,7 @@ class IbSessionTws:
     def request_tick_data_historical(self, contract: Contract, start: dtu.DateTime, end: dtu.DateTime,
                                      tick_type: TickDataType, number_of_ticks: int,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
-                                     ignore_size: bool = False) -> int:
+                                     ignore_size: bool = False) -> Request:
         """Requests historical tick-by-tick data. Results are returned in the ticks_trade`, `ticks_bid_ask`,
         and `ticks_mid_point` tables.
 
@@ -520,7 +543,7 @@ class IbSessionTws:
             ignore_size (bool): should size values be ignored.
 
         Returns:
-            Request ID
+            Request
 
         Raises:
               Exception
@@ -541,7 +564,7 @@ class IbSessionTws:
                                         numberOfTicks=number_of_ticks, whatToShow=what_to_show,
                                         useRth=market_data_type.value,
                                         ignoreSize=ignore_size, miscOptions=[])
-        return req_id
+        return Request(request_id=req_id)
 
     ####################################################################################################################
     ####################################################################################################################
