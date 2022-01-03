@@ -19,7 +19,8 @@ from ibapi.wrapper import EWrapper
 
 from .contractregistry import ContractRegistry
 from .ibtypelogger import *
-from ..utils import next_unique_id, unix_sec_to_dh_datetime
+from .._utils import next_unique_id
+from ..utils import unix_sec_to_dh_datetime
 
 logging.basicConfig(level=logging.DEBUG)
 

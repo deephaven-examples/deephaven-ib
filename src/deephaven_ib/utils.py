@@ -8,17 +8,6 @@ _ib_date_time_pattern = "yyyy-MM-dd HH:mm:ss.S"
 _SimpleDateFormat = jpy.get_type("java.text.SimpleDateFormat")
 _ib_date_time_formatter = _SimpleDateFormat(_ib_date_time_pattern)
 
-_last_unique_id = 1
-
-
-# TODO: needs to be thread safe
-# TODO: move to private location
-def next_unique_id():
-    """Gets the next sequential ID."""
-    global _last_unique_id
-    _last_unique_id += 1
-    return _last_unique_id
-
 
 def dh_to_ib_datetime(time: dtu.DateTime) -> str:
     """Convert a DH DateTime to an IB timestamp.

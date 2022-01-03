@@ -5,7 +5,7 @@ from ibapi.client import EClient
 from ibapi.contract import Contract, ContractDetails
 
 from .ibtypelogger import *
-from ..utils import next_unique_id
+from .._utils import next_unique_id
 
 
 class ContractEntry:
