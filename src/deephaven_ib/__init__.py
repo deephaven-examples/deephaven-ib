@@ -1,9 +1,10 @@
 from enum import Enum
-from typing import Dict, Any, Callable
+from typing import Dict, List, Any, Callable
 
 # noinspection PyPep8Naming
 from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract, ContractDetails
+from ibapi.order import Order
 
 from ._tws import IbTwsClient as IbTwsClient
 from ._utils import next_unique_id
@@ -38,6 +39,81 @@ class TickDataType(Enum):
         else:
             return self.value
 
+
+class GenericTickType(Enum):
+    """Tick data types for 'Generic" data.
+
+    See: https://interactivebrokers.github.io/tws-api/tick_types.html
+    """
+
+    NEWS = 292
+    """News."""
+
+    DIVIDENDS = 456
+    """Dividends."""
+
+    AUCTION = 225
+    """Auction details."""
+
+    MARK_PRICE = 232
+    """Mark price is the current theoretical calculated value of an instrument. Since it is a calculated value, it will typically have many digits of precision."""
+    MARK_PRICE_SLOW = 619
+    """Slower mark price update used in system calculations."""
+
+    TRADING_RANGE = 165
+    """Multi-week price and volume trading ranges."""
+
+    TRADE_LAST_RTH = 318
+    """Last regular trading hours traded price."""
+    TRADE_COUNT = 293
+    """Trade count for the day."""
+    TRADE_COUNT_RATE = 294
+    """Trade count per minute."""
+    TRADE_VOLUME = 233
+    """Trade volume for the day."""
+    TRADE_VOLUME_NO_UNREPORTABLE = 375
+    """Trade volume for the day that excludes "Unreportable Trades"."""
+    TRADE_VOLUME_RATE = 295
+    """Trade volume per minute."""
+    TRADE_VOLUME_SHORT_TERM = 595
+    """Short-term trading volume."""
+
+    SHORTABLE = 236
+    """Describes the level of difficulty with which the contract can be sold short."""
+    SHORTABLE_SHARES = 236
+    """Number of shares available to short."""
+
+    FUTURE_OPEN_INTEREST = 588
+    """Total number of outstanding futures contracts."""
+    FUTURE_INDEX_PREMIUM = 162
+    """Number of points that the index is over the cash index."""
+
+    OPTION_VOLATILITY_HISTORICAL = 104
+    """30-day historical volatility."""
+    OPTION_VOLATILITY_HISTORICAL_REAL_TIME = 411
+    """Real-time historical volatility."""
+    OPTION_VOLATILITY_IMPLIED = 106
+    """IB 30-day at-market volatility, estimated for a maturity thirty calendar days forward of the current trading day"""
+    OPTION_VOLUME = 100
+    """Option volume for the trading day."""
+    OPTION_VOLUME_AVERAGE = 105
+    """Average option volume for a trading day."""
+    OPTION_OPEN_INTEREST = 101
+    """Option open interest."""
+
+    ETF_NAV_CLOSE = 578
+    """ETF's Net Asset Value (NAV) closing price."""
+    ETF_NAV_PRICE = 576
+    """ETF's Net Asset Value (NAV) bid / ask price."""
+    ETF_NAV_LAST = 577
+    """ETF's Net Asset Value (NAV) last price."""
+    ETF_NAV_LAST_FROZEN = 623
+    """ETF's Net Asset Value (NAV) for frozen data."""
+    ETF_NAV_RANGE = 614
+    """ETF's Net Asset Value (NAV) price range."""
+
+    BOND_FACTOR_MULTIPLIER = 460
+    """Bond factor multiplier is a number that indicates the ratio of the current bond principal to the original principal."""
 
 
 class BarDataType(Enum):
@@ -397,8 +473,9 @@ class IbSessionTws:
         self._assert_connected()
         self._client.reqMarketDataType(marketDataType=market_data_type.value)
 
-    # TODO: fill in generic_tick_list with ContractSamples?
-    def request_market_data(self, contract: RegisteredContract, generic_tick_list: str, snapshot: bool = False,
+    # noinspection PyDefaultArgument
+    def request_market_data(self, contract: RegisteredContract, generic_tick_types: List[GenericTickType] = [],
+                            snapshot: bool = False,
                             regulatory_snapshot: bool = False) -> Request:
         """ Request market data for a contract.  Results are returned in the `ticks_price`, `ticks_size`,
         `ticks_string`, `ticks_efp`, `ticks_generic`, and `ticks_option_computation` tables.
@@ -406,12 +483,7 @@ class IbSessionTws:
 
         Args:
             contract (RegisteredContract): contract data is requested for
-            generic_tick_list (str): A commma delimited list of generic tick types.
-                Tick types can be found in the Generic Tick Types page.
-                Prefixing w/ 'mdoff' indicates that top mkt data shouldn't tick.
-                You can specify the news source by postfixing w/ ':<source>.
-                Example: "mdoff,292:FLY+BRF"
-                See: https://interactivebrokers.github.io/tws-api/tick_types.html
+            generic_tick_types (List[GenericTickType]): generic tick types being requested
             snapshot (bool): True to return a single snapshot of Market data and have the market data subscription cancel.
                 Do not enter any genericTicklist values if you use snapshots.
             regulatory_snapshot (bool): True to get a regulatory snapshot.  Requires the US Value Snapshot Bundle for stocks.
@@ -424,6 +496,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
+        generic_tick_list = ",".join([x.value for x in generic_tick_types])
         req_id = next_unique_id()
         self._client.reqMktData(reqId=req_id, contract=contract.contract_details.contract,
                                 genericTickList=generic_tick_list, snapshot=snapshot,
@@ -579,7 +652,6 @@ class IbSessionTws:
         self._assert_connected()
         req_id = next_unique_id()
         what_to_show = tick_type._historical_value()
-
         self._client.reqHistoricalTicks(reqId=req_id, contract=contract.contract_details.contract,
                                         startDateTime=dh_to_ib_datetime(start),
                                         endDateTime=dh_to_ib_datetime(end),
@@ -594,8 +666,29 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO: rename?
-    def cancel_all_orders(self) -> None:
+    def order_place(self, contract: RegisteredContract, order: Order) -> Request:
+        """Places an order.
+
+        Args:
+            contract (RegisteredContract): contract to place an order on
+            order (Order): order to place
+        """
+        self._assert_connected()
+        req_id = next_unique_id()
+        self._client.placeOrder(req_id, contract.contract_details.contract, order)
+        return Request(request_id=req_id, cancel_func=self.order_cancel)
+
+    def order_cancel(self, order_id: int) -> None:
+        """Cancels an order.
+
+        Args:
+            order_id (int): order ID
+        """
+
+        self._assert_connected()
+        self._client.cancelOrder(orderId=order_id)
+
+    def order_cancel_all(self) -> None:
         """Cancel all open orders.
 
         Raises:
@@ -605,12 +698,7 @@ class IbSessionTws:
         self._assert_connected()
         self._client.reqGlobalCancel()
 
-    ## ???????
-
-
-    #TODO: placeOrder, cancelOrder, reqGlobalCancel
-
-    #### To do ######
+    #### TODO ######
 
     #     self._client.reqIds() --> get next valid id for placing orders
 
@@ -620,3 +708,5 @@ class IbSessionTws:
 
 
     #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
+
+# TODO get short rate and other details from the FTP site.
