@@ -9,7 +9,8 @@ from ._tws import IbTwsClient as IbTwsClient
 from ._utils import next_unique_id
 from .utils import dh_to_ib_datetime
 
-__all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "IbSessionTws"]
+__all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "Request", "RegisteredContract",
+           "IbSessionTws"]
 
 
 class MarketDataType(Enum):
