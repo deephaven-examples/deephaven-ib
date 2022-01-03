@@ -334,6 +334,7 @@ class IbTwsClient(EWrapper, EClient):
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
         EWrapper.error(self, reqId, errorCode, errorString)
         self._table_writers["errors"].logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
+        self.contract_registry.add_error_data(req_id=reqId, error_string=errorString)
 
     ####################################################################################################################
     ####################################################################################################################
