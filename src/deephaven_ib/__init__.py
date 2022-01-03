@@ -224,6 +224,12 @@ class IbSessionTws:
 
         return self._client.isConnected()
 
+    def _assert_connected(self):
+        """Assert that the IbSessionTws is connected."""
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
     ####################################################################################################################
     ####################################################################################################################
     ## General
@@ -255,9 +261,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         cd = self._client.contract_registry.request_contract_details_blocking(contract)
         return RegisteredContract(contract_details=cd)
 
@@ -274,9 +278,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return Request(request_id=req_id)
@@ -302,9 +304,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return Request(request_id=req_id)
@@ -334,9 +334,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqHistoricalNews(reqId=req_id, conId=contract.contract_details.contract.conId,
                                        providerCodes=provider_codes,
@@ -358,9 +356,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
@@ -382,9 +378,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         self._client.reqMarketDataType(marketDataType=market_data_type.value)
 
     # TODO: fill in generic_tick_list with ContractSamples?
@@ -413,9 +407,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqMktData(reqId=req_id, contract=contract.contract_details.contract,
                                 genericTickList=generic_tick_list, snapshot=snapshot,
@@ -431,6 +423,8 @@ class IbSessionTws:
         Raises:
               Exception
         """
+
+        self._assert_connected()
         self._client.cancelMktData(reqId=req_id)
 
     def request_bars_historical(self, contract: RegisteredContract, end: dtu.DateTime,
@@ -455,9 +449,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqHistoricalData(reqId=req_id, contract=contract.contract_details.contract,
                                        endDateTime=dh_to_ib_datetime(end),
@@ -484,9 +476,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqRealTimeBars(reqId=req_id, contract=contract.contract_details.contract, barSize=bar_size,
                                      whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
@@ -504,9 +494,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         self._client.cancelRealTimeBars(reqId=req_id)
 
     def request_tick_data_realtime(self, contract: RegisteredContract, tick_type: TickDataType,
@@ -527,9 +515,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         self._client.reqTickByTickData(reqId=req_id, contract=contract.contract_details.contract,
                                        tickType=tick_type.value,
@@ -547,9 +533,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         self._client.cancelTickByTickData(reqId=req_id)
 
     def request_tick_data_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
@@ -576,9 +560,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         req_id = next_unique_id()
         what_to_show = tick_type.value
 
@@ -608,9 +590,7 @@ class IbSessionTws:
               Exception
         """
 
-        if not self.is_connected():
-            raise Exception("IbSessionTws is not connected.")
-
+        self._assert_connected()
         self._client.reqGlobalCancel()
 
     ## ???????
