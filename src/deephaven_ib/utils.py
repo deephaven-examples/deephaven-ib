@@ -11,6 +11,8 @@ _ib_date_time_formatter = _SimpleDateFormat(_ib_date_time_pattern)
 _last_unique_id = 1
 
 
+# TODO: needs to be thread safe
+# TODO: move to private location
 def next_unique_id():
     """Gets the next sequential ID."""
     global _last_unique_id

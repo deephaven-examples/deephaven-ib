@@ -3,7 +3,7 @@ from typing import Dict, Any, Callable
 
 # noinspection PyPep8Naming
 from deephaven import DateTimeUtils as dtu
-from ibapi.contract import Contract
+from ibapi.contract import Contract, ContractDetails
 
 from ._tws import IbTwsClient as IbTwsClient
 from .utils import next_unique_id, dh_to_ib_datetime
@@ -107,6 +107,14 @@ class Request:
 
         self.cancel_func(self.request_id)
 
+
+class RegisteredContract:
+    """ Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc."""
+
+    contract_details: ContractDetails
+
+    def __init__(self, contract_details: ContractDetails):
+        self.contract_details = contract_details
 
 class IbSessionTws:
     """ IB TWS session.
@@ -232,6 +240,19 @@ class IbSessionTws:
     ## Contracts
     ####################################################################################################################
     ####################################################################################################################
+
+    def get_registered_contract(self, contract: Contract) -> RegisteredContract:
+        """Gets a contract that has been registered in the framework.  The registered contract is confirmed to
+        exist in the IB system and contains a complete description of the contract.
+
+        Args:
+            contract (Contract): contract to search for
+
+        Returns:
+            RegisteredContract
+        """
+        cd = self._client.contract_registry.request_contract_details_blocking(contract)
+        return RegisteredContract(contract_details=cd)
 
     def request_contracts_matching(self, pattern: str) -> Request:
         """Request contracts matching a pattern.  Results are returned in the `contracts_matching` table.

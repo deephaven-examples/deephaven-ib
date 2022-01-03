@@ -1,7 +1,7 @@
 
 import logging
 from threading import Thread
-from typing import Dict
+from typing import Set, Dict
 
 # noinspection PyPep8Naming
 from deephaven import DynamicTableWriter
@@ -17,6 +17,7 @@ from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
+from .contractregistry import ContractRegistry
 from .ibtypelogger import *
 from ..utils import next_unique_id, unix_sec_to_dh_datetime
 
@@ -25,6 +26,10 @@ logging.basicConfig(level=logging.DEBUG)
 _error_code_map = {e.code(): e.msg() for e in dir(errors) if isinstance(e, errors.CodeMsgPair)}
 _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
+
+
+# TODO: figure out what classes need type hints for members
+
 
 
 # TODO: map string "" to None
@@ -37,13 +42,20 @@ class IbTwsClient(EWrapper, EClient):
     Almost all of the methods in this class are listeners for EWrapper and should not be called by users of the class.
     """
 
+    _table_writers: Dict[str, DynamicTableWriter]
+    tables: Dict[str, Table]
+    thread: Thread
+    contract_registry: ContractRegistry
+    _registered_market_rules: Set[str]
+
+
     def __init__(self):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
         self.tables = {name: tw.getTable() for (name, tw) in self._table_writers}
         self.thread = None
-        self._registered_contracts = None
+        self.contract_registry = None
         self._registered_market_rules = None
 
 
@@ -256,13 +268,13 @@ class IbTwsClient(EWrapper, EClient):
 
         EClient.disconnect(self)
         self.thread = None
-        self._registered_contracts = None
+        self.contract_registry = None
         self._registered_market_rules = None
 
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
 
-        self._registered_contracts = set()
+        self.contract_registry = ContractRegistry(self)
         self._registered_market_rules = set()
 
         account_summary_tags = [
@@ -330,14 +342,6 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
 
 
-    def request_contract_details(self, contract: Contract):
-        """Request contract details, if they have not yet been retrieved."""
-        # TODO: Is checking to see if a contract is in the set sufficient to see if it has been registered?
-
-        if contract not in self._registered_contracts:
-            req_id = next_unique_id()
-            self.reqContractDetails(reqId=req_id, contract=contract)
-
     def request_market_rules(self, contractDetails: ContractDetails):
         """Request price increment market quoting rules, if they have not yet been retrieved."""
 
@@ -352,13 +356,13 @@ class IbTwsClient(EWrapper, EClient):
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.contractDetails(self, reqId, contractDetails)
         self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
-        self._registered_contracts.add(contractDetails.contract)
+        self.contract_registry.add_contract_data(reqId, contractDetails.contract)
         self.request_market_rules(contractDetails)
 
     def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.bondContractDetails(self, reqId, contractDetails)
         self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
-        self._registered_contracts.add(contractDetails.contract)
+        self.contract_registry.add_contract_data(reqId, contractDetails.contract)
         self.request_market_rules(contractDetails)
 
     def contractDetailsEnd(self, reqId: int):
@@ -375,7 +379,7 @@ class IbTwsClient(EWrapper, EClient):
         for cd in contractDescriptions:
             self._table_writers["contracts_matching"].logRow(reqId, *logger_contract.vals(cd.contract),
                                                            to_string_set(cd.derivativeSecTypes))
-            self.request_contract_details(cd.contract)
+            self.contract_registry.request_contract_details_nonblocking(cd.contract)
 
     ####
     # reqMarketRule
@@ -433,7 +437,7 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["accounts_portfolio"].logRow(accountName, *logger_contract.vals(contract), position,
                                                          marketPrice,
                                                          marketValue, averageCost, unrealizedPNL, realizedPNL)
-        self.request_contract_details(contract)
+        self.contract_registry.request_contract_details_nonblocking(contract)
 
     ####
     # reqAccountSummary
@@ -450,7 +454,7 @@ class IbTwsClient(EWrapper, EClient):
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(self, account, contract, position, avgCost)
         self._table_writers["accounts_positions"].logRow(account, *logger_contract.vals(contract), position, avgCost)
-        self.request_contract_details(contract)
+        self.contract_registry.request_contract_details_nonblocking(contract)
 
     ####
     # reqPnL
@@ -660,7 +664,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.openOrder(self, orderId, contract, order, orderState)
         self._table_writers["orders_open"].logRow(orderId, *logger_contract.vals(contract), *logger_order.vals(order),
                                                   *logger_order_state.vals(orderState))
-        self.request_contract_details(contract)
+        self.contract_registry.request_contract_details_nonblocking(contract)
 
     def orderStatus(self, orderId: OrderId, status: str, filled: float,
                     remaining: float, avgFillPrice: float, permId: int,
@@ -683,7 +687,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.completedOrder(self, contract, order, orderState)
         self._table_writers["orders_completed"].logRow(*logger_contract.vals(contract), *logger_order.vals(order),
                                                        *logger_order_state.vals(orderState))
-        self.request_contract_details(contract)
+        self.contract_registry.request_contract_details_nonblocking(contract)
 
     def completedOrdersEnd(self):
         # do not ned to implement
@@ -697,7 +701,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.execDetails(self, reqId, contract, execution)
         self._table_writers["orders_exec_details"].logRow(reqId, *logger_contract.vals(contract),
                                                           logger_execution.vals(execution))
-        self.request_contract_details(contract)
+        self.contract_registry.request_contract_details_nonblocking(contract)
 
     def execDetailsEnd(self, reqId: int):
         # do not need to implement
