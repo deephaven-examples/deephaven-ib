@@ -40,7 +40,7 @@ class IbTwsClient(EWrapper, EClient):
     """
 
     _table_writers: Dict[str, DynamicTableWriter]
-    tables: Dict[str, Table]
+    tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
     thread: Thread
     contract_registry: ContractRegistry
     _registered_market_rules: Set[str]

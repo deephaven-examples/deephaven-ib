@@ -1,3 +1,4 @@
+import logging
 from typing import Sequence
 
 import jpy
@@ -14,7 +15,7 @@ def map_values(value, map, default=lambda v: f"UNKNOWN(v)"):
     try:
         return map[value]
     except KeyError:
-        # TODO: log bad mapping
+        logging.exception(f"Unmapped value: {value}")
         return default(value)
 
 
@@ -27,7 +28,7 @@ def to_string_val(value) -> str:
     return str(value)
 
 
-def to_string_set(value: Sequence):
+def to_string_set(value: Sequence) -> ArrayStringSet:
     """ Converts an iterable to a string set. """
 
     if value is None:
