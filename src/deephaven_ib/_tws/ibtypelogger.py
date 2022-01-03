@@ -10,7 +10,10 @@ from ..utils import unix_sec_to_dh_datetime, ib_to_dh_datetime
 class IbComplexTypeLogger:
     """ Base class for logging complex IB types. """
 
-    def __init__(self, ib_type, column_details: List[Tuple]):
+    ib_type: str
+    column_details: List[Tuple[str, Any, Callable]]
+
+    def __init__(self, ib_type: str, column_details: List[Tuple[str, Any, Callable]]):
         self.ib_type = ib_type
         self.column_details = column_details
 

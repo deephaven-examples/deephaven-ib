@@ -29,10 +29,6 @@ _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_A
                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
 
 
-# TODO: figure out what classes need type hints for members
-
-
-
 # TODO: map string "" to None
 # TODO: remove all of the redirection to EWrapper for debug logging
 

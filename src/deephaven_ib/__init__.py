@@ -65,7 +65,9 @@ class BarSize(Enum):
 class Duration:
     """Time period to request data for."""
 
-    def __init__(self, value):
+    value: str
+
+    def __init__(self, value: str):
         self.value = value
 
     @staticmethod
@@ -91,6 +93,9 @@ class Duration:
 
 class Request:
     """ IB session request. """
+
+    request_id: int
+    cancel_func: Callable
 
     def __init__(self, request_id: int, cancel_func: Callable = None):
         self.request_id = request_id
@@ -180,6 +185,8 @@ class IbSessionTws:
         orders_exec_details: order execution details.  Automatically populated.
         orders_exec_commission_report: order execution commission report.  Automatically populated.
     """
+
+    _client: IbTwsClient
 
     def __init__(self):
         self._client = IbTwsClient()
