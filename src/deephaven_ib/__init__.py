@@ -31,6 +31,13 @@ class TickDataType(Enum):
     MIDPOINT = "MidPoint"
     "Most recent midpoint."
 
+    def _historical_value(self) -> str:
+        if self.value == "Last":
+            return "Trades"
+        else:
+            return self.value
+
+
 
 class BarDataType(Enum):
     """Bar data type."""
@@ -570,11 +577,7 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
-        what_to_show = tick_type.value
-
-        # TODO: make this cleaner
-        if what_to_show == "Last":
-            what_to_show = "Trades"
+        what_to_show = tick_type._historical_value()
 
         self._client.reqHistoricalTicks(reqId=req_id, contract=contract.contract_details.contract,
                                         startDateTime=dh_to_ib_datetime(start),
