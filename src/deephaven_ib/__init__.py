@@ -250,7 +250,14 @@ class IbSessionTws:
 
         Returns:
             RegisteredContract
+
+        Raises:
+              Exception
         """
+
+        if not self.is_connected():
+            raise Exception("IbSessionTws is not connected.")
+
         cd = self._client.contract_registry.request_contract_details_blocking(contract)
         return RegisteredContract(contract_details=cd)
 
@@ -308,13 +315,13 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO: how to handle conId?
-    def request_news_historical(self, con_id: int, provider_codes: str, start: dtu.DateTime, end: dtu.DateTime,
+    def request_news_historical(self, contract: RegisteredContract, provider_codes: str, start: dtu.DateTime,
+                                end: dtu.DateTime,
                                 total_results: int = 100) -> Request:
         """ Request historical news for a contract.  Results are returned in the `news_historical` table.
 
         Args:
-            con_id (int): contract id of ticker
+            contract (RegisteredContract): contract data is requested for
             provider_codes (str): a '+'-separated list of provider codes
             start (DateTime): marks the (exclusive) start of the date range.
             end (DateTime): marks the (inclusive) end of the date range.
@@ -331,7 +338,8 @@ class IbSessionTws:
             raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
-        self._client.reqHistoricalNews(reqId=req_id, conId=con_id, providerCodes=provider_codes,
+        self._client.reqHistoricalNews(reqId=req_id, conId=contract.contract_details.contract.conId,
+                                       providerCodes=provider_codes,
                                        startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
                                        totalResults=total_results, historicalNewsOptions=[])
         return Request(request_id=req_id)
@@ -379,16 +387,15 @@ class IbSessionTws:
 
         self._client.reqMarketDataType(marketDataType=market_data_type.value)
 
-    # TODO: how to handle contract?
     # TODO: fill in generic_tick_list with ContractSamples?
-    def request_market_data(self, contract: Contract, generic_tick_list: str, snapshot: bool = False,
+    def request_market_data(self, contract: RegisteredContract, generic_tick_list: str, snapshot: bool = False,
                             regulatory_snapshot: bool = False) -> Request:
         """ Request market data for a contract.  Results are returned in the `ticks_price`, `ticks_size`,
         `ticks_string`, `ticks_efp`, `ticks_generic`, and `ticks_option_computation` tables.
 
 
         Args:
-            contract (Contract): contract data is requested for
+            contract (RegisteredContract): contract data is requested for
             generic_tick_list (str): A commma delimited list of generic tick types.
                 Tick types can be found in the Generic Tick Types page.
                 Prefixing w/ 'mdoff' indicates that top mkt data shouldn't tick.
@@ -410,7 +417,8 @@ class IbSessionTws:
             raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
-        self._client.reqMktData(reqId=req_id, contract=contract, genericTickList=generic_tick_list, snapshot=snapshot,
+        self._client.reqMktData(reqId=req_id, contract=contract.contract_details.contract,
+                                genericTickList=generic_tick_list, snapshot=snapshot,
                                 regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
         return Request(request_id=req_id, cancel_func=self._cancel_market_data)
 
@@ -425,15 +433,14 @@ class IbSessionTws:
         """
         self._client.cancelMktData(reqId=req_id)
 
-    # TODO: how to handle contract?
-    def request_bars_historical(self, contract: Contract, end: dtu.DateTime,
+    def request_bars_historical(self, contract: RegisteredContract, end: dtu.DateTime,
                                 duration: Duration, bar_size: BarSize, bar_type: BarDataType,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
                                 keep_up_to_date: bool = True) -> Request:
         """Requests historical bars for a contract.  Results are returned in the `bars_historical` table.
 
         Args:
-            contract (Contract): contract data is requested for
+            contract (RegisteredContract): contract data is requested for
             end (DateTime): Ending timestamp of the requested data.
             duration (Duration): Duration of data being requested by the query.
             bar_size (BarSize): Size of the bars that will be returned.
@@ -452,20 +459,20 @@ class IbSessionTws:
             raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
-        self._client.reqHistoricalData(reqId=req_id, contract=contract, endDateTime=dh_to_ib_datetime(end),
+        self._client.reqHistoricalData(reqId=req_id, contract=contract.contract_details.contract,
+                                       endDateTime=dh_to_ib_datetime(end),
                                        durationStr=duration.value, barSizeSetting=bar_size.value,
                                        whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
                                        formatDate=2,
                                        keepUpToDate=keep_up_to_date, chartOptions=[])
         return Request(request_id=req_id)
 
-    # TODO: how to handle contract?
-    def request_bars_realtime(self, contract: Contract, bar_type: BarDataType, bar_size: int = 5,
+    def request_bars_realtime(self, contract: RegisteredContract, bar_type: BarDataType, bar_size: int = 5,
                               market_data_type: MarketDataType = MarketDataType.FROZEN) -> Request:
         """Requests real time bars for a contract.  Results are returned in the `bars_realtime` table.
 
         Args:
-            contract (Contract): contract data is requested for
+            contract (RegisteredContract): contract data is requested for
             bar_type (BarDataType): Type of bars that will be returned.
             bar_size (int): Bar size in seconds.
             market_data_type (MarketDataType): Type of market data to return after the close.
@@ -481,7 +488,7 @@ class IbSessionTws:
             raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
-        self._client.reqRealTimeBars(reqId=req_id, contract=contract, barSize=bar_size,
+        self._client.reqRealTimeBars(reqId=req_id, contract=contract.contract_details.contract, barSize=bar_size,
                                      whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
                                      realTimeBarsOptions=[])
         return Request(request_id=req_id, cancel_func=self._cancel_bars_realtime)
@@ -502,14 +509,13 @@ class IbSessionTws:
 
         self._client.cancelRealTimeBars(reqId=req_id)
 
-    # TODO: how to handle contract?
-    def request_tick_data_realtime(self, contract: Contract, tick_type: TickDataType,
+    def request_tick_data_realtime(self, contract: RegisteredContract, tick_type: TickDataType,
                                    number_of_ticks: int = 0, ignore_size: bool = False) -> Request:
         """Requests real-time tick-by-tick data.  Results are returned in the ticks_trade`, `ticks_bid_ask`,
         and `ticks_mid_point` tables.
 
         Args:
-            contract (Contract): Contract data is requested for
+            contract (RegisteredContract): contract data is requested for
             tick_type (TickDataType): Type of market data to return.
             number_of_ticks (int): Number of historical ticks to request.
             ignore_size (bool): should size values be ignored.
@@ -525,7 +531,8 @@ class IbSessionTws:
             raise Exception("IbSessionTws is not connected.")
 
         req_id = next_unique_id()
-        self._client.reqTickByTickData(reqId=req_id, contract=contract, tickType=tick_type.value,
+        self._client.reqTickByTickData(reqId=req_id, contract=contract.contract_details.contract,
+                                       tickType=tick_type.value,
                                        numberOfTicks=number_of_ticks, ignoreSize=ignore_size)
         return Request(request_id=req_id, cancel_func=self._cancel_tick_data_realtime)
 
@@ -545,8 +552,7 @@ class IbSessionTws:
 
         self._client.cancelTickByTickData(reqId=req_id)
 
-    # TODO: how to handle contract?
-    def request_tick_data_historical(self, contract: Contract, start: dtu.DateTime, end: dtu.DateTime,
+    def request_tick_data_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
                                      tick_type: TickDataType, number_of_ticks: int,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
                                      ignore_size: bool = False) -> Request:
@@ -555,7 +561,7 @@ class IbSessionTws:
 
 
         Args:
-            contract (Contract): Contract data is requested for
+            contract (RegisteredContract): contract data is requested for
             start (DateTime): marks the (exclusive) start of the date range.
             end (DateTime): marks the (inclusive) end of the date range.
             tick_type (TickDataType): Type of market data to return.
@@ -580,7 +586,8 @@ class IbSessionTws:
         if what_to_show == "Last":
             what_to_show = "Trades"
 
-        self._client.reqHistoricalTicks(reqId=req_id, contract=contract, startDateTime=dh_to_ib_datetime(start),
+        self._client.reqHistoricalTicks(reqId=req_id, contract=contract.contract_details.contract,
+                                        startDateTime=dh_to_ib_datetime(start),
                                         endDateTime=dh_to_ib_datetime(end),
                                         numberOfTicks=number_of_ticks, whatToShow=what_to_show,
                                         useRth=market_data_type.value,
@@ -608,9 +615,6 @@ class IbSessionTws:
 
     ## ???????
 
-
-    # TODO: *** add contract details requests in this file ***
-    # TODO: maybe have a function to get a DH-ib contract, that is standardized.  E.g. an object that wraps a normalized IB contract?
 
     #TODO: placeOrder, cancelOrder, reqGlobalCancel
 
