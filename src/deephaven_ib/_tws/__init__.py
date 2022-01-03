@@ -44,6 +44,7 @@ class IbTwsClient(EWrapper, EClient):
     thread: Thread
     contract_registry: ContractRegistry
     _registered_market_rules: Set[str]
+    _realtime_bar_sizes: Dict[TickerId, int]
 
 
     def __init__(self):
@@ -54,6 +55,7 @@ class IbTwsClient(EWrapper, EClient):
         self.thread = None
         self.contract_registry = None
         self._registered_market_rules = None
+        self._realtime_bar_sizes = None
 
 
     @staticmethod
@@ -267,12 +269,14 @@ class IbTwsClient(EWrapper, EClient):
         self.thread = None
         self.contract_registry = None
         self._registered_market_rules = None
+        self._realtime_bar_sizes = None
 
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
 
         self.contract_registry = ContractRegistry(self)
         self._registered_market_rules = set()
+        self._realtime_bar_sizes = {}
 
         account_summary_tags = [
             "accountountType",
@@ -639,12 +643,18 @@ class IbTwsClient(EWrapper, EClient):
     # reqRealTimeBars
     ####
 
+    def reqRealTimeBars(self, reqId: TickerId, contract: Contract, barSize: int,
+                        whatToShow: str, useRTH: bool,
+                        realTimeBarsOptions: TagValueList):
+        self._realtime_bar_sizes[reqId] = barSize
+        EClient.reqRealTimeBars(reqId, contract, barSize, whatToShow, useRTH, realTimeBarsOptions)
+
     def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
                     volume: int, wap: float, count: int):
         EWrapper.realtimeBar(self, reqId, time, open_, high, low, close, volume, wap, count)
-
-        # TODO: assumes 5 sec bars.  Add assertion or lookup?
-        bar = RealTimeBar(time=time, endTime=time + 5, open_=open_, high=high, low=low, close=close, volume=volume,
+        bar_size = self._realtime_bar_sizes[reqId]
+        bar = RealTimeBar(time=time, endTime=time + bar_size, open_=open_, high=high, low=low, close=close,
+                          volume=volume,
                           wap=wap, count=count)
         self._table_writers["bars_realtime"].logRow(reqId, *logger_real_time_bar_data.vals(bar))
 
