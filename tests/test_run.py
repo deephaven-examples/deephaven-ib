@@ -1,3 +1,5 @@
+from ibapi.contract import Contract
+
 import deephaven_ib as dhib
 
 client = dhib.IbSessionTws()
@@ -8,6 +10,13 @@ client.connect()
 
 print(f"IsConnected: {client.is_connected()}")
 
+c = Contract()
+c.exchange = "NASDAQ"
+c.symbol = "AAPL"
+
+rc = client.get_registered_contract(c)
+
+client.request_market_data(rc)
 
 # # Below is the program execution
 #
