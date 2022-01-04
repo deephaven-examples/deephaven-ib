@@ -24,11 +24,13 @@ jobs:
         if [ -z "${TAG_NAME}" ]
         then
             echo "::set-output name=version::development-X"
+            echo "BLOCK A"
         else
             echo "::set-output name=version::${{ github.event.release.tag_name }}"
+            echo "BLOCK B"
         fi
-#      env:
-#        REF: ${{ github.ref }}
+      env:
+        REF: ${{ github.ref }}
 
 
     - name: Build
