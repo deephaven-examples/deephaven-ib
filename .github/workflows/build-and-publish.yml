@@ -36,7 +36,7 @@ jobs:
     - name: Build
       env:
         DH_IB_VERSION: ${{ github.event.release.tag_name }}
-        DEBUG_VERSION: ${{ steps.version.version }}
+        DEBUG_VERSION: ${{ steps.version.outputs.version }}
       run: |
         python -m build
     - name: Archive production artifacts
