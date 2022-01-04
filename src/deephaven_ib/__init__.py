@@ -206,6 +206,8 @@ class RegisteredContract:
     def __init__(self, contract_details: ContractDetails):
         self.contract_details = contract_details
 
+
+# TODO review API
 class IbSessionTws:
     """ IB TWS session.
     
@@ -221,6 +223,7 @@ class IbSessionTws:
         contract_details: details describing contracts of interest.  Automatically populated.
         contracts_matching: contracts matching query strings provided to `request_contracts_matching`.
         market_rules: market rules indicating the price increment a contract can trade in.  Automatically populated.
+        short_rates: interest rates for shorting securities
 
 
         ####
@@ -709,4 +712,3 @@ class IbSessionTws:
 
     #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
 
-# TODO get short rate and other details from the FTP site.

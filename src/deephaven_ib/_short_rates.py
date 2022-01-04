@@ -1,0 +1,97 @@
+import ftplib
+import html
+import tempfile
+from typing import Any
+
+from deephaven import read_csv
+
+__all__ = ["load_short_rates"]
+
+
+class IBFtpWriter:
+    """Writer for downloading text files from the IB FTP site.
+
+    Closing the writer causes the temporary file containg the data to be deleted.
+    """
+
+    header: str
+    source: str
+    file: tempfile.NamedTemporaryFile
+
+    def __init__(self):
+        self.header = None
+        self.source = None
+        self.file = tempfile.NamedTemporaryFile(mode="w", suffix=".psv")
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
+    def file_name(self) -> str:
+        """Name of the temporary file."""
+        return self.file.name
+
+    def flush(self) -> None:
+        """Flush writes to the temporary file."""
+        self.file.flush()
+
+    def close(self) -> None:
+        """Close the temporary file.  This makes the temporary file unavailable."""
+        self.file.close()
+
+    def write(self, line: str) -> None:
+        """Write a line to the temporary file."""
+
+        if line.startswith("#BOF") or line.startswith("#EOF"):
+            return
+
+        line = html.unescape(line)
+
+        if line.startswith("#"):
+            line = f"Source|{line[1:]}"
+
+            if self.header is None:
+                self.header = line
+                self.file.write(f"{line}\n")
+            elif self.header != line:
+                raise Exception(f"Mismatched headers: {self.header} {line}")
+            else:
+                return
+        else:
+            self.file.write(f"{self.source}|{line}\n")
+
+
+# TODO change the return type for deephaven v2 to Table
+def load_short_rates() -> Any:
+    """Downloads the short rates from the IB FTP site and returns them as a table."""
+
+    host = "ftp3.interactivebrokers.com"
+    user = "shortstock"
+
+    with ftplib.FTP(host=host, user=user) as ftp, IBFtpWriter() as p:
+        try:
+            files = ftp.nlst("*.txt")
+
+            for file in files:
+                p.source = file[:-4]
+                res = ftp.retrlines(f'RETR {file}', p.write)
+
+                if not res.startswith('226 Transfer complete'):
+                    raise Exception(f"FTP download failed: {user}@{host} {file} {res}")
+
+        except ftplib.all_errors as e:
+            print('FTP error:', e)
+
+        p.flush()
+
+        return read_csv(p.file_name(), delimiter="|") \
+            .renameColumns(
+            "SYM=Sym",
+            "CUR=Currency",
+            "NAME=Name",
+            "CON=Contract",
+            "REBATERATE=RebateRate",
+            "FEERATE=FeeRate",
+            "AVAILABLE=Available")

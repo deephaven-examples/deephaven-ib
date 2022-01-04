@@ -19,6 +19,7 @@ from ibapi.wrapper import EWrapper
 
 from .contractregistry import ContractRegistry
 from .ibtypelogger import *
+from .._short_rates import load_short_rates
 from .._utils import next_unique_id
 from ..utils import unix_sec_to_dh_datetime
 
@@ -56,6 +57,8 @@ class IbTwsClient(EWrapper, EClient):
         self.contract_registry = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
+
+        self.tables["short_rates"] = load_short_rates()
 
 
     @staticmethod
