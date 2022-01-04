@@ -16,9 +16,24 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install --upgrade setuptools wheel build twine
+
+    - name: Set release version
+      id: version
+      run: |
+        if [${{ github.event.release.tag_name }}]
+        then
+            echo "::set-output name=version::${{ github.event.release.tag_name }}"
+        else
+            echo "::set-output name=version::development"
+        fi
+#      env:
+#        REF: ${{ github.ref }}
+
+
     - name: Build
       env:
         DH_IB_VERSION: ${{ github.event.release.tag_name }}
+        DEBUG_VERSION: ${{ steps.version.version }}
       run: |
         python -m build
     - name: Archive production artifacts
@@ -27,14 +42,12 @@ jobs:
         name: Artifacts
         path: |
           dist/*
-#          !dist/**/*.md
-        retention-days:
-#
-    - name: Archive whls
-      uses: actions/upload-artifact@v2
-      with:
-        name: whl
-        path: dist/deephaven_ib-development-py3-none-any.whl
+##
+#    - name: Archive whls
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: whl
+#        path: dist/deephaven_ib-development-py3-none-any.whl
 #TODO: publish
 #    - name: Publish
 #      if: xxxx
