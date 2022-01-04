@@ -5,7 +5,10 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-version = os.getenv("DH_IB_VERSION", default="0.0.0")
+version = os.getenv("DH_IB_VERSION", default=None)
+
+if not version:
+    version = "development"
 
 print(f">>>>>>> DH_IB_VERSION: {os.getenv('DH_IB_VERSION')}")
 print(f">>>>>>> VERSION: {version}")
