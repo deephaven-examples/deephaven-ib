@@ -21,7 +21,7 @@ jobs:
       id: version
       run: |
         TAG_NAME=${{ github.event.release.tag_name }}
-        if [-z "${TAG_NAME}"]
+        if [ -z "${TAG_NAME}" ]
         then
             echo "::set-output name=version::${{ github.event.release.tag_name }}"
         else
