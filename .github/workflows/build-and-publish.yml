@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: whl
-        path: dist/*.whl
+        path: dist/deephaven_ib-development-py3-none-any.whl
 #TODO: publish
 #    - name: Publish
 #      if: xxxx
