@@ -10,7 +10,7 @@ version = os.getenv("DH_IB_VERSION", default="0.0.0")
 print(f">>>>>>> DH_IB_VERSION: {os.getenv('DH_IB_VERSION')}")
 print(f">>>>>>> VERSION: {version}")
 
-for k, v in os.environ:
+for k, v in os.environ.items():
     print(f">>>>>>> EV:: {k}={v}")
 
 setuptools.setup(
