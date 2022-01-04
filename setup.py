@@ -7,6 +7,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 version = os.getenv("DH_IB_VERSION", default="0.0.0")
 
+print(f">>>>>>> DH_IB_VERSION: {os.getenv('DH_IB_VERSION')}")
+print(f">>>>>>> VERSION: {version}")
+
 setuptools.setup(
     name="deephaven_ib",
     version=version,
