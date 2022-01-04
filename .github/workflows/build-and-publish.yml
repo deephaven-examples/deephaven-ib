@@ -17,15 +17,15 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade setuptools wheel build twine
 
-    - name: Set release version
+    - name: Set output version
       id: version
       run: |
         TAG_NAME=${{ github.event.release.tag_name }}
         if [ -z "${TAG_NAME}" ]
         then
-            echo "::set-output name=version::${{ github.event.release.tag_name }}"
+            echo "::set-output name=version::development-X"
         else
-            echo "::set-output name=version::development"
+            echo "::set-output name=version::${{ github.event.release.tag_name }}"
         fi
 #      env:
 #        REF: ${{ github.ref }}
