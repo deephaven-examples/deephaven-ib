@@ -28,12 +28,13 @@ jobs:
         path: |
           dist/*
 #          !dist/**/*.md
+        retention-days:
 #
-#    - name: Archive whls
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: code-coverage-report
-#        path: output/test/code-coverage.html
+    - name: Archive whls
+      uses: actions/upload-artifact@v2
+      with:
+        name: whl
+        path: dist/*.whl
 #TODO: publish
 #    - name: Publish
 #      if: xxxx
