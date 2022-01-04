@@ -52,7 +52,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
-        self.tables = {name: tw.getTable() for (name, tw) in self._table_writers}
+        self.tables = {name: tw.getTable() for (name, tw) in self._table_writers.items()}
         self.thread = None
         self.contract_registry = None
         self._registered_market_rules = None
@@ -120,7 +120,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["accounts_pnl"] = DynamicTableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
-            [dht.int64, dht.float64, dht.float64, "RealizedPnl"])
+            [dht.int64, dht.float64, dht.float64, dht.float64])
 
         ####
         # News

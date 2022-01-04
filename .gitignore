@@ -1,2 +1,4 @@
 .idea
 venv
+dist
+src/deephaven_ib.egg-info

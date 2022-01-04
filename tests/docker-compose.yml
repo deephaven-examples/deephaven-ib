@@ -1,0 +1,44 @@
+version: "3.4"
+
+services:
+  grpc-api:
+    image: deephaven-ib:latest
+    expose:
+      - '8080'
+    volumes:
+      - ./notebooks:/notebooks
+      - api-cache:/cache
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx4g -Ddeephaven.console.type=python
+       #-Ddeephaven.application.dir=/app.d
+
+  web:
+    image: ghcr.io/deephaven/web:${VERSION:-latest}
+    expose:
+      - '80'
+    volumes:
+      - ./notebooks:/notebooks
+#      - ./layouts/:/data/layouts
+      - web-tmp:/tmp
+
+  grpc-proxy:
+    image: ghcr.io/deephaven/grpc-proxy:${VERSION:-latest}
+    environment:
+      - BACKEND_ADDR=grpc-api:8080
+    depends_on:
+      - grpc-api
+    expose:
+      - '8080'
+
+  envoy:
+    image: ghcr.io/deephaven/envoy:${VERSION:-latest}
+    depends_on:
+      - web
+      - grpc-proxy
+      - grpc-api
+    ports:
+      - "${PORT:-10000}:10000"
+
+volumes:
+    web-tmp:
+    api-cache:
