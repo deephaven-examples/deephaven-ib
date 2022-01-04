@@ -701,14 +701,6 @@ class IbSessionTws:
         self._assert_connected()
         self._client.reqGlobalCancel()
 
-    #### TODO ######
-
-    #     self._client.reqIds() --> get next valid id for placing orders
-
-    ### Don't Do vvvvvvv
-
-    #     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
-
-
-    #     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
-
+    # TODO:     self._client.reqIds() --> get next valid id for placing orders
+    # TODO: (don't do)     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
+    # TODO: (don't do)     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
