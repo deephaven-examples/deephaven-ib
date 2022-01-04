@@ -49,6 +49,11 @@ class IBFtpWriter:
 
         line = html.unescape(line)
 
+        # REMOVE TRAILING "|" that breaks CSV parser
+        # https://github.com/deephaven/deephaven-core/issues/1800
+        if line.endswith("|"):
+            line = line[:-1]
+
         if line.startswith("#"):
             line = f"Source|{line[1:]}"
 
@@ -88,10 +93,10 @@ def load_short_rates() -> Any:
 
         return read_csv(p.file_name(), delimiter="|") \
             .renameColumns(
-            "SYM=Sym",
-            "CUR=Currency",
-            "NAME=Name",
-            "CON=Contract",
-            "REBATERATE=RebateRate",
-            "FEERATE=FeeRate",
-            "AVAILABLE=Available")
+            "Sym=SYM",
+            "Currency=CUR",
+            "Name=NAME",
+            "Contract=CON",
+            "RebateRate=REBATERATE",
+            "FeeRate=FEERATE",
+            "Available=AVAILABLE")

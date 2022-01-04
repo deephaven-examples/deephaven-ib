@@ -275,8 +275,8 @@ class IbSessionTws:
 
     _client: IbTwsClient
 
-    def __init__(self):
-        self._client = IbTwsClient()
+    def __init__(self, download_short_rates=True):
+        self._client = IbTwsClient(download_short_rates=download_short_rates)
 
     ####################################################################################################################
     ####################################################################################################################

@@ -47,8 +47,7 @@ class IbTwsClient(EWrapper, EClient):
     _registered_market_rules: Set[str]
     _realtime_bar_sizes: Dict[TickerId, int]
 
-
-    def __init__(self):
+    def __init__(self, download_short_rates=True):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
@@ -58,7 +57,8 @@ class IbTwsClient(EWrapper, EClient):
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
 
-        self.tables["short_rates"] = load_short_rates()
+        if download_short_rates:
+            self.tables["short_rates"] = load_short_rates()
 
 
     @staticmethod
@@ -72,7 +72,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["errors"] = DynamicTableWriter(
             ["RequestId", "ErrorCode", "ErrorDescription", "Error"],
-            [dht.int64, dht.int64, dht.string, dht.string])
+            [dht.int32, dht.int32, dht.string, dht.string])
 
         ####
         # Contracts
@@ -338,7 +338,9 @@ class IbTwsClient(EWrapper, EClient):
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
         EWrapper.error(self, reqId, errorCode, errorString)
         self._table_writers["errors"].logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
-        self.contract_registry.add_error_data(req_id=reqId, error_string=errorString)
+
+        if self.contract_registry:
+            self.contract_registry.add_error_data(req_id=reqId, error_string=errorString)
 
     ####################################################################################################################
     ####################################################################################################################
