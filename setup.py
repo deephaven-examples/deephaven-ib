@@ -5,16 +5,10 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-version = os.getenv("DH_IB_VERSION", default=None)
+version = os.getenv("DH_IB_VERSION")
 
 if not version:
-    version = "development"
-
-print(f">>>>>>> DH_IB_VERSION: {os.getenv('DH_IB_VERSION')}")
-print(f">>>>>>> VERSION: {version}")
-
-for k, v in os.environ.items():
-    print(f">>>>>>> EV:: {k}={v}")
+    raise Exception("Version must be set via the DH_IB_VERSION environment varialble.")
 
 setuptools.setup(
     name="deephaven_ib",
