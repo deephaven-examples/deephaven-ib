@@ -206,6 +206,9 @@ class RegisteredContract:
     def __init__(self, contract_details: ContractDetails):
         self.contract_details = contract_details
 
+    def __str__(self) -> str:
+        return f"RegistredContract({self.contract_details.contract})"
+
 
 # TODO review API
 class IbSessionTws:
