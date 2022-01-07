@@ -7,7 +7,7 @@ import jpy
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
 
 
-def map_values(value, map, default=lambda v: f"UNKNOWN(v)"):
+def map_values(value, map, default=lambda v: f"UNKNOWN({v})"):
     """ Maps one set of values to another.  A default value is used if the value is not in the map. """
 
     if value is None:

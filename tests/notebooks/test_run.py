@@ -10,6 +10,9 @@ client.connect(host="host.docker.internal", port=7496)
 
 print(f"IsConnected: {client.is_connected()}")
 
+for k, v in client.tables.items():
+    globals()[k] = v
+
 c = Contract()
 c.exchange = "NASDAQ"
 c.symbol = "AAPL"

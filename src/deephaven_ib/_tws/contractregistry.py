@@ -145,7 +145,7 @@ class ContractRegistry:
 
         self.lock.acquire()
 
-        if self._get_contract_details(contract) is None:
+        if contract not in self.contracts:
             req_id = next_unique_id()
             self.requests[req_id] = (contract, condition)
             self.client.reqContractDetails(reqId=req_id, contract=contract)
