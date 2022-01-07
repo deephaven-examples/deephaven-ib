@@ -2,8 +2,6 @@ import time
 from threading import Thread
 from typing import Set, Dict
 
-# noinspection PyPep8Naming
-from deephaven import DynamicTableWriter
 from ibapi import errors
 from ibapi import news
 from ibapi.client import EClient
@@ -18,6 +16,7 @@ from ibapi.wrapper import EWrapper
 
 from .contractregistry import ContractRegistry
 from .ibtypelogger import *
+from .tablewriter import DynamicTableWriter
 from .._short_rates import load_short_rates
 from .._utils import next_unique_id
 from ..utils import unix_sec_to_dh_datetime
@@ -30,7 +29,6 @@ _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_A
                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
 
 
-# TODO: map string "" to None
 # TODO: remove all of the redirection to EWrapper for debug logging
 
 # noinspection PyPep8Naming
@@ -51,7 +49,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
-        self.tables = {name: tw.getTable() for (name, tw) in self._table_writers.items()}
+        self.tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
         # TODO: accounts_managed needs to be t.firstBy("Account")
         # TODO: accounts_profile needs to be t.lastBy("Account", "ContractId")
         # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
@@ -343,7 +341,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
         EWrapper.error(self, reqId, errorCode, errorString)
-        self._table_writers["errors"].logRow(reqId, errorCode, map_values(errorCode, _error_code_map), errorString)
+        self._table_writers["errors"].write_row([reqId, errorCode, map_values(errorCode, _error_code_map), errorString])
 
         if self.contract_registry:
             self.contract_registry.add_error_data(req_id=reqId, error_string=errorString)
@@ -368,13 +366,13 @@ class IbTwsClient(EWrapper, EClient):
 
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.contractDetails(self, reqId, contractDetails)
-        self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
+        self._table_writers["contracts_details"].write_row([reqId, *logger_contract_details.vals(contractDetails)])
         self.contract_registry.add_contract_data(reqId, contractDetails)
         self.request_market_rules(contractDetails)
 
     def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.bondContractDetails(self, reqId, contractDetails)
-        self._table_writers["contracts_details"].logRow(reqId, *logger_contract_details.vals(contractDetails))
+        self._table_writers["contracts_details"].write_row([reqId, *logger_contract_details.vals(contractDetails)])
         self.contract_registry.add_contract_data(reqId, contractDetails)
         self.request_market_rules(contractDetails)
 
@@ -390,8 +388,8 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.symbolSamples(self, reqId, contractDescriptions)
 
         for cd in contractDescriptions:
-            self._table_writers["contracts_matching"].logRow(reqId, *logger_contract.vals(cd.contract),
-                                                           to_string_set(cd.derivativeSecTypes))
+            self._table_writers["contracts_matching"].write_row([reqId, *logger_contract.vals(cd.contract),
+                                                                 to_string_set(cd.derivativeSecTypes)])
             self.contract_registry.request_contract_details_nonblocking(cd.contract)
 
     ####
@@ -402,7 +400,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.marketRule(self, marketRuleId, priceIncrements)
 
         for pi in priceIncrements:
-            self._table_writers["market_rules"].logRow(str(marketRuleId), *logger_price_increment.vals(pi))
+            self._table_writers["market_rules"].write_row([str(marketRuleId), *logger_price_increment.vals(pi)])
 
         self._registered_market_rules.add(str(marketRuleId))
 
@@ -421,7 +419,7 @@ class IbTwsClient(EWrapper, EClient):
 
         for account in accountsList.split(","):
             if account:
-                self._table_writers["accounts_managed"].logRow([account])
+                self._table_writers["accounts_managed"].write_row([account])
                 self.reqAccountUpdates(subscribe=True, acctCode=account)
 
     ####
@@ -432,7 +430,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.familyCodes(self, familyCodes)
 
         for fc in familyCodes:
-            self._table_writers["accounts_family_codes"].logRow(*logger_family_code.vals(fc))
+            self._table_writers["accounts_family_codes"].write_row(logger_family_code.vals(fc))
 
     ####
     # reqAccountUpdates
@@ -440,7 +438,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def updateAccountValue(self, key: str, val: str, currency: str, accountName: str):
         EWrapper.updateAccountValue(self, key, val, currency, accountName)
-        self._table_writers["accounts_value"].logRow(accountName, currency, key, val)
+        self._table_writers["accounts_value"].write_row([accountName, currency, key, val])
 
     def updatePortfolio(self, contract: Contract, position: float,
                         marketPrice: float, marketValue: float,
@@ -448,9 +446,9 @@ class IbTwsClient(EWrapper, EClient):
                         realizedPNL: float, accountName: str):
         EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
                                  realizedPNL, accountName)
-        self._table_writers["accounts_portfolio"].logRow(accountName, *logger_contract.vals(contract), position,
-                                                         marketPrice,
-                                                         marketValue, averageCost, unrealizedPNL, realizedPNL)
+        self._table_writers["accounts_portfolio"].write_row([accountName, *logger_contract.vals(contract), position,
+                                                             marketPrice, marketValue, averageCost, unrealizedPNL,
+                                                             realizedPNL])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     ####
@@ -459,7 +457,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
         EWrapper.accountSummary(self, reqId, account, tag, value, currency)
-        self._table_writers["accounts_summary"].logRow(reqId, account, tag, value, currency)
+        self._table_writers["accounts_summary"].write_row([reqId, account, tag, value, currency])
 
     ####
     # reqPositions
@@ -467,7 +465,8 @@ class IbTwsClient(EWrapper, EClient):
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
         EWrapper.position(self, account, contract, position, avgCost)
-        self._table_writers["accounts_positions"].logRow(account, *logger_contract.vals(contract), position, avgCost)
+        self._table_writers["accounts_positions"].write_row(
+            [account, *logger_contract.vals(contract), position, avgCost])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     ####
@@ -476,7 +475,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
         EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
-        self._table_writers["accounts_pnl"].logRow(reqId, dailyPnL, unrealizedPnL, realizedPnL)
+        self._table_writers["accounts_pnl"].write_row([reqId, dailyPnL, unrealizedPnL, realizedPnL])
         # TODO: need to be able to associate an account with the request id and data.
 
     ####################################################################################################################
@@ -493,7 +492,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.newsProviders(self, newsProviders)
 
         for provider in newsProviders:
-            self._table_writers["news_providers"].logRow(*logger_news_provider.vals(provider))
+            self._table_writers["news_providers"].write_row(logger_news_provider.vals(provider))
 
     ####
     # reqNewsBulletins
@@ -501,8 +500,8 @@ class IbTwsClient(EWrapper, EClient):
 
     def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
         EWrapper.updateNewsBulletin(self, msgId, msgType, newsMessage, originExch)
-        self._table_writers["news_bulletins"].logRow(msgId, map_values(msgType, _news_msgtype_map), newsMessage,
-                                                     originExch)
+        self._table_writers["news_bulletins"].write_row([msgId, map_values(msgType, _news_msgtype_map), newsMessage,
+                                                         originExch])
 
     ####
     # reqNewsArticle
@@ -511,7 +510,7 @@ class IbTwsClient(EWrapper, EClient):
     def newsArticle(self, requestId: int, articleType: int, articleText: str):
         EWrapper.newsArticle(self, requestId, articleType, articleText)
         at = map_values(articleType, {0: "PlainTextOrHtml", 1: "BinaryDataOrPdf"})
-        self._table_writers["news_articles"].logRow(requestId, at, articleText)
+        self._table_writers["news_articles"].write_row([requestId, at, articleText])
 
     ####
     # reqHistoricalNews
@@ -519,8 +518,8 @@ class IbTwsClient(EWrapper, EClient):
 
     def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
         EWrapper.historicalNews(self, requestId, time, providerCode, articleId, headline)
-        self._table_writers["news_historical"].logRow(requestId, ib_to_dh_datetime(time), providerCode, articleId,
-                                                      headline)
+        self._table_writers["news_historical"].write_row([requestId, ib_to_dh_datetime(time), providerCode, articleId,
+                                                          headline])
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
         # do not need to implement
@@ -538,18 +537,18 @@ class IbTwsClient(EWrapper, EClient):
 
     def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
         EWrapper.tickPrice(self, reqId, tickType, price, attrib)
-        self._table_writers["ticks_price"].logRow(reqId, TickTypeEnum.to_str(tickType), price,
-                                                 *logger_tick_attrib.vals(attrib))
+        self._table_writers["ticks_price"].write_row([reqId, TickTypeEnum.to_str(tickType), price,
+                                                      *logger_tick_attrib.vals(attrib)])
         # TODO: need to relate request to security ***
 
     def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
         EWrapper.tickSize(self, reqId, tickType, size)
-        self._table_writers["ticks_size"].logRow(reqId, TickTypeEnum.to_str(tickType), size)
+        self._table_writers["ticks_size"].write_row([reqId, TickTypeEnum.to_str(tickType), size])
         # TODO: need to relate request to security ***
 
     def tickString(self, reqId: TickerId, tickType: TickType, value: str):
         EWrapper.tickString(self, reqId, tickType, value)
-        self._table_writers["ticks_string"].logRow(reqId, TickTypeEnum.to_str(tickType), value)
+        self._table_writers["ticks_string"].write_row([reqId, TickTypeEnum.to_str(tickType), value])
         # TODO: need to relate request to security ***
 
     def tickEFP(self, reqId: TickerId, tickType: TickType, basisPoints: float,
@@ -558,14 +557,15 @@ class IbTwsClient(EWrapper, EClient):
                 dividendsToLastTradeDate: float):
         EWrapper.tickEFP(self, reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
                          futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
-        self._table_writers["ticks_efp"].logRow(reqId, TickTypeEnum.to_str(tickType), basisPoints, formattedBasisPoints,
-                                               totalDividends, holdDays, futureLastTradeDate, dividendImpact,
-                                               dividendsToLastTradeDate)
+        self._table_writers["ticks_efp"].write_row(
+            [reqId, TickTypeEnum.to_str(tickType), basisPoints, formattedBasisPoints,
+             totalDividends, holdDays, futureLastTradeDate, dividendImpact,
+             dividendsToLastTradeDate])
         # TODO: need to relate request to security ***
 
     def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
         EWrapper.tickGeneric(self, reqId, tickType, value)
-        self._table_writers["ticks_generic"].logRow(reqId, TickTypeEnum.to_str(tickType), value)
+        self._table_writers["ticks_generic"].write_row([reqId, TickTypeEnum.to_str(tickType), value])
         # TODO: need to relate request to security ***
 
     def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
@@ -574,9 +574,9 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.tickOptionComputation(self, reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend,
                                        gamma, vega, theta, undPrice)
         ta = map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
-        self._table_writers["ticks_option_computation"].logRow(reqId, TickTypeEnum.to_str(tickType), ta, impliedVol,
-                                                               delta,
-                                                              optPrice, pvDividend, gamma, vega, theta, undPrice)
+        self._table_writers["ticks_option_computation"].write_row([reqId, TickTypeEnum.to_str(tickType), ta, impliedVol,
+                                                                   delta,
+                                                                   optPrice, pvDividend, gamma, vega, theta, undPrice])
         # TODO: need to relate request to security ***
 
     def tickSnapshotEnd(self, reqId: int):
@@ -601,14 +601,14 @@ class IbTwsClient(EWrapper, EClient):
         t.exchange = exchange
         t.specialConditions = specialConditions
 
-        self._table_writers["ticks_trade"].logRow(reqId, *logger_hist_tick_last.vals(t))
+        self._table_writers["ticks_trade"].write_row([reqId, *logger_hist_tick_last.vals(t)])
 
     # noinspection PyUnusedLocal
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
         EWrapper.historicalTicksLast(self, reqId, ticks, done)
 
         for t in ticks:
-            self._table_writers["ticks_trade"].logRow(reqId, *logger_hist_tick_last.vals(t))
+            self._table_writers["ticks_trade"].write_row([reqId, *logger_hist_tick_last.vals(t)])
 
     def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
                          bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
@@ -622,22 +622,22 @@ class IbTwsClient(EWrapper, EClient):
         t.sizeBid = bidSize
         t.sizeAsk = askSize
 
-        self._table_writers["ticks_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
+        self._table_writers["ticks_bid_ask"].write_row([reqId, *logger_hist_tick_bid_ask.vals(t)])
 
     def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickBidAsk, done: bool):
 
         for t in ticks:
-            self._table_writers["ticks_bid_ask"].logRow(reqId, *logger_hist_tick_bid_ask.vals(t))
+            self._table_writers["ticks_bid_ask"].write_row([reqId, *logger_hist_tick_bid_ask.vals(t)])
 
     def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
         EWrapper.tickByTickMidPoint(self, reqId, time, midPoint)
-        self._table_writers["ticks_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(time), midPoint)
+        self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_dh_datetime(time), midPoint])
 
     def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTick, done: bool):
         EWrapper.historicalTicks(self, reqId, ticks, done)
 
         for t in ticks:
-            self._table_writers["ticks_mid_point"].logRow(reqId, unix_sec_to_dh_datetime(t.time), t.price)
+            self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_dh_datetime(t.time), t.price])
 
     ####
     # reqHistoricalData
@@ -645,7 +645,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def historicalData(self, reqId: int, bar: BarData):
         EWrapper.historicalData(self, reqId, bar)
-        self._table_writers["bars_historical"].logRow(reqId, *logger_bar_data.vals(bar))
+        self._table_writers["bars_historical"].write_row([reqId, *logger_bar_data.vals(bar)])
         # TODO: need to relate request to security ***
 
     def historicalDataEnd(self, reqId: int, start: str, end: str):
@@ -669,7 +669,7 @@ class IbTwsClient(EWrapper, EClient):
         bar = RealTimeBar(time=time, endTime=time + bar_size, open_=open_, high=high, low=low, close=close,
                           volume=volume,
                           wap=wap, count=count)
-        self._table_writers["bars_realtime"].logRow(reqId, *logger_real_time_bar_data.vals(bar))
+        self._table_writers["bars_realtime"].write_row([reqId, *logger_real_time_bar_data.vals(bar)])
 
     ####################################################################################################################
     ####################################################################################################################
@@ -683,8 +683,9 @@ class IbTwsClient(EWrapper, EClient):
 
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
         EWrapper.openOrder(self, orderId, contract, order, orderState)
-        self._table_writers["orders_open"].logRow(orderId, *logger_contract.vals(contract), *logger_order.vals(order),
-                                                  *logger_order_state.vals(orderState))
+        self._table_writers["orders_open"].write_row(
+            [orderId, *logger_contract.vals(contract), *logger_order.vals(order),
+             *logger_order_state.vals(orderState)])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     def orderStatus(self, orderId: OrderId, status: str, filled: float,
@@ -693,8 +694,9 @@ class IbTwsClient(EWrapper, EClient):
                     whyHeld: str, mktCapPrice: float):
         EWrapper.orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
                              clientId, whyHeld, mktCapPrice)
-        self._table_writers["orders_status"].logRow(orderId, status, filled, remaining, avgFillPrice, permId, parentId,
-                                                    lastFillPrice, clientId, whyHeld, mktCapPrice)
+        self._table_writers["orders_status"].write_row(
+            [orderId, status, filled, remaining, avgFillPrice, permId, parentId,
+             lastFillPrice, clientId, whyHeld, mktCapPrice])
 
     def openOrderEnd(self):
         # do not ned to implement
@@ -706,8 +708,8 @@ class IbTwsClient(EWrapper, EClient):
 
     def completedOrder(self, contract: Contract, order: Order, orderState: OrderState):
         EWrapper.completedOrder(self, contract, order, orderState)
-        self._table_writers["orders_completed"].logRow(*logger_contract.vals(contract), *logger_order.vals(order),
-                                                       *logger_order_state.vals(orderState))
+        self._table_writers["orders_completed"].write_row([*logger_contract.vals(contract), *logger_order.vals(order),
+                                                           *logger_order_state.vals(orderState)])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     def completedOrdersEnd(self):
@@ -720,8 +722,8 @@ class IbTwsClient(EWrapper, EClient):
 
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
         EWrapper.execDetails(self, reqId, contract, execution)
-        self._table_writers["orders_exec_details"].logRow(reqId, *logger_contract.vals(contract),
-                                                          logger_execution.vals(execution))
+        self._table_writers["orders_exec_details"].write_row([reqId, *logger_contract.vals(contract),
+                                                              logger_execution.vals(execution)])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     def execDetailsEnd(self, reqId: int):
@@ -730,7 +732,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def commissionReport(self, commissionReport: CommissionReport):
         EWrapper.commissionReport(self, commissionReport)
-        self._table_writers["orders_exec_commission_report"].logRow(*logger_commission_report.vals(commissionReport))
+        self._table_writers["orders_exec_commission_report"].write_row(logger_commission_report.vals(commissionReport))
 
     ####################################################################################################################
     ####################################################################################################################
