@@ -21,6 +21,8 @@ class MarketDataType(Enum):
     """Real-time market data."""
     FROZEN = 2
     """Real-time market data during regular trading hours, and frozen prices after the close."""
+    DELAYED = 3
+    """Delayed market data."""
 
 
 class TickDataType(Enum):

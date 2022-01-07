@@ -24,6 +24,7 @@ from ..utils import unix_sec_to_dh_datetime
 
 # logging.basicConfig(level=logging.DEBUG)
 
+# TODO set up error codes https://interactivebrokers.github.io/tws-api/message_codes.html
 _error_code_map = {e.code(): e.msg() for e in dir(errors) if isinstance(e, errors.CodeMsgPair)}
 _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
@@ -537,18 +538,18 @@ class IbTwsClient(EWrapper, EClient):
 
     def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
         EWrapper.tickPrice(self, reqId, tickType, price, attrib)
-        self._table_writers["ticks_price"].logRow(reqId, TickTypeEnum(tickType).name, price,
+        self._table_writers["ticks_price"].logRow(reqId, TickTypeEnum.to_str(tickType), price,
                                                  *logger_tick_attrib.vals(attrib))
         # TODO: need to relate request to security ***
 
     def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
         EWrapper.tickSize(self, reqId, tickType, size)
-        self._table_writers["ticks_size"].logRow(reqId, TickTypeEnum(tickType).name, size)
+        self._table_writers["ticks_size"].logRow(reqId, TickTypeEnum.to_str(tickType), size)
         # TODO: need to relate request to security ***
 
     def tickString(self, reqId: TickerId, tickType: TickType, value: str):
         EWrapper.tickString(self, reqId, tickType, value)
-        self._table_writers["ticks_string"].logRow(reqId, TickTypeEnum(tickType).name, value)
+        self._table_writers["ticks_string"].logRow(reqId, TickTypeEnum.to_str(tickType), value)
         # TODO: need to relate request to security ***
 
     def tickEFP(self, reqId: TickerId, tickType: TickType, basisPoints: float,
@@ -557,14 +558,14 @@ class IbTwsClient(EWrapper, EClient):
                 dividendsToLastTradeDate: float):
         EWrapper.tickEFP(self, reqId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays,
                          futureLastTradeDate, dividendImpact, dividendsToLastTradeDate)
-        self._table_writers["ticks_efp"].logRow(reqId, TickTypeEnum(tickType).name, basisPoints, formattedBasisPoints,
+        self._table_writers["ticks_efp"].logRow(reqId, TickTypeEnum.to_str(tickType), basisPoints, formattedBasisPoints,
                                                totalDividends, holdDays, futureLastTradeDate, dividendImpact,
                                                dividendsToLastTradeDate)
         # TODO: need to relate request to security ***
 
     def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
         EWrapper.tickGeneric(self, reqId, tickType, value)
-        self._table_writers["ticks_generic"].logRow(reqId, TickTypeEnum(tickType).name, value)
+        self._table_writers["ticks_generic"].logRow(reqId, TickTypeEnum.to_str(tickType), value)
         # TODO: need to relate request to security ***
 
     def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
@@ -573,7 +574,8 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.tickOptionComputation(self, reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend,
                                        gamma, vega, theta, undPrice)
         ta = map_values(tickAttrib, {0: "Return-based", 1: "Price-based"})
-        self._table_writers["ticks_option_computation"].logRow(reqId, TickTypeEnum(tickType).name, ta, impliedVol, delta,
+        self._table_writers["ticks_option_computation"].logRow(reqId, TickTypeEnum.to_str(tickType), ta, impliedVol,
+                                                               delta,
                                                               optPrice, pvDividend, gamma, vega, theta, undPrice)
         # TODO: need to relate request to security ***
 

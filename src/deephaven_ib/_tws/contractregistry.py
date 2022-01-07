@@ -37,7 +37,7 @@ class ContractRegistry:
     client: EClient
     lock: LogLock
     requests: Dict[int, Tuple[Contract, threading.Event]]
-    contracts: Dict[Contract, ContractEntry]
+    contracts: Dict[str, ContractEntry]
 
     def __init__(self, client: EClient):
         self.client = client
@@ -57,12 +57,11 @@ class ContractRegistry:
         """
 
         with self.lock:
-            req = self.requests.pop(req_id)
-            ce = ContractEntry(contract=req[0], contract_details=contract_details)
-            self.contracts[contract_details.contract] = ce
-            self.contracts[req[0]] = ce
+            (contract, event) = self.requests.pop(req_id)
+            ce = ContractEntry(contract=contract, contract_details=contract_details)
+            self.contracts[str(contract_details.contract)] = ce
+            self.contracts[str(contract)] = ce
 
-            event = req[1]
             if event is not None:
                 event.set()
 
@@ -85,7 +84,7 @@ class ContractRegistry:
 
             if req is not None:
                 (contract, event) = req
-                self.contracts[contract] = ContractEntry(contract=contract, error_string=error_string)
+                self.contracts[str(contract)] = ContractEntry(contract=contract, error_string=error_string)
 
                 if event is not None:
                     event.set()
@@ -152,4 +151,4 @@ class ContractRegistry:
         """Gets the contract details for a query contract."""
 
         with self.lock:
-            return self.contracts.get(contract, None)
+            return self.contracts.get(str(contract), None)
