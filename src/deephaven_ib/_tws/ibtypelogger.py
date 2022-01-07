@@ -42,7 +42,9 @@ def _include_details(details: List[Tuple], lambda_for_field: Callable) -> List[T
     Returns:
         Details for logging the inner type.
     """
-    return [(d[0], d[1], lambda x: d[2](lambda_for_field(x))) for d in details]
+
+    # To understand the bound variable voodoo, see: https://stackoverflow.com/questions/19837486/lambda-in-a-loop
+    return [(d[0], d[1], lambda xx, bound_d2=d[2]: bound_d2(lambda_for_field(xx))) for d in details]
 
 
 ####
