@@ -77,6 +77,10 @@ class ContractRegistry:
         """
 
         self.lock.acquire()
+
+        if not req_id in self.requests:
+            return
+
         req = self.requests.pop(req_id)
 
         if req is not None:

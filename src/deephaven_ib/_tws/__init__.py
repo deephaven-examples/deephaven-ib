@@ -1,5 +1,4 @@
-
-import logging
+import time
 from threading import Thread
 from typing import Set, Dict
 
@@ -23,7 +22,7 @@ from .._short_rates import load_short_rates
 from .._utils import next_unique_id
 from ..utils import unix_sec_to_dh_datetime
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 _error_code_map = {e.code(): e.msg() for e in dir(errors) if isinstance(e, errors.CodeMsgPair)}
 _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
@@ -231,14 +230,14 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
     ####################################################################################################################
 
-    def connect(self, host: str = "", port: int = 7497, clientId: int = 0) -> None:
+    def connect(self, host: str, port: int, client_id: int) -> None:
         """Connect to an IB TWS session.  Raises an exception if already connected.
 
         Args:
             host (str): The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
             port (int): TWS port, specified in TWS on the Configure>API>Socket Port field.
                 By default production trading uses port 7496 and paper trading uses port 7497.
-            clientId (int): A number used to identify this client connection.
+            client_id (int): A number used to identify this client connection.
                 All orders placed/modified from this client will be associated with this client identifier.
 
                 Note: Each client MUST connect with a unique clientId.
@@ -253,7 +252,10 @@ class IbTwsClient(EWrapper, EClient):
         if self.isConnected():
             raise Exception("IbTwsClient is already connected.")
 
-        EClient.connect(self, host, port, clientId)
+        EClient.connect(self, host, port, client_id)
+
+        # wait for the client to connect to avoid a race condition
+        time.sleep(1)
 
         self.thread = Thread(target=self.run)
         self.thread.start()
@@ -414,8 +416,9 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.managedAccounts(self, accountsList)
 
         for account in accountsList.split(","):
-            self._table_writers["accounts_managed"].logRow(account)
-            self.reqAccountUpdates(subscribe=True, acctCode=account)
+            if account:
+                self._table_writers["accounts_managed"].logRow([account])
+                self.reqAccountUpdates(subscribe=True, acctCode=account)
 
     ####
     # reqFamilyCodes

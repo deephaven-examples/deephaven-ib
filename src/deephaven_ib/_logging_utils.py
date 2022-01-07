@@ -1,4 +1,5 @@
 import logging
+import traceback
 from typing import Sequence
 
 import jpy
@@ -15,7 +16,7 @@ def map_values(value, map, default=lambda v: f"UNKNOWN(v)"):
     try:
         return map[value]
     except KeyError:
-        logging.exception(f"Unmapped value: {value}")
+        logging.debug(f"Unmapped value: {value}\n{traceback.format_exc()}\n-----")
         return default(value)
 
 
