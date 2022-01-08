@@ -726,3 +726,8 @@ class IbSessionTws:
     # TODO:     self._client.reqIds() --> get next valid id for placing orders
     # TODO: (don't do)     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
     # TODO: (don't do)     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
+
+    # TODO: accounts_managed needs to be t.firstBy("Account")
+    # TODO: accounts_profile needs to be t.lastBy("Account", "ContractId")
+    # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
+    # TODO: need to relate request to security ***

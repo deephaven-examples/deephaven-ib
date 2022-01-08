@@ -1,3 +1,5 @@
 ibapi
 jpy
 deephaven
+pandas
+lxml

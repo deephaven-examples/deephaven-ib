@@ -2,7 +2,6 @@ import time
 from threading import Thread
 from typing import Set, Dict
 
-from ibapi import errors
 from ibapi import news
 from ibapi.client import EClient
 from ibapi.commission_report import CommissionReport
@@ -15,16 +14,17 @@ from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
 from deephaven_ib._tws._tablewriter import DynamicTableWriter
+from ._error_codes import load_error_codes
 from .contractregistry import ContractRegistry
 from .ibtypelogger import *
 from .._short_rates import load_short_rates
 from .._utils import next_unique_id
 from ..utils import unix_sec_to_dh_datetime
 
+# TODO: setup logging
 # logging.basicConfig(level=logging.DEBUG)
 
-# TODO set up error codes https://interactivebrokers.github.io/tws-api/message_codes.html
-_error_code_map = {e.code(): e.msg() for e in dir(errors) if isinstance(e, errors.CodeMsgPair)}
+_error_code_message_map, _error_code_note_map = load_error_codes()
 _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
 
@@ -50,9 +50,6 @@ class IbTwsClient(EWrapper, EClient):
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
         self.tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
-        # TODO: accounts_managed needs to be t.firstBy("Account")
-        # TODO: accounts_profile needs to be t.lastBy("Account", "ContractId")
-        # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
         self.thread = None
         self.contract_registry = None
         self._registered_market_rules = None
@@ -75,8 +72,8 @@ class IbTwsClient(EWrapper, EClient):
                                                        [dht.int32, dht.string, *logger_contract.types(), dht.string])
 
         table_writers["errors"] = DynamicTableWriter(
-            ["RequestId", "ErrorCode", "ErrorDescription", "Error"],
-            [dht.int32, dht.int32, dht.string, dht.string])
+            ["RequestId", "ErrorCode", "ErrorDescription", "Error", "Note"],
+            [dht.int32, dht.int32, dht.string, dht.string, dht.string])
 
         ####
         # Contracts
@@ -353,7 +350,9 @@ class IbTwsClient(EWrapper, EClient):
 
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
         EWrapper.error(self, reqId, errorCode, errorString)
-        self._table_writers["errors"].write_row([reqId, errorCode, map_values(errorCode, _error_code_map), errorString])
+        self._table_writers["errors"].write_row(
+            [reqId, errorCode, map_values(errorCode, _error_code_message_map), errorString,
+             map_values(errorCode, _error_code_note_map)])
 
         if self.contract_registry:
             self.contract_registry.add_error_data(req_id=reqId, error_string=errorString)
@@ -488,7 +487,6 @@ class IbTwsClient(EWrapper, EClient):
     def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
         EWrapper.pnl(self, reqId, dailyPnL, unrealizedPnL, realizedPnL)
         self._table_writers["accounts_pnl"].write_row([reqId, dailyPnL, unrealizedPnL, realizedPnL])
-        # TODO: need to be able to associate an account with the request id and data.
 
     ####################################################################################################################
     ####################################################################################################################
@@ -551,17 +549,14 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.tickPrice(self, reqId, tickType, price, attrib)
         self._table_writers["ticks_price"].write_row([reqId, TickTypeEnum.to_str(tickType), price,
                                                       *logger_tick_attrib.vals(attrib)])
-        # TODO: need to relate request to security ***
 
     def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
         EWrapper.tickSize(self, reqId, tickType, size)
         self._table_writers["ticks_size"].write_row([reqId, TickTypeEnum.to_str(tickType), size])
-        # TODO: need to relate request to security ***
 
     def tickString(self, reqId: TickerId, tickType: TickType, value: str):
         EWrapper.tickString(self, reqId, tickType, value)
         self._table_writers["ticks_string"].write_row([reqId, TickTypeEnum.to_str(tickType), value])
-        # TODO: need to relate request to security ***
 
     def tickEFP(self, reqId: TickerId, tickType: TickType, basisPoints: float,
                 formattedBasisPoints: str, totalDividends: float,
@@ -573,12 +568,10 @@ class IbTwsClient(EWrapper, EClient):
             [reqId, TickTypeEnum.to_str(tickType), basisPoints, formattedBasisPoints,
              totalDividends, holdDays, futureLastTradeDate, dividendImpact,
              dividendsToLastTradeDate])
-        # TODO: need to relate request to security ***
 
     def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
         EWrapper.tickGeneric(self, reqId, tickType, value)
         self._table_writers["ticks_generic"].write_row([reqId, TickTypeEnum.to_str(tickType), value])
-        # TODO: need to relate request to security ***
 
     def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int,
                               impliedVol: float, delta: float, optPrice: float, pvDividend: float,
@@ -589,7 +582,6 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["ticks_option_computation"].write_row([reqId, TickTypeEnum.to_str(tickType), ta, impliedVol,
                                                                    delta,
                                                                    optPrice, pvDividend, gamma, vega, theta, undPrice])
-        # TODO: need to relate request to security ***
 
     def tickSnapshotEnd(self, reqId: int):
         # do not ned to implement
@@ -658,7 +650,6 @@ class IbTwsClient(EWrapper, EClient):
     def historicalData(self, reqId: int, bar: BarData):
         EWrapper.historicalData(self, reqId, bar)
         self._table_writers["bars_historical"].write_row([reqId, *logger_bar_data.vals(bar)])
-        # TODO: need to relate request to security ***
 
     def historicalDataEnd(self, reqId: int, start: str, end: str):
         # do not ned to implement
