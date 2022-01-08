@@ -221,6 +221,7 @@ class IbSessionTws:
         # General
         ####
         errors: an error log
+        requests: requests to IB
 
         ####
         # Contracts
@@ -419,14 +420,13 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO; how to handle provider codes?
-    def request_news_historical(self, contract: RegisteredContract, provider_codes: str, start: dtu.DateTime,
+    def request_news_historical(self, contract: RegisteredContract, provider_codes: List[str], start: dtu.DateTime,
                                 end: dtu.DateTime, total_results: int = 100) -> Request:
         """ Request historical news for a contract.  Results are returned in the `news_historical` table.
 
         Args:
             contract (RegisteredContract): contract data is requested for
-            provider_codes (str): a '+'-separated list of provider codes
+            provider_codes (List[str]): a list of provider codes
             start (DateTime): marks the (exclusive) start of the date range.
             end (DateTime): marks the (inclusive) end of the date range.
             total_results (int): the maximum number of headlines to fetch (1 - 300)
@@ -440,10 +440,11 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        pc = "+".join(provider_codes)
         self._client.log_request(req_id, "HistoricalNews", contract.contract_details.contract,
                                  f"provider_codes={provider_codes} start={start} end={end} total_results={total_results}")
         self._client.reqHistoricalNews(reqId=req_id, conId=contract.contract_details.contract.conId,
-                                       providerCodes=provider_codes,
+                                       providerCodes=pc,
                                        startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
                                        totalResults=total_results, historicalNewsOptions=[])
         return Request(request_id=req_id)

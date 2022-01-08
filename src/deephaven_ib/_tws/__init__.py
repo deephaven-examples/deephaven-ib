@@ -21,15 +21,10 @@ from .._short_rates import load_short_rates
 from .._utils import next_unique_id
 from ..utils import unix_sec_to_dh_datetime
 
-# TODO: setup logging
-# logging.basicConfig(level=logging.DEBUG)
-
 _error_code_message_map, _error_code_note_map = load_error_codes()
 _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
 
-
-# TODO: remove all of the redirection to EWrapper for debug logging
 
 # noinspection PyPep8Naming
 class IbTwsClient(EWrapper, EClient):
