@@ -27,6 +27,10 @@ class IbComplexTypeLogger:
 
     def vals(self, ib_obj: Any) -> List[Any]:
         """ Column values extracted from the IB object. """
+
+        if ib_obj is None:
+            return [None] * len(self.column_details)
+
         return [cd[2](ib_obj) for cd in self.column_details]
 
 

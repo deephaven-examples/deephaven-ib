@@ -145,6 +145,7 @@ class ContractRegistry:
             if contract not in self.contracts:
                 req_id = next_unique_id()
                 self.requests[req_id] = (contract, event)
+                self.client.log_request(req_id, "ContractDetails", contract, None)
                 self.client.reqContractDetails(reqId=req_id, contract=contract)
 
     def _get_contract_details(self, contract: Contract) -> ContractEntry:

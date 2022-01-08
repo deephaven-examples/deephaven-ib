@@ -14,9 +14,9 @@ from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
+from deephaven_ib._tws._tablewriter import DynamicTableWriter
 from .contractregistry import ContractRegistry
 from .ibtypelogger import *
-from .tablewriter import DynamicTableWriter
 from .._short_rates import load_short_rates
 from .._utils import next_unique_id
 from ..utils import unix_sec_to_dh_datetime
@@ -70,6 +70,9 @@ class IbTwsClient(EWrapper, EClient):
         ####
         # General
         ####
+
+        table_writers["requests"] = DynamicTableWriter(["RequestId", "RequestType", *logger_contract.names(), "Note"],
+                                                       [dht.int32, dht.string, *logger_contract.types(), dht.string])
 
         table_writers["errors"] = DynamicTableWriter(
             ["RequestId", "ErrorCode", "ErrorDescription", "Error"],
@@ -320,9 +323,14 @@ class IbTwsClient(EWrapper, EClient):
         ]
 
         self.reqManagedAccts()
-        self.reqAccountSummary(reqId=next_unique_id(), groupName="All", tags=",".join(account_summary_tags))
+        req_id = next_unique_id()
+        tags = ",".join(account_summary_tags)
+        self.log_request(req_id, "AccountSummary", None, f"groupName='All' tags={tags}")
+        self.reqAccountSummary(reqId=req_id, groupName="All", tags=tags)
         self.reqPositions()
         self.reqNewsBulletins(allMsgs=True)
+        req_id = next_unique_id()
+        self.log_request(req_id, "Executions", None, None)
         self.reqExecutions(reqId=next_unique_id(), execFilter=ExecutionFilter())
         self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
@@ -334,6 +342,10 @@ class IbTwsClient(EWrapper, EClient):
     ## General
     ####################################################################################################################
     ####################################################################################################################
+
+    def log_request(self, req_id: int, request_type: str, contract: Contract, note: str):
+        """Log a data request."""
+        self._table_writers["requests"].write_row([req_id, request_type, *logger_contract.vals(contract), note])
 
     ####
     # Always present

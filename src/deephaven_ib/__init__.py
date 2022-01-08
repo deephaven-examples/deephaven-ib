@@ -282,6 +282,7 @@ class IbSessionTws:
 
     def __init__(self, download_short_rates=True):
         self._client = IbTwsClient(download_short_rates=download_short_rates)
+        self._dtw_requests = None
 
     ####################################################################################################################
     ####################################################################################################################
@@ -318,6 +319,7 @@ class IbSessionTws:
         """
 
         self._client.disconnect()
+        self._dtw_requests = None
 
     def is_connected(self) -> bool:
         """Is there a connection with TWS?"""
@@ -380,6 +382,7 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "MatchingSymbols", None, f"pattern={pattern}")
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return Request(request_id=req_id)
 
@@ -406,6 +409,7 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "Pnl", None, f"account='{account}' model_code={model_code}")
         self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return Request(request_id=req_id)
 
@@ -415,9 +419,9 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
+    # TODO; how to handle provider codes?
     def request_news_historical(self, contract: RegisteredContract, provider_codes: str, start: dtu.DateTime,
-                                end: dtu.DateTime,
-                                total_results: int = 100) -> Request:
+                                end: dtu.DateTime, total_results: int = 100) -> Request:
         """ Request historical news for a contract.  Results are returned in the `news_historical` table.
 
         Args:
@@ -436,6 +440,8 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "HistoricalNews", contract.contract_details.contract,
+                                 f"provider_codes={provider_codes} start={start} end={end} total_results={total_results}")
         self._client.reqHistoricalNews(reqId=req_id, conId=contract.contract_details.contract.conId,
                                        providerCodes=provider_codes,
                                        startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
@@ -458,6 +464,7 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "NewsArticle", None, f"provider_code={provider_code} article_id={article_id}")
         self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
         return Request(request_id=req_id)
@@ -483,8 +490,7 @@ class IbSessionTws:
 
     # noinspection PyDefaultArgument
     def request_market_data(self, contract: RegisteredContract, generic_tick_types: List[GenericTickType] = [],
-                            snapshot: bool = False,
-                            regulatory_snapshot: bool = False) -> Request:
+                            snapshot: bool = False, regulatory_snapshot: bool = False) -> Request:
         """ Request market data for a contract.  Results are returned in the `ticks_price`, `ticks_size`,
         `ticks_string`, `ticks_efp`, `ticks_generic`, and `ticks_option_computation` tables.
 
@@ -506,6 +512,8 @@ class IbSessionTws:
         self._assert_connected()
         generic_tick_list = ",".join([x.value for x in generic_tick_types])
         req_id = next_unique_id()
+        self._client.log_request(req_id, "MarketData", contract.contract_details.contract,
+                                 f"generic_tick_types={generic_tick_types} snapshot={snapshot} regulatory_snapshot={regulatory_snapshot}")
         self._client.reqMktData(reqId=req_id, contract=contract.contract_details.contract,
                                 genericTickList=generic_tick_list, snapshot=snapshot,
                                 regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
@@ -548,6 +556,8 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "HistoricalData", contract.contract_details.contract,
+                                 f"end={end} duration={duration} bar_size={bar_size} bar_type={bar_type} market_data_type={market_data_type} keep_up_to_date={keep_up_to_date}")
         self._client.reqHistoricalData(reqId=req_id, contract=contract.contract_details.contract,
                                        endDateTime=dh_to_ib_datetime(end),
                                        durationStr=duration.value, barSizeSetting=bar_size.value,
@@ -575,6 +585,8 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "RealTimeBars", contract.contract_details.contract,
+                                 f"bar_type={bar_type} bar_size={bar_size} market_data_type={market_data_type}")
         self._client.reqRealTimeBars(reqId=req_id, contract=contract.contract_details.contract, barSize=bar_size,
                                      whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
                                      realTimeBarsOptions=[])
@@ -614,6 +626,8 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "TickByTickData", contract.contract_details.contract,
+                                 f"tick_type={tick_type} number_of_ticks={number_of_ticks} ignore_size={ignore_size}")
         self._client.reqTickByTickData(reqId=req_id, contract=contract.contract_details.contract,
                                        tickType=tick_type.value,
                                        numberOfTicks=number_of_ticks, ignoreSize=ignore_size)
@@ -659,6 +673,8 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "HistoricalTicks", contract.contract_details.contract,
+                                 f"start={start} end={end} tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
         what_to_show = tick_type._historical_value()
         self._client.reqHistoricalTicks(reqId=req_id, contract=contract.contract_details.contract,
                                         startDateTime=dh_to_ib_datetime(start),
@@ -683,6 +699,7 @@ class IbSessionTws:
         """
         self._assert_connected()
         req_id = next_unique_id()
+        self._client.log_request(req_id, "PlaceOrder", contract.contract_details.contract, f"order={order}")
         self._client.placeOrder(req_id, contract.contract_details.contract, order)
         return Request(request_id=req_id, cancel_func=self.order_cancel)
 
