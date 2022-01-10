@@ -2,7 +2,7 @@
 
 import time
 from threading import Thread
-from typing import Set, Dict, Union
+from typing import Set, Union
 
 from ibapi import news
 from ibapi.client import EClient
@@ -198,8 +198,8 @@ class IbTwsClient(EWrapper, EClient):
         ####
 
         table_writers["orders_open"] = TableWriter(
-            ["OrderId", *logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
-            [dht.int32, *logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
+            [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
+            [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
         table_writers["orders_status"] = TableWriter(
             ["OrderId", "Status", "Filled", "Remaining", "AvgFillPrice", "PermId", "ParentId", "LastFillPrice",
@@ -212,7 +212,8 @@ class IbTwsClient(EWrapper, EClient):
             [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
         table_writers["orders_exec_details"] = TableWriter(
-            ["ReqId", *logger_contract.names(), *logger_execution.names()],
+            ["ReqId", *logger_contract.names(renames={"Exchange": "ContractExchange"}),
+             *logger_execution.names(renames={"Exchange": "ExecutionExchange"})],
             [dht.int32, *logger_contract.types(), *logger_execution.types()])
 
         table_writers["orders_exec_commission_report"] = TableWriter(
@@ -699,7 +700,9 @@ class IbTwsClient(EWrapper, EClient):
 
     def nextValidId(self, orderId: int):
         EWrapper.nextValidId(self, orderId)
-        self._order_id_queue.add_value(orderId)
+
+        if self._order_id_queue:
+            self._order_id_queue.add_value(orderId)
 
     ####
     # reqAllOpenOrders
@@ -707,9 +710,12 @@ class IbTwsClient(EWrapper, EClient):
 
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
         EWrapper.openOrder(self, orderId, contract, order, orderState)
+
+        if orderId != order.orderId:
+            raise Exception("Order IDs do not match")
+
         self._table_writers["orders_open"].write_row(
-            [orderId, *logger_contract.vals(contract), *logger_order.vals(order),
-             *logger_order_state.vals(orderState)])
+            [*logger_contract.vals(contract), *logger_order.vals(order), *logger_order_state.vals(orderState)])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     def orderStatus(self, orderId: OrderId, status: str, filled: float,

@@ -1,9 +1,6 @@
 """A registry for managing contracts."""
 
 import threading
-from typing import Dict
-# Type hints on IbTwsClient cause a circular dependency.
-# This conditional import plus a string-based annotation avoids the problem.
 from typing import TYPE_CHECKING
 
 from ibapi.contract import Contract, ContractDetails
@@ -12,6 +9,8 @@ from .ib_type_logger import *
 from .._internal.requests import next_unique_id
 from .._internal.threading import LoggingLock
 
+# Type hints on IbTwsClient cause a circular dependency.
+# This conditional import plus a string-based annotation avoids the problem.
 if TYPE_CHECKING:
     from .tws_client import IbTwsClient
 

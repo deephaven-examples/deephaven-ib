@@ -2,7 +2,7 @@
 
 import logging
 import traceback
-from typing import List, Any, Sequence, Union
+from typing import List, Any, Sequence, Union, Dict
 
 # noinspection PyPep8Naming
 import deephaven.Types as dht
@@ -21,8 +21,25 @@ class TableWriter:
 
     # TODO improve types type annotation once deephaven v2 is available
     def __init__(self, names: List[str], types: List[Any]):
+        TableWriter._check_for_duplicate_names(names)
         self._dtw = DynamicTableWriter(names, types)
         self._string_indices = [i for (i, t) in enumerate(types) if t == dht.string]
+
+    @staticmethod
+    def _check_for_duplicate_names(names: List[str]):
+        counts: Dict[str, int] = {}
+
+        for name in names:
+            if name not in counts:
+                counts[name] = 0
+
+            counts[name] = counts[name] + 1
+
+        dups = [name for name, count in counts.items() if count > 1]
+
+        if len(dups) > 0:
+            raise Exception(f"Duplicate column names: {','.join(dups)}")
+
 
     # TODO improve types type annotation once deephaven v2 is available
     def table(self) -> Any:

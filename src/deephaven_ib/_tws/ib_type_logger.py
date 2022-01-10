@@ -1,6 +1,6 @@
 """Functionality for logging IB types to Deephaven tables."""
 
-from typing import Any, List, Tuple, Callable
+from typing import Any, List, Tuple, Dict, Callable
 
 # noinspection PyPep8Naming
 from deephaven import Types as dht
@@ -19,9 +19,10 @@ class IbComplexTypeLogger:
         self.ib_type = ib_type
         self.column_details = column_details
 
-    def names(self) -> List[str]:
+    # noinspection PyDefaultArgument
+    def names(self, renames: Dict[str, str] = {}) -> List[str]:
         """ Column names. """
-        return [cd[0] for cd in self.column_details]
+        return [renames.get(cd[0], cd[0]) for cd in self.column_details]
 
     def types(self) -> List[Any]:
         """ Column types. """
