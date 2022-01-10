@@ -2,13 +2,18 @@
 
 import threading
 from typing import Dict
+# Type hints on IbTwsClient cause a circular dependency.
+# This conditional import plus a string-based annotation avoids the problem.
+from typing import TYPE_CHECKING
 
 from ibapi.contract import Contract, ContractDetails
 
-from deephaven_ib._internal.requests import next_unique_id
-from deephaven_ib._internal.threading import LoggingLock
-from . import IbTwsClient
 from .ib_type_logger import *
+from .._internal.requests import next_unique_id
+from .._internal.threading import LoggingLock
+
+if TYPE_CHECKING:
+    from .tws_client import IbTwsClient
 
 
 class ContractEntry:
@@ -36,12 +41,12 @@ class ContractEntry:
 class ContractRegistry:
     """A registry for mapping between contract requests and official contract specifications."""
 
-    _client: IbTwsClient
+    _client: 'IbTwsClient'
     _lock: LoggingLock
     _requests: Dict[int, Tuple[Contract, threading.Event]]
     _contracts: Dict[str, ContractEntry]
 
-    def __init__(self, client: IbTwsClient):
+    def __init__(self, client: 'IbTwsClient'):
         self._client = client
         self._lock = LoggingLock("ContractRegistry")
         self._requests = {}

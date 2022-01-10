@@ -13,6 +13,9 @@ print(f"IsConnected: {client.is_connected()}")
 for k, v in client.tables.items():
     globals()[k] = v
 
+for k, v in client.tables2.items():
+    globals()[k] = v
+
 # c = Contract()
 # c.secType = "STK"
 # c.exchange = "NASDAQ"

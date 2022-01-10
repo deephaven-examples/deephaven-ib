@@ -5,7 +5,7 @@ from typing import Any, List, Tuple, Callable
 # noinspection PyPep8Naming
 from deephaven import Types as dht
 
-from deephaven_ib._internal.tablewriter import map_values, to_string_val, to_string_set
+from .._internal.tablewriter import map_values, to_string_val, to_string_set
 from ..time import unix_sec_to_dh_datetime, ib_to_dh_datetime
 
 
