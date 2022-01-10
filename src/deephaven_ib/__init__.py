@@ -199,7 +199,6 @@ class Request:
 
         self.cancel_func(self.request_id)
 
-
 class RegisteredContract:
     """ Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc."""
 
@@ -207,6 +206,9 @@ class RegisteredContract:
 
     def __init__(self, contract_details: ContractDetails):
         self.contract_details = contract_details
+
+    def contract(self) -> Contract:
+        return self.contract_details.contract
 
     def __str__(self) -> str:
         return f"RegistredContract({self.contract_details.contract})"
@@ -365,7 +367,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        cd = self._client._contract_registry.request_contract_details_blocking(contract)
+        cd = self._client.contract_registry.request_contract_details_blocking(contract)
         return RegisteredContract(contract_details=cd)
 
     def request_contracts_matching(self, pattern: str) -> Request:
