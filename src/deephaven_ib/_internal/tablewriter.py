@@ -1,3 +1,5 @@
+"""Functionality for creating Deephaven tables."""
+
 import logging
 import traceback
 from typing import List, Any, Sequence

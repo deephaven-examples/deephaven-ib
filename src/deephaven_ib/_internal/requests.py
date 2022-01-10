@@ -1,3 +1,5 @@
+"""Functionality for working with requests."""
+
 from .threading import LoggingLock
 
 _lock_unique_id = LoggingLock(name="next_unique_id")

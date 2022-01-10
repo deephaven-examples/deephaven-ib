@@ -1,3 +1,5 @@
+"""An IB TWS client that produces Deephaven tables."""
+
 import time
 from threading import Thread
 from typing import Set, Dict
@@ -30,7 +32,7 @@ _news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_A
 class IbTwsClient(EWrapper, EClient):
     """A client for communicating with IB TWS.
 
-    Almost all of the methods in this class are listeners for EWrapper and should not be called by users of the class.
+    Almost all of the methods in this class are listeners for EWrapper and should not be called directly by users of the class.
     """
 
     _table_writers: Dict[str, TableWriter]

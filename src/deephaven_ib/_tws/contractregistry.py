@@ -1,3 +1,5 @@
+"""A registry for managing contracts."""
+
 import threading
 from typing import Dict
 

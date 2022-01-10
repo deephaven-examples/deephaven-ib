@@ -1,3 +1,5 @@
+"""Functionality for working with short rates."""
+
 import ftplib
 import html
 import tempfile

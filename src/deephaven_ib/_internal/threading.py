@@ -1,3 +1,5 @@
+"""Functionality for working multi-threaded code."""
+
 import inspect
 import logging
 import threading

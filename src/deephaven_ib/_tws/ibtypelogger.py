@@ -1,3 +1,5 @@
+"""Functionality for logging IB types to Deephaven tables."""
+
 from typing import Any, List, Tuple, Callable
 
 # noinspection PyPep8Naming

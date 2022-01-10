@@ -1,3 +1,5 @@
+"""Functionality for working with error codes."""
+
 from typing import Dict, Tuple
 
 import pandas as pd
