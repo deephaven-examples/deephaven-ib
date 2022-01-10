@@ -6,7 +6,7 @@ import pandas as pd
 
 
 def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
-    """Load error code messages and notes."""
+    """Load dictionaries of error code messages and notes."""
 
     html_tables = pd.read_html('https://interactivebrokers.github.io/tws-api/message_codes.html')
 

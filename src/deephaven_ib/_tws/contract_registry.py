@@ -36,16 +36,16 @@ class ContractEntry:
 class ContractRegistry:
     """A registry for mapping between contract requests and official contract specifications."""
 
-    client: IbTwsClient
-    lock: LoggingLock
-    requests: Dict[int, Tuple[Contract, threading.Event]]
-    contracts: Dict[str, ContractEntry]
+    _client: IbTwsClient
+    _lock: LoggingLock
+    _requests: Dict[int, Tuple[Contract, threading.Event]]
+    _contracts: Dict[str, ContractEntry]
 
     def __init__(self, client: IbTwsClient):
-        self.client = client
-        self.lock = LoggingLock("ContractRegistry")
-        self.requests = {}
-        self.contracts = {}
+        self._client = client
+        self._lock = LoggingLock("ContractRegistry")
+        self._requests = {}
+        self._contracts = {}
 
     def add_contract_data(self, req_id: int, contract_details: ContractDetails) -> None:
         """Add new contract details.
@@ -58,11 +58,11 @@ class ContractRegistry:
             None
         """
 
-        with self.lock:
-            (contract, event) = self.requests.pop(req_id)
+        with self._lock:
+            (contract, event) = self._requests.pop(req_id)
             ce = ContractEntry(contract=contract, contract_details=contract_details)
-            self.contracts[str(contract_details.contract)] = ce
-            self.contracts[str(contract)] = ce
+            self._contracts[str(contract_details.contract)] = ce
+            self._contracts[str(contract)] = ce
 
             if event is not None:
                 event.set()
@@ -78,15 +78,15 @@ class ContractRegistry:
             None
         """
 
-        with self.lock:
-            if not req_id in self.requests:
+        with self._lock:
+            if not req_id in self._requests:
                 return
 
-            req = self.requests.pop(req_id)
+            req = self._requests.pop(req_id)
 
             if req is not None:
                 (contract, event) = req
-                self.contracts[str(contract)] = ContractEntry(contract=contract, error_string=error_string)
+                self._contracts[str(contract)] = ContractEntry(contract=contract, error_string=error_string)
 
                 if event is not None:
                     event.set()
@@ -143,15 +143,15 @@ class ContractRegistry:
             None
         """
 
-        with self.lock:
-            if contract not in self.contracts:
+        with self._lock:
+            if contract not in self._contracts:
                 req_id = next_unique_id()
-                self.requests[req_id] = (contract, event)
-                self.client.log_request(req_id, "ContractDetails", contract, None)
-                self.client.reqContractDetails(reqId=req_id, contract=contract)
+                self._requests[req_id] = (contract, event)
+                self._client.log_request(req_id, "ContractDetails", contract, None)
+                self._client.reqContractDetails(reqId=req_id, contract=contract)
 
     def _get_contract_details(self, contract: Contract) -> ContractEntry:
         """Gets the contract details for a query contract."""
 
-        with self.lock:
-            return self.contracts.get(str(contract), None)
+        with self._lock:
+            return self._contracts.get(str(contract), None)

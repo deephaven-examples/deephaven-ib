@@ -38,9 +38,9 @@ class IbTwsClient(EWrapper, EClient):
 
     _table_writers: Dict[str, TableWriter]
     tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
-    thread: Thread
-    contract_registry: ContractRegistry
-    order_id_queue: OrderIdEventQueue
+    _thread: Thread
+    _contract_registry: ContractRegistry
+    _order_id_queue: OrderIdEventQueue
     _registered_market_rules: Set[str]
     _realtime_bar_sizes: Dict[TickerId, int]
 
@@ -49,9 +49,9 @@ class IbTwsClient(EWrapper, EClient):
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
         self.tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
-        self.thread = None
-        self.contract_registry = None
-        self.order_id_queue = None
+        self._thread = None
+        self._contract_registry = None
+        self._order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
 
@@ -259,9 +259,9 @@ class IbTwsClient(EWrapper, EClient):
         # wait for the client to connect to avoid a race condition
         time.sleep(1)
 
-        self.thread = Thread(target=self.run)
-        self.thread.start()
-        setattr(self, "ib_thread", self.thread)
+        self._thread = Thread(target=self.run)
+        self._thread.start()
+        setattr(self, "ib_thread", self._thread)
 
         self._subscribe()
 
@@ -273,17 +273,17 @@ class IbTwsClient(EWrapper, EClient):
         """
 
         EClient.disconnect(self)
-        self.thread = None
-        self.contract_registry = None
-        self.order_id_queue = None
+        self._thread = None
+        self._contract_registry = None
+        self._order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
 
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
 
-        self.contract_registry = ContractRegistry(self)
-        self.order_id_queue = OrderIdEventQueue()
+        self._contract_registry = ContractRegistry(self)
+        self._order_id_queue = OrderIdEventQueue()
         self._registered_market_rules = set()
         self._realtime_bar_sizes = {}
 
@@ -356,8 +356,8 @@ class IbTwsClient(EWrapper, EClient):
             [reqId, errorCode, map_values(errorCode, _error_code_message_map), errorString,
              map_values(errorCode, _error_code_note_map)])
 
-        if self.contract_registry:
-            self.contract_registry.add_error_data(req_id=reqId, error_string=errorString)
+        if self._contract_registry:
+            self._contract_registry.add_error_data(req_id=reqId, error_string=errorString)
 
     ####################################################################################################################
     ####################################################################################################################
@@ -380,13 +380,13 @@ class IbTwsClient(EWrapper, EClient):
     def contractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.contractDetails(self, reqId, contractDetails)
         self._table_writers["contracts_details"].write_row([reqId, *logger_contract_details.vals(contractDetails)])
-        self.contract_registry.add_contract_data(reqId, contractDetails)
+        self._contract_registry.add_contract_data(reqId, contractDetails)
         self.request_market_rules(contractDetails)
 
     def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
         EWrapper.bondContractDetails(self, reqId, contractDetails)
         self._table_writers["contracts_details"].write_row([reqId, *logger_contract_details.vals(contractDetails)])
-        self.contract_registry.add_contract_data(reqId, contractDetails)
+        self._contract_registry.add_contract_data(reqId, contractDetails)
         self.request_market_rules(contractDetails)
 
     def contractDetailsEnd(self, reqId: int):
@@ -403,7 +403,7 @@ class IbTwsClient(EWrapper, EClient):
         for cd in contractDescriptions:
             self._table_writers["contracts_matching"].write_row([reqId, *logger_contract.vals(cd.contract),
                                                                  to_string_set(cd.derivativeSecTypes)])
-            self.contract_registry.request_contract_details_nonblocking(cd.contract)
+            self._contract_registry.request_contract_details_nonblocking(cd.contract)
 
     ####
     # reqMarketRule
@@ -462,7 +462,7 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["accounts_portfolio"].write_row([accountName, *logger_contract.vals(contract), position,
                                                              marketPrice, marketValue, averageCost, unrealizedPNL,
                                                              realizedPNL])
-        self.contract_registry.request_contract_details_nonblocking(contract)
+        self._contract_registry.request_contract_details_nonblocking(contract)
 
     ####
     # reqAccountSummary
@@ -480,7 +480,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.position(self, account, contract, position, avgCost)
         self._table_writers["accounts_positions"].write_row(
             [account, *logger_contract.vals(contract), position, avgCost])
-        self.contract_registry.request_contract_details_nonblocking(contract)
+        self._contract_registry.request_contract_details_nonblocking(contract)
 
     ####
     # reqPnL
@@ -685,7 +685,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def next_order_id(self) -> int:
         """Gets the next valid order ID."""
-        request = self.order_id_queue.request()
+        request = self._order_id_queue.request()
         self.reqIds(-1)
         return request.get()
 
@@ -695,7 +695,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def nextValidId(self, orderId: int):
         EWrapper.nextValidId(self, orderId)
-        self.order_id_queue.add_value(orderId)
+        self._order_id_queue.add_value(orderId)
 
     ####
     # reqAllOpenOrders
@@ -706,7 +706,7 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["orders_open"].write_row(
             [orderId, *logger_contract.vals(contract), *logger_order.vals(order),
              *logger_order_state.vals(orderState)])
-        self.contract_registry.request_contract_details_nonblocking(contract)
+        self._contract_registry.request_contract_details_nonblocking(contract)
 
     def orderStatus(self, orderId: OrderId, status: str, filled: float,
                     remaining: float, avgFillPrice: float, permId: int,
@@ -730,7 +730,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.completedOrder(self, contract, order, orderState)
         self._table_writers["orders_completed"].write_row([*logger_contract.vals(contract), *logger_order.vals(order),
                                                            *logger_order_state.vals(orderState)])
-        self.contract_registry.request_contract_details_nonblocking(contract)
+        self._contract_registry.request_contract_details_nonblocking(contract)
 
     def completedOrdersEnd(self):
         # do not ned to implement
@@ -744,7 +744,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.execDetails(self, reqId, contract, execution)
         self._table_writers["orders_exec_details"].write_row([reqId, *logger_contract.vals(contract),
                                                               logger_execution.vals(execution)])
-        self.contract_registry.request_contract_details_nonblocking(contract)
+        self._contract_registry.request_contract_details_nonblocking(contract)
 
     def execDetailsEnd(self, reqId: int):
         # do not need to implement

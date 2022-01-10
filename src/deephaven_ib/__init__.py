@@ -365,7 +365,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        cd = self._client.contract_registry.request_contract_details_blocking(contract)
+        cd = self._client._contract_registry.request_contract_details_blocking(contract)
         return RegisteredContract(contract_details=cd)
 
     def request_contracts_matching(self, pattern: str) -> Request:
@@ -732,4 +732,3 @@ class IbSessionTws:
     # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
     # TODO: need to relate request to security ***
 
-    # TODO: make member variables private
