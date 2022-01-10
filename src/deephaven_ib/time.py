@@ -1,7 +1,7 @@
+"""Functionality for working with time in Deephaven and IB."""
+
 import jpy
 from deephaven import DateTimeUtils as dtu
-
-# TODO: should this be private? named time?
 
 _DateTimeFormatter = jpy.get_type("java.time.format.DateTimeFormatter")
 _ZoneId = jpy.get_type("java.time.ZoneId")
