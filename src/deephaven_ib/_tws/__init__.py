@@ -24,8 +24,8 @@ from .ibtypelogger import *
 from ..time import unix_sec_to_dh_datetime
 
 _error_code_message_map, _error_code_note_map = load_error_codes()
-_news_msgtype_map = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
-                     news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
+_news_msgtype_map: Dict[int, str] = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
+                                     news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
 
 
 # noinspection PyPep8Naming

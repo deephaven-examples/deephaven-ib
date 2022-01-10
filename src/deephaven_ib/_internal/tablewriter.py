@@ -2,7 +2,7 @@
 
 import logging
 import traceback
-from typing import List, Any, Sequence
+from typing import List, Any, Sequence, Union
 
 import deephaven.Types as dht
 import jpy
@@ -41,7 +41,7 @@ class TableWriter:
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
 
 
-def map_values(value, map, default=lambda v: f"UNKNOWN({v})"):
+def map_values(value, map, default=lambda v: f"UNKNOWN({v})") -> Any:
     """ Maps one set of values to another.  A default value is used if the value is not in the map. """
 
     if value is None:
@@ -55,7 +55,7 @@ def map_values(value, map, default=lambda v: f"UNKNOWN({v})"):
         return default(value)
 
 
-def to_string_val(value) -> str:
+def to_string_val(value) -> Union[str, None]:
     """ Converts a value to a string. """
 
     if value is None:
@@ -64,7 +64,7 @@ def to_string_val(value) -> str:
     return str(value)
 
 
-def to_string_set(value: Sequence) -> ArrayStringSet:
+def to_string_set(value: Sequence) -> Union[ArrayStringSet, None]:
     """ Converts an iterable to a string set. """
 
     if value is None:

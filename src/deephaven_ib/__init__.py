@@ -43,7 +43,7 @@ class TickDataType(Enum):
 
 
 class GenericTickType(Enum):
-    """Tick data types for 'Generic" data.
+    """Tick data types for 'Generic' data.
 
     See: https://interactivebrokers.github.io/tws-api/tick_types.html
     """
@@ -732,3 +732,5 @@ class IbSessionTws:
     # TODO: accounts_profile needs to be t.lastBy("Account", "ContractId")
     # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
     # TODO: need to relate request to security ***
+
+    # TODO: type hint Union with None
