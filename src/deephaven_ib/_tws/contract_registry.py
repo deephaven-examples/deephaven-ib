@@ -8,7 +8,7 @@ from ibapi.contract import Contract, ContractDetails
 from deephaven_ib._internal.requests import next_unique_id
 from deephaven_ib._internal.threading import LoggingLock
 from . import IbTwsClient
-from .ibtypelogger import *
+from .ib_type_logger import *
 
 
 class ContractEntry:

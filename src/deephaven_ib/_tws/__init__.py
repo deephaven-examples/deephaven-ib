@@ -15,8 +15,8 @@ from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
-from .contractregistry import ContractRegistry
-from .ibtypelogger import *
+from .contract_registry import ContractRegistry
+from .ib_type_logger import *
 from .order_id_queue import OrderIdEventQueue
 from .._internal.error_codes import load_error_codes
 from .._internal.requests import next_unique_id
