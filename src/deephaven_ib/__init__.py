@@ -6,7 +6,7 @@ from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
-from deephaven_ib._internal.requests import next_unique_id
+from ._internal.requests import next_unique_id
 from ._tws import IbTwsClient as IbTwsClient
 from .time import dh_to_ib_datetime
 
@@ -35,7 +35,7 @@ class TickDataType(Enum):
     MIDPOINT = "MidPoint"
     "Most recent midpoint."
 
-    def _historical_value(self) -> str:
+    def historical_value(self) -> str:
         if self.value == "Last":
             return "Trades"
         else:
@@ -676,7 +676,7 @@ class IbSessionTws:
         req_id = next_unique_id()
         self._client.log_request(req_id, "HistoricalTicks", contract.contract_details.contract,
                                  f"start={start} end={end} tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
-        what_to_show = tick_type._historical_value()
+        what_to_show = tick_type.historical_value()
         self._client.reqHistoricalTicks(reqId=req_id, contract=contract.contract_details.contract,
                                         startDateTime=dh_to_ib_datetime(start),
                                         endDateTime=dh_to_ib_datetime(end),
@@ -733,4 +733,3 @@ class IbSessionTws:
     # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
     # TODO: need to relate request to security ***
 
-    # TODO: type hint Union with None

@@ -1,6 +1,7 @@
 """Functionality for working with time in Deephaven and IB."""
 
 import jpy
+# noinspection PyPep8Naming
 from deephaven import DateTimeUtils as dtu
 
 _DateTimeFormatter = jpy.get_type("java.time.format.DateTimeFormatter")

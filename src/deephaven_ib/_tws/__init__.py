@@ -2,7 +2,7 @@
 
 import time
 from threading import Thread
-from typing import Set, Dict
+from typing import Set, Dict, Union
 
 from ibapi import news
 from ibapi.client import EClient
@@ -15,12 +15,12 @@ from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
 
-from deephaven_ib._internal.error_codes import load_error_codes
-from deephaven_ib._internal.requests import next_unique_id
-from deephaven_ib._internal.short_rates import load_short_rates
-from deephaven_ib._internal.tablewriter import TableWriter
 from .contractregistry import ContractRegistry
 from .ibtypelogger import *
+from .._internal.error_codes import load_error_codes
+from .._internal.requests import next_unique_id
+from .._internal.short_rates import load_short_rates
+from .._internal.tablewriter import TableWriter
 from ..time import unix_sec_to_dh_datetime
 
 _error_code_message_map, _error_code_note_map = load_error_codes()
@@ -337,7 +337,7 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
     ####################################################################################################################
 
-    def log_request(self, req_id: int, request_type: str, contract: Contract, note: str):
+    def log_request(self, req_id: int, request_type: str, contract: Union[Contract, None], note: Union[str, None]):
         """Log a data request."""
         self._table_writers["requests"].write_row([req_id, request_type, *logger_contract.vals(contract), note])
 
@@ -523,9 +523,10 @@ class IbTwsClient(EWrapper, EClient):
     # reqHistoricalNews
     ####
 
-    def historicalNews(self, requestId: int, time: str, providerCode: str, articleId: str, headline: str):
-        EWrapper.historicalNews(self, requestId, time, providerCode, articleId, headline)
-        self._table_writers["news_historical"].write_row([requestId, ib_to_dh_datetime(time), providerCode, articleId,
+    def historicalNews(self, requestId: int, timestamp: str, providerCode: str, articleId: str, headline: str):
+        EWrapper.historicalNews(self, requestId, timestamp, providerCode, articleId, headline)
+        self._table_writers["news_historical"].write_row(
+            [requestId, ib_to_dh_datetime(timestamp), providerCode, articleId,
                                                           headline])
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
@@ -588,14 +589,14 @@ class IbTwsClient(EWrapper, EClient):
     # reqTickByTickData and reqHistoricalTicks
     ####
 
-    def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
+    def tickByTickAllLast(self, reqId: int, tickType: int, timestamp: int, price: float,
                           size: int, tickAttribLast: TickAttribLast, exchange: str,
                           specialConditions: str):
-        EWrapper.tickByTickAllLast(self, reqId, tickType, time, price, size, tickAttribLast, exchange,
+        EWrapper.tickByTickAllLast(self, reqId, tickType, timestamp, price, size, tickAttribLast, exchange,
                                    specialConditions)
 
         t = HistoricalTickLast()
-        t.time = time
+        t.time = timestamp
         t.tickAttribLast = tickAttribLast
         t.price = price
         t.size = size
@@ -611,12 +612,12 @@ class IbTwsClient(EWrapper, EClient):
         for t in ticks:
             self._table_writers["ticks_trade"].write_row([reqId, *logger_hist_tick_last.vals(t)])
 
-    def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float,
+    def tickByTickBidAsk(self, reqId: int, timestamp: int, bidPrice: float, askPrice: float,
                          bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
-        EWrapper.tickByTickBidAsk(self, reqId, time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)
+        EWrapper.tickByTickBidAsk(self, reqId, timestamp, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)
 
         t = HistoricalTickBidAsk()
-        t.time = time
+        t.time = timestamp
         t.tickAttribBidAsk = tickAttribBidAsk
         t.priceBid = bidPrice
         t.priceAsk = askPrice
@@ -630,9 +631,9 @@ class IbTwsClient(EWrapper, EClient):
         for t in ticks:
             self._table_writers["ticks_bid_ask"].write_row([reqId, *logger_hist_tick_bid_ask.vals(t)])
 
-    def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
-        EWrapper.tickByTickMidPoint(self, reqId, time, midPoint)
-        self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_dh_datetime(time), midPoint])
+    def tickByTickMidPoint(self, reqId: int, timestamp: int, midPoint: float):
+        EWrapper.tickByTickMidPoint(self, reqId, timestamp, midPoint)
+        self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_dh_datetime(timestamp), midPoint])
 
     def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTick, done: bool):
         EWrapper.historicalTicks(self, reqId, ticks, done)
@@ -660,13 +661,13 @@ class IbTwsClient(EWrapper, EClient):
                         whatToShow: str, useRTH: bool,
                         realTimeBarsOptions: TagValueList):
         self._realtime_bar_sizes[reqId] = barSize
-        EClient.reqRealTimeBars(reqId, contract, barSize, whatToShow, useRTH, realTimeBarsOptions)
+        EClient.reqRealTimeBars(self, reqId, contract, barSize, whatToShow, useRTH, realTimeBarsOptions)
 
-    def realtimeBar(self, reqId: TickerId, time: int, open_: float, high: float, low: float, close: float,
+    def realtimeBar(self, reqId: TickerId, timestamp: int, open_: float, high: float, low: float, close: float,
                     volume: int, wap: float, count: int):
-        EWrapper.realtimeBar(self, reqId, time, open_, high, low, close, volume, wap, count)
+        EWrapper.realtimeBar(self, reqId, timestamp, open_, high, low, close, volume, wap, count)
         bar_size = self._realtime_bar_sizes[reqId]
-        bar = RealTimeBar(time=time, endTime=time + bar_size, open_=open_, high=high, low=low, close=close,
+        bar = RealTimeBar(time=timestamp, endTime=timestamp + bar_size, open_=open_, high=high, low=low, close=close,
                           volume=volume,
                           wap=wap, count=count)
         self._table_writers["bars_realtime"].write_row([reqId, *logger_real_time_bar_data.vals(bar)])

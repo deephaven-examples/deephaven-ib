@@ -4,6 +4,7 @@ import logging
 import traceback
 from typing import List, Any, Sequence, Union
 
+# noinspection PyPep8Naming
 import deephaven.Types as dht
 import jpy
 from deephaven import DynamicTableWriter
