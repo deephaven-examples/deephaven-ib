@@ -17,6 +17,7 @@ from ibapi.wrapper import EWrapper
 
 from .contractregistry import ContractRegistry
 from .ibtypelogger import *
+from .order_id_queue import OrderIdEventQueue
 from .._internal.error_codes import load_error_codes
 from .._internal.requests import next_unique_id
 from .._internal.short_rates import load_short_rates
@@ -39,6 +40,7 @@ class IbTwsClient(EWrapper, EClient):
     tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
     thread: Thread
     contract_registry: ContractRegistry
+    order_id_queue: OrderIdEventQueue
     _registered_market_rules: Set[str]
     _realtime_bar_sizes: Dict[TickerId, int]
 
@@ -49,6 +51,7 @@ class IbTwsClient(EWrapper, EClient):
         self.tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
         self.thread = None
         self.contract_registry = None
+        self.order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
 
@@ -272,6 +275,7 @@ class IbTwsClient(EWrapper, EClient):
         EClient.disconnect(self)
         self.thread = None
         self.contract_registry = None
+        self.order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
 
@@ -279,6 +283,7 @@ class IbTwsClient(EWrapper, EClient):
         """Subscribe to IB data."""
 
         self.contract_registry = ContractRegistry(self)
+        self.order_id_queue = OrderIdEventQueue()
         self._registered_market_rules = set()
         self._realtime_bar_sizes = {}
 
@@ -677,6 +682,20 @@ class IbTwsClient(EWrapper, EClient):
     ## Order Management System (OMS)
     ####################################################################################################################
     ####################################################################################################################
+
+    def next_order_id(self) -> int:
+        """Gets the next valid order ID."""
+        request = self.order_id_queue.request()
+        self.reqIds(-1)
+        return request.get()
+
+    ####
+    # reqIds
+    ####
+
+    def nextValidId(self, orderId: int):
+        EWrapper.nextValidId(self, orderId)
+        self.order_id_queue.add_value(orderId)
 
     ####
     # reqAllOpenOrders

@@ -699,7 +699,7 @@ class IbSessionTws:
             order (Order): order to place
         """
         self._assert_connected()
-        req_id = next_unique_id()
+        req_id = self._client.next_order_id()
         self._client.log_request(req_id, "PlaceOrder", contract.contract_details.contract, f"order={order}")
         self._client.placeOrder(req_id, contract.contract_details.contract, order)
         return Request(request_id=req_id, cancel_func=self.order_cancel)
@@ -724,7 +724,6 @@ class IbSessionTws:
         self._assert_connected()
         self._client.reqGlobalCancel()
 
-    # TODO:     self._client.reqIds() --> get next valid id for placing orders
     # TODO: (don't do)     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
     # TODO: (don't do)     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
 
@@ -733,3 +732,4 @@ class IbSessionTws:
     # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
     # TODO: need to relate request to security ***
 
+    # TODO: make member variables private
