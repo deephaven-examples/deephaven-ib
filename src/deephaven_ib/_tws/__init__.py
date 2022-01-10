@@ -263,7 +263,13 @@ class IbTwsClient(EWrapper, EClient):
         self._thread.start()
         setattr(self, "ib_thread", self._thread)
 
+        # wait for the client to connect to avoid a race condition
+        time.sleep(1)
+
         self._subscribe()
+
+        # wait for the client to connect to avoid a race condition
+        time.sleep(1)
 
     def disconnect(self) -> None:
         """Disconnect from an IB TWS session.
