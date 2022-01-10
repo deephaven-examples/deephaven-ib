@@ -6,9 +6,9 @@ from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
+from deephaven_ib._internal.requests import next_unique_id
 from ._tws import IbTwsClient as IbTwsClient
-from ._utils import next_unique_id
-from .utils import dh_to_ib_datetime
+from .time import dh_to_ib_datetime
 
 __all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "Request", "RegisteredContract",
            "IbSessionTws"]

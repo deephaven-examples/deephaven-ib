@@ -1,12 +1,12 @@
 import threading
 from typing import Dict
 
-from ibapi.client import EClient
 from ibapi.contract import Contract, ContractDetails
 
+from deephaven_ib._internal.requests import next_unique_id
+from deephaven_ib._internal.threading import LoggingLock
+from . import IbTwsClient
 from .ibtypelogger import *
-from .loglock import LogLock
-from .._utils import next_unique_id
 
 
 class ContractEntry:
@@ -34,14 +34,14 @@ class ContractEntry:
 class ContractRegistry:
     """A registry for mapping between contract requests and official contract specifications."""
 
-    client: EClient
-    lock: LogLock
+    client: IbTwsClient
+    lock: LoggingLock
     requests: Dict[int, Tuple[Contract, threading.Event]]
     contracts: Dict[str, ContractEntry]
 
-    def __init__(self, client: EClient):
+    def __init__(self, client: IbTwsClient):
         self.client = client
-        self.lock = LogLock("ContractRegistry")
+        self.lock = LoggingLock("ContractRegistry")
         self.requests = {}
         self.contracts = {}
 

@@ -3,8 +3,8 @@ import logging
 import threading
 
 
-class LogLock(object):
-    """Wrap a lock and log the locking and unlocking."""
+class LoggingLock(object):
+    """A threading lock that logs lock acquisition and release."""
 
     def __init__(self, name, lock=threading.Lock(), log=logging):
         self.name = str(name)
@@ -32,4 +32,4 @@ class LogLock(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.release()
-        return False  # Do not swallow exceptions
+        return False  # True causes exceptions to be swallowed.  False causes exceptions to be handled.

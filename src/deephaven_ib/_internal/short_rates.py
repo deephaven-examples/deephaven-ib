@@ -5,13 +5,11 @@ from typing import Any
 
 from deephaven import read_csv
 
-__all__ = ["load_short_rates"]
-
 
 class IBFtpWriter:
-    """Writer for downloading text files from the IB FTP site.
+    """Writer for downloading text pipe-separated-value files from the IB FTP site.
 
-    Closing the writer causes the temporary file containg the data to be deleted.
+    Closing the writer causes the temporary file containing the data to be deleted.
     """
 
     header: str
