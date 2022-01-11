@@ -314,7 +314,7 @@ def _details_order() -> List[Tuple]:
 
         # main order fields
         ("Action", dht.string, lambda o: o.action),
-        ("TotalQuantity", dht.int32, lambda o: o.totalQuantity),
+        ("TotalQuantity", dht.float64, lambda o: o.totalQuantity),
         ("OrderType", dht.string, lambda o: o.orderType),
         ("LmtPrice", dht.float64, lambda o: o.lmtPrice),
         ("AuxPrice", dht.float64, lambda o: o.auxPrice),
@@ -355,10 +355,10 @@ def _details_order() -> List[Tuple]:
         ("OpenClose", dht.string, lambda o: map_values(o.openClose, open_close_values)),
         ("Origin", dht.string, lambda o: map_values(o.origin, origin_values)),
         ("ShortSaleSlot", dht.string, lambda o: map_values(o.shortSaleSlot, short_sale_slot_values)),
-        ("ExemptClode", dht.int32, lambda o: o.exemptCode),
+        ("ExemptCode", dht.int32, lambda o: o.exemptCode),
 
         # SMART routing only
-        ("DiscretionaryAmt", dht.int32, lambda o: o.discretionaryAmt),
+        ("DiscretionaryAmt", dht.float64, lambda o: o.discretionaryAmt),
         ("ETradeOnly", dht.bool_, lambda o: o.eTradeOnly),
         ("FirmQuoteOnly", dht.bool_, lambda o: o.firmQuoteOnly),
         ("NbboPriceCap", dht.float64, lambda o: o.nbboPriceCap),

@@ -22,11 +22,13 @@ class TableWriter:
     # TODO improve types type annotation once deephaven v2 is available
     def __init__(self, names: List[str], types: List[Any]):
         TableWriter._check_for_duplicate_names(names)
+        self.names = names
+        self.types = types
         self._dtw = DynamicTableWriter(names, types)
         self._string_indices = [i for (i, t) in enumerate(types) if t == dht.string]
 
     @staticmethod
-    def _check_for_duplicate_names(names: List[str]):
+    def _check_for_duplicate_names(names: List[str]) -> None:
         counts: Dict[str, int] = {}
 
         for name in names:
@@ -40,6 +42,17 @@ class TableWriter:
         if len(dups) > 0:
             raise Exception(f"Duplicate column names: {','.join(dups)}")
 
+    def _check_logged_value_types(self, values: List) -> None:
+        for n, t, v in zip(self.names, self.types, values):
+            if v is None:
+                continue
+
+            if (t is dht.string and not isinstance(v, str)) or \
+                    (t is dht.int32 and not isinstance(v, int)) or \
+                    (t is dht.float64 and not isinstance(v, float)):
+                logging.error(
+                    f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)}\n{traceback.format_stack()}\n-----")
+
 
     # TODO improve types type annotation once deephaven v2 is available
     def table(self) -> Any:
@@ -48,6 +61,8 @@ class TableWriter:
 
     def write_row(self, values: List) -> None:
         """Writes a row of data.  The input values may be modified."""
+
+        self._check_logged_value_types(values)
 
         for i in self._string_indices:
             if values[i] == "":
@@ -68,8 +83,7 @@ def map_values(value, map, default=lambda v: f"UNKNOWN({v})") -> Any:
     try:
         return map[value]
     except KeyError:
-        # TODO: what logging level?
-        logging.debug(f"Unmapped value: {value}\n{traceback.format_exc()}\n-----")
+        logging.error(f"Unmapped value: {value}\n{traceback.format_exc()}\n-----")
         return default(value)
 
 
