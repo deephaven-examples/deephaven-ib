@@ -4,18 +4,21 @@ import jpy
 # noinspection PyPep8Naming
 from deephaven import DateTimeUtils as dtu
 
-_DateTimeFormatter = jpy.get_type("java.time.format.DateTimeFormatter")
-_ZoneId = jpy.get_type("java.time.ZoneId")
-
-_ib_date_time_pattern = "yyyy-MM-dd HH:mm:ss.S"
 _SimpleDateFormat = jpy.get_type("java.text.SimpleDateFormat")
+
+_ib_date_time_pattern = "yyyyMMdd HH:mm:ss.S"
+_ib_date_time_patterns = [
+    "yyyyMMdd HH:mm:ss.S",
+    "yyyy-MM-dd HH:mm:ss.S",
+    "yyyyMMdd HH:mm:ss",
+    "yyyy-MM-dd HH:mm:ss",
+]
 _ib_date_time_formatter = _SimpleDateFormat(_ib_date_time_pattern)
+_ib_date_time_formatters = [_SimpleDateFormat(pattern) for pattern in _ib_date_time_patterns]
 
 
 def dh_to_ib_datetime(time: dtu.DateTime) -> str:
-    """Convert a DH DateTime to an IB timestamp.
-
-    The IB format is yyyy-MM-dd HH:mm:ss.0"""
+    """Convert a DH DateTime to an IB timestamp string."""
 
     if time is None:
         return ""
@@ -29,7 +32,13 @@ def ib_to_dh_datetime(time: str) -> dtu.DateTime:
     if time is None:
         return None
 
-    return dtu.DateTime.of(_ib_date_time_formatter.parse(time).toInstant())
+    for formatter in _ib_date_time_formatters:
+        try:
+            return dtu.DateTime.of(formatter.parse(time).toInstant())
+        except:
+            pass
+
+    raise Exception(f"Unable to parse time '{time}'")
 
 
 def unix_sec_to_dh_datetime(time: int) -> dtu.DateTime:

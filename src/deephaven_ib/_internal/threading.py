@@ -26,7 +26,7 @@ class LoggingLock(object):
 
         self.log.debug(msg)
         # TODO: remove print
-        print(msg)
+        # print(msg)
 
     def acquire(self, blocking=True):
         self._log(f"{inspect.stack()[1][3]} trying to acquire {self.name}")

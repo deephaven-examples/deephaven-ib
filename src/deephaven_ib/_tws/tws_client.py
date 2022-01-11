@@ -753,7 +753,7 @@ class IbTwsClient(EWrapper, EClient):
     def execDetails(self, reqId: int, contract: Contract, execution: Execution):
         EWrapper.execDetails(self, reqId, contract, execution)
         self._table_writers["orders_exec_details"].write_row([reqId, *logger_contract.vals(contract),
-                                                              logger_execution.vals(execution)])
+                                                              *logger_execution.vals(execution)])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     def execDetailsEnd(self, reqId: int):

@@ -294,15 +294,15 @@ def _details_order() -> List[Tuple]:
     oca_types = {1: "CancelWithBlock", 2: "ReduceWithBlock", 3: "ReduceNonBlock"}
     trigger_methods = {0: "Default", 1: "DoubleBidAsk", 2: "Last", 3: "DoubleLast", 4: "BidAsk",
                        7: "LastOrBidAsk", 8: "MidPoint"}
-    rule80_values = {"I": "Individual", "A": "Agency", "W": "AgentOtherMember", "J": "IndividualPTIA",
+    rule80_values = {"0": None, "I": "Individual", "A": "Agency", "W": "AgentOtherMember", "J": "IndividualPTIA",
                      "U": "AgencyPTIA", "M": "AgentOtherMemberPTIA", "K": "IndividualPT", "Y": "AgencyPT",
                      "N": "AgentOtherMemberPT"}
-    open_close_values = {"O": "Open", "C": "Close"}
+    open_close_values = {"": None, "O": "Open", "C": "Close"}
     origin_values = {0: "Customer", 1: "Firm", 2: "Unknown"}
-    short_sale_slot_values = {1: "Holding", 2: "Elsewhere"}
-    volatility_type = {1: "Daily", 2: "Annual"}
-    reference_price_type = {1: "Average", 2: "BidOrAsk"}
-    hedge_type = {"D": "Delta", "B": "Beta", "F": "FX", "P": "Pair"}
+    short_sale_slot_values = {0: None, 1: "Holding", 2: "Elsewhere"}
+    volatility_type = {0: None, 1: "Daily", 2: "Annual"}
+    reference_price_type = {0: None, 1: "Average", 2: "BidOrAsk"}
+    hedge_type = {"": None, "D": "Delta", "B": "Beta", "F": "FX", "P": "Pair"}
     auction_stragey_values = {0: "Unset", 1: "Match", 2: "Improvement", 3: "Transparent"}
 
     return [

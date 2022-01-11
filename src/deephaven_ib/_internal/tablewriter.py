@@ -52,7 +52,7 @@ class TableWriter:
                     (t is dht.int32 and not isinstance(v, int)) or \
                     (t is dht.float64 and not isinstance(v, float)):
                 logging.error(
-                    f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)}\n{trace_str()}\n-----")
+                    f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)} value={v}\n{trace_str()}\n-----")
 
 
     # TODO improve types type annotation once deephaven v2 is available
@@ -84,7 +84,7 @@ def map_values(value, map, default=lambda v: f"UNKNOWN({v})") -> Any:
     try:
         return map[value]
     except KeyError:
-        logging.error(f"Unmapped value: {value}\n{trace_str()}\n-----")
+        logging.error(f"Unmapped value: '{value}'\n{trace_str()}\n-----")
         return default(value)
 
 
