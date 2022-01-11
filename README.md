@@ -7,3 +7,5 @@ An Interactive Brokers integration for Deephaven.
 
 #TODO pydoc all modules
 #TODO sphinx doc
+
+Contracts: https://interactivebrokers.github.io/tws-api/basic_contracts.html

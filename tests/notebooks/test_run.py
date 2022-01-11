@@ -39,5 +39,3 @@ client.request_tick_data_realtime(rc, dhib.TickDataType.LAST)
 client.request_tick_data_realtime(rc, dhib.TickDataType.MIDPOINT)
 
 
-def special_guy(a, b, c) -> Callable:
-    return lambda x: x + a + b + c
