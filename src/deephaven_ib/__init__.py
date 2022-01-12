@@ -442,15 +442,15 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_news_historical(self, contract: RegisteredContract, provider_codes: List[str], start: dtu.DateTime,
-                                end: dtu.DateTime, total_results: int = 100) -> List[Request]:
+    def request_news_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
+                                provider_codes: List[str] = None, total_results: int = 100) -> List[Request]:
         """ Request historical news for a contract.  Results are returned in the `news_historical` table.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
         Args:
             contract (RegisteredContract): contract data is requested for
-            provider_codes (List[str]): a list of provider codes
+            provider_codes (List[str]): a list of provider codes.  By default, all subscribed codes are used.
             start (DateTime): marks the (exclusive) start of the date range.
             end (DateTime): marks the (inclusive) end of the date range.
             total_results (int): the maximum number of headlines to fetch (1 - 300)
@@ -463,6 +463,10 @@ class IbSessionTws:
         """
 
         self._assert_connected()
+
+        if not provider_codes:
+            provider_codes = self._client.news_providers
+
         pc = "+".join(provider_codes)
         requests = []
 

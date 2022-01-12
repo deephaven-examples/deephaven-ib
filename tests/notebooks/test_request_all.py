@@ -1,6 +1,7 @@
 import logging
 from typing import Dict
 
+from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract
 
 import deephaven_ib as dhib
@@ -253,6 +254,25 @@ print("=========================================================================
 client.request_contracts_matching("AM")
 
 print("==============================================================================================================")
+print("==== Request news data.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+start = dtu.convertDateTime("2021-01-01T00:00:00 NY")
+end = dtu.convertDateTime("2021-01-10T00:00:00 NY")
+client.request_news_historical(rc, start=start, end=end)
+
+client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
+
+print("==============================================================================================================")
 print("==== Request bars.")
 print("==============================================================================================================")
 
@@ -289,7 +309,6 @@ client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
 
 # TODO: do these
 # request market data
-# news historical / article
 # tickdata historical / realtime
 # set market data type
 # order place / cancel / cancel all

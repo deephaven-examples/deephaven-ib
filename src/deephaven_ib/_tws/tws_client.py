@@ -43,6 +43,7 @@ class IbTwsClient(EWrapper, EClient):
     _order_id_queue: OrderIdEventQueue
     _registered_market_rules: Set[str]
     _realtime_bar_sizes: Dict[TickerId, int]
+    news_providers: List[str]
 
     def __init__(self, download_short_rates=True):
         EWrapper.__init__(self)
@@ -54,6 +55,7 @@ class IbTwsClient(EWrapper, EClient):
         self._order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
+        self.news_providers = None
 
         if download_short_rates:
             self.tables["short_rates"] = load_short_rates()
@@ -284,6 +286,7 @@ class IbTwsClient(EWrapper, EClient):
         self._order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
+        self.news_providers = None
 
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
@@ -292,6 +295,7 @@ class IbTwsClient(EWrapper, EClient):
         self._order_id_queue = OrderIdEventQueue()
         self._registered_market_rules = set()
         self._realtime_bar_sizes = {}
+        self.news_providers = []
 
         account_summary_tags = [
             "accountountType",
@@ -510,6 +514,7 @@ class IbTwsClient(EWrapper, EClient):
 
         for provider in newsProviders:
             self._table_writers["news_providers"].write_row(logger_news_provider.vals(provider))
+            self.news_providers.append(provider.code)
 
     ####
     # reqNewsBulletins
@@ -541,7 +546,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
         # do not need to implement
-        self.historicalNewsEnd(requestId, hasMore)
+        EWrapper.historicalNewsEnd(self, requestId, hasMore)
 
     ####################################################################################################################
     ####################################################################################################################
