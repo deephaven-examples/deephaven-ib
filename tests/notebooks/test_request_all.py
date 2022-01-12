@@ -18,8 +18,9 @@ print(f"IsConnected: {client.is_connected()}")
 for k, v in client.tables.items():
     globals()[k] = v
 
-for k, v in client.tables2.items():
-    globals()[k] = v
+
+# for k, v in client.tables2.items():
+#     globals()[k] = v
 
 
 def get_contracts() -> Dict[str, Contract]:
@@ -85,14 +86,14 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "201903"
+    contract.lastTradeDateOrContractMonth = "202203"
     rst["future_1"] = contract
 
     contract = Contract()
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.localSymbol = "ESU6"
+    contract.localSymbol = "ESH2"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -100,7 +101,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "DTB"
     contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "201903"
+    contract.lastTradeDateOrContractMonth = "202203"
     contract.multiplier = "5"
     rst["future_3"] = contract
 
@@ -123,31 +124,31 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "OPT"
     contract.exchange = "BOX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "20190315"
-    contract.strike = 1180
+    contract.lastTradeDateOrContractMonth = "20220318"
+    contract.strike = 2800
     contract.right = "C"
     contract.multiplier = "100"
     rst["option_1"] = contract
 
-    contract = Contract()
-    contract.symbol = "SANT"
-    contract.secType = "OPT"
-    contract.exchange = "MEFFRV"
-    contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "20190621"
-    contract.strike = 7.5
-    contract.right = "C"
-    contract.multiplier = "100"
-    contract.tradingClass = "SANEU"
-    rst["option_2"] = contract
+    # contract = Contract()
+    # contract.symbol = "SANT"
+    # contract.secType = "OPT"
+    # contract.exchange = "MEFFRV"
+    # contract.currency = "EUR"
+    # contract.lastTradeDateOrContractMonth = "20190621"
+    # contract.strike = 7.5
+    # contract.right = "C"
+    # contract.multiplier = "100"
+    # contract.tradingClass = "SANEU"
+    # rst["option_2"] = contract
 
-    contract = Contract()
-    # Watch out for the spaces within the local symbol!
-    contract.localSymbol = "C BMW  JUL 20  4800"
-    contract.secType = "OPT"
-    contract.exchange = "DTB"
-    contract.currency = "EUR"
-    rst["option_3"] = contract
+    # contract = Contract()
+    # # Watch out for the spaces within the local symbol!
+    # contract.localSymbol = "C BMW  JUL 20  4800"
+    # contract.secType = "OPT"
+    # contract.exchange = "DTB"
+    # contract.currency = "EUR"
+    # rst["option_3"] = contract
 
     # Futures Options
 
@@ -156,8 +157,8 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "20190315"
-    contract.strike = 2900
+    contract.lastTradeDateOrContractMonth = "202203"
+    contract.strike = 4700
     contract.right = "C"
     contract.multiplier = "50"
     rst["futureoption_1"] = contract
@@ -173,7 +174,7 @@ def get_contracts() -> Dict[str, Contract]:
     rst["bond_1"] = contract
 
     contract = Contract()
-    contract.conId = 15960357
+    contract.conId = 147554578
     contract.exchange = "SMART"
     rst["bond_2"] = contract
 
@@ -198,20 +199,20 @@ def get_contracts() -> Dict[str, Contract]:
     # Standard warrants
 
     contract = Contract()
-    contract.symbol = "GOOG"
+    contract.symbol = "OXY"
     contract.secType = "WAR"
-    contract.exchange = "FWB"
-    contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "20201117"
-    contract.strike = 1500.0
+    contract.exchange = "SMART"
+    contract.currency = "USD"
+    contract.lastTradeDateOrContractMonth = "20270803"
+    contract.strike = 22.0
     contract.right = "C"
-    contract.multiplier = "0.01"
+    contract.multiplier = "1"
     rst["standardwarrant_1"] = contract
 
     # Dutch warrants and structured products
 
     contract = Contract()
-    contract.localSymbol = "B881G"
+    contract.localSymbol = "PJ07S"
     contract.secType = "IOPT"
     contract.exchange = "SBF"
     contract.currency = "EUR"
@@ -221,4 +222,9 @@ def get_contracts() -> Dict[str, Contract]:
 
 
 contracts = get_contracts()
-registered_contracts = {name: client.get_registered_contract(contract) for name, contract in contracts.items()}
+# registered_contracts = {name: client.get_registered_contract(contract) for name, contract in contracts.items()}
+
+for name, contract in contracts.items():
+    print(f"{name} {contract}")
+    rc = client.get_registered_contract(contract)
+    print(rc)

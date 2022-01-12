@@ -395,8 +395,8 @@ class IbTwsClient(EWrapper, EClient):
         self.request_market_rules(contractDetails)
 
     def contractDetailsEnd(self, reqId: int):
-        # do not ned to implement
         EWrapper.contractDetailsEnd(self, reqId)
+        self.contract_registry.request_end(reqId)
 
     ####
     # reqMatchingSymbols

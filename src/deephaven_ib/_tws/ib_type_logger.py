@@ -84,7 +84,7 @@ def _details_contract() -> List[Tuple]:
         ("Exchange", dht.string, lambda contract: contract.exchange),
         ("PrimaryExchange", dht.string, lambda contract: contract.primaryExchange),
         ("LastTradeDateOrContractMonth", dht.string, lambda contract: contract.lastTradeDateOrContractMonth),
-        ("Strike", dht.float64, lambda contract: contract.strike),
+        ("Strike", dht.float64, lambda contract: float(contract.strike)),
         ("Right", dht.string, lambda contract: contract.right),
         ("Multiplier", dht.string, lambda contract: contract.multiplier),
 
