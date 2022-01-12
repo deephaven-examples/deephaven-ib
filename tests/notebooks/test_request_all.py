@@ -389,5 +389,3 @@ req.cancel()
 
 client.order_cancel_all()
 
-# TODO: do these
-# order place / cancel / cancel all

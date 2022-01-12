@@ -103,4 +103,4 @@ def to_string_set(value: Sequence) -> Union[ArrayStringSet, None]:
     if value is None:
         return None
 
-    return ArrayStringSet([to_string_val(v) for v in value])
+    return ArrayStringSet(list({to_string_val(v) for v in value}))
