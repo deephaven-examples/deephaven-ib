@@ -3,3 +3,4 @@ jpy
 deephaven
 pandas
 lxml
+ratelimit

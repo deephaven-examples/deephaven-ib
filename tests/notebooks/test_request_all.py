@@ -360,6 +360,7 @@ order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 3000
 order.eTradeOnly = False
+order.firmQuoteOnly = False
 
 client.order_place(rc, order)
 
@@ -370,6 +371,7 @@ order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 2600
 order.eTradeOnly = False
+order.firmQuoteOnly = False
 
 client.order_place(rc, order)
 
@@ -380,6 +382,7 @@ order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 2700
 order.eTradeOnly = False
+order.firmQuoteOnly = False
 
 req = client.order_place(rc, order)
 req.cancel()

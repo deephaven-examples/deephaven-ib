@@ -1,6 +1,8 @@
 """An IB TWS client that produces Deephaven tables."""
 
 import time
+import types
+from functools import wraps
 from threading import Thread
 from typing import Set, Union
 
@@ -14,6 +16,7 @@ from ibapi.order import Order
 from ibapi.order_state import OrderState
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi.wrapper import EWrapper
+from ratelimit import limits, sleep_and_retry
 
 from .contract_registry import ContractRegistry
 from .ib_type_logger import *
@@ -27,6 +30,22 @@ from ..time import unix_sec_to_dh_datetime
 _error_code_message_map, _error_code_note_map = load_error_codes()
 _news_msgtype_map: Dict[int, str] = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
                                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
+
+
+@sleep_and_retry
+@limits(calls=50, period=1)
+def _check_rate_limit():
+    """Empty function to limit the rate of calls to API."""
+    pass
+
+
+def _rate_limit_wrapper(func):
+    @wraps(func)
+    def wrapped(*args, **kwargs):
+        _check_rate_limit()
+        return func(*args, **kwargs)
+
+    return wrapped
 
 
 # noinspection PyPep8Naming
@@ -59,6 +78,15 @@ class IbTwsClient(EWrapper, EClient):
 
         if download_short_rates:
             self.tables["short_rates"] = load_short_rates()
+
+    # wrap all method names starting with "req" with a rate limiter.
+    def __getattribute__(self, name):
+        attr = EClient.__getattribute__(self, name)
+        if type(attr) == types.MethodType and name.startswith("req"):
+            attr = _rate_limit_wrapper(attr)
+            return attr
+        else:
+            return attr
 
     @staticmethod
     def _build_table_writers() -> Dict[str, TableWriter]:
