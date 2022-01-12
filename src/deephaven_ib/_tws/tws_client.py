@@ -32,8 +32,9 @@ _news_msgtype_map: Dict[int, str] = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_
                                      news.EXCHANGE_UNAVAIL_MSG: "EXCHANGE_UNAVAILABLE"}
 
 
+# Rate limit is 50 per second.  Limiting to 45 per second.
 @sleep_and_retry
-@limits(calls=50, period=1)
+@limits(calls=45, period=1)
 def _check_rate_limit():
     """Empty function to limit the rate of calls to API."""
     pass

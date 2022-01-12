@@ -182,15 +182,15 @@ class Request:
     """ IB session request. """
 
     request_id: int
-    cancel_func: Callable
+    _cancel_func: Callable
 
     def __init__(self, request_id: int, cancel_func: Callable = None):
         self.request_id = request_id
-        self.cancel_func = cancel_func
+        self._cancel_func = cancel_func
 
     def is_cancellable(self) -> None:
         """Is the request cancellable?"""
-        return self.cancel_func is not None
+        return self._cancel_func is not None
 
     def cancel(self):
         """Cancel the request."""
@@ -198,7 +198,7 @@ class Request:
         if not self.is_cancellable():
             raise Exception("Request is not cancellable.")
 
-        self.cancel_func(self.request_id)
+        self._cancel_func(self.request_id)
 
 
 class RegisteredContract:

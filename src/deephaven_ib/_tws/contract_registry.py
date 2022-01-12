@@ -20,17 +20,17 @@ class ContractEntry:
 
     contract: Contract
     contract_details: List[ContractDetails]
-    error_string: str
+    error_strings: List[str]
 
     def __init__(self, contract: Contract):
         self.contract = contract
         self.contract_details = []
-        self.error_string = None
+        self.error_strings = []
 
     def add_contract_details(self, contract_details: ContractDetails):
         """Adds contract details to the entry."""
 
-        if self.error_string:
+        if self.error_strings:
             raise Exception(f"Adding contract details to an entry that already has an error string: {self.contract}")
 
         self.contract_details.append(contract_details)
@@ -38,19 +38,17 @@ class ContractEntry:
     def add_error_sring(self, error_string: str):
         """Adds an error string to the entry."""
 
-        if self.error_string and self.error_string != error_string:
-            raise Exception(f"Multiple error strings for a request: {self.contract} {self.error_string} {error_string}")
-        elif self.contract_details:
+        if self.contract_details:
             raise Exception(f"Adding an error string to an entry that already has contract details: {self.contract}")
 
-        self.error_string = error_string
+        self.error_strings.append(error_string)
 
     def get(self) -> List[ContractDetails]:
         """Gets the details or raises an exception if there are no details."""
         if self.contract_details:
             return self.contract_details
-        elif self.error_string is not None:
-            raise Exception(self.error_string)
+        elif self.error_strings:
+            raise Exception("|".join(self.error_strings))
         else:
             raise Exception(f"Contract has no details and no error: {self.contract}")
 
