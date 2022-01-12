@@ -294,7 +294,8 @@ def _details_order() -> List[Tuple]:
     oca_types = {1: "CancelWithBlock", 2: "ReduceWithBlock", 3: "ReduceNonBlock"}
     trigger_methods = {0: "Default", 1: "DoubleBidAsk", 2: "Last", 3: "DoubleLast", 4: "BidAsk",
                        7: "LastOrBidAsk", 8: "MidPoint"}
-    rule80_values = {"0": None, "I": "Individual", "A": "Agency", "W": "AgentOtherMember", "J": "IndividualPTIA",
+    rule80_values = {"": None, "0": None, "I": "Individual", "A": "Agency", "W": "AgentOtherMember",
+                     "J": "IndividualPTIA",
                      "U": "AgencyPTIA", "M": "AgentOtherMemberPTIA", "K": "IndividualPT", "Y": "AgencyPT",
                      "N": "AgentOtherMemberPT"}
     open_close_values = {"": None, "O": "Open", "C": "Close"}

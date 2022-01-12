@@ -29,6 +29,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
             pass
 
     overrides = {
+        0: "Warning: Approaching max rate of 50 messages per second",
         504: "Not connected",
         502: "Couldn't connect to TWS. Confirm that 'Enable ActiveX and Socket EClients' is enabled and connection port is the same as 'Socket Port' on the TWS 'Edit->Global Configuration...->API->Settings' menu. Live Trading ports: TWS: 7496; IB Gateway: 4001. Simulated Trading ports for new installations of version 954.1 or newer:  TWS: 7497; IB Gateway: 4002",
         2113: "The order size for Bonds (Bills) is entered as a nominal par value of the order, and must be a multiple",

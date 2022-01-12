@@ -471,7 +471,9 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["accounts_portfolio"].write_row([accountName, *logger_contract.vals(contract), position,
                                                              marketPrice, marketValue, averageCost, unrealizedPNL,
                                                              realizedPNL])
-        self.contract_registry.request_contract_details_nonblocking(contract)
+
+        if self.contract_registry:
+            self.contract_registry.request_contract_details_nonblocking(contract)
 
     ####
     # reqAccountSummary
@@ -721,7 +723,9 @@ class IbTwsClient(EWrapper, EClient):
 
         self._table_writers["orders_open"].write_row(
             [*logger_contract.vals(contract), *logger_order.vals(order), *logger_order_state.vals(orderState)])
-        self.contract_registry.request_contract_details_nonblocking(contract)
+
+        if self.contract_registry:
+            self.contract_registry.request_contract_details_nonblocking(contract)
 
     def orderStatus(self, orderId: OrderId, status: str, filled: float,
                     remaining: float, avgFillPrice: float, permId: int,

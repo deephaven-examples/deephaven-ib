@@ -3,6 +3,7 @@ from typing import Dict
 
 from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract
+from ibapi.order import Order
 
 import deephaven_ib as dhib
 
@@ -338,6 +339,52 @@ client.request_tick_data_historical(rc, dhib.TickDataType.LAST, 100, end=now)
 client.request_tick_data_realtime(rc, dhib.TickDataType.LAST)
 
 # TODO: do the real-time requests need a market data request first???
+
+print("==============================================================================================================")
+print("==== Orders.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+order = Order()
+order.account = "DF4943843"
+order.action = "BUY"
+order.orderType = "LIMIT"
+order.totalQuantity = 1
+order.lmtPrice = 3000
+order.eTradeOnly = False
+
+client.order_place(rc, order)
+
+order = Order()
+order.account = "DF4943843"
+order.action = "BUY"
+order.orderType = "LIMIT"
+order.totalQuantity = 1
+order.lmtPrice = 2600
+order.eTradeOnly = False
+
+client.order_place(rc, order)
+
+order = Order()
+order.account = "DF4943843"
+order.action = "BUY"
+order.orderType = "LIMIT"
+order.totalQuantity = 1
+order.lmtPrice = 2700
+order.eTradeOnly = False
+
+req = client.order_place(rc, order)
+req.cancel()
+
+client.order_cancel_all()
 
 # TODO: do these
 # order place / cancel / cancel all

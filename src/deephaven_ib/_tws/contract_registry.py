@@ -38,7 +38,7 @@ class ContractEntry:
     def add_error_sring(self, error_string: str):
         """Adds an error string to the entry."""
 
-        if self.error_string:
+        if self.error_string and self.error_string != error_string:
             raise Exception(f"Multiple error strings for a request: {self.contract} {self.error_string} {error_string}")
         elif self.contract_details:
             raise Exception(f"Adding an error string to an entry that already has contract details: {self.contract}")
