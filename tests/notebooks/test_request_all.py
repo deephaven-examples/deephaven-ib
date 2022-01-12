@@ -273,6 +273,13 @@ client.request_news_historical(rc, start=start, end=end)
 client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
 
 print("==============================================================================================================")
+print("==== Set market data type.")
+print("==============================================================================================================")
+
+client.set_market_data_type(dhib.MarketDataType.DELAYED)
+
+
+print("==============================================================================================================")
 print("==== Request bars.")
 print("==============================================================================================================")
 
@@ -284,8 +291,6 @@ contract.exchange = "SMART"
 
 rc = client.get_registered_contract(contract)
 print(contract)
-
-client.set_market_data_type(dhib.MarketDataType.DELAYED)
 
 client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
                                bar_type=dhib.BarDataType.MIDPOINT)
@@ -307,8 +312,32 @@ client.request_bars_realtime(rc, bar_type=dhib.BarDataType.BID)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.ASK)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
 
+print("==============================================================================================================")
+print("==== Request tick data.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+now = dtu.convertDateTime("2021-01-01T00:00:00 NY")
+
+client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, start=now)
+client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, end=now)
+client.request_tick_data_realtime(rc, dhib.TickDataType.MIDPOINT)
+
+client.request_tick_data_realtime(rc, dhib.TickDataType.BID_ASK)
+
+client.request_tick_data_historical(rc, dhib.TickDataType.LAST, 100, start=now)
+client.request_tick_data_historical(rc, dhib.TickDataType.LAST, 100, end=now)
+client.request_tick_data_realtime(rc, dhib.TickDataType.LAST)
+
+# TODO: do the real-time requests need a market data request first???
+
 # TODO: do these
-# request market data
-# tickdata historical / realtime
-# set market data type
 # order place / cancel / cancel all

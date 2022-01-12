@@ -713,8 +713,9 @@ class IbSessionTws:
         self._assert_connected()
         self._client.cancelTickByTickData(reqId=req_id)
 
-    def request_tick_data_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
+    def request_tick_data_historical(self, contract: RegisteredContract,
                                      tick_type: TickDataType, number_of_ticks: int,
+                                     start: dtu.DateTime = None, end: dtu.DateTime = None,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
                                      ignore_size: bool = False) -> List[Request]:
         """Requests historical tick-by-tick data. Results are returned in the ticks_trade`, `ticks_bid_ask`,
@@ -741,6 +742,9 @@ class IbSessionTws:
         self._assert_connected()
         what_to_show = tick_type.historical_value()
         requests = []
+
+        if tick_type not in [TickDataType.MIDPOINT, TickDataType.LAST]:
+            raise Exception(f"Unsupported tick data type: {tick_type}")
 
         for cd in contract.contract_details:
             req_id = next_unique_id()
