@@ -7,13 +7,19 @@ import deephaven_ib as dhib
 
 logging.basicConfig(level=logging.DEBUG)
 
-client = dhib.IbSessionTws(download_short_rates=False)
+print("==============================================================================================================")
+print("==== Create a client and connect.")
+print("==============================================================================================================")
 
+client = dhib.IbSessionTws(download_short_rates=False)
 print(f"IsConnected: {client.is_connected()}")
 
 client.connect(host="host.docker.internal", port=7497)
-
 print(f"IsConnected: {client.is_connected()}")
+
+print("==============================================================================================================")
+print("==== Make all tables visible in the UI.")
+print("==============================================================================================================")
 
 for k, v in client.tables.items():
     globals()[k] = v
@@ -22,6 +28,10 @@ for k, v in client.tables.items():
 # for k, v in client.tables2.items():
 #     globals()[k] = v
 
+
+print("==============================================================================================================")
+print("==== Get registered contracts for all contract types.")
+print("==============================================================================================================")
 
 def get_contracts() -> Dict[str, Contract]:
     rst = {}
@@ -222,9 +232,64 @@ def get_contracts() -> Dict[str, Contract]:
 
 
 contracts = get_contracts()
-# registered_contracts = {name: client.get_registered_contract(contract) for name, contract in contracts.items()}
 
 for name, contract in contracts.items():
     print(f"{name} {contract}")
     rc = client.get_registered_contract(contract)
     print(rc)
+
+registered_contracts = {name: client.get_registered_contract(contract) for name, contract in contracts.items()}
+
+print("==============================================================================================================")
+print("==== Request account pnl.")
+print("==============================================================================================================")
+
+client.request_account_pnl()
+
+print("==============================================================================================================")
+print("==== Request contracts matching.")
+print("==============================================================================================================")
+
+client.request_contracts_matching("AM")
+
+print("==============================================================================================================")
+print("==== Request bars.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "IBKR"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+client.set_market_data_type(dhib.MarketDataType.DELAYED)
+
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.MIDPOINT)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.BID)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.ASK)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.BID_ASK, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.HISTORICAL_VOLATILITY, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.OPTION_IMPLIED_VOLATILITY, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.TRADES)
+
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.MIDPOINT)
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.BID)
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.ASK)
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
+
+# TODO: do these
+# request market data
+# news historical / article
+# tickdata historical / realtime
+# set market data type
+# order place / cancel / cancel all

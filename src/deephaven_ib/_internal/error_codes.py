@@ -15,6 +15,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
 
     for df in html_tables:
         try:
+            df = df.fillna('')
             codes = df['Code']
             messages = df['TWS message']
             notes = df['Additional notes']
@@ -36,6 +37,6 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
     for k, v in overrides.items():
         if k not in error_messages:
             error_messages[k] = v
-            error_notes[k] = None
+            error_notes[k] = ""
 
     return error_messages, error_notes

@@ -84,7 +84,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["contracts_matching"] = TableWriter(
             ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
-            [dht.int32, *logger_contract.types(), dht.string])
+            [dht.int32, *logger_contract.types(), dht.stringset])
 
         table_writers["market_rules"] = TableWriter(
             ["MarketRuleId", *logger_price_increment.names()],

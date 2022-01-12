@@ -432,7 +432,7 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = next_unique_id()
-        self._client.log_request(req_id, "Pnl", None, f"account='{account}' model_code={model_code}")
+        self._client.log_request(req_id, "Pnl", None, f"account='{account}' model_code='{model_code}'")
         self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return Request(request_id=req_id)
 
@@ -471,7 +471,8 @@ class IbSessionTws:
             self._client.log_request(req_id, "HistoricalNews", cd.contract,
                                      f"provider_codes={provider_codes} start={start} end={end} total_results={total_results}")
             self._client.reqHistoricalNews(reqId=req_id, conId=cd.contract.conId, providerCodes=pc,
-                                           startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
+                                           startDateTime=dh_to_ib_datetime(start, sub_sec=False),
+                                           endDateTime=dh_to_ib_datetime(end, sub_sec=False),
                                            totalResults=total_results, historicalNewsOptions=[])
             requests.append(Request(request_id=req_id))
 
@@ -568,8 +569,9 @@ class IbSessionTws:
         self._assert_connected()
         self._client.cancelMktData(reqId=req_id)
 
-    def request_bars_historical(self, contract: RegisteredContract, end: dtu.DateTime,
+    def request_bars_historical(self, contract: RegisteredContract,
                                 duration: Duration, bar_size: BarSize, bar_type: BarDataType,
+                                end: dtu.DateTime = None,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
                                 keep_up_to_date: bool = True) -> List[Request]:
         """Requests historical bars for a contract.  Results are returned in the `bars_historical` table.
@@ -600,7 +602,7 @@ class IbSessionTws:
             self._client.log_request(req_id, "HistoricalData", cd.contract,
                                      f"end={end} duration={duration} bar_size={bar_size} bar_type={bar_type} market_data_type={market_data_type} keep_up_to_date={keep_up_to_date}")
             self._client.reqHistoricalData(reqId=req_id, contract=cd.contract,
-                                           endDateTime=dh_to_ib_datetime(end),
+                                           endDateTime=dh_to_ib_datetime(end, sub_sec=False),
                                            durationStr=duration.value, barSizeSetting=bar_size.value,
                                            whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
                                            formatDate=2,
@@ -630,6 +632,9 @@ class IbSessionTws:
 
         self._assert_connected()
         requests = []
+
+        if bar_type not in [BarDataType.TRADES, BarDataType.MIDPOINT, BarDataType.BID, BarDataType.ASK]:
+            raise Exception(f"Unsupported bar type: {bar_type}")
 
         for cd in contract.contract_details:
             req_id = next_unique_id()
@@ -738,8 +743,8 @@ class IbSessionTws:
             self._client.log_request(req_id, "HistoricalTicks", cd.contract,
                                      f"start={start} end={end} tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
             self._client.reqHistoricalTicks(reqId=req_id, contract=cd.contract,
-                                            startDateTime=dh_to_ib_datetime(start),
-                                            endDateTime=dh_to_ib_datetime(end),
+                                            startDateTime=dh_to_ib_datetime(start, sub_sec=False),
+                                            endDateTime=dh_to_ib_datetime(end, sub_sec=False),
                                             numberOfTicks=number_of_ticks, whatToShow=what_to_show,
                                             useRth=market_data_type.value,
                                             ignoreSize=ignore_size, miscOptions=[])
