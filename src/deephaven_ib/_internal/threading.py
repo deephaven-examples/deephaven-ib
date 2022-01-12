@@ -10,7 +10,10 @@ from .._internal.trace import trace_str
 class LoggingLock(object):
     """A threading lock that logs lock acquisition and release."""
 
-    def __init__(self, name, lock=None, log=logging, log_stack=False):
+    name: str
+    log_stack: bool
+
+    def __init__(self, name: str, lock=None, log=logging, log_stack: bool = False):
         if lock is None:
             lock = threading.Lock()
 

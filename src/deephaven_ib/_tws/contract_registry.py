@@ -19,11 +19,13 @@ class ContractEntry:
     """Entry in the ContractRegistry."""
 
     contract: Contract
-    contract_details: List[ContractDetails] = []
-    error_string: str = None
+    contract_details: List[ContractDetails]
+    error_string: str
 
     def __init__(self, contract: Contract):
         self.contract = contract
+        self.contract_details = []
+        self.error_string = None
 
     def add_contract_details(self, contract_details: ContractDetails):
         """Adds contract details to the entry."""

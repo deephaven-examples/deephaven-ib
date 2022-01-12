@@ -7,7 +7,7 @@ from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
 from ._internal.requests import next_unique_id
-from ._tws import IbTwsClient as IbTwsClient
+from ._tws import IbTwsClient
 from .time import dh_to_ib_datetime
 
 __all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "Request", "RegisteredContract",
@@ -131,6 +131,7 @@ class BarDataType(Enum):
     FEE_RATE = 8
     REBATE_RATE = 9
 
+
 class BarSize(Enum):
     """Bar data sizes."""
 
@@ -199,23 +200,31 @@ class Request:
 
         self.cancel_func(self.request_id)
 
+
 class RegisteredContract:
-    """ Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc."""
+    """ Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc.
 
-    contract_details: ContractDetails
+    When some contracts are registered, details on multiple contracts are returned.
+    """
 
-    def __init__(self, contract_details: ContractDetails):
+    query_contract: Contract
+    contract_details: List[ContractDetails]
+
+    def __init__(self, query_contract: Contract, contract_details: List[ContractDetails]):
+        self.query_contract = query_contract
         self.contract_details = contract_details
 
-    def contract(self) -> Contract:
-        return self.contract_details.contract
+    def is_multi(self) -> bool:
+        """Does the contract have multiple contract details?"""
+        return len(self.contract_details) > 1
 
     def __str__(self) -> str:
-        return f"RegistredContract({self.contract_details.contract})"
+        return f"RegistredContract({self.query_contract},[{'|'.join([str(cd.contract) for cd in self.contract_details])}])"
 
 
 # TODO review API
 class IbSessionTws:
+    # TODO: update tables documentation
     """ IB TWS session.
     
     Tables:
@@ -346,6 +355,17 @@ class IbSessionTws:
         """Gets a dictionary of all data tables."""
         return self._client.tables
 
+    @property
+    def tables2(self) -> Dict[str, Any]:
+        # TODO rename
+        # TODO document
+        # TODO: need to relate request to security ***
+        return {
+            "v2_accounts_managed": self.tables["accounts_managed"].firstBy("Account"),
+            "v2_accounts_profile": self.tables["accounts_profile"].lastBy("Account", "ContractID"),
+            "v2_market_rules": self.tables["market_rules"].lastBy("MarketRuleId", "LowEdge", "Increment"),
+        }
+
     ####################################################################################################################
     ####################################################################################################################
     ## Contracts
@@ -368,7 +388,7 @@ class IbSessionTws:
 
         self._assert_connected()
         cd = self._client.contract_registry.request_contract_details_blocking(contract)
-        return RegisteredContract(contract_details=cd)
+        return RegisteredContract(query_contract=contract, contract_details=cd)
 
     def request_contracts_matching(self, pattern: str) -> Request:
         """Request contracts matching a pattern.  Results are returned in the `contracts_matching` table.
@@ -423,8 +443,10 @@ class IbSessionTws:
     ####################################################################################################################
 
     def request_news_historical(self, contract: RegisteredContract, provider_codes: List[str], start: dtu.DateTime,
-                                end: dtu.DateTime, total_results: int = 100) -> Request:
+                                end: dtu.DateTime, total_results: int = 100) -> List[Request]:
         """ Request historical news for a contract.  Results are returned in the `news_historical` table.
+
+        Registered contracts that are associated with multiple contract details produce multiple requests.
 
         Args:
             contract (RegisteredContract): contract data is requested for
@@ -434,22 +456,26 @@ class IbSessionTws:
             total_results (int): the maximum number of headlines to fetch (1 - 300)
 
         Returns:
-            Request
+            List[Request]
 
         Raises:
               Exception
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
         pc = "+".join(provider_codes)
-        self._client.log_request(req_id, "HistoricalNews", contract.contract_details.contract,
-                                 f"provider_codes={provider_codes} start={start} end={end} total_results={total_results}")
-        self._client.reqHistoricalNews(reqId=req_id, conId=contract.contract_details.contract.conId,
-                                       providerCodes=pc,
-                                       startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
-                                       totalResults=total_results, historicalNewsOptions=[])
-        return Request(request_id=req_id)
+        requests = []
+
+        for cd in contract.contract_details:
+            req_id = next_unique_id()
+            self._client.log_request(req_id, "HistoricalNews", cd.contract,
+                                     f"provider_codes={provider_codes} start={start} end={end} total_results={total_results}")
+            self._client.reqHistoricalNews(reqId=req_id, conId=cd.contract.conId, providerCodes=pc,
+                                           startDateTime=dh_to_ib_datetime(start), endDateTime=dh_to_ib_datetime(end),
+                                           totalResults=total_results, historicalNewsOptions=[])
+            requests.append(Request(request_id=req_id))
+
+        return requests
 
     def request_news_article(self, provider_code: str, article_id: str) -> Request:
         """ Request the text of a news article.  Results are returned in the `news_articles` table.
@@ -493,9 +519,11 @@ class IbSessionTws:
 
     # noinspection PyDefaultArgument
     def request_market_data(self, contract: RegisteredContract, generic_tick_types: List[GenericTickType] = [],
-                            snapshot: bool = False, regulatory_snapshot: bool = False) -> Request:
+                            snapshot: bool = False, regulatory_snapshot: bool = False) -> List[Request]:
         """ Request market data for a contract.  Results are returned in the `ticks_price`, `ticks_size`,
         `ticks_string`, `ticks_efp`, `ticks_generic`, and `ticks_option_computation` tables.
+
+        Registered contracts that are associated with multiple contract details produce multiple requests.
 
 
         Args:
@@ -514,13 +542,18 @@ class IbSessionTws:
 
         self._assert_connected()
         generic_tick_list = ",".join([x.value for x in generic_tick_types])
-        req_id = next_unique_id()
-        self._client.log_request(req_id, "MarketData", contract.contract_details.contract,
-                                 f"generic_tick_types={generic_tick_types} snapshot={snapshot} regulatory_snapshot={regulatory_snapshot}")
-        self._client.reqMktData(reqId=req_id, contract=contract.contract_details.contract,
-                                genericTickList=generic_tick_list, snapshot=snapshot,
-                                regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
-        return Request(request_id=req_id, cancel_func=self._cancel_market_data)
+        requests = []
+
+        for cd in contract.contract_details:
+            req_id = next_unique_id()
+            self._client.log_request(req_id, "MarketData", cd.contract,
+                                     f"generic_tick_types={generic_tick_types} snapshot={snapshot} regulatory_snapshot={regulatory_snapshot}")
+            self._client.reqMktData(reqId=req_id, contract=cd.contract,
+                                    genericTickList=generic_tick_list, snapshot=snapshot,
+                                    regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
+            requests.append(Request(request_id=req_id, cancel_func=self._cancel_market_data))
+
+        return requests
 
     def _cancel_market_data(self, req_id: int):
         """Cancel a market data request.
@@ -538,8 +571,10 @@ class IbSessionTws:
     def request_bars_historical(self, contract: RegisteredContract, end: dtu.DateTime,
                                 duration: Duration, bar_size: BarSize, bar_type: BarDataType,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
-                                keep_up_to_date: bool = True) -> Request:
+                                keep_up_to_date: bool = True) -> List[Request]:
         """Requests historical bars for a contract.  Results are returned in the `bars_historical` table.
+
+        Registered contracts that are associated with multiple contract details produce multiple requests.
 
         Args:
             contract (RegisteredContract): contract data is requested for
@@ -558,20 +593,27 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
-        self._client.log_request(req_id, "HistoricalData", contract.contract_details.contract,
-                                 f"end={end} duration={duration} bar_size={bar_size} bar_type={bar_type} market_data_type={market_data_type} keep_up_to_date={keep_up_to_date}")
-        self._client.reqHistoricalData(reqId=req_id, contract=contract.contract_details.contract,
-                                       endDateTime=dh_to_ib_datetime(end),
-                                       durationStr=duration.value, barSizeSetting=bar_size.value,
-                                       whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
-                                       formatDate=2,
-                                       keepUpToDate=keep_up_to_date, chartOptions=[])
-        return Request(request_id=req_id)
+        requests = []
+
+        for cd in contract.contract_details:
+            req_id = next_unique_id()
+            self._client.log_request(req_id, "HistoricalData", cd.contract,
+                                     f"end={end} duration={duration} bar_size={bar_size} bar_type={bar_type} market_data_type={market_data_type} keep_up_to_date={keep_up_to_date}")
+            self._client.reqHistoricalData(reqId=req_id, contract=cd.contract,
+                                           endDateTime=dh_to_ib_datetime(end),
+                                           durationStr=duration.value, barSizeSetting=bar_size.value,
+                                           whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
+                                           formatDate=2,
+                                           keepUpToDate=keep_up_to_date, chartOptions=[])
+            requests.append(Request(request_id=req_id))
+
+        return requests
 
     def request_bars_realtime(self, contract: RegisteredContract, bar_type: BarDataType, bar_size: int = 5,
-                              market_data_type: MarketDataType = MarketDataType.FROZEN) -> Request:
+                              market_data_type: MarketDataType = MarketDataType.FROZEN) -> List[Request]:
         """Requests real time bars for a contract.  Results are returned in the `bars_realtime` table.
+
+        Registered contracts that are associated with multiple contract details produce multiple requests.
 
         Args:
             contract (RegisteredContract): contract data is requested for
@@ -587,13 +629,18 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
-        self._client.log_request(req_id, "RealTimeBars", contract.contract_details.contract,
-                                 f"bar_type={bar_type} bar_size={bar_size} market_data_type={market_data_type}")
-        self._client.reqRealTimeBars(reqId=req_id, contract=contract.contract_details.contract, barSize=bar_size,
-                                     whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
-                                     realTimeBarsOptions=[])
-        return Request(request_id=req_id, cancel_func=self._cancel_bars_realtime)
+        requests = []
+
+        for cd in contract.contract_details:
+            req_id = next_unique_id()
+            self._client.log_request(req_id, "RealTimeBars", cd.contract,
+                                     f"bar_type={bar_type} bar_size={bar_size} market_data_type={market_data_type}")
+            self._client.reqRealTimeBars(reqId=req_id, contract=cd.contract, barSize=bar_size,
+                                         whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
+                                         realTimeBarsOptions=[])
+            requests.append(Request(request_id=req_id, cancel_func=self._cancel_bars_realtime))
+
+        return requests
 
     def _cancel_bars_realtime(self, req_id: int):
         """Cancel a real-time bar request.
@@ -610,9 +657,11 @@ class IbSessionTws:
         self._client.cancelRealTimeBars(reqId=req_id)
 
     def request_tick_data_realtime(self, contract: RegisteredContract, tick_type: TickDataType,
-                                   number_of_ticks: int = 0, ignore_size: bool = False) -> Request:
+                                   number_of_ticks: int = 0, ignore_size: bool = False) -> List[Request]:
         """Requests real-time tick-by-tick data.  Results are returned in the ticks_trade`, `ticks_bid_ask`,
         and `ticks_mid_point` tables.
+
+        Registered contracts that are associated with multiple contract details produce multiple requests.
 
         Args:
             contract (RegisteredContract): contract data is requested for
@@ -628,13 +677,18 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
-        self._client.log_request(req_id, "TickByTickData", contract.contract_details.contract,
-                                 f"tick_type={tick_type} number_of_ticks={number_of_ticks} ignore_size={ignore_size}")
-        self._client.reqTickByTickData(reqId=req_id, contract=contract.contract_details.contract,
-                                       tickType=tick_type.value,
-                                       numberOfTicks=number_of_ticks, ignoreSize=ignore_size)
-        return Request(request_id=req_id, cancel_func=self._cancel_tick_data_realtime)
+        requests = []
+
+        for cd in contract.contract_details:
+            req_id = next_unique_id()
+            self._client.log_request(req_id, "TickByTickData", cd.contract,
+                                     f"tick_type={tick_type} number_of_ticks={number_of_ticks} ignore_size={ignore_size}")
+            self._client.reqTickByTickData(reqId=req_id, contract=cd.contract,
+                                           tickType=tick_type.value,
+                                           numberOfTicks=number_of_ticks, ignoreSize=ignore_size)
+            requests.append(Request(request_id=req_id, cancel_func=self._cancel_tick_data_realtime))
+
+        return requests
 
     def _cancel_tick_data_realtime(self, req_id: int):
         """Cancel a real-time tick-by-tick data request.
@@ -653,10 +707,11 @@ class IbSessionTws:
     def request_tick_data_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
                                      tick_type: TickDataType, number_of_ticks: int,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
-                                     ignore_size: bool = False) -> Request:
+                                     ignore_size: bool = False) -> List[Request]:
         """Requests historical tick-by-tick data. Results are returned in the ticks_trade`, `ticks_bid_ask`,
         and `ticks_mid_point` tables.
 
+        Registered contracts that are associated with multiple contract details produce multiple requests.
 
         Args:
             contract (RegisteredContract): contract data is requested for
@@ -675,17 +730,22 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
-        self._client.log_request(req_id, "HistoricalTicks", contract.contract_details.contract,
-                                 f"start={start} end={end} tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
         what_to_show = tick_type.historical_value()
-        self._client.reqHistoricalTicks(reqId=req_id, contract=contract.contract_details.contract,
-                                        startDateTime=dh_to_ib_datetime(start),
-                                        endDateTime=dh_to_ib_datetime(end),
-                                        numberOfTicks=number_of_ticks, whatToShow=what_to_show,
-                                        useRth=market_data_type.value,
-                                        ignoreSize=ignore_size, miscOptions=[])
-        return Request(request_id=req_id)
+        requests = []
+
+        for cd in contract.contract_details:
+            req_id = next_unique_id()
+            self._client.log_request(req_id, "HistoricalTicks", cd.contract,
+                                     f"start={start} end={end} tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
+            self._client.reqHistoricalTicks(reqId=req_id, contract=cd.contract,
+                                            startDateTime=dh_to_ib_datetime(start),
+                                            endDateTime=dh_to_ib_datetime(end),
+                                            numberOfTicks=number_of_ticks, whatToShow=what_to_show,
+                                            useRth=market_data_type.value,
+                                            ignoreSize=ignore_size, miscOptions=[])
+            requests.append(Request(request_id=req_id))
+
+        return requests
 
     ####################################################################################################################
     ####################################################################################################################
@@ -701,9 +761,15 @@ class IbSessionTws:
             order (Order): order to place
         """
         self._assert_connected()
+
+        if contract.is_multi():
+            raise Exception(
+                f"RegisteredContracts with multiple contract details are not supported for orders: {contract}")
+
         req_id = self._client.next_order_id()
-        self._client.log_request(req_id, "PlaceOrder", contract.contract_details.contract, f"order={order}")
-        self._client.placeOrder(req_id, contract.contract_details.contract, order)
+        cd = contract.contract_details[0]
+        self._client.log_request(req_id, "PlaceOrder", cd.contract, f"order={order}")
+        self._client.placeOrder(req_id, cd.contract, order)
         return Request(request_id=req_id, cancel_func=self.order_cancel)
 
     def order_cancel(self, order_id: int) -> None:
@@ -728,9 +794,3 @@ class IbSessionTws:
 
     # TODO: (don't do)     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
     # TODO: (don't do)     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
-
-    # TODO: accounts_managed needs to be t.firstBy("Account")
-    # TODO: accounts_profile needs to be t.lastBy("Account", "ContractId")
-    # TODO: market_rules needs to be t.lastBy("MarketRleId", "LowEdge", "Increment")
-    # TODO: need to relate request to security ***
-

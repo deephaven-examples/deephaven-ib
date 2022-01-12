@@ -11,12 +11,14 @@ class OrderIdRequest:
 
     _event: Event
     _getter: Callable[[], int]
-    _value: int = None
-    _lock: LoggingLock = LoggingLock("OrderIdRequest")
+    _value: int
+    _lock: LoggingLock
 
     def __init__(self, event: Event, getter: Callable[[], int]):
         self._event = event
         self._getter = getter
+        self._value = None
+        self._lock = LoggingLock("OrderIdRequest")
 
     def get(self) -> int:
         """A blocking call to get the order ID."""
@@ -33,9 +35,14 @@ class OrderIdRequest:
 class OrderIdEventQueue:
     """A thread-safe queue for requesting and getting order IDs."""
 
-    _events: List[Event] = []
-    _values: List[int] = []
-    _lock: LoggingLock = LoggingLock("OrderIdEventQueue")
+    _events: List[Event]
+    _values: List[int]
+    _lock: LoggingLock
+
+    def __init__(self):
+        self._events = []
+        self._values = []
+        self._lock = LoggingLock("OrderIdEventQueue")
 
     def request(self) -> OrderIdRequest:
         """Requests data from the queue."""
