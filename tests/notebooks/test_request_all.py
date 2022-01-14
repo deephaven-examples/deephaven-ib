@@ -26,9 +26,8 @@ print("=========================================================================
 for k, v in client.tables.items():
     globals()[k] = v
 
-
-# for k, v in client.tables2.items():
-#     globals()[k] = v
+for k, v in client.tables_raw.items():
+    globals()[k] = v
 
 
 print("==============================================================================================================")
