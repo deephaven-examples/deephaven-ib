@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 from ibapi.contract import Contract, ContractDetails
 
 from .ib_type_logger import *
-from .._internal.requests import next_unique_id
 from .._internal.threading import LoggingLock
 
 # Type hints on IbTwsClient cause a circular dependency.
@@ -175,7 +174,7 @@ class ContractRegistry:
 
         with self._lock:
             if key not in self._contracts:
-                req_id = next_unique_id()
+                req_id = self._client.request_id_manager.next_id()
                 self._requests[req_id] = (contract, event)
                 self._client.log_request(req_id, "ContractDetails", contract, None)
                 self._client.reqContractDetails(reqId=req_id, contract=contract)

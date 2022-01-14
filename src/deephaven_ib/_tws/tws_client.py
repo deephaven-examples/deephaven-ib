@@ -21,8 +21,8 @@ from ratelimit import limits, sleep_and_retry
 from .contract_registry import ContractRegistry
 from .ib_type_logger import *
 from .order_id_queue import OrderIdEventQueue
+from .requests import RequestIdManager
 from .._internal.error_codes import load_error_codes
-from .._internal.requests import next_unique_id
 from .._internal.short_rates import load_short_rates
 from .._internal.tablewriter import TableWriter
 from ..time import unix_sec_to_dh_datetime
@@ -60,7 +60,8 @@ class IbTwsClient(EWrapper, EClient):
     tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
     _thread: Thread
     contract_registry: ContractRegistry
-    _order_id_queue: OrderIdEventQueue
+    request_id_manager: RequestIdManager
+    order_id_queue: OrderIdEventQueue
     _registered_market_rules: Set[str]
     _realtime_bar_sizes: Dict[TickerId, int]
     news_providers: List[str]
@@ -69,16 +70,20 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
-        self.tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
         self._thread = None
         self.contract_registry = None
-        self._order_id_queue = None
+        self.request_id_manager = RequestIdManager()
+        self.order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
         self.news_providers = None
 
+        tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
+
         if download_short_rates:
-            self.tables["short_rates"] = load_short_rates()
+            tables["short_rates"] = load_short_rates()
+
+        self.tables = dict(sorted(tables.items()))
 
     # wrap all method names starting with "req" with a rate limiter.
     def __getattribute__(self, name):
@@ -142,7 +147,7 @@ class IbTwsClient(EWrapper, EClient):
              dht.float64, dht.float64])
 
         table_writers["accounts_summary"] = TableWriter(
-            ["ReqId", "Account", "Tag", "Value", "Currency"],
+            ["RequestId", "Account", "Tag", "Value", "Currency"],
             [dht.int32, dht.string, dht.string, dht.string, dht.string])
 
         table_writers["accounts_positions"] = TableWriter(
@@ -243,7 +248,7 @@ class IbTwsClient(EWrapper, EClient):
             [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
         table_writers["orders_exec_details"] = TableWriter(
-            ["ReqId", *logger_contract.names(renames={"Exchange": "ContractExchange"}),
+            ["RequestId", *logger_contract.names(renames={"Exchange": "ContractExchange"}),
              *logger_execution.names(renames={"Exchange": "ExecutionExchange"})],
             [dht.int32, *logger_contract.types(), *logger_execution.types()])
 
@@ -312,7 +317,7 @@ class IbTwsClient(EWrapper, EClient):
         EClient.disconnect(self)
         self._thread = None
         self.contract_registry = None
-        self._order_id_queue = None
+        self.order_id_queue = None
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
         self.news_providers = None
@@ -321,7 +326,7 @@ class IbTwsClient(EWrapper, EClient):
         """Subscribe to IB data."""
 
         self.contract_registry = ContractRegistry(self)
-        self._order_id_queue = OrderIdEventQueue()
+        self.order_id_queue = OrderIdEventQueue(self)
         self._registered_market_rules = set()
         self._realtime_bar_sizes = {}
         self.news_providers = []
@@ -361,15 +366,15 @@ class IbTwsClient(EWrapper, EClient):
         ]
 
         self.reqManagedAccts()
-        req_id = next_unique_id()
+        req_id = self.request_id_manager.next_id()
         tags = ",".join(account_summary_tags)
         self.log_request(req_id, "AccountSummary", None, f"groupName='All' tags={tags}")
         self.reqAccountSummary(reqId=req_id, groupName="All", tags=tags)
         self.reqPositions()
         self.reqNewsBulletins(allMsgs=True)
-        req_id = next_unique_id()
+        req_id = self.request_id_manager.next_id()
         self.log_request(req_id, "Executions", None, None)
-        self.reqExecutions(reqId=next_unique_id(), execFilter=ExecutionFilter())
+        self.reqExecutions(reqId=self.request_id_manager.next_id(), execFilter=ExecutionFilter())
         self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
         self.reqAllOpenOrders()
@@ -726,9 +731,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def next_order_id(self) -> int:
         """Gets the next valid order ID."""
-        request = self._order_id_queue.request()
-        self.reqIds(-1)
-        return request.get()
+        return self.request_id_manager.next_order_id(self.order_id_queue)
 
     ####
     # reqIds
@@ -737,8 +740,8 @@ class IbTwsClient(EWrapper, EClient):
     def nextValidId(self, orderId: int):
         EWrapper.nextValidId(self, orderId)
 
-        if self._order_id_queue:
-            self._order_id_queue.add_value(orderId)
+        if self.order_id_queue:
+            self.order_id_queue.add_value(orderId)
 
     ####
     # reqAllOpenOrders

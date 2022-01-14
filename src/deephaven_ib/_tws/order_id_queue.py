@@ -2,8 +2,15 @@
 
 from threading import Event
 from typing import List, Callable
+from typing import TYPE_CHECKING
 
 from .._internal.threading import LoggingLock
+
+# Type hints on IbTwsClient cause a circular dependency.
+# This conditional import plus a string-based annotation avoids the problem.
+if TYPE_CHECKING:
+    from .tws_client import IbTwsClient
+
 
 
 class OrderIdRequest:
@@ -39,10 +46,11 @@ class OrderIdEventQueue:
     _values: List[int]
     _lock: LoggingLock
 
-    def __init__(self):
+    def __init__(self, client: 'IbTwsClient'):
         self._events = []
         self._values = []
         self._lock = LoggingLock("OrderIdEventQueue")
+        self._client = client
 
     def request(self) -> OrderIdRequest:
         """Requests data from the queue."""
@@ -51,6 +59,8 @@ class OrderIdEventQueue:
 
         with self._lock:
             self._events.append(event)
+
+        self._client.reqIds(-1)
 
         return OrderIdRequest(event, self._get)
 

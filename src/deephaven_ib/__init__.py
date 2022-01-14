@@ -6,7 +6,7 @@ from deephaven import DateTimeUtils as dtu
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
-from ._internal.requests import next_unique_id
+from ._query_inputs import *
 from ._tws import IbTwsClient
 from .time import dh_to_ib_datetime
 
@@ -295,6 +295,8 @@ class IbSessionTws:
     def __init__(self, download_short_rates=True):
         self._client = IbTwsClient(download_short_rates=download_short_rates)
         self._dtw_requests = None
+        self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
+        self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
 
     ####################################################################################################################
     ####################################################################################################################
@@ -350,21 +352,82 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
+    # TODO: fix Any type annotation with Deephaven v2
+    @staticmethod
+    def _make_tables(tables_raw: Dict[str, Any]) -> Dict[str, Any]:
+        def annotate_ticks(t):
+            requests = tables_raw["raw_requests"] \
+                .dropColumns("RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note")
+
+            requests_col_names = requests.getDefinition().getColumnNamesArray()
+
+            return t.naturalJoin(requests, "RequestId").moveColumnsUp(requests_col_names)
+
+        return {
+            "requests": tables_raw["raw_requests"],
+            "errors": tables_raw["raw_errors"].naturalJoin(tables_raw["raw_requests"].dropColumns("Note"), "RequestId"),
+            "contracts_details": tables_raw["raw_contracts_details"],
+            "accounts_family_codes": tables_raw["raw_accounts_family_codes"],
+            "accounts_managed": tables_raw["raw_accounts_managed"].selectDistinct("Account"),
+            "accounts_portfolio": tables_raw["raw_accounts_portfolio"].lastBy("Account", "ContractId"),
+            "accounts_positions": tables_raw["raw_accounts_positions"].lastBy("Account", "ContractId"),
+            "accounts_value": tables_raw["raw_accounts_value"] \
+                .lastBy("Account", "Currency", "Key") \
+                .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"),
+            "accounts_summary": tables_raw["raw_accounts_summary"] \
+                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
+                .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
+                .dropColumns("Note").moveColumnsUp("RequestId", "GroupName") \
+                .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"),
+            "accounts_pnl": tables_raw["raw_accounts_pnl"] \
+                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
+                .update(
+                "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
+                "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})") \
+                .moveColumnsUp("RequestId", "Account", "ModelCode") \
+                .dropColumns("Note") \
+                .lastBy("RequestId"),
+            "contracts_matching": tables_raw["raw_contracts_matching"] \
+                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
+                .moveColumnsUp("RequestId", "Note"),
+            "market_rules": tables_raw["raw_market_rules"].selectDistinct("MarketRuleId", "LowEdge", "Increment"),
+            "news_bulletins": tables_raw["raw_news_bulletins"],
+            "news_providers": tables_raw["raw_news_providers"],
+            "news_articles": tables_raw["raw_news_articles"],
+            "news_historical": tables_raw["raw_news_historical"] \
+                .naturalJoin(tables_raw["raw_requests"], "RequestId", "ContractId,SecType,Symbol,LocalSymbol") \
+                .moveColumnsUp("RequestId", "Timestamp", "ContractId", "SecType", "Symbol", "LocalSymbol"),
+            "orders_completed": tables_raw["raw_orders_completed"],
+            "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
+            "orders_exec_details": tables_raw["raw_orders_exec_details"],
+            "orders_open": tables_raw["raw_orders_open"] \
+                .lastBy("PermId") \
+                .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
+            "orders_status": tables_raw["raw_orders_status"] \
+                .lastBy("PermId") \
+                .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
+            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]),
+            "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
+            "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
+            "ticks_generic": annotate_ticks(tables_raw["raw_ticks_generic"]),
+            "ticks_mid_point": annotate_ticks(tables_raw["raw_ticks_mid_point"]),
+            "ticks_option_computation": annotate_ticks(tables_raw["raw_ticks_option_computation"]),
+            "ticks_price": annotate_ticks(tables_raw["raw_ticks_price"]),
+            "ticks_size": annotate_ticks(tables_raw["raw_ticks_size"]),
+            "ticks_string": annotate_ticks(tables_raw["raw_ticks_string"]),
+            "ticks_trade": annotate_ticks(tables_raw["raw_ticks_trade"].renameColumns("TradeExchange=Exchange")),
+        }
+
+
     @property
     def tables(self) -> Dict[str, Any]:
         """Gets a dictionary of all data tables."""
-        return self._client.tables
+        return self._tables
 
     @property
-    def tables2(self) -> Dict[str, Any]:
-        # TODO rename
+    def tables_raw(self) -> Dict[str, Any]:
         # TODO document
-        # TODO: need to relate request to security ***
-        return {
-            "v2_accounts_managed": self.tables["accounts_managed"].firstBy("Account"),
-            "v2_accounts_profile": self.tables["accounts_profile"].lastBy("Account", "ContractID"),
-            "v2_market_rules": self.tables["market_rules"].lastBy("MarketRuleId", "LowEdge", "Increment"),
-        }
+        return self._tables_raw
 
     ####################################################################################################################
     ####################################################################################################################
@@ -404,7 +467,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
+        req_id = self._client.request_id_manager.next_id()
         self._client.log_request(req_id, "MatchingSymbols", None, f"pattern={pattern}")
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return Request(request_id=req_id)
@@ -431,7 +494,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
+        req_id = self._client.request_id_manager.next_id()
         self._client.log_request(req_id, "Pnl", None, f"account='{account}' model_code='{model_code}'")
         self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return Request(request_id=req_id)
@@ -471,7 +534,7 @@ class IbSessionTws:
         requests = []
 
         for cd in contract.contract_details:
-            req_id = next_unique_id()
+            req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "HistoricalNews", cd.contract,
                                      f"provider_codes={provider_codes} start={start} end={end} total_results={total_results}")
             self._client.reqHistoricalNews(reqId=req_id, conId=cd.contract.conId, providerCodes=pc,
@@ -497,7 +560,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = next_unique_id()
+        req_id = self._client.request_id_manager.next_id()
         self._client.log_request(req_id, "NewsArticle", None, f"provider_code={provider_code} article_id={article_id}")
         self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
@@ -550,7 +613,7 @@ class IbSessionTws:
         requests = []
 
         for cd in contract.contract_details:
-            req_id = next_unique_id()
+            req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "MarketData", cd.contract,
                                      f"generic_tick_types={generic_tick_types} snapshot={snapshot} regulatory_snapshot={regulatory_snapshot}")
             self._client.reqMktData(reqId=req_id, contract=cd.contract,
@@ -602,7 +665,7 @@ class IbSessionTws:
         requests = []
 
         for cd in contract.contract_details:
-            req_id = next_unique_id()
+            req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "HistoricalData", cd.contract,
                                      f"end={end} duration={duration} bar_size={bar_size} bar_type={bar_type} market_data_type={market_data_type} keep_up_to_date={keep_up_to_date}")
             self._client.reqHistoricalData(reqId=req_id, contract=cd.contract,
@@ -641,7 +704,7 @@ class IbSessionTws:
             raise Exception(f"Unsupported bar type: {bar_type}")
 
         for cd in contract.contract_details:
-            req_id = next_unique_id()
+            req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "RealTimeBars", cd.contract,
                                      f"bar_type={bar_type} bar_size={bar_size} market_data_type={market_data_type}")
             self._client.reqRealTimeBars(reqId=req_id, contract=cd.contract, barSize=bar_size,
@@ -689,7 +752,7 @@ class IbSessionTws:
         requests = []
 
         for cd in contract.contract_details:
-            req_id = next_unique_id()
+            req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "TickByTickData", cd.contract,
                                      f"tick_type={tick_type} number_of_ticks={number_of_ticks} ignore_size={ignore_size}")
             self._client.reqTickByTickData(reqId=req_id, contract=cd.contract,
@@ -747,7 +810,7 @@ class IbSessionTws:
             raise Exception(f"Unsupported tick data type: {tick_type}")
 
         for cd in contract.contract_details:
-            req_id = next_unique_id()
+            req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "HistoricalTicks", cd.contract,
                                      f"start={start} end={end} tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
             self._client.reqHistoricalTicks(reqId=req_id, contract=cd.contract,
