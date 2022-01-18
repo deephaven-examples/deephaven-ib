@@ -5,7 +5,7 @@ import time
 import types
 from functools import wraps
 from threading import Thread
-from typing import Set, Union
+from typing import Set
 
 from ibapi import news
 from ibapi.client import EClient
@@ -375,7 +375,7 @@ class IbTwsClient(EWrapper, EClient):
         self.reqNewsBulletins(allMsgs=True)
         req_id = self.request_id_manager.next_id()
         self.log_request(req_id, "Executions", None, None)
-        self.reqExecutions(reqId=self.request_id_manager.next_id(), execFilter=ExecutionFilter())
+        self.reqExecutions(reqId=req_id, execFilter=ExecutionFilter())
         self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
         self.reqAllOpenOrders()
