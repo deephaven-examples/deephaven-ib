@@ -406,7 +406,8 @@ class IbSessionTws:
             "news_historical": tables_raw["raw_news_historical"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "ContractId,SecType,Symbol,LocalSymbol") \
                 .moveColumnsUp("RequestId", "Timestamp", "ContractId", "SecType", "Symbol", "LocalSymbol"),
-            "orders_completed": tables_raw["raw_orders_completed"],
+            "orders_completed": tables_raw["raw_orders_completed"] \
+                .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
             "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
             "orders_exec_details": tables_raw["raw_orders_exec_details"].moveColumnsUp("RequestId", "ExecId",
                                                                                        "Timestamp", "AcctNumber"),

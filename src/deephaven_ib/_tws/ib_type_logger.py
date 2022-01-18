@@ -73,6 +73,13 @@ logger_family_code = IbComplexTypeLogger("FamilyCode", _details_family_code())
 
 def _details_contract() -> List[Tuple]:
     """ Details for logging Contract. """
+
+    def map_right(right: str) -> Union[str, None]:
+        if right == "?":
+            return None
+
+        return right
+
     return [
         ("ContractId", dht.int32, lambda contract: contract.conId),
         ("SecId", dht.string, lambda contract: contract.secId),
@@ -86,7 +93,7 @@ def _details_contract() -> List[Tuple]:
         ("PrimaryExchange", dht.string, lambda contract: contract.primaryExchange),
         ("LastTradeDateOrContractMonth", dht.string, lambda contract: contract.lastTradeDateOrContractMonth),
         ("Strike", dht.float64, lambda contract: float(contract.strike)),
-        ("Right", dht.string, lambda contract: contract.right),
+        ("Right", dht.string, lambda contract: map_right(contract.right)),
         ("Multiplier", dht.string, lambda contract: contract.multiplier),
 
         # combos
