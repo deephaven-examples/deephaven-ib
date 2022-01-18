@@ -12,7 +12,7 @@ class RequestIdManager:
 
     def __init__(self):
         self._lock = LoggingLock("RequestManager")
-        self._id = 1
+        self._id = 0
 
     def next_id(self) -> int:
         """Gets the next sequential ID for a generic request."""

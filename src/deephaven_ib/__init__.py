@@ -396,8 +396,9 @@ class IbSessionTws:
                 .dropColumns("Note") \
                 .lastBy("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
-                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
-                .moveColumnsUp("RequestId", "Note"),
+                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Pattern=Note") \
+                .moveColumnsUp("RequestId", "Pattern") \
+                .update("Pattern=(String)__deephaven_ib_parse_note.apply(new String[]{Pattern,`pattern`})"),
             "market_rules": tables_raw["raw_market_rules"].selectDistinct("MarketRuleId", "LowEdge", "Increment"),
             "news_bulletins": tables_raw["raw_news_bulletins"],
             "news_providers": tables_raw["raw_news_providers"],
@@ -407,7 +408,8 @@ class IbSessionTws:
                 .moveColumnsUp("RequestId", "Timestamp", "ContractId", "SecType", "Symbol", "LocalSymbol"),
             "orders_completed": tables_raw["raw_orders_completed"],
             "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
-            "orders_exec_details": tables_raw["raw_orders_exec_details"],
+            "orders_exec_details": tables_raw["raw_orders_exec_details"].moveColumnsUp("RequestId", "ExecId",
+                                                                                       "Timestamp", "AcctNumber"),
             "orders_open": tables_raw["raw_orders_open"] \
                 .lastBy("PermId") \
                 .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
