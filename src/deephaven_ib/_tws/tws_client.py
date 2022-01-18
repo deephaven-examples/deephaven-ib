@@ -369,7 +369,7 @@ class IbTwsClient(EWrapper, EClient):
         self.reqManagedAccts()
         req_id = self.request_id_manager.next_id()
         tags = ",".join(account_summary_tags)
-        self.log_request(req_id, "AccountSummary", None, f"groupName='All' tags={tags}")
+        self.log_request(req_id, "AccountSummary", None, f"groupName='All' tags='{tags}'")
         self.reqAccountSummary(reqId=req_id, groupName="All", tags=tags)
         self.reqPositions()
         self.reqNewsBulletins(allMsgs=True)

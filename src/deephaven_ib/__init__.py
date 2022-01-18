@@ -177,6 +177,9 @@ class Duration:
     def years(value: int):
         return Duration(f"{value} Y")
 
+    def __str__(self) -> str:
+        return f"Duration('{self.value}')"
+
 
 class Request:
     """ IB session request. """
@@ -468,7 +471,7 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = self._client.request_id_manager.next_id()
-        self._client.log_request(req_id, "MatchingSymbols", None, f"pattern={pattern}")
+        self._client.log_request(req_id, "MatchingSymbols", None, f"pattern='{pattern}'")
         self._client.reqMatchingSymbols(reqId=req_id, pattern=pattern)
         return Request(request_id=req_id)
 
@@ -536,7 +539,7 @@ class IbSessionTws:
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "HistoricalNews", cd.contract,
-                                     f"provider_codes={provider_codes} start={start} end={end} total_results={total_results}")
+                                     f"provider_codes='{provider_codes}' start='{start}' end='{end}' total_results={total_results}")
             self._client.reqHistoricalNews(reqId=req_id, conId=cd.contract.conId, providerCodes=pc,
                                            startDateTime=dh_to_ib_datetime(start, sub_sec=False),
                                            endDateTime=dh_to_ib_datetime(end, sub_sec=False),
@@ -561,7 +564,8 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = self._client.request_id_manager.next_id()
-        self._client.log_request(req_id, "NewsArticle", None, f"provider_code={provider_code} article_id={article_id}")
+        self._client.log_request(req_id, "NewsArticle", None,
+                                 f"provider_code='{provider_code}' article_id='{article_id}'")
         self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
                                     newsArticleOptions=[])
         return Request(request_id=req_id)
@@ -667,7 +671,7 @@ class IbSessionTws:
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "HistoricalData", cd.contract,
-                                     f"end={end} duration={duration} bar_size={bar_size} bar_type={bar_type} market_data_type={market_data_type} keep_up_to_date={keep_up_to_date}")
+                                     f"end='{end}' duration='{duration}' bar_size={bar_size} bar_type={bar_type} market_data_type={market_data_type} keep_up_to_date={keep_up_to_date}")
             self._client.reqHistoricalData(reqId=req_id, contract=cd.contract,
                                            endDateTime=dh_to_ib_datetime(end, sub_sec=False),
                                            durationStr=duration.value, barSizeSetting=bar_size.value,
@@ -812,7 +816,7 @@ class IbSessionTws:
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
             self._client.log_request(req_id, "HistoricalTicks", cd.contract,
-                                     f"start={start} end={end} tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
+                                     f"start='{start}' end='{end}' tick_type={tick_type} number_of_ticks={number_of_ticks} market_data_type={market_data_type} ignore_size={ignore_size}")
             self._client.reqHistoricalTicks(reqId=req_id, contract=cd.contract,
                                             startDateTime=dh_to_ib_datetime(start, sub_sec=False),
                                             endDateTime=dh_to_ib_datetime(end, sub_sec=False),
@@ -844,7 +848,7 @@ class IbSessionTws:
 
         req_id = self._client.next_order_id()
         cd = contract.contract_details[0]
-        self._client.log_request(req_id, "PlaceOrder", cd.contract, f"order={order}")
+        self._client.log_request(req_id, "PlaceOrder", cd.contract, f"order=Order({order})")
         self._client.placeOrder(req_id, cd.contract, order)
         return Request(request_id=req_id, cancel_func=self.order_cancel)
 
