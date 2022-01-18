@@ -1,5 +1,6 @@
 """An IB TWS client that produces Deephaven tables."""
 
+import html
 import time
 import types
 from functools import wraps
@@ -568,7 +569,7 @@ class IbTwsClient(EWrapper, EClient):
     def newsArticle(self, requestId: int, articleType: int, articleText: str):
         EWrapper.newsArticle(self, requestId, articleType, articleText)
         at = map_values(articleType, {0: "PlainTextOrHtml", 1: "BinaryDataOrPdf"})
-        self._table_writers["news_articles"].write_row([requestId, at, articleText])
+        self._table_writers["news_articles"].write_row([requestId, at, html.unescape(articleText)])
 
     ####
     # reqHistoricalNews
