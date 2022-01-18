@@ -172,15 +172,21 @@ logger_price_increment = IbComplexTypeLogger("PriceIncrement", _details_price_in
 def _details_bar_data() -> List[Tuple]:
     """ Details for logging BarData. """
 
+    def map_null(val):
+        if val <= 0:
+            return None
+
+        return val
+
     return [
         ("Timestamp", dht.datetime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
         ("Open", dht.float64, lambda bd: bd.open),
         ("High", dht.float64, lambda bd: bd.high),
         ("Low", dht.float64, lambda bd: bd.low),
         ("Close", dht.float64, lambda bd: bd.close),
-        ("Volume", dht.int32, lambda bd: bd.volume),
-        ("BarCount", dht.int32, lambda bd: bd.barCount),
-        ("Average", dht.float64, lambda bd: bd.average),
+        ("Volume", dht.int32, lambda bd: map_null(bd.volume)),
+        ("BarCount", dht.int32, lambda bd: map_null(bd.barCount)),
+        ("Average", dht.float64, lambda bd: map_null(bd.average)),
     ]
 
 

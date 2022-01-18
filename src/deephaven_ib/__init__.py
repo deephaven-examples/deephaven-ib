@@ -364,7 +364,12 @@ class IbSessionTws:
 
             requests_col_names = requests.getDefinition().getColumnNamesArray()
 
-            return t.naturalJoin(requests, "RequestId").moveColumnsUp(requests_col_names)
+            rst = t.naturalJoin(requests, "RequestId").moveColumnsUp(requests_col_names)
+
+            if "Timestamp" in rst.getDefinition().getColumnNamesArray():
+                rst = rst.moveColumnsUp("RequestId", "Timestamp")
+
+            return rst
 
         return {
             "requests": tables_raw["raw_requests"],
@@ -676,8 +681,7 @@ class IbSessionTws:
                                            endDateTime=dh_to_ib_datetime(end, sub_sec=False),
                                            durationStr=duration.value, barSizeSetting=bar_size.value,
                                            whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
-                                           formatDate=2,
-                                           keepUpToDate=keep_up_to_date, chartOptions=[])
+                                           formatDate=2, keepUpToDate=keep_up_to_date, chartOptions=[])
             requests.append(Request(request_id=req_id))
 
         return requests
