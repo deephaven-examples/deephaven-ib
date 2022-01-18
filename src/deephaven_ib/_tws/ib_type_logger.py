@@ -1,6 +1,7 @@
 """Functionality for logging IB types to Deephaven tables."""
 
-from typing import Any, List, Tuple, Dict, Callable
+import sys
+from typing import Any, List, Tuple, Dict, Callable, Union
 
 # noinspection PyPep8Naming
 from deephaven import Types as dht
@@ -565,19 +566,30 @@ logger_execution = IbComplexTypeLogger("Execution", _details_execution())
 def _details_commission_report() -> List[Tuple]:
     """ Details for logging CommissionReport. """
 
-    def format_yield_redemption_date(date: int) -> str:
+    def format_yield_redemption_date(date: int) -> Union[str, None]:
+        if date == 0:
+            return None
+
         # YYYYMMDD format
         d = date % 100
         m = int((date / 100) % 100)
         y = int(date / 10000)
         return f"{y:04}-{m:02}-{d:02}"
 
+    def map_null_value(value: float) -> Union[float, None]:
+
+        if value == sys.float_info.max:
+            return None
+
+        return value
+
+
     return [
         ("ExecId", dht.string, lambda cr: cr.execId),
         ("Commission", dht.float64, lambda cr: cr.commission),
         ("Currency", dht.string, lambda cr: cr.currency),
-        ("RealizedPNL", dht.float64, lambda cr: cr.realizedPNL),
-        ("Yield", dht.float64, lambda cr: cr.yield_),
+        ("RealizedPNL", dht.float64, lambda cr: map_null_value(cr.realizedPNL)),
+        ("Yield", dht.float64, lambda cr: map_null_value(cr.yield_)),
         ("YieldRedemptionDate", dht.string, lambda cr: format_yield_redemption_date(cr.yieldRedemptionDate)),
     ]
 
