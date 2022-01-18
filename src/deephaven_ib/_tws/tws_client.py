@@ -577,9 +577,17 @@ class IbTwsClient(EWrapper, EClient):
 
     def historicalNews(self, requestId: int, timestamp: str, providerCode: str, articleId: str, headline: str):
         EWrapper.historicalNews(self, requestId, timestamp, providerCode, articleId, headline)
+
+        h = headline.split("}", 1)
+
+        if len(h) == 1:
+            headline_clean = h[0]
+        else:
+            headline_clean = h[1]
+
         self._table_writers["news_historical"].write_row(
             [requestId, ib_to_dh_datetime(timestamp), providerCode, articleId,
-             headline])
+             headline_clean])
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
         # do not need to implement
