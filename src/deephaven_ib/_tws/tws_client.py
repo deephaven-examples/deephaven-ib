@@ -69,6 +69,7 @@ class IbTwsClient(EWrapper, EClient):
     _registered_market_rules: Set[str]
     _realtime_bar_sizes: Dict[TickerId, int]
     news_providers: List[str]
+    _accounts_managed: Set[str]
 
     def __init__(self, download_short_rates=True):
         EWrapper.__init__(self)
@@ -81,6 +82,7 @@ class IbTwsClient(EWrapper, EClient):
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
         self.news_providers = None
+        self._accounts_managed = None
 
         tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
 
@@ -337,6 +339,7 @@ class IbTwsClient(EWrapper, EClient):
         self._registered_market_rules = None
         self._realtime_bar_sizes = None
         self.news_providers = None
+        self._accounts_managed = None
 
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
@@ -346,9 +349,11 @@ class IbTwsClient(EWrapper, EClient):
         self._registered_market_rules = set()
         self._realtime_bar_sizes = {}
         self.news_providers = []
+        self._accounts_managed = set()
 
         self.reqManagedAccts()
         self.request_account_summary("All")
+        self.request_account_pnl("All")
         self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
         self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
         self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
@@ -491,6 +496,26 @@ class IbTwsClient(EWrapper, EClient):
         self.log_request(req_id, "AccountSummary", None, f"groupName='{group_name}' tags='{tags}'")
         self.reqAccountSummary(reqId=req_id, groupName=group_name, tags=tags)
 
+    def request_account_pnl(self, account: str, model_code: str = "") -> int:
+        """Request PNL updates.  Results are returned in the `accounts_pnl` table.
+
+        Args:
+            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
+            model_code (str): Model used to evaluate PNL.
+
+        Returns:
+            Request ID
+
+        Raises:
+              Exception
+        """
+
+        req_id = self.request_id_manager.next_id()
+        self.log_request(req_id, "Pnl", None, f"account='{account}' model_code='{model_code}'")
+        self.reqPnL(reqId=req_id, account=account, modelCode=model_code)
+        return req_id
+
+
     ####
     # reqManagedAccts
     ####
@@ -498,9 +523,19 @@ class IbTwsClient(EWrapper, EClient):
     def managedAccounts(self, accountsList: str):
         EWrapper.managedAccounts(self, accountsList)
 
+        print(f">>>>> MANAGED ACCOUNTS: {self._accounts_managed is None} {accountsList}")
+
+        # TODO: this seems to be resulting because initialization happens after connect, in subscribe
+        # TODO: there are other related cases where None values are filtered out.
+        # Get a call before the class is initialized, followed by a call after the class is initialized.
+        if self._accounts_managed is None:
+            return
+
         for account in accountsList.split(","):
-            if account:
+            if account and account not in self._accounts_managed:
+                self._accounts_managed.add(account)
                 self._table_writers["accounts_managed"].write_row([account])
+                self.request_account_pnl(account)
                 self.reqAccountUpdates(subscribe=True, acctCode=account)
 
     ####

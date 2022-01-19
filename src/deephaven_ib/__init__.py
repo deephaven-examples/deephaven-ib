@@ -503,7 +503,6 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO request by default when pull accounts?
     def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
         """Request PNL updates.  Results are returned in the `accounts_pnl` table.
 
@@ -519,9 +518,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        req_id = self._client.request_id_manager.next_id()
-        self._client.log_request(req_id, "Pnl", None, f"account='{account}' model_code='{model_code}'")
-        self._client.reqPnL(reqId=req_id, account=account, modelCode=model_code)
+        req_id = self._client.request_account_pnl(account, model_code)
         return Request(request_id=req_id)
 
     ####################################################################################################################
