@@ -1,8 +1,10 @@
 """An IB TWS client that produces Deephaven tables."""
 
 import html
+import logging
 import time
 import types
+import xml.etree.ElementTree as ET
 from functools import wraps
 from threading import Thread
 from typing import Set
@@ -136,6 +138,18 @@ class IbTwsClient(EWrapper, EClient):
         table_writers["accounts_family_codes"] = TableWriter(
             [*logger_family_code.names()],
             [*logger_family_code.types()])
+
+        table_writers["accounts_groups"] = TableWriter(
+            ["GroupName", "DefaultMethod", "Account"],
+            [dht.string, dht.string, dht.string])
+
+        table_writers["accounts_allocation_profiles"] = TableWriter(
+            ["AllocationProfileName", "Type", "Account", "Amount"],
+            [dht.string, dht.string, dht.string, dht.float64])
+
+        table_writers["accounts_aliases"] = TableWriter(
+            ["Account", "Alias"],
+            [dht.string, dht.string])
 
         table_writers["accounts_value"] = TableWriter(
             ["Account", "Currency", "Key", "Value"],
@@ -332,45 +346,11 @@ class IbTwsClient(EWrapper, EClient):
         self._realtime_bar_sizes = {}
         self.news_providers = []
 
-        account_summary_tags = [
-            "accountountType",
-            "NetLiquidation",
-            "TotalCashValue",
-            "SettledCash",
-            "TotalCashValue",
-            "AccruedCash",
-            "BuyingPower",
-            "EquityWithLoanValue",
-            "PreviousDayEquityWithLoanValue",
-            "GrossPositionValue",
-            "RegTEquity",
-            "RegTMargin",
-            "SMA",
-            "InitMarginReq",
-            "MaintMarginReq",
-            "AvailableFunds",
-            "ExcessLiquidity",
-            "Cushion",
-            "FullInitMarginReq",
-            "FullMaintMarginReq",
-            "FullAvailableFunds",
-            "FullExcessLiquidity",
-            "LookAheadNextChange",
-            "LookAheadInitMarginReq",
-            "LookAheadMaintMarginReq",
-            "LookAheadAvailableFunds",
-            "LookAheadExcessLiquidity",
-            "HighestSeverity",
-            "DayTradesRemaining",
-            "Leverage",
-            "$LEDGER",
-        ]
-
         self.reqManagedAccts()
-        req_id = self.request_id_manager.next_id()
-        tags = ",".join(account_summary_tags)
-        self.log_request(req_id, "AccountSummary", None, f"groupName='All' tags='{tags}'")
-        self.reqAccountSummary(reqId=req_id, groupName="All", tags=tags)
+        self.request_account_summary("All")
+        self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
+        self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
+        self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.reqPositions()
         self.reqNewsBulletins(allMsgs=True)
         req_id = self.request_id_manager.next_id()
@@ -467,6 +447,54 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
     ####################################################################################################################
 
+    # TODO: autocall for different groups?
+    # TODO: does this auto update?
+    # TODO: add a default group_name?
+    # TODO: add to UI?
+    # TODO: rename function and table to request_account_group_summary?
+    def request_account_summary(self, group_name: str) -> None:
+        """Request account summary data for an account group."""
+
+        account_summary_tags = [
+            "accountountType",
+            "NetLiquidation",
+            "TotalCashValue",
+            "SettledCash",
+            "TotalCashValue",
+            "AccruedCash",
+            "BuyingPower",
+            "EquityWithLoanValue",
+            "PreviousDayEquityWithLoanValue",
+            "GrossPositionValue",
+            "RegTEquity",
+            "RegTMargin",
+            "SMA",
+            "InitMarginReq",
+            "MaintMarginReq",
+            "AvailableFunds",
+            "ExcessLiquidity",
+            "Cushion",
+            "FullInitMarginReq",
+            "FullMaintMarginReq",
+            "FullAvailableFunds",
+            "FullExcessLiquidity",
+            "LookAheadNextChange",
+            "LookAheadInitMarginReq",
+            "LookAheadMaintMarginReq",
+            "LookAheadAvailableFunds",
+            "LookAheadExcessLiquidity",
+            "HighestSeverity",
+            "DayTradesRemaining",
+            "Leverage",
+            "$LEDGER",
+        ]
+
+        req_id = self.request_id_manager.next_id()
+        tags = ",".join(account_summary_tags)
+        # TODO: make a note data type
+        self.log_request(req_id, "AccountSummary", None, f"groupName='{group_name}' tags='{tags}'")
+        self.reqAccountSummary(reqId=req_id, groupName=group_name, tags=tags)
+
     ####
     # reqManagedAccts
     ####
@@ -488,6 +516,59 @@ class IbTwsClient(EWrapper, EClient):
 
         for fc in familyCodes:
             self._table_writers["accounts_family_codes"].write_row(logger_family_code.vals(fc))
+
+    ####
+    # requestFA
+    ####
+
+    def receiveFA(self, faData: FaDataType, cxml: str):
+        EWrapper.receiveFA(self, faData, cxml)
+
+        fa_data_type = FaDataTypeEnum.to_str(faData)
+        logging.debug(f"RECEIVEFA XML: {faData} {fa_data_type} {cxml}")
+
+        xml_tree = ET.fromstring(cxml)
+
+        if fa_data_type == "GROUPS":
+            if xml_tree.tag != "ListOfGroups":
+                raise Exception(f"Unexpected XML tag: {xml_tree.tag} != ListOfGroups")
+
+            for group in xml_tree.findall("Group"):
+                name = group.find("name").text
+                accounts = group.find("ListOfAccts")
+                default_method = group.find("defaultMethod").text
+
+                for account in accounts.findall("Account"):
+                    account = account.find("acct").text
+                    self._table_writers["accounts_groups"].write_row([name, default_method, account])
+
+        elif fa_data_type == "PROFILES":
+            if xml_tree.tag != "ListOfAllocationProfiles":
+                raise Exception(f"Unexpected XML tag: {xml_tree.tag} != ListOfAllocationProfiles")
+
+            for profile in xml_tree.findall("AllocationProfile"):
+                name = profile.find("name").text
+                type = profile.find("type").text
+                allocations = profile["ListOfAllocations"]
+
+                for allocation in allocations.findall("Allocation"):
+                    acct = allocation.find("acct").text
+                    amount = allocation.find("amount").text
+                    type_names = {1: "Percentages", 2: "Financial Ratios", 3: "Shares"}
+                    self._table_writers["accounts_allocation_profiles"].write_row(
+                        [name, map_values(type, type_names), acct, float(amount)])
+
+        elif fa_data_type == "ALIASES":
+            if xml_tree.tag != "ListOfAccountAliases":
+                raise Exception(f"Unexpected XML tag: {xml_tree.tag} != ListOfAccountAliases")
+
+            for alias in xml_tree.findall("AccountAlias"):
+                account = alias.find("account").text
+                account_alias = alias.find("alias").text
+                self._table_writers["accounts_aliases"].write_row([account, account_alias])
+
+        else:
+            logging.error(f"RECEIVEFA unknown data type: {faData} {fa_data_type} {cxml}")
 
     ####
     # reqAccountUpdates

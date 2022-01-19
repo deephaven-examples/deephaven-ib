@@ -251,6 +251,9 @@ class IbSessionTws:
         ####
         accounts_managed: accounts managed by the TWS session login.  Automatically populated.
         accounts_family_codes: account family.  Automatically populated.
+        accounts_groups: account groups.  Automatically populated.
+        accounts_allocation_profiles: allocation profiles for accounts.  Automatically populated.
+        accounts_aliases: account aliases.  Automatically populated.
         accounts_value: account values.  Automatically populated.
         accounts_portfolio: account holdings.  Automatically populated.
         accounts_summary: account summary.  Automatically populated.
@@ -376,6 +379,9 @@ class IbSessionTws:
             "errors": tables_raw["raw_errors"].naturalJoin(tables_raw["raw_requests"].dropColumns("Note"), "RequestId"),
             "contracts_details": tables_raw["raw_contracts_details"],
             "accounts_family_codes": tables_raw["raw_accounts_family_codes"],
+            "accounts_groups": tables_raw["raw_accounts_groups"],
+            "accounts_allocation_profiles": tables_raw["raw_accounts_allocation_profiles"],
+            "accounts_aliases": tables_raw["raw_accounts_aliases"],
             "accounts_managed": tables_raw["raw_accounts_managed"].selectDistinct("Account"),
             "accounts_portfolio": tables_raw["raw_accounts_portfolio"].lastBy("Account", "ContractId"),
             "accounts_positions": tables_raw["raw_accounts_positions"].lastBy("Account", "ContractId"),
