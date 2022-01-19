@@ -15,6 +15,7 @@ from typing import Union
 
 import jpy
 from deephaven import PythonFunction
+from deephaven.conversion_utils import NULL_DOUBLE
 
 _QueryScope = jpy.get_type("io.deephaven.engine.table.lang.QueryScope")
 
@@ -23,7 +24,7 @@ def __deephaven_ib_float_value(s: str) -> Union[float, None]:
     try:
         return float(s)
     except ValueError:
-        return None
+        return NULL_DOUBLE
 
 
 _QueryScope.addParam("__deephaven_ib_float_value", PythonFunction(__deephaven_ib_float_value, "double"))

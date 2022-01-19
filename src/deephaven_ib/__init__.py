@@ -392,7 +392,8 @@ class IbSessionTws:
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
                 .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
                 .dropColumns("Note").moveColumnsUp("RequestId", "GroupName") \
-                .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"),
+                .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
+                .lastBy("RequestId", "GroupName", "Account", "Tag"),
             "accounts_pnl": tables_raw["raw_accounts_pnl"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
                 .update(

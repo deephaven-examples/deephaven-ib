@@ -4,6 +4,7 @@ import html
 import logging
 import time
 import types
+# noinspection PyPep8Naming
 import xml.etree.ElementTree as ET
 from functools import wraps
 from threading import Thread
@@ -447,11 +448,6 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO: autocall for different groups?
-    # TODO: does this auto update?
-    # TODO: add a default group_name?
-    # TODO: add to UI?
-    # TODO: rename function and table to request_account_group_summary?
     def request_account_summary(self, group_name: str) -> None:
         """Request account summary data for an account group."""
 
@@ -541,6 +537,8 @@ class IbTwsClient(EWrapper, EClient):
                 for account in accounts.findall("Account"):
                     account = account.find("acct").text
                     self._table_writers["accounts_groups"].write_row([name, default_method, account])
+
+                self.request_account_summary(name)
 
         elif fa_data_type == "PROFILES":
             if xml_tree.tag != "ListOfAllocationProfiles":
