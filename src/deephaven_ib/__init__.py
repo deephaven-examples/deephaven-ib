@@ -376,22 +376,28 @@ class IbSessionTws:
 
         return {
             "requests": tables_raw["raw_requests"],
-            "errors": tables_raw["raw_errors"].naturalJoin(tables_raw["raw_requests"].dropColumns("Note"), "RequestId"),
+            "errors": tables_raw["raw_errors"] \
+                .naturalJoin(tables_raw["raw_requests"] \
+                             .dropColumns("Note"), "RequestId"),
             "contracts_details": tables_raw["raw_contracts_details"],
             "accounts_family_codes": tables_raw["raw_accounts_family_codes"],
             "accounts_groups": tables_raw["raw_accounts_groups"],
             "accounts_allocation_profiles": tables_raw["raw_accounts_allocation_profiles"],
             "accounts_aliases": tables_raw["raw_accounts_aliases"],
-            "accounts_managed": tables_raw["raw_accounts_managed"].selectDistinct("Account"),
-            "accounts_portfolio": tables_raw["raw_accounts_portfolio"].lastBy("Account", "ContractId"),
-            "accounts_positions": tables_raw["raw_accounts_positions"].lastBy("Account", "ContractId"),
+            "accounts_managed": tables_raw["raw_accounts_managed"] \
+                .selectDistinct("Account"),
+            "accounts_portfolio": tables_raw["raw_accounts_portfolio"] \
+                .lastBy("Account", "ContractId"),
+            "accounts_positions": tables_raw["raw_accounts_positions"] \
+                .lastBy("Account", "ContractId"),
             "accounts_value": tables_raw["raw_accounts_value"] \
                 .lastBy("Account", "Currency", "Key") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"),
             "accounts_summary": tables_raw["raw_accounts_summary"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
                 .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
-                .dropColumns("Note").moveColumnsUp("RequestId", "GroupName") \
+                .dropColumns("Note") \
+                .moveColumnsUp("RequestId", "GroupName") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
                 .lastBy("RequestId", "GroupName", "Account", "Tag"),
             "accounts_pnl": tables_raw["raw_accounts_pnl"] \
@@ -416,8 +422,8 @@ class IbSessionTws:
             "orders_completed": tables_raw["raw_orders_completed"] \
                 .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
             "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
-            "orders_exec_details": tables_raw["raw_orders_exec_details"].moveColumnsUp("RequestId", "ExecId",
-                                                                                       "Timestamp", "AcctNumber"),
+            "orders_exec_details": tables_raw["raw_orders_exec_details"] \
+                .moveColumnsUp("RequestId", "ExecId", "Timestamp", "AcctNumber"),
             "orders_open": tables_raw["raw_orders_open"] \
                 .lastBy("PermId") \
                 .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
@@ -433,7 +439,8 @@ class IbSessionTws:
             "ticks_price": annotate_ticks(tables_raw["raw_ticks_price"]),
             "ticks_size": annotate_ticks(tables_raw["raw_ticks_size"]),
             "ticks_string": annotate_ticks(tables_raw["raw_ticks_string"]),
-            "ticks_trade": annotate_ticks(tables_raw["raw_ticks_trade"].renameColumns("TradeExchange=Exchange")),
+            "ticks_trade": annotate_ticks(tables_raw["raw_ticks_trade"] \
+                                          .renameColumns("TradeExchange=Exchange")),
         }
 
 
