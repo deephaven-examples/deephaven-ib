@@ -68,9 +68,11 @@ class OrderIdEventQueue:
         """Adds a new value to the queue."""
 
         with self._lock:
-            self._values.append(value)
-            event = self._events.pop(0)
-            event.set()
+            # if is to filter out values requested by ibapi during initialization
+            if self._events:
+                self._values.append(value)
+                event = self._events.pop(0)
+                event.set()
 
     def _get(self) -> int:
         """Gets a value from the queue."""

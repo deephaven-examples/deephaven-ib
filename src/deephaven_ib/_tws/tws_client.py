@@ -308,6 +308,13 @@ class IbTwsClient(EWrapper, EClient):
         if self.isConnected():
             raise Exception("IbTwsClient is already connected.")
 
+        self.contract_registry = ContractRegistry(self)
+        self.order_id_queue = OrderIdEventQueue(self)
+        self._registered_market_rules = set()
+        self._realtime_bar_sizes = {}
+        self.news_providers = []
+        self._accounts_managed = set()
+
         EClient.connect(self, host, port, client_id)
 
         # wait for the client to connect to avoid a race condition
@@ -341,15 +348,11 @@ class IbTwsClient(EWrapper, EClient):
         self.news_providers = None
         self._accounts_managed = None
 
+    def __del__(self):
+        self.disconnect()
+
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
-
-        self.contract_registry = ContractRegistry(self)
-        self.order_id_queue = OrderIdEventQueue(self)
-        self._registered_market_rules = set()
-        self._realtime_bar_sizes = {}
-        self.news_providers = []
-        self._accounts_managed = set()
 
         self.reqManagedAccts()
         self.request_account_summary("All")
@@ -387,7 +390,8 @@ class IbTwsClient(EWrapper, EClient):
             [reqId, errorCode, map_values(errorCode, _error_code_message_map), errorString,
              map_values(errorCode, _error_code_note_map)])
 
-        if self.contract_registry:
+        # error may get called after disconnect, so need to avoid cases where contract_registry is None
+        if self.isConnected():
             self.contract_registry.add_error_data(req_id=reqId, error_string=errorString)
 
     ####################################################################################################################
@@ -523,14 +527,6 @@ class IbTwsClient(EWrapper, EClient):
     def managedAccounts(self, accountsList: str):
         EWrapper.managedAccounts(self, accountsList)
 
-        print(f">>>>> MANAGED ACCOUNTS: {self._accounts_managed is None} {accountsList}")
-
-        # TODO: this seems to be resulting because initialization happens after connect, in subscribe
-        # TODO: there are other related cases where None values are filtered out.
-        # Get a call before the class is initialized, followed by a call after the class is initialized.
-        if self._accounts_managed is None:
-            return
-
         for account in accountsList.split(","):
             if account and account not in self._accounts_managed:
                 self._accounts_managed.add(account)
@@ -621,8 +617,7 @@ class IbTwsClient(EWrapper, EClient):
                                                              marketPrice, marketValue, averageCost, unrealizedPNL,
                                                              realizedPNL])
 
-        if self.contract_registry:
-            self.contract_registry.request_contract_details_nonblocking(contract)
+        self.contract_registry.request_contract_details_nonblocking(contract)
 
     ####
     # reqAccountSummary
@@ -862,9 +857,7 @@ class IbTwsClient(EWrapper, EClient):
 
     def nextValidId(self, orderId: int):
         EWrapper.nextValidId(self, orderId)
-
-        if self.order_id_queue:
-            self.order_id_queue.add_value(orderId)
+        self.order_id_queue.add_value(orderId)
 
     ####
     # reqAllOpenOrders
@@ -878,9 +871,7 @@ class IbTwsClient(EWrapper, EClient):
 
         self._table_writers["orders_open"].write_row(
             [*logger_contract.vals(contract), *logger_order.vals(order), *logger_order_state.vals(orderState)])
-
-        if self.contract_registry:
-            self.contract_registry.request_contract_details_nonblocking(contract)
+        self.contract_registry.request_contract_details_nonblocking(contract)
 
     def orderStatus(self, orderId: OrderId, status: str, filled: float,
                     remaining: float, avgFillPrice: float, permId: int,
