@@ -21,6 +21,9 @@ _QueryScope = jpy.get_type("io.deephaven.engine.table.lang.QueryScope")
 
 
 def __deephaven_ib_float_value(s: str) -> Union[float, None]:
+    if not s:
+        return NULL_DOUBLE
+
     try:
         return float(s)
     except ValueError:

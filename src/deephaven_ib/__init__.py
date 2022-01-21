@@ -253,9 +253,8 @@ class IbSessionTws:
         accounts_family_codes: account family.  Automatically populated.
         accounts_groups: account groups.  Automatically populated.
         accounts_allocation_profiles: allocation profiles for accounts.  Automatically populated.
-        accounts_aliases: account aliases.  Automatically populated.
         accounts_value: account values.  Automatically populated.
-        accounts_portfolio: account holdings.  Automatically populated.
+        accounts_overview: overview of account details.  Automatically populated.
         accounts_summary: account summary.  Automatically populated.
         accounts_positions: account positions.  Automatically populated.
         accounts_pnl: account PNL requested via 'request_account_pnl'.
@@ -386,12 +385,10 @@ class IbSessionTws:
             "accounts_aliases": tables_raw["raw_accounts_aliases"],
             "accounts_managed": tables_raw["raw_accounts_managed"] \
                 .selectDistinct("Account"),
-            "accounts_portfolio": tables_raw["raw_accounts_portfolio"] \
-                .lastBy("Account", "ContractId"),
             "accounts_positions": tables_raw["raw_accounts_positions"] \
                 .lastBy("Account", "ContractId"),
-            "accounts_value": tables_raw["raw_accounts_value"] \
-                .lastBy("Account", "Currency", "Key") \
+            "accounts_overview": tables_raw["raw_accounts_overview"] \
+                .lastBy("RequestId", "Account", "Currency", "Key") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"),
             "accounts_summary": tables_raw["raw_accounts_summary"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
@@ -503,6 +500,7 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
+    # TODO: remove from api or add request_account_overview
     def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
         """Request PNL updates.  Results are returned in the `accounts_pnl` table.
 
@@ -864,10 +862,16 @@ class IbSessionTws:
             raise Exception(
                 f"RegisteredContracts with multiple contract details are not supported for orders: {contract}")
 
+        # TODO: remove debug statements
+        print(f"DEBUG %%%%% place order 1")
         req_id = self._client.next_order_id()
+        print(f"DEBUG %%%%% place order 2")
         cd = contract.contract_details[0]
+        print(f"DEBUG %%%%% place order 3")
         self._client.log_request(req_id, "PlaceOrder", cd.contract, f"order=Order({order})")
+        print(f"DEBUG %%%%% place order 4")
         self._client.placeOrder(req_id, cd.contract, order)
+        print(f"DEBUG %%%%% place order 5")
         return Request(request_id=req_id, cancel_func=self.order_cancel)
 
     def order_cancel(self, order_id: int) -> None:
@@ -890,5 +894,6 @@ class IbSessionTws:
         self._assert_connected()
         self._client.reqGlobalCancel()
 
+    #TODO: see reqPositionsMulti!!!
     # TODO: (don't do)     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
     # TODO: (don't do)     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)

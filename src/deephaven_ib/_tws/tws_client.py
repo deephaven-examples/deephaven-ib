@@ -154,15 +154,9 @@ class IbTwsClient(EWrapper, EClient):
             ["Account", "Alias"],
             [dht.string, dht.string])
 
-        table_writers["accounts_value"] = TableWriter(
-            ["Account", "Currency", "Key", "Value"],
-            [dht.string, dht.string, dht.string, dht.string])
-
-        table_writers["accounts_portfolio"] = TableWriter(
-            ["Account", *logger_contract.names(), "Position", "MarketPrice", "MarketValue", "AvgCost",
-             "UnrealizedPnl", "RealizedPnl"],
-            [dht.string, *logger_contract.types(), dht.float64, dht.float64, dht.float64, dht.float64,
-             dht.float64, dht.float64])
+        table_writers["accounts_overview"] = TableWriter(
+            ["RequestId", "Account", "ModelCode", "Currency", "Key", "Value"],
+            [dht.int32, dht.string, dht.string, dht.string, dht.string, dht.string])
 
         table_writers["accounts_summary"] = TableWriter(
             ["RequestId", "Account", "Tag", "Value", "Currency"],
@@ -357,6 +351,7 @@ class IbTwsClient(EWrapper, EClient):
         self.reqManagedAccts()
         self.request_account_summary("All")
         self.request_account_pnl("All")
+        self.request_account_overview("All")
         self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
         self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
         self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
@@ -519,6 +514,24 @@ class IbTwsClient(EWrapper, EClient):
         self.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return req_id
 
+    def request_account_overview(self, account: str, model_code: str = "") -> int:
+        """Request portfolio overview updates.  Results are returned in the `accounts_overview` table.
+
+        Args:
+            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
+            model_code (str): Model used to evaluate PNL.
+
+        Returns:
+            Request ID
+
+        Raises:
+              Exception
+        """
+        req_id = self.request_id_manager.next_id()
+        self.log_request(req_id, "AccountOverview", None, f"account='{account}' model_code='{model_code}'")
+        self.reqAccountUpdatesMulti(reqId=req_id, account=account, modelCode=model_code, ledgerAndNLV=False)
+        return req_id
+
 
     ####
     # reqManagedAccts
@@ -532,7 +545,7 @@ class IbTwsClient(EWrapper, EClient):
                 self._accounts_managed.add(account)
                 self._table_writers["accounts_managed"].write_row([account])
                 self.request_account_pnl(account)
-                self.reqAccountUpdates(subscribe=True, acctCode=account)
+                self.request_account_overview(account)
 
     ####
     # reqFamilyCodes
@@ -603,21 +616,19 @@ class IbTwsClient(EWrapper, EClient):
     # reqAccountUpdates
     ####
 
-    def updateAccountValue(self, key: str, val: str, currency: str, accountName: str):
-        EWrapper.updateAccountValue(self, key, val, currency, accountName)
-        self._table_writers["accounts_value"].write_row([accountName, currency, key, val])
+    # NOT NEEDED. reqAccountUpdatesMulti is used instead.
 
-    def updatePortfolio(self, contract: Contract, position: float,
-                        marketPrice: float, marketValue: float,
-                        averageCost: float, unrealizedPNL: float,
-                        realizedPNL: float, accountName: str):
-        EWrapper.updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL,
-                                 realizedPNL, accountName)
-        self._table_writers["accounts_portfolio"].write_row([accountName, *logger_contract.vals(contract), position,
-                                                             marketPrice, marketValue, averageCost, unrealizedPNL,
-                                                             realizedPNL])
+    ####
+    # reqAccountUpdatesMulti
+    ####
 
-        self.contract_registry.request_contract_details_nonblocking(contract)
+    def accountUpdateMulti(self, reqId: int, account: str, modelCode: str, key: str, value: str, currency: str):
+        EWrapper.accountUpdateMulti(self, reqId, account, modelCode, key, value, currency)
+        self._table_writers["accounts_overview"].write_row([reqId, account, modelCode, currency, key, value])
+
+    def accountUpdateMultiEnd(self, reqId: int):
+        # do not need to implement
+        EWrapper.accountUpdateMultiEnd(self, reqId)
 
     ####
     # reqAccountSummary
