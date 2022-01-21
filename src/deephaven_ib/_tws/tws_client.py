@@ -163,8 +163,8 @@ class IbTwsClient(EWrapper, EClient):
             [dht.int32, dht.string, dht.string, dht.string, dht.string])
 
         table_writers["accounts_positions"] = TableWriter(
-            ["Account", *logger_contract.names(), "Position", "AvgCost"],
-            [dht.string, *logger_contract.types(), dht.float64, dht.float64])
+            ["RequestId", "Account", "ModelCode", *logger_contract.names(), "Position", "AvgCost"],
+            [dht.int32, dht.string, dht.string, *logger_contract.types(), dht.float64, dht.float64])
 
         table_writers["accounts_pnl"] = TableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
@@ -348,14 +348,14 @@ class IbTwsClient(EWrapper, EClient):
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
 
-        self.reqManagedAccts()
         self.request_account_summary("All")
         self.request_account_pnl("All")
         self.request_account_overview("All")
+        self.request_account_positions("All")
         self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
         self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
         self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
-        self.reqPositions()
+        self.reqManagedAccts()
         self.reqNewsBulletins(allMsgs=True)
         req_id = self.request_id_manager.next_id()
         self.log_request(req_id, "Executions", None, None)
@@ -499,8 +499,8 @@ class IbTwsClient(EWrapper, EClient):
         """Request PNL updates.  Results are returned in the `accounts_pnl` table.
 
         Args:
-            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
-            model_code (str): Model used to evaluate PNL.
+            account (str): Account to request PNL for.  "All" requests for all accounts.
+            model_code (str): Model portfolio code to request PNL for.
 
         Returns:
             Request ID
@@ -518,8 +518,8 @@ class IbTwsClient(EWrapper, EClient):
         """Request portfolio overview updates.  Results are returned in the `accounts_overview` table.
 
         Args:
-            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
-            model_code (str): Model used to evaluate PNL.
+            account (str): Account to request an overview for.  "All" requests for all accounts.
+            model_code (str): Model portfolio code to request an overview for.
 
         Returns:
             Request ID
@@ -530,6 +530,24 @@ class IbTwsClient(EWrapper, EClient):
         req_id = self.request_id_manager.next_id()
         self.log_request(req_id, "AccountOverview", None, f"account='{account}' model_code='{model_code}'")
         self.reqAccountUpdatesMulti(reqId=req_id, account=account, modelCode=model_code, ledgerAndNLV=False)
+        return req_id
+
+    def request_account_positions(self, account: str, model_code: str = "") -> int:
+        """Request portfolio position updates.  Results are returned in the `accounts_positions` table.
+
+        Args:
+            account (str): Account to request positions for.  "All" requests for all accounts.
+            model_code (str): Model portfolio code to request positions for.
+
+        Returns:
+            Request ID
+
+        Raises:
+              Exception
+        """
+        req_id = self.request_id_manager.next_id()
+        self.log_request(req_id, "AccountPositions", None, f"account='{account}' model_code='{model_code}'")
+        self.reqPositionsMulti(reqId=req_id, account=account, modelCode=model_code)
         return req_id
 
 
@@ -546,6 +564,7 @@ class IbTwsClient(EWrapper, EClient):
                 self._table_writers["accounts_managed"].write_row([account])
                 self.request_account_pnl(account)
                 self.request_account_overview(account)
+                self.request_account_positions(account)
 
     ####
     # reqFamilyCodes
@@ -642,11 +661,21 @@ class IbTwsClient(EWrapper, EClient):
     # reqPositions
     ####
 
-    def position(self, account: str, contract: Contract, position: float, avgCost: float):
-        EWrapper.position(self, account, contract, position, avgCost)
+    # NOT NEEDED. reqAccountUpdatesMulti is used instead.
+
+    ####
+    # reqPositionsMulti
+    ####
+
+    def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: float, avgCost: float):
+        EWrapper.positionMulti(self, reqId, account, modelCode, contract, pos, avgCost)
         self._table_writers["accounts_positions"].write_row(
-            [account, *logger_contract.vals(contract), position, avgCost])
+            [reqId, account, modelCode, *logger_contract.vals(contract), pos, avgCost])
         self.contract_registry.request_contract_details_nonblocking(contract)
+
+    def positionMultiEnd(self, reqId: int):
+        # do not need to implement
+        EWrapper.positionMultiEnd(self, reqId)
 
     ####
     # reqPnL

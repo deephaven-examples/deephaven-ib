@@ -257,7 +257,7 @@ class IbSessionTws:
         accounts_overview: overview of account details.  Automatically populated.
         accounts_summary: account summary.  Automatically populated.
         accounts_positions: account positions.  Automatically populated.
-        accounts_pnl: account PNL requested via 'request_account_pnl'.
+        accounts_pnl: account PNL.  Automatically populated.
 
         ####
         # News
@@ -386,7 +386,7 @@ class IbSessionTws:
             "accounts_managed": tables_raw["raw_accounts_managed"] \
                 .selectDistinct("Account"),
             "accounts_positions": tables_raw["raw_accounts_positions"] \
-                .lastBy("Account", "ContractId"),
+                .lastBy("RequestId", "Account", "ModelCode", "ContractId"),
             "accounts_overview": tables_raw["raw_accounts_overview"] \
                 .lastBy("RequestId", "Account", "Currency", "Key") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"),
@@ -500,13 +500,13 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO: remove from api or add request_account_overview
+    # TODO: remove from api or add request_account_overview and request_account_positions --> can just autosubscribe??
     def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
         """Request PNL updates.  Results are returned in the `accounts_pnl` table.
 
         Args:
-            account (str): Account to request PNL for.  "All" requests PNL for all accounts.
-            model_code (str): Model used to evaluate PNL.
+            account (str): Account to request PNL for.  "All" requests for all accounts.
+            model_code (str): Model portfolio code to request PNL for.
 
         Returns:
             Request
@@ -894,6 +894,4 @@ class IbSessionTws:
         self._assert_connected()
         self._client.reqGlobalCancel()
 
-    #TODO: see reqPositionsMulti!!!
-    # TODO: (don't do)     self._client.reqPositionsMulti() --> req positions by account and model (needed only if >50 sub accounts because reqPositions will not work)
     # TODO: (don't do)     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
