@@ -245,7 +245,7 @@ class IbTwsClient(EWrapper, EClient):
         # Order Management System (OMS)
         ####
 
-        table_writers["orders_open"] = TableWriter(
+        table_writers["orders_submitted"] = TableWriter(
             [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
             [*logger_contract.types(), *logger_order.types(), *logger_order_state.types()])
 
@@ -348,22 +348,25 @@ class IbTwsClient(EWrapper, EClient):
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
 
+        self.reqFamilyCodes()
+        self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
+        self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
+        self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.request_account_summary("All")
         self.request_account_pnl("All")
         self.request_account_overview("All")
         self.request_account_positions("All")
-        self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
-        self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
-        self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.reqManagedAccts()
         self.reqNewsBulletins(allMsgs=True)
+        # TODO: make a function
         req_id = self.request_id_manager.next_id()
         self.log_request(req_id, "Executions", None, None)
         self.reqExecutions(reqId=req_id, execFilter=ExecutionFilter())
         self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
-        self.reqAllOpenOrders()
-        self.reqFamilyCodes()
+        # Just subscribe to orders from the current client id.
+        # When subscribing to all clients, data from other clients does not update.
+        self.reqOpenOrders()
 
     ####################################################################################################################
     ####################################################################################################################
@@ -909,7 +912,7 @@ class IbTwsClient(EWrapper, EClient):
         if orderId != order.orderId:
             raise Exception("Order IDs do not match")
 
-        self._table_writers["orders_open"].write_row(
+        self._table_writers["orders_submitted"].write_row(
             [*logger_contract.vals(contract), *logger_order.vals(order), *logger_order_state.vals(orderState)])
         self.contract_registry.request_contract_details_nonblocking(contract)
 

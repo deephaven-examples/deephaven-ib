@@ -1,5 +1,6 @@
 """An event queue for managing order ID requests."""
 
+import logging
 from threading import Event
 from typing import List, Callable
 from typing import TYPE_CHECKING
@@ -49,7 +50,7 @@ class OrderIdEventQueue:
     def __init__(self, client: 'IbTwsClient'):
         self._events = []
         self._values = []
-        self._lock = LoggingLock("OrderIdEventQueue")
+        self._lock = LoggingLock("OrderIdEventQueue", log_level=logging.ERROR, log_stack=True)
         self._client = client
 
     def request(self) -> OrderIdRequest:

@@ -229,6 +229,9 @@ class RegisteredContract:
 class IbSessionTws:
     # TODO: update tables documentation
     """ IB TWS session.
+
+    NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
+    data manually entered into the TWS session.  For example, orders entered by hand.
     
     Tables:
         ####
@@ -288,7 +291,7 @@ class IbSessionTws:
         # Order Management System (OMS)
         ####
 
-        orders_open: open orders.  Automatically populated.
+        orders_submitted: submitted orders FOR THE THE CLIENT ID.  A client ID of 0 contains manually entered orders.  Automatically populated.
         orders_status: order statuses.  Automatically populated.
         orders_completed: completed orders.  Automatically populated.
         orders_exec_details: order execution details.  Automatically populated.
@@ -421,12 +424,15 @@ class IbSessionTws:
             "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
             "orders_exec_details": tables_raw["raw_orders_exec_details"] \
                 .moveColumnsUp("RequestId", "ExecId", "Timestamp", "AcctNumber"),
-            "orders_open": tables_raw["raw_orders_open"] \
+            # The status on raw_orders_submitted is buggy, so using the status from raw_orders_status
+            "orders_submitted": tables_raw["raw_orders_submitted"] \
                 .lastBy("PermId") \
-                .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
+                .dropColumns("Status") \
+                .naturalJoin(tables_raw["raw_orders_status"].lastBy("PermId"), "PermId", "Status")
+                .moveColumnsUp("Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId", "Status"),
             "orders_status": tables_raw["raw_orders_status"] \
                 .lastBy("PermId") \
-                .moveColumnsUp("OrderId", "ClientId", "PermId", "ParentId"),
+                .moveColumnsUp("PermId", "ClientId", "OrderId", "ParentId"),
             "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
             "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
@@ -894,4 +900,3 @@ class IbSessionTws:
         self._assert_connected()
         self._client.reqGlobalCancel()
 
-    # TODO: (don't do)     self._client.reqOpenOrders() --> reqAllOpenOrders gets orders that were not submitted by this session (needed?)
