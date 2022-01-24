@@ -11,6 +11,7 @@ https://github.com/deephaven/deephaven-core/issues/1072
 # Since python objects can't be inserted into QueryScope, PythonFunctions were created, which are Java objects.
 # PythonFunctions only take a single argument, so the python functions had to be changed to take only one arument.
 
+import json
 from typing import Union
 
 import jpy
@@ -34,24 +35,22 @@ _QueryScope.addParam("__deephaven_ib_float_value", PythonFunction(__deephaven_ib
 
 
 # def __deephaven_ib_parse_note(note:str, key:str) -> Union[str,None]:
-#     for item in note.split():
-#         if item.startswith(f"{key}="):
-#             v = item.split("=")[1]
-#             v = v[1:-1]
-#             if v:
-#                 return v
+#     dict = json.loads(note)
+#
+#     if key in dict:
+#         return dict[key]
+#
 #     return None
 
 def __deephaven_ib_parse_note(inputs) -> Union[str, None]:
     note = inputs[0]
     key = inputs[1]
 
-    for item in note.split():
-        if item.startswith(f"{key}="):
-            v = item.split("=")[1]
-            v = v[1:-1]
-            if v:
-                return v
+    dict = json.loads(note)
+
+    if key in dict:
+        return dict[key]
+
     return None
 
 

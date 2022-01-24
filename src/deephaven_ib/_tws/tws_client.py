@@ -1,6 +1,7 @@
 """An IB TWS client that produces Deephaven tables."""
 
 import html
+import json
 import logging
 import time
 import types
@@ -371,9 +372,16 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
     ####################################################################################################################
 
-    def log_request(self, req_id: int, request_type: str, contract: Union[Contract, None], note: Union[str, None]):
+    def log_request(self, req_id: int, request_type: str, contract: Union[Contract, None],
+                    notes: Union[Dict[str, Any], None]):
         """Log a data request."""
-        self._table_writers["requests"].write_row([req_id, request_type, *logger_contract.vals(contract), note])
+
+        if notes is None:
+            note_string = None
+        else:
+            note_string = json.dumps(dict({k: str(v) for (k, v) in notes.items()}.items()))
+
+        self._table_writers["requests"].write_row([req_id, request_type, *logger_contract.vals(contract), note_string])
 
     ####
     # Always present
@@ -491,8 +499,7 @@ class IbTwsClient(EWrapper, EClient):
 
         req_id = self.request_id_manager.next_id()
         tags = ",".join(account_summary_tags)
-        # TODO: make a note data type
-        self.log_request(req_id, "AccountSummary", None, f"groupName='{group_name}' tags='{tags}'")
+        self.log_request(req_id, "AccountSummary", None, {"groupName": group_name, "tags": tags})
         self.reqAccountSummary(reqId=req_id, groupName=group_name, tags=tags)
 
     def request_account_pnl(self, account: str, model_code: str = "") -> int:
@@ -510,7 +517,7 @@ class IbTwsClient(EWrapper, EClient):
         """
 
         req_id = self.request_id_manager.next_id()
-        self.log_request(req_id, "Pnl", None, f"account='{account}' model_code='{model_code}'")
+        self.log_request(req_id, "Pnl", None, {"account": account, "model_code": model_code})
         self.reqPnL(reqId=req_id, account=account, modelCode=model_code)
         return req_id
 
@@ -528,7 +535,7 @@ class IbTwsClient(EWrapper, EClient):
               Exception
         """
         req_id = self.request_id_manager.next_id()
-        self.log_request(req_id, "AccountOverview", None, f"account='{account}' model_code='{model_code}'")
+        self.log_request(req_id, "AccountOverview", None, {"account": account, "model_code": model_code})
         self.reqAccountUpdatesMulti(reqId=req_id, account=account, modelCode=model_code, ledgerAndNLV=False)
         return req_id
 
@@ -546,7 +553,7 @@ class IbTwsClient(EWrapper, EClient):
               Exception
         """
         req_id = self.request_id_manager.next_id()
-        self.log_request(req_id, "AccountPositions", None, f"account='{account}' model_code='{model_code}'")
+        self.log_request(req_id, "AccountPositions", None, {"account": account, "model_code": model_code})
         self.reqPositionsMulti(reqId=req_id, account=account, modelCode=model_code)
         return req_id
 
@@ -609,7 +616,7 @@ class IbTwsClient(EWrapper, EClient):
 
             for profile in xml_tree.findall("AllocationProfile"):
                 name = profile.find("name").text
-                type = profile.find("type").text
+                ap_type = profile.find("type").text
                 allocations = profile["ListOfAllocations"]
 
                 for allocation in allocations.findall("Allocation"):
@@ -617,7 +624,7 @@ class IbTwsClient(EWrapper, EClient):
                     amount = allocation.find("amount").text
                     type_names = {1: "Percentages", 2: "Financial Ratios", 3: "Shares"}
                     self._table_writers["accounts_allocation_profiles"].write_row(
-                        [name, map_values(type, type_names), acct, float(amount)])
+                        [name, map_values(ap_type, type_names), acct, float(amount)])
 
         elif fa_data_type == "ALIASES":
             if xml_tree.tag != "ListOfAccountAliases":
