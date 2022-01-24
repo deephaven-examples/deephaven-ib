@@ -6,6 +6,17 @@ import threading
 
 from .._internal.trace import trace_str
 
+_lock_id: int = 0
+_lock: threading.Lock = threading.Lock()
+
+
+def _next_lock_id() -> int:
+    global _lock_id
+
+    with _lock:
+        _lock_id += 1
+        return _lock_id
+
 
 class LoggingLock(object):
     """A threading lock that logs lock acquisition and release."""
@@ -21,13 +32,14 @@ class LoggingLock(object):
         self.log_level = log_level
         self.lock = lock
         self.log_stack = log_stack
+        self.id = _next_lock_id()
         self._log(f"{inspect.stack()[1][3]} created {self.name}")
 
     def _log(self, msg: str) -> None:
         if self.log_stack:
-            msg = f"{msg}: thread_id={threading.get_ident()}\n{trace_str()}"
+            msg = f"{msg}: lock_id={self.id} thread_id={threading.get_ident()}\n{trace_str()}"
         else:
-            msg = f"{msg}: thread_id={threading.get_ident()}"
+            msg = f"{msg}: lock_id={self.id} thread_id={threading.get_ident()}"
 
         logging.log(self.log_level, msg)
 

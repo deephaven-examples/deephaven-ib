@@ -31,10 +31,14 @@ class OrderIdRequest:
     def get(self) -> int:
         """A blocking call to get the order ID."""
 
-        self._event.wait()
+        time_out = 2 * 60.0
+        event_happened = self._event.wait(time_out)
+
+        if not event_happened:
+            raise Exception(f"OrderIdRequest.get() timed out after {time_out} sec.")
 
         with self._lock:
-            if not self._value:
+            if self._value is None:
                 self._value = self._getter()
 
             return self._value
