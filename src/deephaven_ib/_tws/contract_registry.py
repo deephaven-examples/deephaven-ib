@@ -57,14 +57,16 @@ class ContractRegistry:
 
     _client: 'IbTwsClient'
     _lock: LoggingLock
-    _requests: Dict[int, Tuple[Contract, threading.Event]]
+    _requests_by_id: Dict[int, Tuple[Contract, threading.Event]]
+    _requests_by_key: Dict[str, Tuple[Contract, threading.Event]]
     _contracts: Dict[str, ContractEntry]
 
 
     def __init__(self, client: 'IbTwsClient'):
         self._client = client
         self._lock = LoggingLock("ContractRegistry")
-        self._requests = {}
+        self._requests_by_id = {}
+        self._requests_by_key = {}
         self._contracts = {}
 
 
@@ -80,10 +82,10 @@ class ContractRegistry:
         """
 
         with self._lock:
-            if not req_id in self._requests:
+            if not req_id in self._requests_by_id:
                 return
 
-            (contract, event) = self._requests[req_id]
+            (contract, event) = self._requests_by_id[req_id]
             self._update_contract_details(contract, contract_details)
             self._update_contract_details(contract_details.contract, contract_details)
 
@@ -100,20 +102,20 @@ class ContractRegistry:
         """
 
         with self._lock:
-            if not req_id in self._requests:
+            if not req_id in self._requests_by_id:
                 return
 
-            contract, event = self._requests[req_id]
+            contract, event = self._requests_by_id[req_id]
             self._update_error(contract, error_string)
 
     def request_end(self, req_id: int) -> None:
         """Indicate that the request is over and all data has been received."""
 
         with self._lock:
-            if not req_id in self._requests:
+            if not req_id in self._requests_by_id:
                 return
 
-            contract, event = self._requests.pop(req_id)
+            contract, event = self._requests_by_id.pop(req_id)
 
             if event:
                 event.set()
@@ -130,6 +132,12 @@ class ContractRegistry:
         Returns:
             None
         """
+
+        key = str(contract)
+
+        with self._lock:
+            if key in self._requests_by_key:
+                return
 
         self._request_contract_details(contract=contract)
 
@@ -153,9 +161,25 @@ class ContractRegistry:
         if cd is not None:
             return cd.get()
         else:
-            event = threading.Event()
-            self._request_contract_details(contract=contract, event=event)
-            event.wait()
+            key = str(contract)
+
+            with self._lock:
+                if key in self._requests_by_key:
+                    _, event = self._requests_by_key[key]
+                    new_request = False
+                else:
+                    event = threading.Event()
+                    new_request = True
+
+            if new_request:
+                self._request_contract_details(contract=contract, event=event)
+
+            time_out = 2 * 60.0
+            event_happened = event.wait(time_out)
+
+            if not event_happened:
+                raise Exception(f"ContractRegistry.request_contract_details_blocking() timed out after {time_out} sec.")
+
             cd = self._get_contract_details(contract)
             return cd.get()
 
@@ -175,7 +199,9 @@ class ContractRegistry:
         with self._lock:
             if key not in self._contracts:
                 req_id = self._client.request_id_manager.next_id()
-                self._requests[req_id] = (contract, event)
+                req = (contract, event)
+                self._requests_by_id[req_id] = req
+                self._requests_by_key[key] = req
                 self._client.log_request(req_id, "ContractDetails", contract, None)
                 self._client.reqContractDetails(reqId=req_id, contract=contract)
 
