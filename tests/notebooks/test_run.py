@@ -2,11 +2,11 @@ from ibapi.contract import Contract
 
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(download_short_rates=False)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7496, download_short_rates=False)
 
 print(f"IsConnected: {client.is_connected()}")
 
-client.connect(host="host.docker.internal", port=7496)
+client.connect()
 
 print(f"IsConnected: {client.is_connected()}")
 

@@ -233,6 +233,16 @@ class IbSessionTws:
     NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
     data manually entered into the TWS session.  For example, orders entered by hand.
     
+    Args:
+        host (str): The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
+        port (int): TWS port, specified in TWS on the Configure>API>Socket Port field.
+            By default production trading uses port 7496 and paper trading uses port 7497.
+        client_id (int): A number used to identify this client connection.
+            All orders placed/modified from this client will be associated with this client identifier.
+
+            Note: Each client MUST connect with a unique clientId.
+        download_short_rates (bool): True to download short rates.
+
     Tables:
         ####
         # General
@@ -246,7 +256,7 @@ class IbSessionTws:
         contract_details: details describing contracts of interest.  Automatically populated.
         contracts_matching: contracts matching query strings provided to `request_contracts_matching`.
         market_rules: market rules indicating the price increment a contract can trade in.  Automatically populated.
-        short_rates: interest rates for shorting securities
+        short_rates: interest rates for shorting securities.  Automatically populated if download_short_rates=True.
 
 
         ####
@@ -298,13 +308,34 @@ class IbSessionTws:
         orders_exec_commission_report: order execution commission report.  Automatically populated.
     """
 
+    _host: str
+    _port: int
+    _client_id: int
     _client: IbTwsClient
 
-    def __init__(self, download_short_rates=True):
+    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates=True):
+        self._host = host
+        self._port = port
+        self._client_id = client_id
         self._client = IbTwsClient(download_short_rates=download_short_rates)
         self._dtw_requests = None
         self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
         self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
+
+    @property
+    def host(self) -> str:
+        return self._host
+
+    @property
+    def port(self) -> int:
+        return self._port
+
+    @property
+    def client_id(self) -> int:
+        return self._client_id
+
+    def __repr__(self) -> str:
+        return f"IbSessionTws(host={self._host}, port={self._port}, client_id={self._client_id})"
 
     ####################################################################################################################
     ####################################################################################################################
@@ -312,17 +343,8 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def connect(self, host: str = "", port: int = 7497, client_id: int = 0) -> None:
+    def connect(self) -> None:
         """Connect to an IB TWS session.  Raises an exception if already connected.
-
-        Args:
-            host (str): The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
-            port (int): TWS port, specified in TWS on the Configure>API>Socket Port field.
-                By default production trading uses port 7496 and paper trading uses port 7497.
-            client_id (int): A number used to identify this client connection.
-                All orders placed/modified from this client will be associated with this client identifier.
-
-                Note: Each client MUST connect with a unique clientId.
 
         Returns:
               None
@@ -331,7 +353,7 @@ class IbSessionTws:
               Exception
         """
 
-        self._client.connect(host, port, client_id)
+        self._client.connect(self._host, self._port, self._client_id)
 
     def disconnect(self) -> None:
         """Disconnect from an IB TWS session.

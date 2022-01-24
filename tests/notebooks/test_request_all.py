@@ -13,10 +13,10 @@ print("=========================================================================
 print("==== Create a client and connect.")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(download_short_rates=False)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, download_short_rates=False)
 print(f"IsConnected: {client.is_connected()}")
 
-client.connect(host="host.docker.internal", port=7497)
+client.connect()
 print(f"IsConnected: {client.is_connected()}")
 
 print("==============================================================================================================")
