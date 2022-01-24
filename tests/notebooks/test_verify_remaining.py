@@ -1,4 +1,3 @@
-import logging
 from typing import Dict
 
 from deephaven import DateTimeUtils as dtu
@@ -485,3 +484,4 @@ for k, v in tables_unverified.items():
 
 globals()["v"] = None
 requests = tables_all["requests"]
+errors = tables_all["errors"]
