@@ -13,7 +13,7 @@ class RequestIdManager:
     _id: int
 
     def __init__(self):
-        self._lock = LoggingLock("RequestManager", log_level=logging.ERROR, log_stack=True)
+        self._lock = LoggingLock("RequestManager", log_level=logging.ERROR, log_stack=False)
         self._id = 0
 
     def next_id(self) -> int:

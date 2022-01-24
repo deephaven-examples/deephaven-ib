@@ -50,7 +50,7 @@ class OrderIdEventQueue:
     def __init__(self, client: 'IbTwsClient'):
         self._events = []
         self._values = []
-        self._lock = LoggingLock("OrderIdEventQueue", log_level=logging.ERROR, log_stack=True)
+        self._lock = LoggingLock("OrderIdEventQueue", log_level=logging.ERROR, log_stack=False)
         self._client = client
 
     def request(self) -> OrderIdRequest:

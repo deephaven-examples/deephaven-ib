@@ -13,12 +13,11 @@ class LoggingLock(object):
     name: str
     log_stack: bool
 
-    def __init__(self, name: str, lock=None, log=logging, log_level=logging.DEBUG, log_stack: bool = False):
+    def __init__(self, name: str, lock=None, log_level=logging.DEBUG, log_stack: bool = False):
         if lock is None:
             lock = threading.Lock()
 
         self.name = str(name)
-        self.log = log
         self.log_level = log_level
         self.lock = lock
         self.log_stack = log_stack
@@ -30,7 +29,7 @@ class LoggingLock(object):
         else:
             msg = f"{msg}: thread_id={threading.get_ident()}"
 
-        self.log.log(self.log_level, msg)
+        logging.log(self.log_level, msg)
 
     def acquire(self, blocking=True):
         self._log(f"{inspect.stack()[1][3]} trying to acquire {self.name}")
