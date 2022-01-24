@@ -225,9 +225,7 @@ class RegisteredContract:
         return f"RegistredContract({self.query_contract},[{'|'.join([str(cd.contract) for cd in self.contract_details])}])"
 
 
-# TODO review API
 class IbSessionTws:
-    # TODO: update tables documentation
     """ IB TWS session.
 
     NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
@@ -476,7 +474,7 @@ class IbSessionTws:
 
     @property
     def tables_raw(self) -> Dict[str, Any]:
-        # TODO document
+        """Gets a dictionary of all raw data tables.  Raw tables are just as the data comes from IB."""
         return self._tables_raw
 
     ####################################################################################################################

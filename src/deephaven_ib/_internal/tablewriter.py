@@ -20,7 +20,7 @@ class TableWriter:
     _dtw: DynamicTableWriter
     _string_indices: List[int]
 
-    # TODO improve types type annotation once deephaven v2 is available
+    # TODO: improve types type annotation once deephaven v2 is available
     def __init__(self, names: List[str], types: List[Any]):
         TableWriter._check_for_duplicate_names(names)
         self.names = names
@@ -54,8 +54,7 @@ class TableWriter:
                 logging.error(
                     f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)} value={v}\n{trace_str()}\n-----")
 
-
-    # TODO improve types type annotation once deephaven v2 is available
+    # TODO: improve types type annotation once deephaven v2 is available
     def table(self) -> Any:
         """Gets the table data is logged to."""
         return self._dtw.getTable()

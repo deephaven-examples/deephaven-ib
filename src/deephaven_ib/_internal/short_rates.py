@@ -68,7 +68,7 @@ class IBFtpWriter:
             self.file.write(f"{self.source}|{line}\n")
 
 
-# TODO change the return type for deephaven v2 to Table
+# TODO: change the return type for deephaven v2 to Table
 def load_short_rates() -> Any:
     """Downloads the short rates from the IB FTP site and returns them as a table."""
 

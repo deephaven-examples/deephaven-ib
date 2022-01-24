@@ -358,10 +358,7 @@ class IbTwsClient(EWrapper, EClient):
         self.request_account_positions("All")
         self.reqManagedAccts()
         self.reqNewsBulletins(allMsgs=True)
-        # TODO: make a function
-        req_id = self.request_id_manager.next_id()
-        self.log_request(req_id, "Executions", None, None)
-        self.reqExecutions(reqId=req_id, execFilter=ExecutionFilter())
+        self.request_executions()
         self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
         # Just subscribe to orders from the current client id.
@@ -893,6 +890,13 @@ class IbTwsClient(EWrapper, EClient):
     def next_order_id(self) -> int:
         """Gets the next valid order ID."""
         return self.request_id_manager.next_order_id(self.order_id_queue)
+
+    def request_executions(self) -> None:
+        """Requests executions."""
+        req_id = self.request_id_manager.next_id()
+        self.log_request(req_id, "Executions", None, None)
+        self.reqExecutions(reqId=req_id, execFilter=ExecutionFilter())
+
 
     ####
     # reqIds
