@@ -111,6 +111,19 @@ logger_contract = IbComplexTypeLogger("Contract", _details_contract())
 def _details_contract_details() -> List[Tuple]:
     """Details for logging ContractDetails."""
 
+    def map_null_int(value: int) -> Union[int, None]:
+
+        if value == 2147483647:
+            return None
+
+        return value
+
+    def map_sec_id_list(value):
+        if not value:
+            return None
+
+        return to_string_set([f"{v.tag}={v.value}" for v in value])
+
     return [
         *_include_details(_details_contract(), lambda cd: cd.contract),
         ("MarketName", dht.string, lambda cd: cd.marketName),
@@ -130,11 +143,11 @@ def _details_contract_details() -> List[Tuple]:
         ("EvRule", dht.string, lambda cd: cd.evRule),
         ("EvMultiplier", dht.int32, lambda cd: cd.evMultiplier),
         ("MdSizeMultiplier", dht.int32, lambda cd: cd.mdSizeMultiplier),
-        ("AggGroup", dht.int32, lambda cd: cd.aggGroup),  # TODO: map?
+        ("AggGroup", dht.int32, lambda cd: map_null_int(cd.aggGroup)),
         ("UnderSymbol", dht.string, lambda cd: cd.underSymbol),
         ("UnderSecType", dht.string, lambda cd: cd.underSecType),
         ("MarketRuleIds", dht.stringset, lambda cd: to_string_set(cd.marketRuleIds.split(","))),
-        ("SecIdList", dht.stringset, lambda cd: to_string_set(cd.secIdList)),  # TODO: right type?
+        ("SecIdList", dht.stringset, lambda cd: map_sec_id_list(cd.secIdList)),
         ("RealExpirationDate", dht.string, lambda cd: cd.realExpirationDate),
         ("LastTradeTime", dht.string, lambda cd: cd.lastTradeTime),
         ("StockType", dht.string, lambda cd: cd.stockType),
@@ -148,9 +161,12 @@ def _details_contract_details() -> List[Tuple]:
         ("Putable", dht.bool_, lambda cd: cd.putable),
         ("Coupon", dht.int32, lambda cd: cd.coupon),
         ("Convertible", dht.bool_, lambda cd: cd.convertible),
-        ("Maturity", dht.string, lambda cd: cd.maturity),  # TODO: convert date time?
-        ("IssueDate", dht.string, lambda cd: cd.issueDate),  # TODO: convert date time?
-        ("NextOptionDate", dht.string, lambda cd: cd.nextOptionDate),  # TODO: convert date time?
+        ("Maturity", dht.string, lambda cd: cd.maturity),
+        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented.
+        ("IssueDate", dht.string, lambda cd: cd.issueDate),
+        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented.
+        ("NextOptionDate", dht.string, lambda cd: cd.nextOptionDate),
+        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented.
         ("NextOptionType", dht.string, lambda cd: cd.nextOptionType),
         ("NextOptionPartial", dht.bool_, lambda cd: cd.nextOptionPartial),
         ("Notes", dht.string, lambda cd: cd.notes),
