@@ -389,6 +389,10 @@ class IbTwsClient(EWrapper, EClient):
 
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
         EWrapper.error(self, reqId, errorCode, errorString)
+
+        if reqId == 2147483647:
+            reqId = None
+
         self._table_writers["errors"].write_row(
             [reqId, errorCode, map_values(errorCode, _error_code_message_map), errorString,
              map_values(errorCode, _error_code_note_map)])
