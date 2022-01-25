@@ -313,8 +313,7 @@ def _details_historical_tick_last() -> List[Tuple]:
         if not special_conditions:
             return None
 
-        return to_string_set(
-            [map_values(v.strip(), special_conditions_codes) for v in special_conditions.strip().split(" ")])
+        return to_string_set([map_values(v, special_conditions_codes) for v in "".join(special_conditions.split())])
 
 
     return [
