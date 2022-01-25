@@ -6,7 +6,7 @@ This module is to house nasty workaround code until the problem has been resolve
 https://github.com/deephaven/deephaven-core/issues/1072
 """
 
-# TODO: When ticket #1072 is resolved, the following code should be replaced with something cleaner
+# TODO: When ticket #1072 is resolved, the following code should be replaced with something cleaner (https://github.com/deephaven-examples/deephaven-ib/issues/11)
 # To work around the problem, variables have to be fed into QueryScope.
 # Since python objects can't be inserted into QueryScope, PythonFunctions were created, which are Java objects.
 # PythonFunctions only take a single argument, so the python functions had to be changed to take only one arument.

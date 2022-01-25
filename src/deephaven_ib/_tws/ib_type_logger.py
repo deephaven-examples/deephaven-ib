@@ -162,11 +162,11 @@ def _details_contract_details() -> List[Tuple]:
         ("Coupon", dht.int32, lambda cd: cd.coupon),
         ("Convertible", dht.bool_, lambda cd: cd.convertible),
         ("Maturity", dht.string, lambda cd: cd.maturity),
-        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented.
+        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented. (https://github.com/deephaven-examples/deephaven-ib/issues/10)
         ("IssueDate", dht.string, lambda cd: cd.issueDate),
-        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented.
+        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented. (https://github.com/deephaven-examples/deephaven-ib/issues/10)
         ("NextOptionDate", dht.string, lambda cd: cd.nextOptionDate),
-        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented.
+        # TODO: convert date time?  Values are not provided in TWS, and the format is not documented. (https://github.com/deephaven-examples/deephaven-ib/issues/10)
         ("NextOptionType", dht.string, lambda cd: cd.nextOptionType),
         ("NextOptionPartial", dht.bool_, lambda cd: cd.nextOptionPartial),
         ("Notes", dht.string, lambda cd: cd.notes),

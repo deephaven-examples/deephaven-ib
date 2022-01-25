@@ -526,7 +526,6 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO: remove from api or add request_account_overview and request_account_positions --> can just autosubscribe??
     def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
         """Request PNL updates.  Results are returned in the `accounts_pnl` table.
 
@@ -544,6 +543,41 @@ class IbSessionTws:
         self._assert_connected()
         req_id = self._client.request_account_pnl(account, model_code)
         return Request(request_id=req_id)
+
+    def request_account_overview(self, account: str, model_code: str = "") -> Request:
+        """Request portfolio overview updates.  Results are returned in the `accounts_overview` table.
+
+        Args:
+            account (str): Account to request an overview for.  "All" requests for all accounts.
+            model_code (str): Model portfolio code to request an overview for.
+
+        Returns:
+            Request
+
+        Raises:
+              Exception
+        """
+        self._assert_connected()
+        req_id = self._client.request_account_overview(account, model_code)
+        return Request(request_id=req_id)
+
+    def request_account_positions(self, account: str, model_code: str = "") -> Request:
+        """Request portfolio position updates.  Results are returned in the `accounts_positions` table.
+
+        Args:
+            account (str): Account to request positions for.  "All" requests for all accounts.
+            model_code (str): Model portfolio code to request positions for.
+
+        Returns:
+            Request
+
+        Raises:
+              Exception
+        """
+        self._assert_connected()
+        req_id = self._client.request_account_positions(account, model_code)
+        return Request(request_id=req_id)
+
 
     ####################################################################################################################
     ####################################################################################################################

@@ -312,19 +312,19 @@ class IbTwsClient(EWrapper, EClient):
 
         EClient.connect(self, host, port, client_id)
 
-        # wait for the client to connect to avoid a race condition
+        # wait for the client to connect to avoid a race condition (https://github.com/deephaven-examples/deephaven-ib/issues/12)
         time.sleep(1)
 
         self._thread = Thread(target=self.run)
         self._thread.start()
         setattr(self, "ib_thread", self._thread)
 
-        # wait for the client to connect to avoid a race condition
+        # wait for the client to connect to avoid a race condition (https://github.com/deephaven-examples/deephaven-ib/issues/12)
         time.sleep(1)
 
         self._subscribe()
 
-        # wait for the client to connect to avoid a race condition
+        # wait for the client to connect to avoid a race condition (https://github.com/deephaven-examples/deephaven-ib/issues/12)
         time.sleep(1)
 
     def disconnect(self) -> None:
