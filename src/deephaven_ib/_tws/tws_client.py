@@ -765,6 +765,10 @@ class IbTwsClient(EWrapper, EClient):
 
     def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
         EWrapper.tickPrice(self, reqId, tickType, price, attrib)
+
+        if price == 0.0:
+            price = None
+
         self._table_writers["ticks_price"].write_row([reqId, TickTypeEnum.to_str(tickType), price,
                                                       *logger_tick_attrib.vals(attrib)])
 

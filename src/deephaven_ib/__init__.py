@@ -287,7 +287,7 @@ class IbSessionTws:
         ticks_size: real-time tick market data of size values requested via 'request_market_data'.
         ticks_string: real-time tick market data of string values requested via 'request_market_data'.
         ticks_efp: real-time tick market data of exchange for physical (EFP) values requested via 'request_market_data'.
-        ticks_generic: real-time tick market data of generic values requested via 'request_market_data'.
+        ticks_generic: real-time tick market data of generic floating point values requested via 'request_market_data'.
         ticks_option_computation: real-time tick market data of option computations requested via 'request_market_data'.
         ticks_trade: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
         ticks_bid_ask: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
@@ -657,7 +657,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        generic_tick_list = ",".join([x.value for x in generic_tick_types])
+        generic_tick_list = ",".join([str(x.value) for x in generic_tick_types])
         requests = []
 
         for cd in contract.contract_details:

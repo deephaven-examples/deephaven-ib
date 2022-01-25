@@ -326,7 +326,77 @@ client.request_tick_data_historical(rc, dhib.TickDataType.LAST, 100, start=now)
 client.request_tick_data_historical(rc, dhib.TickDataType.LAST, 100, end=now)
 client.request_tick_data_realtime(rc, dhib.TickDataType.LAST)
 
-# TODO: do the real-time requests need a market data request first???
+print("==============================================================================================================")
+print("==== Request market data.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+generic_tick_types = [
+    dhib.GenericTickType.NEWS,
+    dhib.GenericTickType.DIVIDENDS,
+    dhib.GenericTickType.AUCTION,
+    dhib.GenericTickType.MARK_PRICE,
+    dhib.GenericTickType.MARK_PRICE_SLOW,
+
+    dhib.GenericTickType.TRADING_RANGE,
+
+    dhib.GenericTickType.TRADE_LAST_RTH,
+    dhib.GenericTickType.TRADE_COUNT,
+    dhib.GenericTickType.TRADE_COUNT_RATE,
+    dhib.GenericTickType.TRADE_VOLUME,
+    dhib.GenericTickType.TRADE_VOLUME_NO_UNREPORTABLE,
+    dhib.GenericTickType.TRADE_VOLUME_RATE,
+    dhib.GenericTickType.TRADE_VOLUME_SHORT_TERM,
+
+    dhib.GenericTickType.SHORTABLE,
+    dhib.GenericTickType.SHORTABLE_SHARES,
+
+    # dhib.GenericTickType.FUTURE_OPEN_INTEREST,
+    # dhib.GenericTickType.FUTURE_INDEX_PREMIUM,
+
+    dhib.GenericTickType.OPTION_VOLATILITY_HISTORICAL,
+    dhib.GenericTickType.OPTION_VOLATILITY_HISTORICAL_REAL_TIME,
+    dhib.GenericTickType.OPTION_VOLATILITY_IMPLIED,
+    dhib.GenericTickType.OPTION_VOLUME,
+    dhib.GenericTickType.OPTION_VOLUME_AVERAGE,
+    dhib.GenericTickType.OPTION_OPEN_INTEREST,
+
+    # dhib.GenericTickType.ETF_NAV_CLOSE,
+    # dhib.GenericTickType.ETF_NAV_PRICE,
+    # dhib.GenericTickType.ETF_NAV_LAST,
+    # dhib.GenericTickType.ETF_NAV_LAST_FROZEN,
+    # dhib.GenericTickType.ETF_NAV_RANGE,
+    #
+    # dhib.GenericTickType.BOND_FACTOR_MULTIPLIER,
+]
+client.request_market_data(rc, generic_tick_types=generic_tick_types)
+
+print("==============================================================================================================")
+print("==== Request option greeks.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "OPT"
+contract.exchange = "BOX"
+contract.currency = "USD"
+contract.lastTradeDateOrContractMonth = "20220318"
+contract.strike = 2800
+contract.right = "C"
+contract.multiplier = "100"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+client.request_market_data(rc)
 
 print("==============================================================================================================")
 print("==== Orders.")
@@ -417,6 +487,7 @@ table_names_verified = [
     "news_historical",
     "orders_exec_commission_report",
     "bars_historical",
+    "bars_realtime",
     "contracts_matching",
     "contracts_details",
     "errors",
@@ -424,7 +495,13 @@ table_names_verified = [
     "orders_exec_details",
     "orders_completed",
     "orders_status",
-    "orders_submitted"
+    "orders_submitted",
+    "ticks_mid_point",
+    "ticks_trade",
+    "ticks_generic",
+    "ticks_price",
+    "ticks_size",
+    "ticks_option_computation",
 ]
 table_names_verified.sort()
 tables_verified = {k: v for k, v in tables_all.items() if k in table_names_verified}
@@ -432,16 +509,9 @@ tables_verified = {k: v for k, v in tables_all.items() if k in table_names_verif
 # TODO: fix me
 table_names_cant_verify = [
     # "accounts_allocation_profiles",
-    # "bars_realtime",
     # "news_bulletins",
     # "ticks_string",
-    # "ticks_mid_point",
-    # "ticks_generic",
-    # "ticks_trade",
-    # "ticks_option_computation",
     # "ticks_efp",
-    # "ticks_price",
-    # "ticks_size",
 ]
 
 s1 = set(table_names_all)
@@ -485,3 +555,5 @@ for k, v in tables_unverified.items():
 globals()["v"] = None
 requests = tables_all["requests"]
 errors = tables_all["errors"]
+
+dbg = ticks_string.moveColumnsUp("TickType", "Value")
