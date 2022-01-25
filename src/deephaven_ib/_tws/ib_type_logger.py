@@ -224,7 +224,7 @@ def _details_real_time_bar_data() -> List[Tuple]:
     return [
         ("Timestamp", dht.datetime, lambda bd: unix_sec_to_dh_datetime(bd.time)),
         ("TimestampEnd", dht.datetime, lambda bd: unix_sec_to_dh_datetime(bd.endTime)),
-        ("Open", dht.float64, lambda bd: bd.open),
+        ("Open", dht.float64, lambda bd: bd.open_),
         ("High", dht.float64, lambda bd: bd.high),
         ("Low", dht.float64, lambda bd: bd.low),
         ("Close", dht.float64, lambda bd: bd.close),
@@ -271,13 +271,53 @@ logger_tick_attrib_last = IbComplexTypeLogger("TickAttribLast", _details_tick_at
 def _details_historical_tick_last() -> List[Tuple]:
     """Details for logging HistoricalTickLast."""
 
+    # https://www.interactivebrokers.com/en/index.php?f=7235
+
+    special_conditions_codes = {
+        "B": "Average Price Trade",
+        "Q": "Market Center Official Open",
+        "C": "Cash Trade (Same Day Clearing)",
+        "R": "Seller",
+        "D": "Distribution",
+        "T": "Extended Hours Trade",
+        "E": "Automatic Execution",
+        "U": "Extended Hours Sold (Out of Sequence)",
+        "F": "Intermarket Sweep Order",
+        "V": "Stock-Option Trade",
+        "G": "Bunched Sold Trade",
+        "X": "Cross Trade",
+        "H": "Price Variation Trade",
+        "Z": "Sold (Out of Sequence)",
+        "I": "Odd Lot Trade",
+        "4": "Derivatively priced",
+        "K": "Rule 127 (NYSE only) or Rule 155 (NYSE MKT only)",
+        "5": "Market Center Reopening Trade",
+        "L": "Sold Last (Late Reporting)",
+        "6": "Market Center Closing Trade",
+        "M": "Market Center Official Close",
+        "7": "Reserved",
+        "N": "Next Day Trade (Next Day Clearing)",
+        "8": "Reserved",
+        "O": "Market Center Opening Trade",
+        "9": "Corrected Consolidated Close Price as per Listing Market",
+        "P": "Prior Reference Price",
+    }
+
+    def map_special_conditions(special_conditions: str) -> Any:
+        if not special_conditions:
+            return None
+
+        return to_string_set(
+            [map_values(v.strip(), special_conditions_codes) for v in special_conditions.strip().split(" ")])
+
+
     return [
         ("Timestamp", dht.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("Price", dht.float64, lambda t: t.price),
         ("Size", dht.int32, lambda t: t.size),
         *_include_details(_details_tick_attrib_last(), lambda t: t.tickAttribLast),
         ("Exchange", dht.string, lambda t: t.exchange),
-        ("SpecialConditions", dht.string, lambda t: t.specialConditions)
+        ("SpecialConditions", dht.stringset, lambda t: map_special_conditions(t.specialConditions))
     ]
 
 
