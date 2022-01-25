@@ -904,16 +904,10 @@ class IbSessionTws:
             raise Exception(
                 f"RegisteredContracts with multiple contract details are not supported for orders: {contract}")
 
-        # TODO: remove debug statements
-        print(f"DEBUG %%%%% place order 1")
         req_id = self._client.next_order_id()
-        print(f"DEBUG %%%%% place order 2")
         cd = contract.contract_details[0]
-        print(f"DEBUG %%%%% place order 3")
         self._client.log_request(req_id, "PlaceOrder", cd.contract, {"order": f"Order({order})"})
-        print(f"DEBUG %%%%% place order 4")
         self._client.placeOrder(req_id, cd.contract, order)
-        print(f"DEBUG %%%%% place order 5")
         return Request(request_id=req_id, cancel_func=self.order_cancel)
 
     def order_cancel(self, order_id: int) -> None:

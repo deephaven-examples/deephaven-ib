@@ -502,16 +502,17 @@ table_names_verified = [
     "ticks_price",
     "ticks_size",
     "ticks_option_computation",
+
+    # these need more work
+    "ticks_string",
+    "accounts_allocation_profiles",
+    "ticks_efp",
+    "news_bulletins",
 ]
 table_names_verified.sort()
 tables_verified = {k: v for k, v in tables_all.items() if k in table_names_verified}
 
-# TODO: fix me
 table_names_cant_verify = [
-    # "accounts_allocation_profiles",
-    # "news_bulletins",
-    # "ticks_string",
-    # "ticks_efp",
 ]
 
 s1 = set(table_names_all)
@@ -556,4 +557,3 @@ globals()["v"] = None
 requests = tables_all["requests"]
 errors = tables_all["errors"]
 
-dbg = ticks_string.moveColumnsUp("TickType", "Value")
