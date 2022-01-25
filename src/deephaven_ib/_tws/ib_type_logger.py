@@ -221,6 +221,12 @@ logger_bar_data = IbComplexTypeLogger("BarData", _details_bar_data())
 def _details_real_time_bar_data() -> List[Tuple]:
     """ Details for logging RealTimeBarData. """
 
+    def map_null(val):
+        if val <= 0:
+            return None
+
+        return val
+
     return [
         ("Timestamp", dht.datetime, lambda bd: unix_sec_to_dh_datetime(bd.time)),
         ("TimestampEnd", dht.datetime, lambda bd: unix_sec_to_dh_datetime(bd.endTime)),
@@ -228,9 +234,9 @@ def _details_real_time_bar_data() -> List[Tuple]:
         ("High", dht.float64, lambda bd: bd.high),
         ("Low", dht.float64, lambda bd: bd.low),
         ("Close", dht.float64, lambda bd: bd.close),
-        ("Volume", dht.int32, lambda bd: bd.volume),
-        ("WAP", dht.float64, lambda bd: bd.wap),
-        ("Count", dht.int32, lambda bd: bd.count),
+        ("Volume", dht.int32, lambda bd: map_null(bd.volume)),
+        ("WAP", dht.float64, lambda bd: map_null(bd.wap)),
+        ("Count", dht.int32, lambda bd: map_null(bd.count)),
     ]
 
 
