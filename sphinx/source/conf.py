@@ -76,6 +76,9 @@ import sys
 from pathlib import Path
 
 new_python_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
+
+print(f"DEBUG {new_python_path} {os.listdir(new_python_path)}")
+
 sys.path.append(new_python_path)
 
 import deephaven_ib
