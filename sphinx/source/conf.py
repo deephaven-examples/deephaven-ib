@@ -75,7 +75,7 @@ import os
 import sys
 
 github_workspace = os.environ.get("GITHUB_WORKSPACE")
-new_path = os.path.join(github_workspace, "deephaven-ib", "src")
+new_path = os.path.join(github_workspace, "src")
 print(f"NEW PYTHON PATH: {new_path}")
 
 print(f"DEBUG1: {github_workspace}")
