@@ -1,6 +1,6 @@
 ibapi
 # replace with jpy when deephaven-jpy is replaced by jpy
-deephaven-jpy
+# deephaven-jpy
 deephaven
 pandas
 lxml
