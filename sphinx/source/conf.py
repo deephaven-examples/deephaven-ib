@@ -75,8 +75,12 @@ import os
 import sys
 from pathlib import Path
 
-new_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
+# new_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
+new_path = Path(os.path.realpath(__file__)).parents[1].joinpath("src")
 print(f"NEW PYTHON PATH: {new_path}")
+
+print(
+    f"DEBUG: {Path(os.path.realpath(__file__))} {Path(os.path.realpath(__file__)).parent} {Path(os.path.realpath(__file__)).parents[0]} {Path(os.path.realpath(__file__)).parents[1]}")
 
 sys.path.append(new_path)
 
