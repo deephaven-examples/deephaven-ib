@@ -8,14 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-#    - name: Setup Python
-#      uses: actions/setup-python@v1
-#      with:
-#        python-version: 3.7
-#    - name: Install dependencies
-#      run: |
-#        python3 -m pip install --upgrade pip
-#        python3 -m pip install --upgrade -r requirements.txt
     - uses: ammaraskar/sphinx-action@master
       with:
         docs-folder: "sphinx/"
