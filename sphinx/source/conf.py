@@ -77,7 +77,14 @@ from pathlib import Path
 
 new_python_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
 
+print(f"V1 {Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("
+src
+")}")
+print(f"V2 {Path(os.path.realpath(__file__)).parents[1].joinpath("
+src
+")}")
 print(f"DEBUG {new_python_path} {os.listdir(new_python_path)}")
+print(f"PATH: {sys.path}")
 
 sys.path.append(new_python_path)
 
