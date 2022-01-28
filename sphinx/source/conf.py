@@ -71,6 +71,15 @@ autodoc_typehints = 'none'
 
 #########################################################################################################################################################################
 
+import os
+import sys
+from pathlib import Path
+
+new_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
+print(f"NEW PYTHON PATH: {new_path}")
+
+sys.path.append(new_path)
+
 import deephaven_ib
 
 docs_title = "deephaven_ib python modules."
