@@ -78,8 +78,15 @@ github_workspace = os.environ.get("GITHUB_WORKSPACE")
 new_path = os.path.join(github_workspace, "deephaven-ib", "src")
 print(f"NEW PYTHON PATH: {new_path}")
 
-print(f"DEBUG1: {os.listdir(github_workspace)}")
-print(f"DEBUG1: {os.listdir(new_path)}")
+print(f"DEBUG1: {github_workspace}")
+print(f"DEBUG2: {os.listdir(github_workspace)}")
+print(f"DEBUG3: {os.listdir(new_path)}")
+
+from pathlib import Path
+
+print(f"DEBUG X1: {Path(os.path.dirname(os.path.realpath(__file__)))}")
+print(f"DEBUG X2: {Path(os.path.dirname(os.path.realpath(__file__))).parents[1]}")
+print(f"DEBUG X3: {os.listdir(Path(os.path.dirname(os.path.realpath(__file__))).parents[1])}")
 
 # # new_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
 # new_path = Path(os.path.realpath(__file__)).parents[1].joinpath("src")
