@@ -73,14 +73,20 @@ autodoc_typehints = 'none'
 
 import os
 import sys
-from pathlib import Path
 
-# new_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
-new_path = Path(os.path.realpath(__file__)).parents[1].joinpath("src")
+github_workspace = os.environ.get("GITHUB_WORKSPACE")
+new_path = os.path.join(github_workspace, "deephaven-ib", "src")
 print(f"NEW PYTHON PATH: {new_path}")
 
-print(
-    f"DEBUG: {Path(os.path.realpath(__file__))} {Path(os.path.realpath(__file__)).parent} {Path(os.path.realpath(__file__)).parents[0]} {Path(os.path.realpath(__file__)).parents[1]}")
+print(f"DEBUG1: {os.listdir(github_workspace)}")
+print(f"DEBUG1: {os.listdir(new_path)}")
+
+# # new_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
+# new_path = Path(os.path.realpath(__file__)).parents[1].joinpath("src")
+# print(f"NEW PYTHON PATH: {new_path}")
+#
+# print(
+#     f"DEBUG: {Path(os.path.realpath(__file__))} {Path(os.path.realpath(__file__)).parent} {Path(os.path.realpath(__file__)).parents[0]} {Path(os.path.realpath(__file__)).parents[1]}")
 
 sys.path.append(new_path)
 
