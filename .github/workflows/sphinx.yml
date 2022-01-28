@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Rename the repo
-      run: cp -r $GITHUB_WORKSPACE/deephaven-ib $GITHUB_WORKSPACE/deephaven_ib
+#    - name: Rename the repo
+#      run: cp -r $GITHUB_WORKSPACE/deephaven-ib $GITHUB_WORKSPACE/deephaven_ib
     - uses: ammaraskar/sphinx-action@master
       with:
         docs-folder: "sphinx/"
