@@ -75,14 +75,15 @@ import os
 import sys
 from pathlib import Path
 
-new_python_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
-sys.path.append(new_python_path)
+# new_python_path = Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")
+new_python_path = Path(os.path.realpath(__file__)).parents[2].joinpath("src")
+sys.path.append(new_python_path.resolve())
 
-print(f'V1 {Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")}')
-print(f'V2 {Path(os.path.realpath(__file__)).parents[2].joinpath("src")}')
-print(f"DEBUG {new_python_path} {os.listdir(new_python_path)}")
-print(f"PATH: {sys.path}")
-
+# print(f'V1 {Path(os.path.dirname(os.path.realpath(__file__))).parents[1].joinpath("src")}')
+# print(f'V2 {Path(os.path.realpath(__file__)).parents[2].joinpath("src")}')
+# print(f"DEBUG {new_python_path} {os.listdir(new_python_path)}")
+# print(f"PATH: {sys.path}")
+print(f"DEBUG {new_python_path} {new_python_path.resolve()}")
 
 import deephaven_ib
 
