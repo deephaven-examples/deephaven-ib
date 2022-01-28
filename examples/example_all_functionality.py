@@ -1,4 +1,3 @@
-import logging
 from typing import Dict
 
 from deephaven import DateTimeUtils as dtu
@@ -7,32 +6,24 @@ from ibapi.order import Order
 
 import deephaven_ib as dhib
 
-logging.basicConfig(level=logging.DEBUG)
+###########################################################################
+# WARNING: THIS SCRIPT EXECUTES TRADES!! ONLY USE ON PAPER TRADING ACCOUNTS
+###########################################################################
 
 print("==============================================================================================================")
 print("==== Create a client and connect.")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, download_short_rates=False)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=False)
 print(f"IsConnected: {client.is_connected()}")
 
 client.connect()
 print(f"IsConnected: {client.is_connected()}")
 
 print("==============================================================================================================")
-print("==== Make all tables visible in the UI.")
-print("==============================================================================================================")
-
-for k, v in client.tables.items():
-    globals()[k] = v
-
-for k, v in client.tables_raw.items():
-    globals()[k] = v
-
-
-print("==============================================================================================================")
 print("==== Get registered contracts for all contract types.")
 print("==============================================================================================================")
+
 
 def get_contracts() -> Dict[str, Contract]:
     rst = {}
@@ -276,8 +267,8 @@ print("=========================================================================
 print("==== Set market data type.")
 print("==============================================================================================================")
 
-client.set_market_data_type(dhib.MarketDataType.DELAYED)
-
+# client.set_market_data_type(dhib.MarketDataType.DELAYED)
+client.set_market_data_type(dhib.MarketDataType.REAL_TIME)
 
 print("==============================================================================================================")
 print("==== Request bars.")
@@ -337,7 +328,77 @@ client.request_tick_data_historical(rc, dhib.TickDataType.LAST, 100, start=now)
 client.request_tick_data_historical(rc, dhib.TickDataType.LAST, 100, end=now)
 client.request_tick_data_realtime(rc, dhib.TickDataType.LAST)
 
-# TODO: do the real-time requests need a market data request first???
+print("==============================================================================================================")
+print("==== Request market data.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+generic_tick_types = [
+    dhib.GenericTickType.NEWS,
+    dhib.GenericTickType.DIVIDENDS,
+    dhib.GenericTickType.AUCTION,
+    dhib.GenericTickType.MARK_PRICE,
+    dhib.GenericTickType.MARK_PRICE_SLOW,
+
+    dhib.GenericTickType.TRADING_RANGE,
+
+    dhib.GenericTickType.TRADE_LAST_RTH,
+    dhib.GenericTickType.TRADE_COUNT,
+    dhib.GenericTickType.TRADE_COUNT_RATE,
+    dhib.GenericTickType.TRADE_VOLUME,
+    dhib.GenericTickType.TRADE_VOLUME_NO_UNREPORTABLE,
+    dhib.GenericTickType.TRADE_VOLUME_RATE,
+    dhib.GenericTickType.TRADE_VOLUME_SHORT_TERM,
+
+    dhib.GenericTickType.SHORTABLE,
+    dhib.GenericTickType.SHORTABLE_SHARES,
+
+    # dhib.GenericTickType.FUTURE_OPEN_INTEREST,
+    # dhib.GenericTickType.FUTURE_INDEX_PREMIUM,
+
+    dhib.GenericTickType.OPTION_VOLATILITY_HISTORICAL,
+    dhib.GenericTickType.OPTION_VOLATILITY_HISTORICAL_REAL_TIME,
+    dhib.GenericTickType.OPTION_VOLATILITY_IMPLIED,
+    dhib.GenericTickType.OPTION_VOLUME,
+    dhib.GenericTickType.OPTION_VOLUME_AVERAGE,
+    dhib.GenericTickType.OPTION_OPEN_INTEREST,
+
+    # dhib.GenericTickType.ETF_NAV_CLOSE,
+    # dhib.GenericTickType.ETF_NAV_PRICE,
+    # dhib.GenericTickType.ETF_NAV_LAST,
+    # dhib.GenericTickType.ETF_NAV_LAST_FROZEN,
+    # dhib.GenericTickType.ETF_NAV_RANGE,
+    #
+    # dhib.GenericTickType.BOND_FACTOR_MULTIPLIER,
+]
+client.request_market_data(rc, generic_tick_types=generic_tick_types)
+
+print("==============================================================================================================")
+print("==== Request option greeks.")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "OPT"
+contract.exchange = "BOX"
+contract.currency = "USD"
+contract.lastTradeDateOrContractMonth = "20220318"
+contract.strike = 2800
+contract.right = "C"
+contract.multiplier = "100"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+client.request_market_data(rc)
 
 print("==============================================================================================================")
 print("==== Orders.")
@@ -361,7 +422,9 @@ order.lmtPrice = 3000
 order.eTradeOnly = False
 order.firmQuoteOnly = False
 
+print("Placing order: START")
 client.order_place(rc, order)
+print("Placing order: END")
 
 order = Order()
 order.account = "DF4943843"
@@ -372,7 +435,9 @@ order.lmtPrice = 2600
 order.eTradeOnly = False
 order.firmQuoteOnly = False
 
+print("Placing order: START")
 client.order_place(rc, order)
+print("Placing order: START")
 
 order = Order()
 order.account = "DF4943843"
@@ -383,8 +448,20 @@ order.lmtPrice = 2700
 order.eTradeOnly = False
 order.firmQuoteOnly = False
 
+print("Placing order: START")
 req = client.order_place(rc, order)
-req.cancel()
+print("Placing order: END")
+# req.cancel()
 
-client.order_cancel_all()
+# client.order_cancel_all()
 
+
+print("==============================================================================================================")
+print("==== Make all tables visible in the UI.")
+print("==============================================================================================================")
+
+for k, v in client.tables_raw.items():
+    globals()[k] = v
+
+for k, v in client.tables.items():
+    globals()[k] = v

@@ -7,10 +7,13 @@ set -o nounset
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
+#TODO: what should this be?
 export DH_IB_VERSION=development
 
 cd ${__dir}/..
 
+#TODO: will build work if they don't have deephaven or jpy installed?
+#TODO: can we just pull from the pypi?
 python3 -m pip install --upgrade build
 python3 -m build
 
