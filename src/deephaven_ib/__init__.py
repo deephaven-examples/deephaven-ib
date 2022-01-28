@@ -29,11 +29,11 @@ class TickDataType(Enum):
     """Tick data type."""
 
     LAST = "Last"
-    "Most recent trade."
+    """Most recent trade."""
     BID_ASK = "BidAsk"
-    "Most recent bid and ask."
+    """"Most recent bid and ask."""
     MIDPOINT = "MidPoint"
-    "Most recent midpoint."
+    """"Most recent midpoint."""
 
     def historical_value(self) -> str:
         if self.value == "Last":
@@ -177,7 +177,7 @@ class Duration:
     def years(value: int):
         return Duration(f"{value} Y")
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"Duration('{self.value}')"
 
 
@@ -191,7 +191,7 @@ class Request:
         self.request_id = request_id
         self._cancel_func = cancel_func
 
-    def is_cancellable(self) -> None:
+    def is_cancellable(self) -> bool:
         """Is the request cancellable?"""
         return self._cancel_func is not None
 
@@ -221,7 +221,7 @@ class RegisteredContract:
         """Does the contract have multiple contract details?"""
         return len(self.contract_details) > 1
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"RegistredContract({self.query_contract},[{'|'.join([str(cd.contract) for cd in self.contract_details])}])"
 
 
@@ -310,13 +310,14 @@ class IbSessionTws:
     _port: int
     _client_id: int
     _client: IbTwsClient
+    _tables_raw: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
+    _tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
 
     def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates=True):
         self._host = host
         self._port = port
         self._client_id = client_id
         self._client = IbTwsClient(download_short_rates=download_short_rates)
-        self._dtw_requests = None
         self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
         self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
 
@@ -361,7 +362,6 @@ class IbSessionTws:
         """
 
         self._client.disconnect()
-        self._dtw_requests = None
 
     def is_connected(self) -> bool:
         """Is there a connection with TWS?"""

@@ -2,6 +2,7 @@
 
 import logging
 from typing import List, Any, Sequence, Union, Dict
+import collections
 
 import deephaven.DateTimeUtils as dtu
 # noinspection PyPep8Naming
@@ -38,14 +39,7 @@ class TableWriter:
 
     @staticmethod
     def _check_for_duplicate_names(names: List[str]) -> None:
-        counts: Dict[str, int] = {}
-
-        for name in names:
-            if name not in counts:
-                counts[name] = 0
-
-            counts[name] = counts[name] + 1
-
+        counts = collections.Counter(names)
         dups = [name for name, count in counts.items() if count > 1]
 
         if len(dups) > 0:
