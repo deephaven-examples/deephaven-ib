@@ -2,6 +2,22 @@
 
 An Interactive Brokers integration for Deephaven.
 
+# Quick Start
+
+Launch
+```bash
+./bin/example_system.sh up
+```
+
+Shutdown
+```bash
+./bin/example_system.sh down
+```
+
+# Examples
+
+Look in [./examples](./examples).
+
 #TODO document logging configuration
 # logging.basicConfig(level=logging.DEBUG)
 
