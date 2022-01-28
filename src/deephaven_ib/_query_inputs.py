@@ -46,10 +46,10 @@ def __deephaven_ib_parse_note(inputs) -> Union[str, None]:
     note = inputs[0]
     key = inputs[1]
 
-    dict = json.loads(note)
+    json_dict = json.loads(note)
 
-    if key in dict:
-        return dict[key]
+    if key in json_dict:
+        return json_dict[key]
 
     return None
 

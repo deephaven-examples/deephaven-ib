@@ -1,5 +1,5 @@
 ARG TAG
-FROM ghcr.io/deephaven/grpc-api:${TAG}
+FROM ghcr.io/deephaven/server:${TAG}
 
 COPY dist/ /dist
 

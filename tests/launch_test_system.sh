@@ -17,9 +17,9 @@ python3 -m build
 cd ${__dir}
 
 cp -r ../dist .
-docker pull ghcr.io/deephaven/grpc-api:${VERSION:-latest}
+docker-compose pull --ignore-pull-failures
+docker pull ghcr.io/deephaven/server:${VERSION:-latest}
 docker build --build-arg TAG=${VERSION:-latest} --tag deephaven-ib "${__dir}"
 rm -rf dist
 
-#TODO docker-compose pull
 docker-compose up -d
