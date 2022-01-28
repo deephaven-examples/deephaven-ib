@@ -3,6 +3,7 @@
 import logging
 from typing import List, Any, Sequence, Union, Dict
 
+import deephaven.DateTimeUtils as dtu
 # noinspection PyPep8Naming
 import deephaven.Types as dht
 import jpy
@@ -19,12 +20,19 @@ class TableWriter:
 
     _dtw: DynamicTableWriter
     _string_indices: List[int]
+    _receive_time: bool
 
     # TODO: improve types type annotation once deephaven v2 is available
-    def __init__(self, names: List[str], types: List[Any]):
+    def __init__(self, names: List[str], types: List[Any], receive_time: bool = True):
         TableWriter._check_for_duplicate_names(names)
         self.names = names
         self.types = types
+        self._receive_time = receive_time
+
+        if receive_time:
+            self.names.insert(0, "ReceiveTime")
+            self.types.insert(0, dht.datetime)
+
         self._dtw = DynamicTableWriter(names, types)
         self._string_indices = [i for (i, t) in enumerate(types) if t == dht.string]
 
@@ -61,6 +69,9 @@ class TableWriter:
 
     def write_row(self, values: List) -> None:
         """Writes a row of data.  The input values may be modified."""
+
+        if self._receive_time:
+            values.insert(0, dtu.currentTime())
 
         self._check_logged_value_types(values)
 
