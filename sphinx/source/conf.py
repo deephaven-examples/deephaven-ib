@@ -71,6 +71,8 @@ autodoc_typehints = 'none'
 
 #########################################################################################################################################################################
 
+import deephaven_ib
+
 docs_title = "deephaven_ib python modules."
 package_roots = [deephaven_ib]
 package_excludes = ['._']
