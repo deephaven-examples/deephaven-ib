@@ -5,10 +5,10 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-with open("requirements.txt", "r") as f:
-    required = f.read().splitlines()
-
-print(f"DEBUG: required ${required}")
+# with open("requirements.txt", "r") as f:
+#     required = f.read().splitlines()
+#
+# print(f"DEBUG: required ${required}")
 
 version = os.getenv("DH_IB_VERSION")
 
@@ -43,6 +43,13 @@ setuptools.setup(
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
-    install_requires=required,
+    install_requires=[
+        "deephaven-jpy",
+        "deephaven",
+        "ibapi",
+        "pandas",
+        "lxml",
+        "ratelimit",
+    ],
 )
 
