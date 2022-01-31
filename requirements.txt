@@ -1,6 +1,0 @@
-deephaven-jpy
-deephaven
-ibapi
-pandas
-lxml
-ratelimit
