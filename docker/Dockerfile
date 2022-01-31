@@ -11,6 +11,9 @@ RUN apt update && \
     python3 -m pip install --upgrade pip && \
     python3 -m pip install --upgrade setuptools wheel build twine
 
+# Invalidate the cache below here, so that the latest repo changes get cloned
+ARG CACHEBUST
+
 # Build and install deephaven-ib
 RUN mkdir /build && \
     cd /build && \

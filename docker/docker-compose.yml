@@ -8,6 +8,7 @@ services:
         VERSION: ${VERSION:-latest}
         DH_IB_VERSION: ${DH_IB_BRANCH:-main}
         DH_IB_BRANCH: ${DH_IB_BRANCH:-main}
+        CACHEBUST: ${CACHEBUST:-0}
     expose:
       - '8080'
     volumes:
