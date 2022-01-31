@@ -4,14 +4,24 @@ An Interactive Brokers integration for Deephaven.
 
 # Quick Start
 
+Build
+```bash
+./docker/deephaven_ib_docker.sh build
+```
+
 Launch
 ```bash
-./bin/example_system.sh up
+./docker/deephaven_ib_docker.sh up
 ```
 
 Shutdown
 ```bash
-./bin/example_system.sh down
+./docker/deephaven_ib_docker.sh down
+```
+
+Help
+```bash
+./docker/deephaven_ib_docker.sh help
 ```
 
 # Examples
@@ -24,7 +34,6 @@ Look in [./examples](./examples).
 #TODO pydoc all modules
 #TODO sphinx doc
 #TODO add badges
-#TODO: launch
 #TODO: shutdown
 
 Contracts: https://interactivebrokers.github.io/tws-api/basic_contracts.html

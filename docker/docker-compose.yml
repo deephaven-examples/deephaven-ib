@@ -2,11 +2,17 @@ version: "3.4"
 
 services:
   grpc-api:
-    image: deephaven-ib:latest
+    build:
+      context: .
+      args:
+        VERSION: ${VERSION:-latest}
+        DH_IB_VERSION: ${DH_IB_BRANCH:-main}
+        DH_IB_BRANCH: ${DH_IB_BRANCH:-main}
+        CACHEBUST: ${CACHEBUST:-0}
     expose:
       - '8080'
     volumes:
-      - ./notebooks:/notebooks
+      - ./data:/data
       - api-cache:/cache
     environment:
       - JAVA_TOOL_OPTIONS=-Xmx4g -Ddeephaven.console.type=python
@@ -17,8 +23,7 @@ services:
     expose:
       - '80'
     volumes:
-      - ./notebooks:/notebooks
-#      - ./layouts/:/data/layouts
+      - ./data:/data
       - web-tmp:/tmp
 
   grpc-proxy:
