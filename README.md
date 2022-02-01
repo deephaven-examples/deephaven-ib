@@ -1,3 +1,6 @@
+![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
+![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/shpinx.yml/badge.svg?branch=main)
+
 # deephaven-ib
 
 An Interactive Brokers integration for Deephaven.
