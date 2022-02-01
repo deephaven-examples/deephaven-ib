@@ -159,6 +159,9 @@ client = dhib.IbSessionTws(host="host.docker.internal", port=7496)
 client.connect()
 ```
 
+After `client.connect()` is called, TWS requires that the connection be accepted.
+![](./docs/assets/accept-connection.png)
+
 ## Get data
 
 [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) data is stored in
