@@ -8,6 +8,60 @@ An Interactive Brokers integration for Deephaven.
 ![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
 ![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
 
+# Data
+
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+data as dynamically updating [Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io)
+tables are extremely powerful and can express very complex logic concisely.
+For more details on using [Deephaven](https://deephaven.io), see the [Deephaven Documentation](https://deephaven.io/core/docs/).
+
+Avaiable tables include:
+
+* General
+    * `errors`: an error log
+    * `requests`: requests to IB
+* Contracts
+    * `contract_details`: details describing contracts of interest.  Automatically populated.
+    * `contracts_matching`: contracts matching query strings provided to `request_contracts_matching`.
+    * `market_rules`: market rules indicating the price increment a contract can trade in.  Automatically populated.
+    * `short_rates`: interest rates for shorting securities.  Automatically populated if download_short_rates=True.
+* Accounts
+    * `accounts_managed`: accounts managed by the TWS session login.  Automatically populated.
+    * `accounts_family_codes`: account family.  Automatically populated.
+    * `accounts_groups`: account groups.  Automatically populated.
+    * `accounts_allocation_profiles`: allocation profiles for accounts.  Automatically populated.
+    * `accounts_value`: account values.  Automatically populated.
+    * `accounts_overview`: overview of account details.  Automatically populated.
+    * `accounts_summary`: account summary.  Automatically populated.
+    * `accounts_positions`: account positions.  Automatically populated.
+    * `accounts_pnl`: account PNL.  Automatically populated.
+* News
+    * `news_providers`: currently subscribed news sources.  Automatically populated.
+    * `news_bulletins`: news bulletins.  Automatically populated.
+    * `news_articles`: the content of news articles requested via 'request_news_article'
+    * `news_historical`: historical news headlines requested via 'request_news_historical'
+* Market Data
+    * `ticks_price`: real-time tick market data of price values requested via 'request_market_data'.
+    * `ticks_size`: real-time tick market data of size values requested via 'request_market_data'.
+    * `ticks_string`: real-time tick market data of string values requested via 'request_market_data'.
+    * `ticks_efp`: real-time tick market data of exchange for physical (EFP) values requested via 'request_market_data'.
+    * `ticks_generic`: real-time tick market data of generic floating point values requested via 'request_market_data'.
+    * `ticks_option_computation`: real-time tick market data of option computations requested via 'request_market_data'.
+    * `ticks_trade`: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+    * `ticks_bid_ask`: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+    * `ticks_mid_point`: real-time tick market data of mid-point prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+    * `bars_historical`: historical price bars requested via 'request_bars_historical'
+    * `bars_realtime`: real-time price bars requested via 'request_bars_realtime'
+* Order Management System (OMS)
+    * `orders_submitted`: submitted orders FOR THE THE CLIENT ID.  A client ID of 0 contains manually entered orders.  Automatically populated.
+    * `orders_status`: order statuses.  Automatically populated.
+    * `orders_completed`: completed orders.  Automatically populated.
+    * `orders_exec_details`: order execution details.  Automatically populated.
+    * `orders_exec_commission_report`: order execution commission report.  Automatically populated.
+
+Most tables include a `ReceiveTime` column.  This column indicates the time the data was received by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+It does not represent the time the event occurred.
+
 # Run deephaven-ib
 
 Follow these setps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
