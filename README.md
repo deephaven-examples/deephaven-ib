@@ -79,7 +79,7 @@ of Docker, `host` should be set to `host.docker.internal`.
 
 `port` is the network port [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
 communicates on.  This value can be found in the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
-settings.  See [Setup](#setup) for more details.
+settings.  By default, production trading uses port 7496, and paper trading uses port 7497.  See [Setup](#setup) and [TWS Initial Setup](https://interactivebrokers.github.io/tws-api/initial_setup.html) for more details.
 
 ```python
 import deephaven_ib as dhib
@@ -120,6 +120,13 @@ Similarly, raw tables can be viewed by:
 ```python
 for k, v in client.tables_raw.items():
     globals()[k] = v
+```
+
+A list of available tables can be obtained by:
+
+```python
+print(client.tables.keys())
+print(client.tables_raw.keys())
 ```
 
 ## Create a contract
@@ -283,12 +290,26 @@ client.order_place(rc, order)
 client.order_cancel_all()
 ```
 
+## Logging
+
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) and `ibapi` both use Python's 
+[`logging`](https://docs.python.org/3/howto/logging.html) framework.  By default, `ERROR` and higher
+levels are logged.  More or less logging can be displayed by changing the logging level.
+
+To see fewer log messages:
+```python
+import logging
+logging.basicConfig(level=logging.CRITICAL)
+```
+
+To see all log messages:
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+A discussion of available logging levels can be found in the [Python `logging` module documentation](https://docs.python.org/3/howto/logging.html).
+
 # Examples
 
 Examples can be found in [./examples](./examples).
-
-#TODO document logging configuration
-# logging.basicConfig(level=logging.DEBUG)
-
-#TODO sphinx doc
-#TODO list tables

@@ -2,7 +2,7 @@ from ibapi.contract import Contract
 
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7496, download_short_rates=False)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, download_short_rates=False)
 client.connect()
 
 # Makes all tables global variables so that they are displayed in the user interface
