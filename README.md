@@ -5,17 +5,23 @@
 
 An Interactive Brokers integration for Deephaven.
 
+***WRITE SOME SALESY OVERVIEW STUFF HERE***
+
 ![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
 ![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
 
-# Data
+# Available Data
 
-[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
-data as dynamically updating [Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io)
-tables are extremely powerful and can express very complex logic concisely.
-For more details on using [Deephaven](https://deephaven.io), see the [Deephaven Documentation](https://deephaven.io/core/docs/).
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all data as dynamically updating 
+[Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io) tables are extremely powerful and can 
+express very complex logic concisely.
 
-Avaiable tables include:
+For more details on using [Deephaven](https://deephaven.io), see the [Deephaven Tutorial](https://deephaven.io/core/docs/tutorials/overview/) 
+and the [Deephaven Documentation](https://deephaven.io/core/docs/).
+
+## TWS data
+
+Tables available from [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) include:
 
 * General
     * `errors`: an error log
@@ -53,7 +59,7 @@ Avaiable tables include:
     * `bars_historical`: historical price bars requested via 'request_bars_historical'
     * `bars_realtime`: real-time price bars requested via 'request_bars_realtime'
 * Order Management System (OMS)
-    * `orders_submitted`: submitted orders FOR THE THE CLIENT ID.  A client ID of 0 contains manually entered orders.  Automatically populated.
+    * `orders_submitted`: submitted orders **FOR THE THE CLIENT'S ID**.  A client ID of 0 contains manually entered orders.  Automatically populated.
     * `orders_status`: order statuses.  Automatically populated.
     * `orders_completed`: completed orders.  Automatically populated.
     * `orders_exec_details`: order execution details.  Automatically populated.
@@ -61,6 +67,17 @@ Avaiable tables include:
 
 Most tables include a `ReceiveTime` column.  This column indicates the time the data was received by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
 It does not represent the time the event occurred.
+
+## Your data
+
+[Deephaven](https://deephaven.io) can load data from:
+* [CSV](https://deephaven.io/core/docs/how-to-guides/csv-import/)
+* [Parquet](https://deephaven.io/core/docs/how-to-guides/parquet-flat/) 
+* [Kafka](https://deephaven.io/core/docs/how-to-guides/kafka-topics/).  
+See the [Deephaven Documentation](https://deephaven.io/core/docs) for details.
+
+Files placed in the `./docker/data/` directory are visible in the Docker container at `/data/`.  
+See [Access your file system with Docker data volumes](https://deephaven.io/core/docs/conceptual/docker-data-volumes/) for details.
 
 # Run deephaven-ib
 
@@ -144,12 +161,8 @@ client.connect()
 
 ## Get data
 
-[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
-data as dynamically updating [Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io)
-tables are extremely powerful and can express very complex logic concisely.
-For more details on [Deephaven](https://deephaven.io), see the [Deephaven Documentation](https://deephaven.io/core/docs/).  
-
-The [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) client contains two dictionaries of tables:
+[IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) data is stored in
+the [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) client as two dictionaries of tables:
 * `tables` contains the tables most users will want.  
 * `tables_raw` contains raw [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
 data.
