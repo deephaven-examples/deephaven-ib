@@ -32,9 +32,11 @@ To setup and configure the system:
 upper right corner.  ![](./docs/assets/config-gear.png)  
   In API->Settings, make sure:
 
-    * "Enable ActiveX and Socket Clients" is selected
-    * "Allow connections from localhost only" is not selected
-    ![](./docs/assets/config-api.png)
+    * "Enable ActiveX and Socket Clients" is selected.
+    * "Allow connections from localhost only" is not selected.
+    * "Read-Only API" is selected if you want to prevent trade submission from [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+    * Note the "Socket port" value.  It is needed when connecting [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+  ![](./docs/assets/config-api.png)
 
 ## Launch
 To launch the system:
