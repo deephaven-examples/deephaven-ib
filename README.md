@@ -18,20 +18,22 @@ can be found on the [Deephaven Releases GitHub page](https://github.com/deephave
 **Windows users need to run the commands in WSL.**
 
 1) Follow the [Deephaven Quick Start Guide](https://deephaven.io/core/docs/tutorials/quickstart/) to get [Deephaven](https://deephaven.io) running.  
-2) Check out the [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) repository:
+1) Follow the [TWS Installation Instructions](https://www.interactivebrokers.com/en/trading/tws.php) to get [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) running.
+1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+1) Check out the [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) repository:
     ```bash
     git clone https://github.com/deephaven-examples/deephaven-ib.git
     cd deephaven-ib
     ```
-3) Build the Docker images:
+1) Build the Docker images:
     ```bash
     ./docker/deephaven_ib_docker.sh build --dh-version <deephaven_version>
     ```
-4) Launch the system:
+1) Launch the system:
     ```bash
     ./docker/deephaven_ib_docker.sh up --dh-version <deephaven_version>
     ```
-5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+1) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
 
 To shut down the system:
 ```bash
@@ -44,7 +46,7 @@ To get help on running the system:
 ```
 
 
-
+*** configure IB
 
 
 # Examples
