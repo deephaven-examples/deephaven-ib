@@ -28,7 +28,13 @@ To setup and configure the system:
     cd deephaven-ib
     ```
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
-1) xxxxx configure xxxxx
+1) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
+upper right corner.  ![](./docs/assets/config-gear.png)  
+  In API->Settings, make sure:
+
+    * "Enable ActiveX and Socket Clients" is selected
+    * "Allow connections from localhost only" is not selected
+    ![](./docs/assets/config-api.png)
 
 ## Launch
 To launch the system:
