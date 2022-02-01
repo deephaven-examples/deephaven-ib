@@ -2,10 +2,11 @@
 # deephaven-ib
 
 <!-- TODO: add an imagge -->
+<!-- TODO: Add salsey overview -->
+<!-- TODO: add a warning -->
 
 An Interactive Brokers integration for Deephaven.
 
-***WRITE SOME SALESY OVERVIEW STUFF HERE***
 
 ![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
 ![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
@@ -158,6 +159,9 @@ import deephaven_ib as dhib
 client = dhib.IbSessionTws(host="host.docker.internal", port=7496)
 client.connect()
 ```
+
+After `client.connect()` is called, TWS requires that the connection be accepted.
+![](./docs/assets/accept-connection.png)
 
 ## Get data
 
