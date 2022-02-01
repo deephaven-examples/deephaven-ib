@@ -1,31 +1,51 @@
-![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
-![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
 
 # deephaven-ib
 
+<!-- TODO: add an imagge -->
+
 An Interactive Brokers integration for Deephaven.
 
-# Quick Start
+![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
+![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
 
-Build
+# Run deephaven-ib
+
+Follow these setps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
+
+`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g. `0.9.0`).  A list of availble versions 
+can be found on the [Deephaven Releases GitHub page](https://github.com/deephaven/deephaven-core/releases).
+
+**Windows users need to run the commands in WSL.**
+
+1) Follow the [Deephaven Quick Start Guide](https://deephaven.io/core/docs/tutorials/quickstart/) to get [Deephaven](https://deephaven.io) running.  
+2) Check out the [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) repository:
+    ```bash
+    git clone https://github.com/deephaven-examples/deephaven-ib.git
+    cd deephaven-ib
+    ```
+3) Build the Docker images:
+    ```bash
+    ./docker/deephaven_ib_docker.sh build --dh-version <deephaven_version>
+    ```
+4) Launch the system:
+    ```bash
+    ./docker/deephaven_ib_docker.sh up --dh-version <deephaven_version>
+    ```
+5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+
+To shut down the system:
 ```bash
-./docker/deephaven_ib_docker.sh build
+./docker/deephaven_ib_docker.sh down --dh-version <deephaven_version>
 ```
 
-Launch
-```bash
-./docker/deephaven_ib_docker.sh up
-```
-
-Shutdown
-```bash
-./docker/deephaven_ib_docker.sh down
-```
-
-Help
+To get help on running the system:
 ```bash
 ./docker/deephaven_ib_docker.sh help
 ```
+
+
+
+
 
 # Examples
 
@@ -36,7 +56,6 @@ Look in [./examples](./examples).
 
 #TODO pydoc all modules
 #TODO sphinx doc
-#TODO add badges
 #TODO: shutdown
 
 Contracts: https://interactivebrokers.github.io/tws-api/basic_contracts.html
