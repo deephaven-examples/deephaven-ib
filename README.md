@@ -43,6 +43,8 @@ upper right corner.  ![](./docs/assets/config-gear.png)
 To launch the system:
 
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+1) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+![](./docs/assets/allow-connections.png)
 1) Build the Docker images:
     ```bash
     ./docker/deephaven_ib_docker.sh build --dh-version <deephaven_version>
