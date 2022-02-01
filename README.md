@@ -67,19 +67,228 @@ To get help on running the system:
 ./docker/deephaven_ib_docker.sh help
 ```
 
+# Use deephaven-ib
 
-*** configure IB
+## Connect to TWS
 
+All [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) sessions need to first create a client for interacting 
+with [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+
+`host` is the computer to connect to.  When using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) inside
+of Docker, `host` should be set to `host.docker.internal`.  
+
+`port` is the network port [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+communicates on.  This value can be found in the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+settings.  See [Setup](#setup) for more details.
+
+```python
+import deephaven_ib as dhib
+
+client = dhib.IbSessionTws(host="host.docker.internal", port=7496)
+client.connect()
+```
+
+## Get data
+
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+data as dynamically updating [Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io)
+tables are extremely powerful and can express very complex logic concisely.
+For more details on [Deephaven](https://deephaven.io), see the [Deephaven Documentation](https://deephaven.io/core/docs/).  
+
+The [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) client contains two dictionaries of tables:
+* `tables` contains the tables most users will want.  
+* `tables_raw` contains raw [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+data.
+
+As an example, the `requests` table, that contains all of the requests made to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php),
+can be obtained by:
+
+```python
+requests = client.tables["requests"]
+```
+
+To display all of the tables in the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide),
+place the tables in the global namespace.  This can most easily be done by:
+
+```python
+for k, v in client.tables.items():
+    globals()[k] = v
+```
+
+Similarly, raw tables can be viewed by:
+
+```python
+for k, v in client.tables_raw.items():
+    globals()[k] = v
+```
+
+## Create a contract
+
+In IB, financial contracts include:
+* Stocks
+* FX
+* Cryptocurrency
+* Indexes
+* CFDs
+* Futures
+* Options
+* Futures Options
+* Bonds
+* Mutual Funds
+* Warrants
+* Commodities
+
+To create a contract for use in [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib),
+the contract must first be created as an `ibapi.contract.Contract`.  Once the contract is created,
+it must be registered with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) before it
+can be used.  
+
+Details on creating contracts can be found at 
+[https://interactivebrokers.github.io/tws-api/basic_contracts.html](https://interactivebrokers.github.io/tws-api/basic_contracts.html).
+
+Registering the contract causes the contract details to appear in the `contracts_details` table.
+
+```python
+from ibapi.contract import Contract
+
+c = Contract()
+c.symbol = 'AAPL'
+c.secType = 'STK'
+c.exchange = 'SMART'
+c.currency = 'USD'
+
+rc = client.get_registered_contract(c)
+print(rc)
+```
+
+[./examples/example_all_functionality.py](./examples/example_all_functionality.py) illustrates the creation and registration
+of many different types of contracts.
+
+## Request market data
+
+Market data can be requested from the client using:
+* `request_market_data`
+* `request_bars_historical`
+* `request_bars_realtime`
+* `request_tick_data_realtime`
+* `request_tick_data_historical`
+
+```python
+from ibapi.contract import Contract
+
+import deephaven_ib as dhib
+
+# Use delayed market data if you do not have access to real-time
+# client.set_market_data_type(dhib.MarketDataType.DELAYED)
+client.set_market_data_type(dhib.MarketDataType.REAL_TIME)
+
+
+c = Contract()
+c.symbol = 'AAPL'
+c.secType = 'STK'
+c.exchange = 'SMART'
+c.currency = 'USD'
+
+rc = client.get_registered_contract(c)
+print(rc)
+
+client.request_market_data(rc)
+client.request_tick_data_realtime(rc, dhib.TickDataType.BID_ASK)
+client.request_tick_data_realtime(rc, dhib.TickDataType.LAST)
+client.request_tick_data_realtime(rc, dhib.TickDataType.MIDPOINT)
+```
+
+[./examples/example_all_functionality.py](./examples/example_all_functionality.py) illustrates requesting
+many kinds of market data.
+
+
+## Request news
+
+Market data can be requested from the client using:
+* `request_news_historical`
+* `request_news_article`
+
+```python
+from ibapi.contract import Contract
+
+from deephaven import DateTimeUtils as dtu
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+start = dtu.convertDateTime("2021-01-01T00:00:00 NY")
+end = dtu.convertDateTime("2021-01-10T00:00:00 NY")
+client.request_news_historical(rc, start=start, end=end)
+
+client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
+```
+
+[./examples/example_all_functionality.py](./examples/example_all_functionality.py) illustrates requesting
+news data.
+
+## Request account details
+
+Standard account details are requested by default.  [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+does not provide an API for requesting all model codes, so [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib)
+can not subscribe to data for different model codes.  If you need details on non-standard
+account / model code combinations, you can use:
+* `request_account_pnl`
+* `request_account_overview`
+* `request_account_positions`
+
+## Order management
+
+Orders can be created and canceled using:
+* `order_place`
+* `order_cancel`
+* `order_cancel_all`
+
+To place an order, register a contract with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib),
+and create an `ibapi.order.Order` containing details for the order.
+
+Details on creating orders can be found at [https://interactivebrokers.github.io/tws-api/orders.html](https://interactivebrokers.github.io/tws-api/orders.html).
+
+```python
+from ibapi.contract import Contract
+from ibapi.order import Order
+
+contract = Contract()
+contract.symbol = "GOOG"
+contract.secType = "STK"
+contract.currency = "USD"
+contract.exchange = "SMART"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+order = Order()
+order.account = "DF4943843"
+order.action = "BUY"
+order.orderType = "LIMIT"
+order.totalQuantity = 1
+order.lmtPrice = 3000
+order.eTradeOnly = False
+order.firmQuoteOnly = False
+
+req = client.order_place(rc, order)
+req.cancel()
+
+client.order_place(rc, order)
+client.order_cancel_all()
+```
 
 # Examples
 
-Look in [./examples](./examples).
+Examples can be found in [./examples](./examples).
 
 #TODO document logging configuration
 # logging.basicConfig(level=logging.DEBUG)
 
-#TODO pydoc all modules
 #TODO sphinx doc
-#TODO: shutdown
-
-Contracts: https://interactivebrokers.github.io/tws-api/basic_contracts.html
+#TODO list tables
