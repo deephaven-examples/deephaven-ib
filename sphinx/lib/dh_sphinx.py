@@ -26,6 +26,7 @@ def setup_sphinx_environment():
 
     def exit_handler():
         print("Exit handler")
+        jpy.destroy_jvm()
         sys.exit()
 
     global _exit_timer
