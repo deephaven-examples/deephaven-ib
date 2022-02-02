@@ -71,82 +71,17 @@ autodoc_typehints = 'none'
 
 #########################################################################################################################################################################
 
-import os
 import sys
-from pathlib import Path
 
-new_python_path = Path(os.path.realpath(__file__)).parents[2].joinpath("src")
-sys.path.append(str(new_python_path))
+sys.path.append("/build/deephaven-ib/sphinx/lib/")
+import dh_sphinx
 
-# import jpy
-#
-# jpy.create_jvm(['-Xmx512M'])
-
-# from deephaven.start_jvm import start_jvm
-# start_jvm()
-
-# adapted from deephaven2/_utils/bootstrap.py
-
-for k, v in os.environ.items():
-    print(f'ENV: {k}={v}')
-
-from deephaven.start_jvm import start_jvm
-import jpy
-
-# # DEFAULT_DEVROOT = os.environ.get('DEEPHAVEN_DEVROOT', "/tmp/pyintegration")
-# DEFAULT_WORKSPACE = os.environ.get('DEEPHAVEN_WORKSPACE', "/tmp")
-# # DEFAULT_PROPFILE = os.environ.get('DEEPHAVEN_PROPFILE', 'dh-defaults.prop')
-# DEFAULT_CLASSPATH = os.environ.get('DEEPHAVEN_CLASSPATH', "/opt/deephaven/server/lib/*")
-#
-#
-# def build_py_session():
-#     if not jpy.has_jvm():
-#         os.environ['JAVA_VERSION'] = '11'
-#
-#         # we will try to initialize the jvm
-#         kwargs = {
-#             'workspace': DEFAULT_WORKSPACE,
-#             # 'devroot': DEFAULT_DEVROOT,
-#             'verbose': False,
-#             # 'propfile': DEFAULT_PROPFILE,
-#             'java_home': os.environ.get('JDK_HOME', None),
-#             'jvm_properties': {'PyObject.cleanup_on_thread': 'false'},
-#             'jvm_options': {'-Djava.awt.headless=true',
-#                             # '-Xms1g',
-#                             # '-Xmn512m',
-#                             '-XX:+UseG1GC',
-#                             '-XX:MaxGCPauseMillis=100',
-#                             '-XX:+UseStringDeduplication',
-#                             '-XX:InitialRAMPercentage=25.0',
-#                             '-XX:MinRAMPercentage=70.0',
-#                             '-XX:MaxRAMPercentage=80.0',
-#                             # '-XshowSettings:vm',
-#                             # '-verbose:gc', '-XX:+PrintGCDetails',
-#                             },
-#             # 'jvm_maxmem': '1g',
-#             'jvm_classpath': DEFAULT_CLASSPATH,
-#             'skip_default_classpath': True
-#         }
-#         # initialize the jvm
-#         start_jvm(**kwargs)
-#
-#
-# build_py_session()
-
-if not jpy.has_jvm():
-    os.environ['JAVA_VERSION'] = '11'
-    start_jvm(devroot="/tmp", workspace="/tmp", propfile='dh-defaults.prop', java_home=os.environ.get('JDK_HOME', None),
-              jvm_classpath="/opt/deephaven/server/lib/*", skip_default_classpath=True)
-
+dh_sphinx.setup_sphinx_environment()
 
 import deephaven_ib
 
 docs_title = "deephaven_ib python modules."
 package_roots = [deephaven_ib]
 package_excludes = ['._']
-
-sys.path.append("/build/deephaven-ib/sphinx/lib/")
-
-import dh_sphinx
 
 dh_sphinx.gen_sphinx_modules(docs_title, package_roots, package_excludes)
