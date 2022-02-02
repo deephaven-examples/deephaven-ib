@@ -11,18 +11,18 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v5
+      id: branch-name
+      uses: tj-actions/branch-names@v5
     - name: Sphinx
-        env:
-          BRANCH: ${{ steps.branch-name.outputs.current_branch }}
-        run: |
-          echo "BRANCH=${BRANCH}"
-          echo CB=${{ steps.branch-name.outputs.current_branch }}
-          cd sphinx
-          docker build . -t deephaven-ib/sphinx --build-arg VERSION=latest --build-arg DH_IB_VERSION=${BRANCH} --build-arg DH_IB_BRANCH=${BRANCH}
-          docker run deephaven-ib/sphinx -v ./build/:/build/deephaven-ib/sphinx/build/
-          find ./build
+      env:
+        BRANCH: ${{ steps.branch-name.outputs.current_branch }}
+      run: |
+        echo "BRANCH=${BRANCH}"
+        echo CB=${{ steps.branch-name.outputs.current_branch }}
+        cd sphinx
+        docker build . -t deephaven-ib/sphinx --build-arg VERSION=latest --build-arg DH_IB_VERSION=${BRANCH} --build-arg DH_IB_BRANCH=${BRANCH}
+        docker run deephaven-ib/sphinx -v ./build/:/build/deephaven-ib/sphinx/build/
+        find ./build
 
 
 #    - uses: actions/checkout@v1
