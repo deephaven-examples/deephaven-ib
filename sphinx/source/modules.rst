@@ -1,3 +1,4 @@
+
 Python Modules
 ##############
 
@@ -7,5 +8,6 @@ Deephaven python modules.
 :glob:
 
 
-        ./code/jpy
+        ./code/deephaven-ib
         ./code/deephaven
+        ./code/ibapi

@@ -79,9 +79,11 @@ import dh_sphinx
 dh_sphinx.setup_sphinx_environment()
 
 import deephaven_ib
+import deephaven
+import ibapi
 
 docs_title = "deephaven_ib python modules."
-package_roots = [deephaven_ib]
+package_roots = [deephaven_ib, deephaven, ibapi]
 package_excludes = ['._']
 
 dh_sphinx.gen_sphinx_modules(docs_title, package_roots, package_excludes)
