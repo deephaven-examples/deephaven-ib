@@ -8,6 +8,7 @@ from pathlib import Path
 import jpy
 from deephaven.start_jvm import start_jvm
 
+_jvm_timer = None
 
 def setup_sphinx_environment():
     # add the deephaven-ib path
@@ -27,7 +28,9 @@ def setup_sphinx_environment():
         print("Stopping JVM")
         jpy.destroy_jvm()
 
-    threading.Timer(30, stop_jvm)
+    global _jvm_timer
+    _jvm_timer = threading.Timer(30, stop_jvm)
+    _jvm_timer.start()
 
 
 def glob_package_names(packages):
