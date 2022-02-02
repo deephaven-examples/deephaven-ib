@@ -1,3 +1,4 @@
+import atexit
 import os
 import pkgutil
 import shutil
@@ -37,10 +38,16 @@ def setup_sphinx_environment():
 
         print("Calling sys.exit()")
         sys.exit()
+        print("Exited")
 
     global _exit_timer
     _exit_timer = threading.Timer(30, exit_handler)
     _exit_timer.start()
+
+    def exit_message():
+        print("Exit message")
+
+    atexit.register(exit_message)
 
 
 def glob_package_names(packages):
