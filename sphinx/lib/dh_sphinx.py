@@ -1,6 +1,24 @@
 import os
 import pkgutil
 import shutil
+import sys
+from pathlib import Path
+
+import jpy
+from deephaven.start_jvm import start_jvm
+
+
+def setup_sphinx_environment():
+    # add the deephaven-ib path
+    new_python_path = Path(os.path.realpath(__file__)).parents[2].joinpath("src")
+    sys.path.append(str(new_python_path))
+
+    # start the jvm so that deephaven can be loaded
+    if not jpy.has_jvm():
+        os.environ['JAVA_VERSION'] = '11'
+        start_jvm(devroot="/tmp", workspace="/tmp", propfile='dh-defaults.prop',
+                  java_home=os.environ.get('JDK_HOME', None),
+                  jvm_classpath="/opt/deephaven/server/lib/*", skip_default_classpath=True)
 
 
 def glob_package_names(packages):

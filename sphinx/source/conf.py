@@ -71,19 +71,17 @@ autodoc_typehints = 'none'
 
 #########################################################################################################################################################################
 
-import os
 import sys
-from pathlib import Path
 
-new_python_path = Path(os.path.realpath(__file__)).parents[2].joinpath("src")
-sys.path.append(str(new_python_path))
+sys.path.append("/build/deephaven-ib/sphinx/lib/")
+import dh_sphinx
+
+dh_sphinx.setup_sphinx_environment()
 
 import deephaven_ib
 
 docs_title = "deephaven_ib python modules."
 package_roots = [deephaven_ib]
 package_excludes = ['._']
-
-import dh_sphinx
 
 dh_sphinx.gen_sphinx_modules(docs_title, package_roots, package_excludes)
