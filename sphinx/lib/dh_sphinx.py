@@ -1,8 +1,8 @@
-import atexit
 import os
 import pkgutil
 import shutil
 import sys
+import threading
 from pathlib import Path
 
 import jpy
@@ -21,11 +21,13 @@ def setup_sphinx_environment():
                   java_home=os.environ.get('JDK_HOME', None),
                   jvm_classpath="/opt/deephaven/server/lib/*", skip_default_classpath=True)
 
-    def exit_handler():
-        print("IN EXIT HANDLER")
+    # The JVM hangs sphinx.  After a period, stop the jvm.
+
+    def stop_jvm():
+        print("Stopping JVM")
         jpy.destroy_jvm()
 
-    atexit.register(exit_handler)
+    threading.Timer(30, stop_jvm)
 
 
 def glob_package_names(packages):
