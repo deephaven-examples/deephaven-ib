@@ -5,6 +5,9 @@ FROM ghcr.io/deephaven/server:${VERSION}
 ARG DH_IB_VERSION
 ARG DH_IB_BRANCH
 
+#TODO: remove debug
+RUN echo "DH_IB_VERSION=${DH_IB_VERSION}" && echo "DH_IB_BRANCH=${DH_IB_BRANCH}"
+
 # Install requirements
 RUN apt update && \
     apt install --yes git python3-venv && \

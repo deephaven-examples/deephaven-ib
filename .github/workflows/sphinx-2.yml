@@ -1,4 +1,5 @@
-name: "Sphinx Documentation"
+#TODO: rename
+name: "Sphinx Documentation v2"
 
 #TODO: when should it run?
 on:
