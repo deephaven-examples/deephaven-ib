@@ -22,8 +22,13 @@ jobs:
     - name: Run Sphinx Docker
       working-directory: ./sphinx
       run: |
+        echo "DEBUG: IMAGES"
+        docker images
+        echo "DEBUG: RUN"
         docker run deephaven-ib/sphinx -v ./build/:/build/deephaven-ib/sphinx/build/
+        echo "DEBUG: FIND"
         find ./build
+        echo "DEBUG: DONE"
 
 
 #    - uses: actions/checkout@v1
