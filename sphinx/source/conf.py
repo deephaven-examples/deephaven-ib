@@ -145,6 +145,8 @@ docs_title = "deephaven_ib python modules."
 package_roots = [deephaven_ib]
 package_excludes = ['._']
 
+sys.path.append("/build/deephaven-ib/sphinx/lib/")
+
 import dh_sphinx
 
 dh_sphinx.gen_sphinx_modules(docs_title, package_roots, package_excludes)
