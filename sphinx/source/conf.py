@@ -87,12 +87,15 @@ sys.path.append(str(new_python_path))
 
 # adapted from deephaven2/_utils/bootstrap.py
 
+for k, v in os.environ.items():
+    print(f'ENV: {k}={v}')
+
 from deephaven.start_jvm import start_jvm
 import jpy
 
-DEFAULT_DEVROOT = os.environ.get('DEEPHAVEN_DEVROOT', "/tmp/pyintegration")
+# DEFAULT_DEVROOT = os.environ.get('DEEPHAVEN_DEVROOT', "/tmp/pyintegration")
 DEFAULT_WORKSPACE = os.environ.get('DEEPHAVEN_WORKSPACE', "/tmp")
-DEFAULT_PROPFILE = os.environ.get('DEEPHAVEN_PROPFILE', 'dh-defaults.prop')
+# DEFAULT_PROPFILE = os.environ.get('DEEPHAVEN_PROPFILE', 'dh-defaults.prop')
 DEFAULT_CLASSPATH = os.environ.get('DEEPHAVEN_CLASSPATH', "/opt/deephaven/server/lib/*")
 
 
@@ -103,9 +106,9 @@ def build_py_session():
         # we will try to initialize the jvm
         kwargs = {
             'workspace': DEFAULT_WORKSPACE,
-            'devroot': DEFAULT_DEVROOT,
+            # 'devroot': DEFAULT_DEVROOT,
             'verbose': False,
-            'propfile': DEFAULT_PROPFILE,
+            # 'propfile': DEFAULT_PROPFILE,
             'java_home': os.environ.get('JDK_HOME', None),
             'jvm_properties': {'PyObject.cleanup_on_thread': 'false'},
             'jvm_options': {'-Djava.awt.headless=true',
