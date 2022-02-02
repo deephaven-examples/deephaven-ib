@@ -1,5 +1,7 @@
+#TODO: rename
 name: "Sphinx Documentation"
 
+#TODO: when should it run?
 on:
 - pull_request
 
@@ -8,13 +10,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: "sphinx/"
-        pre-build-command: "python3 -m pip install --upgrade pip && python3 -m pip install --upgrade -r requirements.txt"
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5
+    - name: Build Sphinx Docker
+      env:
+        BRANCH: ${{ steps.branch-name.outputs.current_branch }}
+      working-directory: ./sphinx
+      run: |
+        docker build . -t deephaven-ib/sphinx --build-arg VERSION=latest --build-arg DH_IB_VERSION=${BRANCH} --build-arg DH_IB_BRANCH=${BRANCH}
+    - name: Run Sphinx Docker
+      working-directory: ./sphinx
+      run: |
+        echo "DEBUG: IMAGES"
+        docker images
+        echo "DEBUG: RUN"
+        docker run -v `pwd`/build/:/build/deephaven-ib/sphinx/build/ deephaven-ib/sphinx
+        echo "DEBUG: FIND"
+        find ./build
+        echo "DEBUG: DONE"
     - uses: actions/upload-artifact@v1
       with:
         name: DocumentationHTML
-        path: docs/build/html/
+        path: sphinx/build/html/
+#        path: docs/build/html/
 
 #TODO: publish to gh_pages

@@ -20,7 +20,6 @@ RUN mkdir /build && \
     pip3 install dist/*.whl
 
 # Build sphinx
-#TODO: clean up
-ENTRYPOINT echo "DOING CD" && cd /build/deephaven-ib/sphinx && echo "DOING MAKE" && make html && echo "DOING DONE"
+ENTRYPOINT cd /build/deephaven-ib/sphinx && make html
 
 
