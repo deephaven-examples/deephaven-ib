@@ -2,14 +2,61 @@
 # deephaven-ib
 
 <!-- TODO: add an imagge -->
-<!-- TODO: Add salsey overview -->
-<!-- TODO: add a warning -->
 
-An Interactive Brokers integration for Deephaven.
+An [Interactive Brokers](https://www.interactivebrokers.com/) integration for [Deephaven](https://deephaven.io).
 
+[Interactive Brokers](https://www.interactivebrokers.com/) is a very popular brokerage in the quantitative finance world,
+with about $200B of customer equity.  It is a very common choice for quants and hedge funds because of its low trading costs 
+and API that facilitates automated trading.  With low minimum account balances, 
+[Interactive Brokers](https://www.interactivebrokers.com/) is also an attractive choice for individual investors.
+
+[Deephaven](https://deephaven.io) is the real-time query engine that runs the quantitative trading of the worlds largest
+hedge funds, banks, and exchanges.  [Deephaven](https://deephaven.io) makes working with real-time data easy and
+facilitates very concise and easy-to-read code.  With [Deephaven](https://deephaven.io), quants can create new models 
+and get them into production quickly, traders can monitor the market and their portfolios, and 
+managers can monitor risk. 
+
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) combines the low-cost trading of 
+[Interactive Brokers](https://www.interactivebrokers.com/) with the analytical power and ease of use of 
+[Deephaven Community Core](https://github.com/deephaven/deephaven-core) to yield an open, quantitative 
+trading platform.  Basically, an open platform for building a quantitative hedge fund or for performing
+quantitative trading in your personal account.
+
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) supports trading essentially all common
+exchange traded products.  These include:
+* Stocks
+* Mutual Funds
+* Options
+* Futures
+* Futures Options
+* Indexes
+* Bonds
+* Foreign Exchange (Forex or FX)
+* Cryptocurrency
+* Contracts for Differences (CFDs)
+* Warrants
+* Commodities
+
+For more details see:
+* [Interactive Brokers](https://www.interactivebrokers.com/)
+* [Deephaven](https://deephaven.io)
+* [Deephaven Community Core](https://github.com/deephaven/deephaven-core)
+* [Deephaven Community Core Docs](https://deephaven.io/core/docs/)
+
+For help with [Deephaven](https://deephaven.io):
+* [A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
+* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+* [Deephaven Community Core Discussions](https://github.com/deephaven/deephaven-core/discussions)
+
+
+**WARNING: Automated trading can go horribly wrong very quickly.  Verify your code on a paper trading account before 
+unleasing trading on an account where money can be lost.  If you think this can not happen to you, read
+[The Rise and Fall of Knight Capital](https://medium.com/dataseries/the-rise-and-fall-of-knight-capital-buy-high-sell-low-rinse-and-repeat-ae17fae780f6).
+The [Setup](#setup) section shows configurations to prevent accidental trade submission.**
 
 ![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
 ![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
+
 
 # Available Data
 
