@@ -78,9 +78,13 @@ from pathlib import Path
 new_python_path = Path(os.path.realpath(__file__)).parents[2].joinpath("src")
 sys.path.append(str(new_python_path))
 
-import jpy
+# import jpy
+#
+# jpy.create_jvm(['-Xmx512M'])
+from deephaven.start_jvm import start_jvm
 
-jpy.create_jvm(['-Xmx512M'])
+start_jvm()
+
 
 import deephaven_ib
 
