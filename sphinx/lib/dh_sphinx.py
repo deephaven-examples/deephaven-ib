@@ -8,7 +8,7 @@ from pathlib import Path
 import jpy
 from deephaven.start_jvm import start_jvm
 
-_jvm_timer = None
+_exit_timer = None
 
 def setup_sphinx_environment():
     # add the deephaven-ib path
@@ -22,15 +22,15 @@ def setup_sphinx_environment():
                   java_home=os.environ.get('JDK_HOME', None),
                   jvm_classpath="/opt/deephaven/server/lib/*", skip_default_classpath=True)
 
-    # The JVM hangs sphinx.  After a period, stop the jvm.
+    # Sphinx hangs for some reason.  Maybe the JVM doesn't clean up completely.  Forcing exit.
 
-    def stop_jvm():
-        print("Stopping JVM")
-        jpy.destroy_jvm()
+    def exit_handler():
+        print("Exit handler")
+        sys.exit(0)
 
-    global _jvm_timer
-    _jvm_timer = threading.Timer(30, stop_jvm)
-    _jvm_timer.start()
+    global _exit_timer
+    _exit_timer = threading.Timer(30, exit_handler)
+    _exit_timer.start()
 
 
 def glob_package_names(packages):
