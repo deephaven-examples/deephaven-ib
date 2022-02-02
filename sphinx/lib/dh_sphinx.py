@@ -3,13 +3,13 @@ import os
 import pkgutil
 import shutil
 import sys
-import threading
 from pathlib import Path
 
 import jpy
 from deephaven.start_jvm import start_jvm
 
-_exit_timer = None
+
+# _exit_timer = None
 
 def setup_sphinx_environment():
     # add the deephaven-ib path
@@ -24,27 +24,27 @@ def setup_sphinx_environment():
                   jvm_classpath="/opt/deephaven/server/lib/*", skip_default_classpath=True)
 
     # Sphinx hangs for some reason.  Maybe the JVM doesn't clean up completely.  Forcing exit.
-
-    def exit_handler():
-        print("Exit handler")
-        # jpy.destroy_jvm()
-
-        import sys, traceback, threading
-        thread_names = {t.ident: t.name for t in threading.enumerate()}
-        for thread_id, frame in sys._current_frames().items():
-            print("Thread %s:" % thread_names.get(thread_id, thread_id))
-            traceback.print_stack(frame)
-            print()
-
-        print("Calling sys.exit()")
-        # os.kill(os.getpid(), signal.SIGINT)
-        os._exit(0)
-        # sys.exit()
-        print("Exited")
-
-    global _exit_timer
-    _exit_timer = threading.Timer(30, exit_handler)
-    _exit_timer.start()
+    #
+    # def exit_handler():
+    #     print("Exit handler")
+    #     # jpy.destroy_jvm()
+    #
+    #     import sys, traceback, threading
+    #     thread_names = {t.ident: t.name for t in threading.enumerate()}
+    #     for thread_id, frame in sys._current_frames().items():
+    #         print("Thread %s:" % thread_names.get(thread_id, thread_id))
+    #         traceback.print_stack(frame)
+    #         print()
+    #
+    #     print("Calling sys.exit()")
+    #     # os.kill(os.getpid(), signal.SIGINT)
+    #     os._exit(0)
+    #     # sys.exit()
+    #     print("Exited")
+    #
+    # global _exit_timer
+    # _exit_timer = threading.Timer(30, exit_handler)
+    # _exit_timer.start()
 
     def exit_message():
         print("Exit message")
