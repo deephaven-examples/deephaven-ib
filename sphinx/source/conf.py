@@ -88,6 +88,7 @@ sys.path.append(str(new_python_path))
 # adapted from deephaven2/_utils/bootstrap.py
 
 from deephaven.start_jvm import start_jvm
+import jpy
 
 DEFAULT_DEVROOT = os.environ.get('DEEPHAVEN_DEVROOT', "/tmp/pyintegration")
 DEFAULT_WORKSPACE = os.environ.get('DEEPHAVEN_WORKSPACE', "/tmp")
