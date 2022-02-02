@@ -5,6 +5,4 @@ dl {
 }
 
 /* Do not print the module value properties (e.g. "= None") */
-em.property {
-    display: none
-}
+em.property { display: none }

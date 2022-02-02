@@ -5,9 +5,10 @@ Python Modules
 Deephaven python modules.
 
 .. toctree::
-:glob:
+    :glob:
 
 
-        ./code/deephaven-ib
-        ./code/deephaven
-        ./code/ibapi
+    ./code/jpy
+    ./code/deephaven
+    ./code/deephaven-ib
+    ./code/ibapi
