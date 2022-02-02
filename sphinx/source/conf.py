@@ -80,7 +80,7 @@ sys.path.append(str(new_python_path))
 
 import jpy
 
-jpy.create_jvm()
+jpy.create_jvm(['-Xmx512M'])
 
 import deephaven_ib
 
