@@ -6,11 +6,10 @@
 An [Interactive Brokers](https://www.interactivebrokers.com/) integration for [Deephaven](https://deephaven.io).
 
 [Interactive Brokers](https://www.interactivebrokers.com/) is a very popular brokerage in the quantitative finance world,
-with about $200B of customer equity.  It is a very common choice for quants and hedge funds because of its low trading costs 
-and API that facilitates automated trading.  With low minimum account balances, 
-[Interactive Brokers](https://www.interactivebrokers.com/) is also an attractive choice for individual investors.
+with about $200B of customer equity.  Quants and hedge funds often choose [Interactive Brokers](https://www.interactivebrokers.com/) because of its low trading costs and API that facilitates automated trading.  With low minimum account balances, 
+it is also an attractive choice for individual investors.
 
-[Deephaven](https://deephaven.io) is the real-time query engine that runs the quantitative trading of the worlds largest
+[Deephaven](https://deephaven.io) is the real-time query engine that runs the quantitative trading of the world's largest
 hedge funds, banks, and exchanges.  [Deephaven](https://deephaven.io) makes working with real-time data easy and
 facilitates very concise and easy-to-read code.  With [Deephaven](https://deephaven.io), quants can create new models 
 and get them into production quickly, traders can monitor the market and their portfolios, and 
@@ -19,7 +18,7 @@ managers can monitor risk.
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) combines the low-cost trading of 
 [Interactive Brokers](https://www.interactivebrokers.com/) with the analytical power and ease of use of 
 [Deephaven Community Core](https://github.com/deephaven/deephaven-core) to yield an open, quantitative 
-trading platform.  Basically, an open platform for building a quantitative hedge fund or for performing
+trading platform.  Basically, it provides an open platform for building a quantitative hedge fund or for performing
 quantitative trading in your personal account.
 
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) supports trading essentially all common
@@ -37,35 +36,34 @@ exchange traded products.  These include:
 * Warrants
 * Commodities
 
-For more details see:
-* [Interactive Brokers](https://www.interactivebrokers.com/)
-* [Deephaven](https://deephaven.io)
-* [Deephaven Community Core](https://github.com/deephaven/deephaven-core)
-* [Deephaven Community Core Docs](https://deephaven.io/core/docs/)
-
-For help with [Deephaven](https://deephaven.io):
-* [A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
-* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
-* [Deephaven Community Core Discussions](https://github.com/deephaven/deephaven-core/discussions)
-
-
 **WARNING: Automated trading can go horribly wrong very quickly.  Verify your code on a paper trading account before 
-unleasing trading on an account where money can be lost.  If you think this can not happen to you, read
+unleashing trading on an account where money can be lost.  If you think this can not happen to you, read
 [The Rise and Fall of Knight Capital](https://medium.com/dataseries/the-rise-and-fall-of-knight-capital-buy-high-sell-low-rinse-and-repeat-ae17fae780f6).
 The [Setup](#setup) section shows configurations to prevent accidental trade submission.**
 
 ![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
 ![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
 
+For more details, see:
+* [Interactive Brokers](https://www.interactivebrokers.com/)
+* [Deephaven](https://deephaven.io)
+* [Deephaven Community Core](https://github.com/deephaven/deephaven-core)
+
+For Deephaven how-to guides, see:
+* [Deephaven Tutorial](https://deephaven.io/core/docs/tutorials/overview/) 
+* [Deephaven Coummunity Core Documentation](https://deephaven.io/core/docs/).
+
+For help with [Deephaven](https://deephaven.io):
+* [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
+* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+* [Deephaven Community Core Discussions](https://github.com/deephaven/deephaven-core/discussions)
+
 
 # Available Data
 
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all data as dynamically updating 
 [Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io) tables are extremely powerful and can 
-express very complex logic concisely.
-
-For more details on using [Deephaven](https://deephaven.io), see the [Deephaven Tutorial](https://deephaven.io/core/docs/tutorials/overview/) 
-and the [Deephaven Documentation](https://deephaven.io/core/docs/).
+express complex logic concisely.
 
 ## TWS data
 
@@ -78,7 +76,7 @@ Tables available from [IB Trader Workstation (TWS)](https://www.interactivebroke
     * `contract_details`: details describing contracts of interest.  Automatically populated.
     * `contracts_matching`: contracts matching query strings provided to `request_contracts_matching`.
     * `market_rules`: market rules indicating the price increment a contract can trade in.  Automatically populated.
-    * `short_rates`: interest rates for shorting securities.  Automatically populated if download_short_rates=True.
+    * `short_rates`: interest rates for shorting securities.  Automatically populated if `download_short_rates=True`.
 * Accounts
     * `accounts_managed`: accounts managed by the TWS session login.  Automatically populated.
     * `accounts_family_codes`: account family.  Automatically populated.
@@ -92,8 +90,8 @@ Tables available from [IB Trader Workstation (TWS)](https://www.interactivebroke
 * News
     * `news_providers`: currently subscribed news sources.  Automatically populated.
     * `news_bulletins`: news bulletins.  Automatically populated.
-    * `news_articles`: the content of news articles requested via 'request_news_article'
-    * `news_historical`: historical news headlines requested via 'request_news_historical'
+    * `news_articles`: the content of news articles requested via 'request_news_article'.
+    * `news_historical`: historical news headlines requested via 'request_news_historical'.
 * Market Data
     * `ticks_price`: real-time tick market data of price values requested via 'request_market_data'.
     * `ticks_size`: real-time tick market data of size values requested via 'request_market_data'.
@@ -104,8 +102,8 @@ Tables available from [IB Trader Workstation (TWS)](https://www.interactivebroke
     * `ticks_trade`: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
     * `ticks_bid_ask`: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
     * `ticks_mid_point`: real-time tick market data of mid-point prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-    * `bars_historical`: historical price bars requested via 'request_bars_historical'
-    * `bars_realtime`: real-time price bars requested via 'request_bars_realtime'
+    * `bars_historical`: historical price bars requested via 'request_bars_historical'.
+    * `bars_realtime`: real-time price bars requested via 'request_bars_realtime'.
 * Order Management System (OMS)
     * `orders_submitted`: submitted orders **FOR THE THE CLIENT'S ID**.  A client ID of 0 contains manually entered orders.  Automatically populated.
     * `orders_status`: order statuses.  Automatically populated.
@@ -113,8 +111,7 @@ Tables available from [IB Trader Workstation (TWS)](https://www.interactivebroke
     * `orders_exec_details`: order execution details.  Automatically populated.
     * `orders_exec_commission_report`: order execution commission report.  Automatically populated.
 
-Most tables include a `ReceiveTime` column.  This column indicates the time the data was received by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
-It does not represent the time the event occurred.
+Most tables include a `ReceiveTime` column.  This column indicates the time the data was received by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib). It does not represent the time the event occurred.
 
 ## Your data
 
@@ -129,9 +126,9 @@ See [Access your file system with Docker data volumes](https://deephaven.io/core
 
 # Run deephaven-ib
 
-Follow these setps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
+Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
 
-`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g. `0.9.0`).  A list of availble versions 
+`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g., `0.9.0`).  A list of available versions 
 can be found on the [Deephaven Releases GitHub page](https://github.com/deephaven/deephaven-core/releases).
 
 **Windows users need to run the commands in WSL.**
