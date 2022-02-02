@@ -21,6 +21,6 @@ RUN mkdir /build && \
 
 # Build sphinx
 #TODO: clean up
-CMD echo "DOING CD" && cd /build/deephaven-ib/sphinx && echo "DOING MAKE" && make html && "DOING DONE"
+ENTRYPOINT echo "DOING CD" && cd /build/deephaven-ib/sphinx && echo "DOING MAKE" && make html && "DOING DONE"
 
 
