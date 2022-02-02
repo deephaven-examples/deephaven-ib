@@ -78,6 +78,10 @@ from pathlib import Path
 new_python_path = Path(os.path.realpath(__file__)).parents[2].joinpath("src")
 sys.path.append(str(new_python_path))
 
+import jpy
+
+jpy.create_jvm()
+
 import deephaven_ib
 
 docs_title = "deephaven_ib python modules."
