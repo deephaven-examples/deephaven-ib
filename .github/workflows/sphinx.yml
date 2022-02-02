@@ -25,13 +25,10 @@ jobs:
     - name: Run Sphinx Docker
       working-directory: ./sphinx
       run: |
-        echo "DEBUG: IMAGES"
         docker images
-        echo "DEBUG: RUN"
         docker run -v `pwd`/build/:/build/deephaven-ib/sphinx/build/ deephaven-ib/sphinx
-        echo "DEBUG: FIND"
+        echo "DOCS FILES:"
         find ./build
-        echo "DEBUG: DONE"
     - uses: actions/upload-artifact@v1
       with:
         name: DocumentationHTML
