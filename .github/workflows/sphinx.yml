@@ -37,8 +37,8 @@ jobs:
         name: DocumentationHTML
         path: sphinx/build/html/
     - name: Deploy to gh-pages
-        uses: JamesIves/github-pages-deploy-action@v4.2.3
-        if: github.event.pull_request.merged == true
+      uses: JamesIves/github-pages-deploy-action@v4.2.3
+      if: github.event.pull_request.merged == true
         with:
           branch: gh-pages
           folder: sphinx/build/html/
