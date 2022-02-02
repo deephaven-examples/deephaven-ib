@@ -25,7 +25,7 @@ jobs:
         echo "DEBUG: IMAGES"
         docker images
         echo "DEBUG: RUN"
-        docker run deephaven-ib/sphinx -v ./build/:/build/deephaven-ib/sphinx/build/
+        docker run -v `pwd`/build/:/build/deephaven-ib/sphinx/build/ deephaven-ib/sphinx
         echo "DEBUG: FIND"
         find ./build
         echo "DEBUG: DONE"
