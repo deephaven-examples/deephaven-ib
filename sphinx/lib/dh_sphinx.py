@@ -1,8 +1,12 @@
+import atexit
 import os
 import pkgutil
 import shutil
 import sys
 from pathlib import Path
+
+import jpy
+from deephaven.start_jvm import start_jvm
 
 
 def setup_sphinx_environment():
@@ -11,15 +15,17 @@ def setup_sphinx_environment():
     sys.path.append(str(new_python_path))
 
     # start the jvm so that deephaven can be loaded
-
-    from deephaven.start_jvm import start_jvm
-    import jpy
-
     if not jpy.has_jvm():
         os.environ['JAVA_VERSION'] = '11'
         start_jvm(devroot="/tmp", workspace="/tmp", propfile='dh-defaults.prop',
                   java_home=os.environ.get('JDK_HOME', None),
                   jvm_classpath="/opt/deephaven/server/lib/*", skip_default_classpath=True)
+
+    def exit_handler():
+        print("IN EXIT HANDLER")
+        jpy.destroy_jvm()
+
+    atexit.register(exit_handler)
 
 
 def glob_package_names(packages):
