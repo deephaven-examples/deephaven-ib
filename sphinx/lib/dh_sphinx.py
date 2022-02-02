@@ -2,6 +2,7 @@ import atexit
 import os
 import pkgutil
 import shutil
+import signal
 import sys
 import threading
 from pathlib import Path
@@ -37,7 +38,8 @@ def setup_sphinx_environment():
             print()
 
         print("Calling sys.exit()")
-        sys.exit()
+        os.kill(os.getpid(), signal.SIGINT)
+        # sys.exit()
         print("Exited")
 
     global _exit_timer
