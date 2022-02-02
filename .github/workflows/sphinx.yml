@@ -1,9 +1,12 @@
-#TODO: rename
 name: "Sphinx Documentation"
 
-#TODO: when should it run?
 on:
-- pull_request
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
 
 jobs:
   docs:
@@ -33,6 +36,9 @@ jobs:
       with:
         name: DocumentationHTML
         path: sphinx/build/html/
-#        path: docs/build/html/
-
-#TODO: publish to gh_pages
+    - name: Deploy to gh-pages
+        if: github.event.pull_request.merged == true
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
+        with:
+          branch: gh-pages
+          folder: sphinx/build/html/
