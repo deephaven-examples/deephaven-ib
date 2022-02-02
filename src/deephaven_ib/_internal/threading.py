@@ -24,7 +24,7 @@ class DeadlockMonitor:
         self.locks = {}
         self._lock = threading.Lock()
 
-        self._thread = threading.Thread(target=self._run)
+        self._thread = threading.Thread(target=self._run, daemon=True)
         self._thread.start()
         setattr(self, "deadlock_monitor_thread", self._thread)
 
