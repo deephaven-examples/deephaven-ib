@@ -26,7 +26,7 @@ def setup_sphinx_environment():
 
     def exit_handler():
         print("Exit handler")
-        jpy.destroy_jvm()
+        # jpy.destroy_jvm()
 
         import sys, traceback, threading
         thread_names = {t.ident: t.name for t in threading.enumerate()}
@@ -35,6 +35,7 @@ def setup_sphinx_environment():
             traceback.print_stack(frame)
             print()
 
+        print("Calling sys.exit()")
         sys.exit()
 
     global _exit_timer
