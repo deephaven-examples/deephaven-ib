@@ -26,7 +26,7 @@ def setup_sphinx_environment():
 
     def exit_handler():
         print("Exit handler")
-        sys.exit(0)
+        sys.exit()
 
     global _exit_timer
     _exit_timer = threading.Timer(30, exit_handler)
