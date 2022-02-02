@@ -9,7 +9,7 @@ ARG DH_IB_BRANCH
 RUN apt update && \
     apt install --yes git python3-venv && \
     python3 -m pip install --upgrade pip && \
-    python3 -m pip install --upgrade setuptools wheel build twine sphinx build-essential
+    python3 -m pip install --upgrade setuptools wheel build twine sphinx make
 
 # Build and install deephaven-ib
 RUN mkdir /build && \
