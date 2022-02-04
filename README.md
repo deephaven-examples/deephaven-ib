@@ -1,11 +1,10 @@
 
 # deephaven-ib
 
+![Deephaven Data Labs Logo](docs/assets/Deephaven-Logo-Wordmark-Community-OnLight.png)
 
 ![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
 ![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
-
-<!-- TODO: add an imagge -->
 
 An [Interactive Brokers](https://www.interactivebrokers.com/) integration for [Deephaven](https://deephaven.io).
 
