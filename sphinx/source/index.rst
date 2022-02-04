@@ -35,6 +35,7 @@ quantitative trading in your personal account.
 
 `deephaven-ib <https://github.com/deephaven-examples/deephaven-ib>`_ supports trading essentially all common
 exchange traded products.  These include:
+
 * Stocks
 * Mutual Funds
 * Options
