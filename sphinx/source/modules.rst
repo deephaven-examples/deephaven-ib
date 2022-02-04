@@ -1,11 +1,14 @@
+
 Python Modules
 ##############
 
 Deephaven python modules.
 
 .. toctree::
-:glob:
+    :glob:
 
 
-        ./code/jpy
-        ./code/deephaven
+    ./code/jpy
+    ./code/deephaven
+    ./code/deephaven-ib
+    ./code/ibapi

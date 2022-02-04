@@ -49,6 +49,11 @@ For more details, see:
 * [Deephaven](https://deephaven.io)
 * [Deephaven Community Core](https://github.com/deephaven/deephaven-core)
 
+For help with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
+* [deephaven-ib Docs](https://deephaven-examples.github.io/deephaven-ib/)
+* [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
+* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+
 For Deephaven how-to guides, see:
 * [Deephaven Tutorial](https://deephaven.io/core/docs/tutorials/overview/) 
 * [Deephaven Coummunity Core Documentation](https://deephaven.io/core/docs/).
