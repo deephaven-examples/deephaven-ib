@@ -186,7 +186,7 @@ class Duration:
             value (int): number of seconds
 
         Returns:
-            Duration
+            A duration.
         """
         return Duration(f"{value} S")
 
@@ -198,7 +198,7 @@ class Duration:
             value (int): number of days
 
         Returns:
-            Duration
+            A duration.
         """
         return Duration(f"{value} D")
 
@@ -210,7 +210,7 @@ class Duration:
             value (int): number of weeks
 
         Returns:
-            Duration
+            A duration.
         """
         return Duration(f"{value} W")
 
@@ -222,7 +222,7 @@ class Duration:
             value (int): number of months
 
         Returns:
-            Duration
+            A duration.
         """
         return Duration(f"{value} M")
 
@@ -234,7 +234,7 @@ class Duration:
             value (int): number of years
 
         Returns:
-            Duration
+            A duration.
         """
         return Duration(f"{value} Y")
 
@@ -253,11 +253,22 @@ class Request:
         self._cancel_func = cancel_func
 
     def is_cancellable(self) -> bool:
-        """Is the request cancellable?"""
+        """Is the request cancellable?
+
+        Returns:
+            An indication if the request is cancellable.
+        """
         return self._cancel_func is not None
 
-    def cancel(self):
-        """Cancel the request."""
+    def cancel(self) -> None:
+        """Cancel the request.
+
+        Returns:
+            None
+
+        Raises:
+            Exception: request is not cancellable.
+        """
 
         if not self.is_cancellable():
             raise Exception("Request is not cancellable.")
@@ -279,7 +290,11 @@ class RegisteredContract:
         self.contract_details = contract_details
 
     def is_multi(self) -> bool:
-        """Does the contract have multiple contract details?"""
+        """Does the contract have multiple contract details?
+
+        Returns:
+            An indication if the requested contract is associated with multiple contract details.
+        """
         return len(self.contract_details) > 1
 
     def __repr__(self) -> str:
@@ -289,26 +304,26 @@ class RegisteredContract:
 class IbSessionTws:
     """ IB TWS session.
 
-    NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
-    data manually entered into the TWS session.  For example, orders entered by hand.
+    **NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
+    data manually entered into the TWS session.  For example, orders entered by hand.**
     
     Args:
         host (str): The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
             When run inside docker, you probably want ``host.docker.internal``.
-        port (int): TWS port, specified in TWS on the Configure>API>Socket Port field.
+        port (int): TWS port, specified in TWS on the ``Configure->API->Socket Port`` field.
             By default production trading uses port 7496 and paper trading uses port 7497.
         client_id (int): A number used to identify this client connection.
             All orders placed/modified from this client will be associated with this client identifier.
 
-            Note: Each client MUST connect with a unique clientId.
-        download_short_rates (bool): True to download short rates.
+            **NOTE: Each client MUST connect with a unique clientId.**
+        download_short_rates (bool): True to download a short rates table.
 
     Tables:
         ####
         # General
         ####
-        * **errors**: an error log
-        * **requests**: requests to IB
+        * **errors**: an error log.
+        * **requests**: requests to IB.
 
         ####
         # Contracts
@@ -316,7 +331,7 @@ class IbSessionTws:
         * **contract_details**: details describing contracts of interest.  Automatically populated.
         * **contracts_matching**: contracts matching query strings provided to ``request_contracts_matching``.
         * **market_rules**: market rules indicating the price increment a contract can trade in.  Automatically populated.
-        * **short_rates**: interest rates for shorting securities.  Automatically populated if download_short_rates=True.
+        * **short_rates**: interest rates for shorting securities.  Automatically populated if ``download_short_rates=True``.
 
 
         ####
@@ -338,30 +353,30 @@ class IbSessionTws:
 
         * **news_providers**: currently subscribed news sources.  Automatically populated.
         * **news_bulletins**: news bulletins.  Automatically populated.
-        * **news_articles**: the content of news articles requested via 'request_news_article'
-        * **news_historical**: historical news headlines requested via 'request_news_historical'
+        * **news_articles**: the content of news articles requested via ``request_news_article``.
+        * **news_historical**: historical news headlines requested via ``request_news_historical``.
 
         ####
         # Market Data
         ####
 
-        * **ticks_price**: real-time tick market data of price values requested via 'request_market_data'.
-        * **ticks_size**: real-time tick market data of size values requested via 'request_market_data'.
-        * **ticks_string**: real-time tick market data of string values requested via 'request_market_data'.
-        * **ticks_efp**: real-time tick market data of exchange for physical (EFP) values requested via 'request_market_data'.
-        * **ticks_generic**: real-time tick market data of generic floating point values requested via 'request_market_data'.
-        * **ticks_option_computation**: real-time tick market data of option computations requested via 'request_market_data'.
-        * **ticks_trade**: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-        * **ticks_bid_ask**: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-        * **ticks_mid_point**: real-time tick market data of mid-point prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-        * **bars_historical**: historical price bars requested via 'request_bars_historical'
-        * **bars_realtime**: real-time price bars requested via 'request_bars_realtime'
+        * **ticks_price**: real-time tick market data of price values requested via ``request_market_data``.
+        * **ticks_size**: real-time tick market data of size values requested via ``request_market_data``.
+        * **ticks_string**: real-time tick market data of string values requested via ``request_market_data``.
+        * **ticks_efp**: real-time tick market data of exchange for physical (EFP) values requested via ``request_market_data``.
+        * **ticks_generic**: real-time tick market data of generic floating point values requested via ``request_market_data``.
+        * **ticks_option_computation**: real-time tick market data of option computations requested via ``request_market_data``.
+        * **ticks_trade**: real-time tick market data of trade prices requested via ``request_tick_data_historical`` or ``request_tick_data_realtime``.
+        * **ticks_bid_ask**: real-time tick market data of bid and ask prices requested via ``request_tick_data_historical`` or ``request_tick_data_realtime``.
+        * **ticks_mid_point**: real-time tick market data of mid-point prices requested via ``request_tick_data_historical`` or ``request_tick_data_realtime``.
+        * **bars_historical**: historical price bars requested via ``request_bars_historical``.
+        * **bars_realtime**: real-time price bars requested via ``request_bars_realtime``.
 
         ####
         # Order Management System (OMS)
         ####
 
-        * **orders_submitted**: submitted orders FOR THE THE CLIENT ID.  A client ID of 0 contains manually entered orders.  Automatically populated.
+        * **orders_submitted**: submitted orders **FOR THE THE CLIENT ID**.  A client ID of 0 contains manually entered orders.  Automatically populated.
         * **orders_status**: order statuses.  Automatically populated.
         * **orders_completed**: completed orders.  Automatically populated.
         * **orders_exec_details**: order execution details.  Automatically populated.
@@ -385,14 +400,29 @@ class IbSessionTws:
 
     @property
     def host(self) -> str:
+        """Client host.
+
+        Returns:
+            Client host.
+        """
         return self._host
 
     @property
     def port(self) -> int:
+        """Client port.
+
+        Returns:
+            Client port.
+        """
         return self._port
 
     @property
     def client_id(self) -> int:
+        """Client ID.
+
+        Returns:
+            Client ID.
+        """
         return self._client_id
 
     def __repr__(self) -> str:
@@ -411,7 +441,7 @@ class IbSessionTws:
               None
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._client.connect(self._host, self._port, self._client_id)
@@ -426,11 +456,15 @@ class IbSessionTws:
         self._client.disconnect()
 
     def is_connected(self) -> bool:
-        """Is there a connection with TWS?"""
+        """Is there a connection with TWS?
+
+        Returns:
+            an indication if the client is connected to TWS.
+        """
 
         return self._client.isConnected()
 
-    def _assert_connected(self):
+    def _assert_connected(self) -> None:
         """Assert that the IbSessionTws is connected."""
 
         if not self.is_connected():
@@ -549,12 +583,20 @@ class IbSessionTws:
 
     @property
     def tables(self) -> Dict[str, Any]:
-        """Gets a dictionary of all data tables."""
+        """Gets a dictionary of all data tables.
+
+        Returns:
+            Dictionary of all data tables.
+        """
         return self._tables
 
     @property
     def tables_raw(self) -> Dict[str, Any]:
-        """Gets a dictionary of all raw data tables.  Raw tables are just as the data comes from IB."""
+        """Gets a dictionary of all raw data tables.  Raw tables are just as the data comes from IB.
+
+        Returns:
+            Dictionary of all raw data tables.
+        """
         return self._tables_raw
 
     ####################################################################################################################
@@ -571,10 +613,10 @@ class IbSessionTws:
             contract (Contract): contract to search for
 
         Returns:
-            RegisteredContract
+            A contract that has been registered with deephaven-ib.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -588,10 +630,10 @@ class IbSessionTws:
             pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
 
         Returns:
-            Request
+            A Request.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -614,10 +656,10 @@ class IbSessionTws:
             model_code (str): Model portfolio code to request PNL for.
 
         Returns:
-            Request
+            A Request.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -632,10 +674,10 @@ class IbSessionTws:
             model_code (str): Model portfolio code to request an overview for.
 
         Returns:
-            Request
+            A Request.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
         self._assert_connected()
         req_id = self._client.request_account_overview(account, model_code)
@@ -649,10 +691,10 @@ class IbSessionTws:
             model_code (str): Model portfolio code to request positions for.
 
         Returns:
-            Request
+            A Request.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
         self._assert_connected()
         req_id = self._client.request_account_positions(account, model_code)
@@ -679,10 +721,10 @@ class IbSessionTws:
             total_results (int): the maximum number of headlines to fetch (1 - 300)
 
         Returns:
-            List[Request]
+            All of the requests created by the action.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -714,10 +756,10 @@ class IbSessionTws:
             article_id (str): id of the specific article
 
         Returns:
-            Request
+            A Request.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -740,8 +782,11 @@ class IbSessionTws:
         Args:
             market_data_type (MarketDataType): market data type
 
+        Returns:
+            None
+
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -764,10 +809,10 @@ class IbSessionTws:
             regulatory_snapshot (bool): True to get a regulatory snapshot.  Requires the US Value Snapshot Bundle for stocks.
 
         Returns:
-            Request
+            A Request.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -786,14 +831,17 @@ class IbSessionTws:
 
         return requests
 
-    def _cancel_market_data(self, req_id: int):
+    def _cancel_market_data(self, req_id: int) -> None:
         """Cancel a market data request.
 
         Args:
             req_id (int): request id
 
+        Returns:
+            None
+
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -818,10 +866,10 @@ class IbSessionTws:
             keep_up_to_date (bool): True to continuously update bars
 
         Returns:
-            Request
+            All of the requests created by this action.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -860,10 +908,10 @@ class IbSessionTws:
             market_data_type (MarketDataType): Type of market data to return after the close.
 
         Returns:
-            Request
+            All of the requests created by this action.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -883,15 +931,17 @@ class IbSessionTws:
 
         return requests
 
-    def _cancel_bars_realtime(self, req_id: int):
+    def _cancel_bars_realtime(self, req_id: int) -> None:
         """Cancel a real-time bar request.
 
         Args:
             req_id (int): request id
 
+        Returns:
+            None
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -911,10 +961,10 @@ class IbSessionTws:
             ignore_size (bool): should size values be ignored.
 
         Returns:
-            Request
+            All of the requests created by this action.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -932,15 +982,17 @@ class IbSessionTws:
 
         return requests
 
-    def _cancel_tick_data_realtime(self, req_id: int):
+    def _cancel_tick_data_realtime(self, req_id: int) -> None:
         """Cancel a real-time tick-by-tick data request.
 
         Args:
             req_id (int): request id
 
+        Returns:
+            None
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -966,10 +1018,10 @@ class IbSessionTws:
             ignore_size (bool): should size values be ignored.
 
         Returns:
-            Request
+            All of the requests created by this action.
 
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -1011,6 +1063,12 @@ class IbSessionTws:
         Args:
             contract (RegisteredContract): contract to place an order on
             order (Order): order to place
+
+        Returns:
+            A Request.
+
+        Raises:
+              Exception: problem executing action.
         """
         self._assert_connected()
 
@@ -1029,6 +1087,12 @@ class IbSessionTws:
 
         Args:
             order_id (int): order ID
+
+        Returns:
+            None
+
+        Raises:
+              Exception: problem executing action.
         """
 
         self._assert_connected()
@@ -1037,8 +1101,11 @@ class IbSessionTws:
     def order_cancel_all(self) -> None:
         """Cancel all open orders.
 
+        Returns:
+            None
+
         Raises:
-              Exception
+              Exception: problem executing action.
         """
 
         self._assert_connected()
