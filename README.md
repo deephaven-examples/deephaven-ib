@@ -205,7 +205,7 @@ settings.  By default, production trading uses port 7496, and paper trading uses
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7496)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497)
 client.connect()
 ```
 
@@ -409,6 +409,40 @@ req.cancel()
 client.order_place(rc, order)
 client.order_cancel_all()
 ```
+
+## Plotting
+
+[Deephaven](https://deephaven.io) has very powerful plotting functionality for both static and real-time data.
+The example below plots the bid and ask prices of `AAPL` for every tick in the market.
+
+For more details, see the [Deephaven Coummunity Core Documentation](https://deephaven.io/core/docs/).
+
+```python
+
+from ibapi.contract import Contract
+
+c = Contract()
+c.symbol = 'AAPL'
+c.secType = 'STK'
+c.exchange = 'SMART'
+c.currency = 'USD'
+
+rc = client.get_registered_contract(c)
+print(rc)
+
+client.set_market_data_type(dhib.MarketDataType.REAL_TIME)
+client.request_market_data(rc)
+client.request_tick_data_realtime(rc, dhib.TickDataType.BID_ASK)
+
+ticks_bid_ask = client.tables["ticks_bid_ask"]
+
+from deephaven import Plot
+plot_aapl = Plot.plot("Bid",  ticks_bid_ask, "ReceiveTime", "BidPrice") \
+    .plot("Ask",  ticks_bid_ask, "ReceiveTime", "AskPrice") \
+    .show()
+```
+
+![AAPL Bid Ask](./docs/assets/aapl_bid_ask.png)
 
 ## Help!
 
