@@ -1,6 +1,10 @@
 
 # deephaven-ib
 
+
+![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
+![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
+
 <!-- TODO: add an imagge -->
 
 An [Interactive Brokers](https://www.interactivebrokers.com/) integration for [Deephaven](https://deephaven.io).
@@ -40,9 +44,6 @@ exchange traded products.  These include:
 unleashing trading on an account where money can be lost.  If you think this can not happen to you, read
 [The Rise and Fall of Knight Capital](https://medium.com/dataseries/the-rise-and-fall-of-knight-capital-buy-high-sell-low-rinse-and-repeat-ae17fae780f6).
 The [Setup](#setup) section shows configurations to prevent accidental trade submission.**
-
-![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
-![Documentation](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/sphinx.yml/badge.svg?branch=main)
 
 For more details, see:
 * [Interactive Brokers](https://www.interactivebrokers.com/)
@@ -95,20 +96,20 @@ Tables available from [IB Trader Workstation (TWS)](https://www.interactivebroke
 * News
     * `news_providers`: currently subscribed news sources.  Automatically populated.
     * `news_bulletins`: news bulletins.  Automatically populated.
-    * `news_articles`: the content of news articles requested via 'request_news_article'.
-    * `news_historical`: historical news headlines requested via 'request_news_historical'.
+    * `news_articles`: the content of news articles requested via `request_news_article`.
+    * `news_historical`: historical news headlines requested via `request_news_historical`.
 * Market Data
-    * `ticks_price`: real-time tick market data of price values requested via 'request_market_data'.
-    * `ticks_size`: real-time tick market data of size values requested via 'request_market_data'.
-    * `ticks_string`: real-time tick market data of string values requested via 'request_market_data'.
-    * `ticks_efp`: real-time tick market data of exchange for physical (EFP) values requested via 'request_market_data'.
-    * `ticks_generic`: real-time tick market data of generic floating point values requested via 'request_market_data'.
-    * `ticks_option_computation`: real-time tick market data of option computations requested via 'request_market_data'.
-    * `ticks_trade`: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-    * `ticks_bid_ask`: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-    * `ticks_mid_point`: real-time tick market data of mid-point prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-    * `bars_historical`: historical price bars requested via 'request_bars_historical'.
-    * `bars_realtime`: real-time price bars requested via 'request_bars_realtime'.
+    * `ticks_price`: real-time tick market data of price values requested via `request_market_data`.
+    * `ticks_size`: real-time tick market data of size values requested via `request_market_data`.
+    * `ticks_string`: real-time tick market data of string values requested via `request_market_data`.
+    * `ticks_efp`: real-time tick market data of exchange for physical (EFP) values requested via `request_market_data`.
+    * `ticks_generic`: real-time tick market data of generic floating point values requested via `request_market_data`.
+    * `ticks_option_computation`: real-time tick market data of option computations requested via `request_market_data`.
+    * `ticks_trade`: real-time tick market data of trade prices requested via `request_tick_data_historical` or `request_tick_data_realtime`.
+    * `ticks_bid_ask`: real-time tick market data of bid and ask prices requested via `request_tick_data_historical` or `request_tick_data_realtime`.
+    * `ticks_mid_point`: real-time tick market data of mid-point prices requested via `request_tick_data_historical` or `request_tick_data_realtime`.
+    * `bars_historical`: historical price bars requested via `request_bars_historical`.
+    * `bars_realtime`: real-time price bars requested via `request_bars_realtime`.
 * Order Management System (OMS)
     * `orders_submitted`: submitted orders **FOR THE THE CLIENT'S ID**.  A client ID of 0 contains manually entered orders.  Automatically populated.
     * `orders_status`: order statuses.  Automatically populated.
@@ -410,7 +411,18 @@ client.order_place(rc, order)
 client.order_cancel_all()
 ```
 
-## Logging
+## Help!
+
+### Error Table
+
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) logs all [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+errors to the `errors` table.  This table should be monitored when using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+
+```python
+errors = client.tables["errors"]
+```
+
+### Logging
 
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) and `ibapi` both use Python's 
 [`logging`](https://docs.python.org/3/howto/logging.html) framework.  By default, `ERROR` and higher
@@ -429,6 +441,15 @@ logging.basicConfig(level=logging.DEBUG)
 ```
 
 A discussion of available logging levels can be found in the [Python `logging` module documentation](https://docs.python.org/3/howto/logging.html).
+
+### Support
+
+If you can not solve your problems through either the `errors` table or through logging, you can try:
+
+* [Interactive Brokers Support](https://www.interactivebrokers.com/en/support/individuals.php)
+* [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
+* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+
 
 # Examples
 
