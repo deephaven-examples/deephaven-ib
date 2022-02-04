@@ -55,3 +55,6 @@ exchange traded products.  These include:
 See `https://github.com/deephaven-examples/deephaven-ib <https://github.com/deephaven-examples/deephaven-ib>`_ for
 examples and details on using `deephaven-ib <https://github.com/deephaven-examples/deephaven-ib>`_.
 
+.. image:: ./overview.png
+  :width: 400
+  :alt: Deephaven overview
