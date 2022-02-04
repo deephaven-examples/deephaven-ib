@@ -11,5 +11,4 @@ Deephaven python modules.
     ./code/jpy
     ./code/deephaven
     ./code/deephaven-ib
-    ./code/ibapi/contract
-    ./code/ibapi/order
+    ./code/ibapi
