@@ -578,6 +578,7 @@ class IbSessionTws:
             "ticks_string": annotate_ticks(tables_raw["raw_ticks_string"]),
             "ticks_trade": annotate_ticks(tables_raw["raw_ticks_trade"] \
                                           .renameColumns("TradeExchange=Exchange")),
+            "ticks_bid_ask": annotate_ticks(tables_raw["raw_ticks_bid_ask"]),
         }
 
 
