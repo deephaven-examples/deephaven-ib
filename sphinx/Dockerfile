@@ -20,6 +20,6 @@ RUN mkdir /build && \
     pip3 install dist/*.whl
 
 # Build sphinx
-ENTRYPOINT cd /build/deephaven-ib/sphinx && make html
+ENTRYPOINT cd /build/deephaven-ib/sphinx && make html && touch build/html/.nojekyll
 
 
