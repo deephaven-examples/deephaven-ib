@@ -28,8 +28,7 @@ author = 'Deephaven Data Labs'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.todo', 'sphinx.ext.viewcode',
-              "sphinx_autodoc_typehints"]
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.todo', 'sphinx.ext.viewcode', "sphinx_autodoc_typehints"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -58,10 +57,10 @@ html_css_files = ['custom.css']
 # see https://alabaster.readthedocs.io/en/latest/customization.html
 # see https://github.com/bitprophet/alabaster/blob/master/alabaster/theme.conf
 html_theme_options = {
-    # 'logo' : 'deephaven.png',
-    # 'logo_name' : 'Deephaven',
-    'page_width': '80%',
-    'sidebar_width': '35%',
+    #'logo' : 'deephaven.png',
+    #'logo_name' : 'Deephaven',
+    'page_width' : '80%',
+    'sidebar_width' : '35%',
 }
 
 # A boolean that decides whether module names are prepended to all object names (for object types where a “module” of some kind is defined), e.g. for py:function directives. Default is True.
@@ -79,9 +78,13 @@ import dh_sphinx
 dh_sphinx.setup_sphinx_environment()
 
 import deephaven_ib
+import deephaven
+import ibapi.order
+import ibapi.contract
+import jpy
 
 docs_title = "deephaven_ib python modules."
-package_roots = [deephaven_ib]
+package_roots = [deephaven_ib, deephaven, jpy, ibapi.contract, ibapi.order]
 package_excludes = ['._']
 
 dh_sphinx.gen_sphinx_modules(docs_title, package_roots, package_excludes)

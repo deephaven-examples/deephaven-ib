@@ -1,10 +1,11 @@
-.. toctree::
-:name: mastertoc
-       :hidden:
 
-       modules.rst
-       py-modindex.rst
-       genindex.rst
+.. toctree::
+   :name: mastertoc
+   :hidden:
+
+   modules.rst
+   py-modindex.rst
+   genindex.rst
 
 
 deephaven_ib Documentation

@@ -66,8 +66,12 @@ def make_rst_tree(package, tree):
             pn = ".".join(p)
             toctree += "%s%s <%s>\n" % (" " * 4, k, pn)
 
-    rst = "%s\n%s\n\n%s\n.. automodule:: %s\n    :members:\n    :no-undoc-members:\n    :show-inheritance:\n    :inherited-members:\n\n" % (
-        package_name, "=" * len(package_name), toctree, package_name)
+    if package_name.startswith("ibapi"):
+        rst = "%s\n%s\n\n%s\n.. automodule:: %s\n    :members:\n    :undoc-members:\n    :show-inheritance:\n    :inherited-members:\n\n" % \
+              (package_name, "=" * len(package_name), toctree, package_name)
+    else:
+        rst = "%s\n%s\n\n%s\n.. automodule:: %s\n    :members:\n    :no-undoc-members:\n    :show-inheritance:\n    :inherited-members:\n\n" % \
+              (package_name, "=" * len(package_name), toctree, package_name)
 
     if len(package) > 0:
         filename = f"code/{package_name}.rst"
