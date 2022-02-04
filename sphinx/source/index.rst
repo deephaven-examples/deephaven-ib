@@ -7,6 +7,9 @@
    py-modindex.rst
    genindex.rst
 
+.. image:: ./Deephaven-Logo-Wordmark-Community-OnLight.png
+  :width: 400
+  :alt: Deephaven log
 
 deephaven_ib Documentation
 ==============================
