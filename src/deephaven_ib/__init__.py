@@ -294,6 +294,7 @@ class IbSessionTws:
     
     Args:
         host (str): The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
+            When run inside docker, you probably want ``host.docker.internal``.
         port (int): TWS port, specified in TWS on the Configure>API>Socket Port field.
             By default production trading uses port 7496 and paper trading uses port 7497.
         client_id (int): A number used to identify this client connection.
@@ -306,65 +307,65 @@ class IbSessionTws:
         ####
         # General
         ####
-        errors: an error log
-        requests: requests to IB
+        * **errors**: an error log
+        * **requests**: requests to IB
 
         ####
         # Contracts
         ####
-        contract_details: details describing contracts of interest.  Automatically populated.
-        contracts_matching: contracts matching query strings provided to `request_contracts_matching`.
-        market_rules: market rules indicating the price increment a contract can trade in.  Automatically populated.
-        short_rates: interest rates for shorting securities.  Automatically populated if download_short_rates=True.
+        * **contract_details**: details describing contracts of interest.  Automatically populated.
+        * **contracts_matching**: contracts matching query strings provided to ``request_contracts_matching``.
+        * **market_rules**: market rules indicating the price increment a contract can trade in.  Automatically populated.
+        * **short_rates**: interest rates for shorting securities.  Automatically populated if download_short_rates=True.
 
 
         ####
         # Accounts
         ####
-        accounts_managed: accounts managed by the TWS session login.  Automatically populated.
-        accounts_family_codes: account family.  Automatically populated.
-        accounts_groups: account groups.  Automatically populated.
-        accounts_allocation_profiles: allocation profiles for accounts.  Automatically populated.
-        accounts_value: account values.  Automatically populated.
-        accounts_overview: overview of account details.  Automatically populated.
-        accounts_summary: account summary.  Automatically populated.
-        accounts_positions: account positions.  Automatically populated.
-        accounts_pnl: account PNL.  Automatically populated.
+        * **accounts_managed**: accounts managed by the TWS session login.  Automatically populated.
+        * **accounts_family_codes**: account family.  Automatically populated.
+        * **accounts_groups**: account groups.  Automatically populated.
+        * **accounts_allocation_profiles**: allocation profiles for accounts.  Automatically populated.
+        * **accounts_value**: account values.  Automatically populated.
+        * **accounts_overview**: overview of account details.  Automatically populated.
+        * **accounts_summary**: account summary.  Automatically populated.
+        * **accounts_positions**: account positions.  Automatically populated.
+        * **accounts_pnl**: account PNL.  Automatically populated.
 
         ####
         # News
         ####
 
-        news_providers: currently subscribed news sources.  Automatically populated.
-        news_bulletins: news bulletins.  Automatically populated.
-        news_articles: the content of news articles requested via 'request_news_article'
-        news_historical: historical news headlines requested via 'request_news_historical'
+        * **news_providers**: currently subscribed news sources.  Automatically populated.
+        * **news_bulletins**: news bulletins.  Automatically populated.
+        * **news_articles**: the content of news articles requested via 'request_news_article'
+        * **news_historical**: historical news headlines requested via 'request_news_historical'
 
         ####
         # Market Data
         ####
 
-        ticks_price: real-time tick market data of price values requested via 'request_market_data'.
-        ticks_size: real-time tick market data of size values requested via 'request_market_data'.
-        ticks_string: real-time tick market data of string values requested via 'request_market_data'.
-        ticks_efp: real-time tick market data of exchange for physical (EFP) values requested via 'request_market_data'.
-        ticks_generic: real-time tick market data of generic floating point values requested via 'request_market_data'.
-        ticks_option_computation: real-time tick market data of option computations requested via 'request_market_data'.
-        ticks_trade: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-        ticks_bid_ask: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-        ticks_mid_point: real-time tick market data of mid-point prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
-        bars_historical: historical price bars requested via 'request_bars_historical'
-        bars_realtime: real-time price bars requested via 'request_bars_realtime'
+        * **ticks_price**: real-time tick market data of price values requested via 'request_market_data'.
+        * **ticks_size**: real-time tick market data of size values requested via 'request_market_data'.
+        * **ticks_string**: real-time tick market data of string values requested via 'request_market_data'.
+        * **ticks_efp**: real-time tick market data of exchange for physical (EFP) values requested via 'request_market_data'.
+        * **ticks_generic**: real-time tick market data of generic floating point values requested via 'request_market_data'.
+        * **ticks_option_computation**: real-time tick market data of option computations requested via 'request_market_data'.
+        * **ticks_trade**: real-time tick market data of trade prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+        * **ticks_bid_ask**: real-time tick market data of bid and ask prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+        * **ticks_mid_point**: real-time tick market data of mid-point prices requested via 'request_tick_data_historical' or 'request_tick_data_realtime'.
+        * **bars_historical**: historical price bars requested via 'request_bars_historical'
+        * **bars_realtime**: real-time price bars requested via 'request_bars_realtime'
 
         ####
         # Order Management System (OMS)
         ####
 
-        orders_submitted: submitted orders FOR THE THE CLIENT ID.  A client ID of 0 contains manually entered orders.  Automatically populated.
-        orders_status: order statuses.  Automatically populated.
-        orders_completed: completed orders.  Automatically populated.
-        orders_exec_details: order execution details.  Automatically populated.
-        orders_exec_commission_report: order execution commission report.  Automatically populated.
+        * **orders_submitted**: submitted orders FOR THE THE CLIENT ID.  A client ID of 0 contains manually entered orders.  Automatically populated.
+        * **orders_status**: order statuses.  Automatically populated.
+        * **orders_completed**: completed orders.  Automatically populated.
+        * **orders_exec_details**: order execution details.  Automatically populated.
+        * **orders_exec_commission_report**: order execution commission report.  Automatically populated.
     """
 
     _host: str
@@ -581,7 +582,7 @@ class IbSessionTws:
         return RegisteredContract(query_contract=contract, contract_details=cd)
 
     def request_contracts_matching(self, pattern: str) -> Request:
-        """Request contracts matching a pattern.  Results are returned in the `contracts_matching` table.
+        """Request contracts matching a pattern.  Results are returned in the ``contracts_matching`` table.
 
         Args:
             pattern (str): pattern to search for.  Can include part of a ticker or part of the company name.
@@ -606,7 +607,7 @@ class IbSessionTws:
     ####################################################################################################################
 
     def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
-        """Request PNL updates.  Results are returned in the `accounts_pnl` table.
+        """Request PNL updates.  Results are returned in the ``accounts_pnl`` table.
 
         Args:
             account (str): Account to request PNL for.  "All" requests for all accounts.
@@ -624,7 +625,7 @@ class IbSessionTws:
         return Request(request_id=req_id)
 
     def request_account_overview(self, account: str, model_code: str = "") -> Request:
-        """Request portfolio overview updates.  Results are returned in the `accounts_overview` table.
+        """Request portfolio overview updates.  Results are returned in the ``accounts_overview`` table.
 
         Args:
             account (str): Account to request an overview for.  "All" requests for all accounts.
@@ -641,7 +642,7 @@ class IbSessionTws:
         return Request(request_id=req_id)
 
     def request_account_positions(self, account: str, model_code: str = "") -> Request:
-        """Request portfolio position updates.  Results are returned in the `accounts_positions` table.
+        """Request portfolio position updates.  Results are returned in the ``accounts_positions`` table.
 
         Args:
             account (str): Account to request positions for.  "All" requests for all accounts.
@@ -666,7 +667,7 @@ class IbSessionTws:
 
     def request_news_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
                                 provider_codes: List[str] = None, total_results: int = 100) -> List[Request]:
-        """ Request historical news for a contract.  Results are returned in the `news_historical` table.
+        """ Request historical news for a contract.  Results are returned in the ``news_historical`` table.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
@@ -706,7 +707,7 @@ class IbSessionTws:
         return requests
 
     def request_news_article(self, provider_code: str, article_id: str) -> Request:
-        """ Request the text of a news article.  Results are returned in the `news_articles` table.
+        """ Request the text of a news article.  Results are returned in the ``news_articles`` table.
 
         Args:
             provider_code (str): short code indicating news provider, e.g. FLY
@@ -749,8 +750,8 @@ class IbSessionTws:
     # noinspection PyDefaultArgument
     def request_market_data(self, contract: RegisteredContract, generic_tick_types: List[GenericTickType] = [],
                             snapshot: bool = False, regulatory_snapshot: bool = False) -> List[Request]:
-        """ Request market data for a contract.  Results are returned in the `ticks_price`, `ticks_size`,
-        `ticks_string`, `ticks_efp`, `ticks_generic`, and `ticks_option_computation` tables.
+        """ Request market data for a contract.  Results are returned in the ``ticks_price``, ``ticks_size``,
+        ``ticks_string``, ``ticks_efp``, ``ticks_generic``, and ``ticks_option_computation`` tables.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
@@ -803,7 +804,7 @@ class IbSessionTws:
                                 end: dtu.DateTime = None,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
                                 keep_up_to_date: bool = True) -> List[Request]:
-        """Requests historical bars for a contract.  Results are returned in the `bars_historical` table.
+        """Requests historical bars for a contract.  Results are returned in the ``bars_historical`` table.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
@@ -848,7 +849,7 @@ class IbSessionTws:
 
     def request_bars_realtime(self, contract: RegisteredContract, bar_type: BarDataType, bar_size: int = 5,
                               market_data_type: MarketDataType = MarketDataType.FROZEN) -> List[Request]:
-        """Requests real time bars for a contract.  Results are returned in the `bars_realtime` table.
+        """Requests real time bars for a contract.  Results are returned in the ``bars_realtime`` table.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
@@ -898,8 +899,8 @@ class IbSessionTws:
 
     def request_tick_data_realtime(self, contract: RegisteredContract, tick_type: TickDataType,
                                    number_of_ticks: int = 0, ignore_size: bool = False) -> List[Request]:
-        """Requests real-time tick-by-tick data.  Results are returned in the ticks_trade`, `ticks_bid_ask`,
-        and `ticks_mid_point` tables.
+        """Requests real-time tick-by-tick data.  Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,
+        and ``ticks_mid_point`` tables.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
@@ -950,8 +951,8 @@ class IbSessionTws:
                                      start: dtu.DateTime = None, end: dtu.DateTime = None,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
                                      ignore_size: bool = False) -> List[Request]:
-        """Requests historical tick-by-tick data. Results are returned in the ticks_trade`, `ticks_bid_ask`,
-        and `ticks_mid_point` tables.
+        """Requests historical tick-by-tick data. Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,
+        and ``ticks_mid_point`` tables.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
