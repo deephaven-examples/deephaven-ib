@@ -1,0 +1,10 @@
+deephaven.AggregationFactory
+============================
+
+
+.. automodule:: deephaven.AggregationFactory
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

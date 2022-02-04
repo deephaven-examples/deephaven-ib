@@ -1,0 +1,10 @@
+deephaven.Plot.figure_wrapper
+=============================
+
+
+.. automodule:: deephaven.Plot.figure_wrapper
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

@@ -1,0 +1,608 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.csv" href="deephaven.csv.html" /><link rel="prev" title="deephaven.Types" href="deephaven.Types.html" />
+
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>deephaven.conversion_utils - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../modules.html">Python Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="deephaven.html">deephaven</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="deephaven.AggregationFactory.html">AggregationFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.Calendars.html">Calendars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.DateTimeUtils.html">DateTimeUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.MovingAverages.html">MovingAverages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ParquetTools.html">ParquetTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.PerformanceQueries.html">PerformanceQueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.PerformanceTools.html">PerformanceTools</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.Plot.html">Plot</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.Plot.ColorMaps.html">ColorMaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.Plot.figure_wrapper.html">figure_wrapper</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ProduceKafka.html">ProduceKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ResolveTools.html">ResolveTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.TableLoggers.html">TableLoggers</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.TableManipulation.html">TableManipulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.TableManipulation.WindowCheck.html">WindowCheck</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.TableTools.html">TableTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.Types.html">Types</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">conversion_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.filter.html">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.java_to_python.html">java_to_python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.jvm_init.html">jvm_init</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.lang.html">lang</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.ListBasedSet.html">ListBasedSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.analyzer.html">analyzer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.arrays.html">arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.constants.html">constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.tools.html">tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.transformer.html">transformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.vectorize_simple.html">vectorize_simple</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.python_to_java.html">python_to_java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.start_jvm.html">start_jvm</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.tutorials.html">tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.tutorials.crypto_trades.html">crypto_trades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="module-deephaven.conversion_utils">
+<span id="deephaven-conversion-utils"></span><h1>deephaven.conversion_utils<a class="headerlink" href="#module-deephaven.conversion_utils" title="Permalink to this headline">¶</a></h1>
+<p>Utilities for converting java objects to python object, or vice versa.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_BYTE">
+<span class="sig-name descname"><span class="pre">NULL_BYTE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-128</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_BYTE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null value for byte.</p>
+</dd></dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_CHAR">
+<span class="sig-name descname"><span class="pre">NULL_CHAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">65535</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_CHAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null value for char.</p>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_CONVERSION">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NULL_CONVERSION</span></span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#NULL_CONVERSION"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.NULL_CONVERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Enum class for specifying desired deephaven -&gt; numpy null conversion behavior.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_CONVERSION.CONVERT">
+<span class="sig-name descname"><span class="pre">CONVERT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_CONVERSION.CONVERT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pandas style conversion by casting integer type to floating point type, and replacing null values with <code class="docutils literal notranslate"><span class="pre">NaN</span></code></p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_CONVERSION.ERROR">
+<span class="sig-name descname"><span class="pre">ERROR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_CONVERSION.ERROR" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>[default]</strong> Raise an exception for integer type <em>(i.e. byte, short, int, or long)</em> primitive null values</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_CONVERSION.PASS">
+<span class="sig-name descname"><span class="pre">PASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_CONVERSION.PASS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do not interpret integer type primitive nulls - leave as the reserved constant value</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_CONVERSION.validateValue">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validateValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#NULL_CONVERSION.validateValue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.NULL_CONVERSION.validateValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates input value for the enum. Returns the default value (i.e. ERROR) if validation fails.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – input value</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>best enum version of value</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_DOUBLE">
+<span class="sig-name descname"><span class="pre">NULL_DOUBLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1.7976931348623157e+308</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_DOUBLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null value for double.</p>
+</dd></dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_FLOAT">
+<span class="sig-name descname"><span class="pre">NULL_FLOAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-3.4028234663852886e+38</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_FLOAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null value for float.</p>
+</dd></dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_INT">
+<span class="sig-name descname"><span class="pre">NULL_INT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-2147483648</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_INT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null value for int.</p>
+</dd></dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_LONG">
+<span class="sig-name descname"><span class="pre">NULL_LONG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-9223372036854775808</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_LONG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null value for long.</p>
+</dd></dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.NULL_SHORT">
+<span class="sig-name descname"><span class="pre">NULL_SHORT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-32768</span></em><a class="headerlink" href="#deephaven.conversion_utils.NULL_SHORT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null value for short.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.convertToJavaArray">
+<span class="sig-name descname"><span class="pre">convertToJavaArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boxed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#convertToJavaArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.convertToJavaArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the input list/tuple or numpy array to a java array. The main utility of the method is likely
+providing an object required for a specific java function signature. This is a helper method unifying
+hung on top of <a class="reference internal" href="#deephaven.conversion_utils.makeJavaArray" title="deephaven.conversion_utils.makeJavaArray"><code class="xref py py-func docutils literal notranslate"><span class="pre">makeJavaArray()</span></code></a> and ultimately defined via the proper <cite>jpy.array</cite> call.</p>
+<p>A string will be treated as a character array (i.e. java char array). The user has most control over type
+in providing a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, otherwise the contents will be converted to a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>
+first.</p>
+<p><strong>numpy.ndarray Type Conversion:</strong></p>
+<ul>
+<li><p>basic numpy primitive dtype are converted to their java analog, <code class="docutils literal notranslate"><span class="pre">NaN</span></code> values in floating point columns are
+converted to their respective Deephaven NULL constant values.</p></li>
+<li><p>dtype <code class="docutils literal notranslate"><span class="pre">datatime64[*]</span></code> are converted to <code class="docutils literal notranslate"><span class="pre">DateTime</span></code></p></li>
+<li><dl class="simple">
+<dt>dtype of one of the basic string type <a href="#id1"><span class="problematic" id="id2">*</span></a>(unicode*, str*, bytes*):</dt><dd><ul class="simple">
+<li><p>if all elements are one character long: converted to <code class="docutils literal notranslate"><span class="pre">char</span></code> array</p></li>
+<li><p>otherwise, <code class="docutils literal notranslate"><span class="pre">String</span></code> array</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>ndarrays of dtype <code class="docutils literal notranslate"><span class="pre">numpy.object</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ndarrays which are empty or all elements are null are converted to java type <code class="docutils literal notranslate"><span class="pre">Object</span></code>.</p></li>
+<li><p>Otherwise, the first non-null value is used to determine the type for the column.</p></li>
+</ul>
+</div></blockquote>
+<p>If the first non-null element is an instance of:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">bool</span></code> - converted to <code class="docutils literal notranslate"><span class="pre">Boolean</span></code> array with null values preserved</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code> - converted to <code class="docutils literal notranslate"><span class="pre">String</span></code> array with null values as empty string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">datetime.date</span></code> or <code class="docutils literal notranslate"><span class="pre">datetime.datetime</span></code> - the array is converted to <code class="docutils literal notranslate"><span class="pre">DateTime</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> - converted to java array. All elements are assumed null, or ndarray of the same type and
+compatible shape, or an exception will be raised.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> - <strong>unsupported</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">other</span> <span class="pre">iterable</span> <span class="pre">type</span></code> - naive conversion to <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> is attempted, then as above.</p></li>
+<li><p>any other type:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">convertUnknownToString=True</span></code> - attempt to naively convert to <code class="docutils literal notranslate"><span class="pre">String</span></code> array</p></li>
+<li><p>otherwise, raise exception</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>ndarrays of any other dtype (namely <em>complex*, uint*, void*,</em> or custom dtypes):</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">convertUnknownToString=True</span></code> - attempt to convert to column of string type</p></li>
+<li><p>otherwise, raise exception</p></li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> – string, tuple/list or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> - java type will be inferred</p></li>
+<li><p><strong>boxed</strong> – should we ensure that the constructed array is of boxed type?</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a java array instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.convertToJavaArrayList">
+<span class="sig-name descname"><span class="pre">convertToJavaArrayList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#convertToJavaArrayList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.convertToJavaArrayList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the input list/tuple or numpy array to a java ArrayList. The main utility of the method is likely
+providing an object required for a specific java function signature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input</strong> – tuple/list or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> - java type will be inferred</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>best <code class="xref py py-class docutils literal notranslate"><span class="pre">java.util.ArrayList</span></code></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The user has most control over type in providing a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, otherwise the
+contents will be converted to a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> first. Type mapping will be determined as in
+<a class="reference internal" href="#deephaven.conversion_utils.convertToJavaArray" title="deephaven.conversion_utils.convertToJavaArray"><code class="xref py py-func docutils literal notranslate"><span class="pre">convertToJavaArray()</span></code></a></p>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.convertToJavaHashMap">
+<span class="sig-name descname"><span class="pre">convertToJavaHashMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#convertToJavaHashMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.convertToJavaHashMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a java hashmap from provided input of the form (input1=keys, input2=values) or (input1=dict).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input1</strong> – dict or tuple/list/<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, assumed to be keys</p></li>
+<li><p><strong>input2</strong> – ignored if <cite>input1</cite> is a dict, otherwise tuple/list/<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, assumed to be values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>best <code class="xref py py-class docutils literal notranslate"><span class="pre">java.util.HashMap</span></code></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The user has most control over type in providing keys and values as <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>. Otherwise, the
+keys and values will be converted to a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> first. Type mapping will be determined as in
+<a class="reference internal" href="#deephaven.conversion_utils.convertToJavaArray" title="deephaven.conversion_utils.convertToJavaArray"><code class="xref py py-func docutils literal notranslate"><span class="pre">convertToJavaArray()</span></code></a></p>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.convertToJavaHashSet">
+<span class="sig-name descname"><span class="pre">convertToJavaHashSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#convertToJavaHashSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.convertToJavaHashSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the input list/tuple or numpy array to a java HashSet. The main utility of the method is likely
+for quick inclusion check inside of a deephaven query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input</strong> – tuple/list or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> - java type will be inferred</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>best <code class="xref py py-class docutils literal notranslate"><span class="pre">java.util.ArrayList</span></code></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The user has most control over type in providing a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, otherwise the
+contents will be converted to a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> first. Type mapping will be determined as in
+<a class="reference internal" href="#deephaven.conversion_utils.convertToJavaArray" title="deephaven.conversion_utils.convertToJavaArray"><code class="xref py py-func docutils literal notranslate"><span class="pre">convertToJavaArray()</span></code></a></p>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.convertToJavaList">
+<span class="sig-name descname"><span class="pre">convertToJavaList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#convertToJavaList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.convertToJavaList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the input list/tuple or numpy array to a (fixed size) java List. The main utility of the method is likely
+providing an object required for a specific java function signature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input</strong> – tuple/list or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> - java type will be inferred</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>best <code class="xref py py-class docutils literal notranslate"><span class="pre">java.util.List</span></code></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The user has most control over type in providing a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, otherwise the
+contents will be converted to a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> first. Type mapping will be determined as in
+<a class="reference internal" href="#deephaven.conversion_utils.makeJavaArray" title="deephaven.conversion_utils.makeJavaArray"><code class="xref py py-func docutils literal notranslate"><span class="pre">makeJavaArray()</span></code></a></p>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.getJavaClassObject">
+<span class="sig-name descname"><span class="pre">getJavaClassObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classString</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#getJavaClassObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.getJavaClassObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a java.lang.Class instance corresponding to classString. This is primarily intended as a helper for calling
+java methods which require setting a type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>classString</strong> – either a primitive (byte, short, int, long, float, double, char) or a fully qualified java path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>java.lang.Class instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.conversion_utils.makeJavaArray">
+<span class="sig-name descname"><span class="pre">makeJavaArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convertUnknownToString</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/conversion_utils.html#makeJavaArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.conversion_utils.makeJavaArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function which converts a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> to a corresponding java array, where
+appropriate type is inferred.</p>
+<p><strong>numpy.ndarray Type Conversion:</strong></p>
+<ul>
+<li><p>basic numpy primitive dtype are converted to their java analog, <code class="docutils literal notranslate"><span class="pre">NaN</span></code> values in floating point columns are
+converted to their respective Deephaven NULL constant values.</p></li>
+<li><p>dtype <code class="docutils literal notranslate"><span class="pre">datatime64[*]</span></code> are converted to <code class="docutils literal notranslate"><span class="pre">DateTime</span></code></p></li>
+<li><dl class="simple">
+<dt>dtype of one of the basic string type <a href="#id3"><span class="problematic" id="id4">*</span></a>(unicode*, str*, bytes*):</dt><dd><ul class="simple">
+<li><p>if all elements are one character long: converted to <code class="docutils literal notranslate"><span class="pre">char</span></code> array</p></li>
+<li><p>otherwise, <code class="docutils literal notranslate"><span class="pre">String</span></code> array</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>ndarrays of dtype <code class="docutils literal notranslate"><span class="pre">numpy.object</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ndarrays which are empty or all elements are null are converted to java type <code class="docutils literal notranslate"><span class="pre">Object</span></code>.</p></li>
+<li><p>Otherwise, the first non-null value is used to determine the type for the column.</p></li>
+</ul>
+</div></blockquote>
+<p>If the first non-null element is an instance of:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">bool</span></code> - converted to <code class="docutils literal notranslate"><span class="pre">Boolean</span></code> array with null values preserved</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code> - converted to <code class="docutils literal notranslate"><span class="pre">String</span></code> array with null values as empty string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">datetime.date</span></code> or <code class="docutils literal notranslate"><span class="pre">datetime.datetime</span></code> - the array is converted to <code class="docutils literal notranslate"><span class="pre">DateTime</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> - converted to java array. All elements are assumed null, or ndarray of the same type and
+compatible shape, or an exception will be raised.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> - <strong>unsupported</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">other</span> <span class="pre">iterable</span> <span class="pre">type</span></code> - naive conversion to <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> is attempted, then as above.</p></li>
+<li><p>any other type:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">convertUnknownToString=True</span></code> - attempt to naively convert to <code class="docutils literal notranslate"><span class="pre">String</span></code> array</p></li>
+<li><p>otherwise, raise exception</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>ndarrays of any other dtype (namely <em>complex*, uint*, void*,</em> or custom dtypes):</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">convertUnknownToString=True</span></code> - attempt to convert to column of string type</p></li>
+<li><p>otherwise, raise exception</p></li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – input <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p></li>
+<li><p><strong>name</strong> – name used to specify source, for logging purposes in case of failure</p></li>
+<li><p><strong>convertUnknownToString</strong> – boolean specifying whether to convert unknown types to string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>java array</p>
+</dd>
+</dl>
+</dd></dl>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="deephaven.csv.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">deephaven.csv</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="deephaven.Types.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">deephaven.Types</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            | <a class="muted-link" href="../_sources/code/deephaven.conversion_utils.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    </body>
+</html>

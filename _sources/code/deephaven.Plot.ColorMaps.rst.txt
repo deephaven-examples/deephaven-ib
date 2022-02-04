@@ -1,0 +1,10 @@
+deephaven.Plot.ColorMaps
+========================
+
+
+.. automodule:: deephaven.Plot.ColorMaps
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

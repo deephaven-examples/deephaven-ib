@@ -1,0 +1,12 @@
+deephaven.tutorials
+===================
+
+.. toctree::
+    crypto_trades <deephaven.tutorials.crypto_trades>
+
+.. automodule:: deephaven.tutorials
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

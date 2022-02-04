@@ -1,0 +1,12 @@
+deephaven.learn
+===============
+
+.. toctree::
+    gather <deephaven.learn.gather>
+
+.. automodule:: deephaven.learn
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

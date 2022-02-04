@@ -1,0 +1,10 @@
+deephaven.lang.arrays
+=====================
+
+
+.. automodule:: deephaven.lang.arrays
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

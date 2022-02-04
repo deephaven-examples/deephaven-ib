@@ -1,0 +1,520 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>deephaven.learn - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Calendars.html">Calendars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.DateTimeUtils.html">DateTimeUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.MovingAverages.html">MovingAverages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ParquetTools.html">ParquetTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.PerformanceQueries.html">PerformanceQueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.PerformanceTools.html">PerformanceTools</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.Plot.html">Plot</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.Plot.ColorMaps.html">ColorMaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.Plot.figure_wrapper.html">figure_wrapper</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ProduceKafka.html">ProduceKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ResolveTools.html">ResolveTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.TableLoggers.html">TableLoggers</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.TableManipulation.html">TableManipulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.TableManipulation.WindowCheck.html">WindowCheck</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.TableTools.html">TableTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Types.html">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.conversion_utils.html">conversion_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.filter.html">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.java_to_python.html">java_to_python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.jvm_init.html">jvm_init</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.lang.html">lang</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.ListBasedSet.html">ListBasedSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.analyzer.html">analyzer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.arrays.html">arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.constants.html">constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.tools.html">tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.transformer.html">transformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.vectorize_simple.html">vectorize_simple</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.python_to_java.html">python_to_java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.start_jvm.html">start_jvm</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.tutorials.html">tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.tutorials.crypto_trades.html">crypto_trades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for deephaven.learn</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Copyright (c) 2016-2021 Deephaven Data Labs and Patent Pending</span>
+<span class="c1">#</span>
+
+<span class="sd">"""</span>
+<span class="sd">Deephaven's learn module provides utilities for efficient data transfer between Deephaven tables and Python objects,</span>
+<span class="sd">as well as a framework for using popular machine-learning / deep-learning libraries with Deephaven tables.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span> <span class="nn">wrapt</span>
+
+<span class="n">_Input_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_Output_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_Computer_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_Scatterer_</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_defineSymbols</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Defines appropriate java symbol, which requires that the jvm has been initialized through the :class:`jpy` module,</span>
+<span class="sd">    for use throughout the module AT RUNTIME. This is versus static definition upon first import, which would lead to an</span>
+<span class="sd">    exception if the jvm wasn't initialized BEFORE importing the module.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        SystemError : if no JVM has been initialized.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">jpy</span><span class="o">.</span><span class="n">has_jvm</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">"No java functionality can be used until the JVM has been initialized through the jpy module"</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">_Input_</span><span class="p">,</span> <span class="n">_Output_</span><span class="p">,</span> <span class="n">_Computer_</span><span class="p">,</span> <span class="n">_Scatterer_</span>
+
+    <span class="k">if</span> <span class="n">_Input_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_Input_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.learn.Input"</span><span class="p">)</span>
+        <span class="n">_Output_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.learn.Output"</span><span class="p">)</span>
+        <span class="n">_Computer_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.learn.Computer"</span><span class="p">)</span>
+        <span class="n">_Scatterer_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.learn.Scatterer"</span><span class="p">)</span>
+
+<span class="c1"># every module method that invokes Java classes should be decorated with @_passThrough</span>
+<span class="nd">@wrapt</span><span class="o">.</span><span class="n">decorator</span>
+<span class="k">def</span> <span class="nf">_passThrough</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    For decoration of module methods, to define necessary symbols at runtime</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        wrapped  : the method to be decorated</span>
+<span class="sd">        instance : the object to which the wrapped function was bound when it was called</span>
+<span class="sd">        args     : the argument list for `wrapped`</span>
+<span class="sd">        kwargs   : the keyword argument dictionary for `wrapped`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the decorated version of the method.</span>
+<span class="sd">    """</span>
+    <span class="n">_defineSymbols</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">_defineSymbols</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<div class="viewcode-block" id="Input"><a class="viewcode-back" href="../../code/deephaven.learn.html#deephaven.learn.Input">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">class</span> <span class="nc">Input</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Input specifies how to gather data from a Deephaven table into an object.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colNames</span><span class="p">,</span> <span class="n">gatherFunc</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Initializes an Input object with the given arguments.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            colNames   : column name or list of column names from which to gather input.</span>
+<span class="sd">            gatherFunc : function that determines how input gets transformed into an object.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">_Input_</span><span class="p">(</span><span class="n">colNames</span><span class="p">,</span> <span class="n">gatherFunc</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Returns the Input object as a string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Input as a string.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Output"><a class="viewcode-back" href="../../code/deephaven.learn.html#deephaven.learn.Output">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">class</span> <span class="nc">Output</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Output specifies how to scatter data from an object into a table column.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colName</span><span class="p">,</span> <span class="n">scatterFunc</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Initializes an Output object with the given arguments.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            colName         : name of the new column that will store results.</span>
+<span class="sd">            scatterFunc     : function that determines how data is taken from an object and placed into a Deephaven table column.</span>
+<span class="sd">            type (optional) : desired data type of the new output column.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">_Output_</span><span class="p">(</span><span class="n">colName</span><span class="p">,</span> <span class="n">scatterFunc</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Returns the Output object as a string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Output as a string.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span></div>
+
+
+<span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Ensures that all input columns exist in the table, and that no output column names already exist in the table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        inputs  : list of Inputs to validate.</span>
+<span class="sd">        outputs : list of Outputs to validate.</span>
+<span class="sd">        table   : table to check Input and Output columns against.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError : if at least one of the Input columns does not exist in the table.</span>
+<span class="sd">        ValueError : if at least one of the Output columns already exists in the table.</span>
+<span class="sd">        ValueError : if there are duplicates in the Output column names.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">inputs</span><span class="p">]</span>
+
+    <span class="n">inputColumns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">input</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">getColNames</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">getColNames</span><span class="p">()))]</span>
+
+    <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">hasColumns</span><span class="p">(</span><span class="n">inputColumns</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">outputs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">outputs</span><span class="p">]</span>
+
+            <span class="n">outputColumns</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">getColName</span><span class="p">()</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputColumns</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">outputColumns</span><span class="p">)):</span>
+                <span class="n">repeats</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">column</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">outputColumns</span> <span class="k">if</span> <span class="n">outputColumns</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">column</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot assign the same column name </span><span class="si">{</span><span class="n">repeats</span><span class="si">}</span><span class="s2"> to multiple columns."</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">table</span><span class="o">.</span><span class="n">hasColumns</span><span class="p">(</span><span class="n">outputColumns</span><span class="p">):</span>
+                <span class="n">overlap</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">outputColumns</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">getMeta</span><span class="p">()</span><span class="o">.</span><span class="n">getColumn</span><span class="p">(</span><span class="s2">"Name"</span><span class="p">)</span><span class="o">.</span><span class="n">getDirect</span><span class="p">())</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The columns </span><span class="si">{</span><span class="n">overlap</span><span class="si">}</span><span class="s2"> already exist in the table. Please choose Output column names that are not already in the table."</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="k">return</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">difference</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">inputColumns</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">getMeta</span><span class="p">()</span><span class="o">.</span><span class="n">getColumn</span><span class="p">(</span><span class="s2">"Name"</span><span class="p">)</span><span class="o">.</span><span class="n">getDirect</span><span class="p">())</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot find columns </span><span class="si">{</span><span class="n">difference</span><span class="si">}</span><span class="s2"> in the table."</span><span class="p">)</span>
+
+
+<span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">_createNonconflictingColumnName</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">baseColumnName</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Creates a column name that is not present in the table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        table          : table to check column name against.</span>
+<span class="sd">        baseColumnName : base name to create a column from.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        column name that is not present in the table.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">hasColumns</span><span class="p">(</span><span class="n">baseColumnName</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">baseColumnName</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">table</span><span class="o">.</span><span class="n">hasColumns</span><span class="p">(</span><span class="n">baseColumnName</span><span class="p">):</span>
+            <span class="n">baseColumnName</span> <span class="o">=</span> <span class="n">baseColumnName</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">hasColumns</span><span class="p">(</span><span class="n">baseColumnName</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">baseColumnName</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="learn"><a class="viewcode-back" href="../../code/deephaven.learn.html#deephaven.learn.learn">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Learn gathers data from multiple rows of the input table, performs a calculation, and scatters values from the</span>
+<span class="sd">    calculation into an output table. This is a common computing paradigm for artificial intelligence, machine learning,</span>
+<span class="sd">    and deep learning.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        table      : the Deephaven table to perform computations on.</span>
+<span class="sd">        model_func : function that performs computations on the table.</span>
+<span class="sd">        inputs     : list of Input objects that determine how data gets extracted from the table.</span>
+<span class="sd">        outputs    : list of Output objects that determine how data gets scattered back into the results table.</span>
+<span class="sd">        batch_size : maximum number of rows for which model_func is evaluated at once.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the table with added columns containing the results of evaluating model_func.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError : if no batch size was provided.</span>
+<span class="sd">        ValueError : if at least one of the Input columns does not exist in the table.</span>
+<span class="sd">        ValueError : if at least one of the Output columns already exists in the table.</span>
+<span class="sd">        ValueError : if there are duplicates in the Output column names.</span>
+<span class="sd">    """</span>
+
+    <span class="n">_validate</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">batch_size</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Batch size cannot be inferred. Please specify a batch size."</span><span class="p">)</span>
+
+    <span class="c1">#TODO: When ticket #1072 is resolved, the following code should be replaced with</span>
+    <span class="c1"># Globals["__computer"] = _Computer_(table, model_func, [input.input for input in inputs], batch_size)</span>
+    <span class="c1"># and remove from globals at the end of function</span>
+    <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.table.lang.QueryScope"</span><span class="p">)</span><span class="o">.</span><span class="n">addParam</span><span class="p">(</span><span class="s2">"__computer"</span><span class="p">,</span> <span class="n">_Computer_</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">model_func</span><span class="p">,</span> <span class="p">[</span><span class="nb">input</span><span class="o">.</span><span class="n">input</span> <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">],</span> <span class="n">batch_size</span><span class="p">))</span>
+
+    <span class="n">futureOffset</span> <span class="o">=</span> <span class="n">_createNonconflictingColumnName</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s2">"__FutureOffset"</span><span class="p">)</span>
+    <span class="n">clean</span> <span class="o">=</span> <span class="n">_createNonconflictingColumnName</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s2">"__CleanComputer"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">outputs</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">__scatterer</span> <span class="o">=</span> <span class="n">_Scatterer_</span><span class="p">([</span><span class="n">output</span><span class="o">.</span><span class="n">output</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">])</span>
+        <span class="c1">#TODO: Similarly at resolution of #1072, replace the following code with</span>
+        <span class="c1"># Globals["__scatterer"] = __scatterer</span>
+        <span class="c1"># and remove from Globals at end of function</span>
+        <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.table.lang.QueryScope"</span><span class="p">)</span><span class="o">.</span><span class="n">addParam</span><span class="p">(</span><span class="s2">"__scatterer"</span><span class="p">,</span> <span class="n">__scatterer</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">futureOffset</span><span class="si">}</span><span class="s2"> = __computer.compute(k)"</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">__scatterer</span><span class="o">.</span><span class="n">generateQueryStrings</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">futureOffset</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>\
+                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">clean</span><span class="si">}</span><span class="s2"> = __computer.clear()"</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">dropColumns</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">futureOffset</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">clean</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">_createNonconflictingColumnName</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s2">"__Result"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">futureOffset</span><span class="si">}</span><span class="s2"> = __computer.compute(k)"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">futureOffset</span><span class="si">}</span><span class="s2">.getFuture().get()"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">clean</span><span class="si">}</span><span class="s2"> = __computer.clear()"</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">dropColumns</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">futureOffset</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">clean</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    </body>
+</html>

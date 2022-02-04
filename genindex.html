@@ -1,0 +1,2338 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
+
+    <link rel="shortcut icon" href="_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/><title>Index - deephaven_ib documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.Calendars.html">Calendars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.DateTimeUtils.html">DateTimeUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.MovingAverages.html">MovingAverages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.ParquetTools.html">ParquetTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.PerformanceQueries.html">PerformanceQueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.PerformanceTools.html">PerformanceTools</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="code/deephaven.Plot.html">Plot</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.Plot.ColorMaps.html">ColorMaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.Plot.figure_wrapper.html">figure_wrapper</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.ProduceKafka.html">ProduceKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.ResolveTools.html">ResolveTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.TableLoggers.html">TableLoggers</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="code/deephaven.TableManipulation.html">TableManipulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.TableManipulation.WindowCheck.html">WindowCheck</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.TableTools.html">TableTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.Types.html">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.conversion_utils.html">conversion_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.filter.html">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.java_to_python.html">java_to_python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.jvm_init.html">jvm_init</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="code/deephaven.lang.html">lang</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.lang.ListBasedSet.html">ListBasedSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.lang.analyzer.html">analyzer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.lang.arrays.html">arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.lang.constants.html">constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.lang.tools.html">tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.lang.transformer.html">transformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.lang.vectorize_simple.html">vectorize_simple</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.python_to_java.html">python_to_java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.start_jvm.html">start_jvm</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="code/deephaven.tutorials.html">tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/deephaven.tutorials.crypto_trades.html">crypto_trades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="py-modindex.html">Module Index</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#J"><strong>J</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#Q"><strong>Q</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a> | <a href="#X"><strong>X</strong></a> | <a href="#Y"><strong>Y</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.ListBasedSet.html#deephaven.lang.ListBasedSet.ListBasedSet.add">add() (ListBasedSet method)</a>
+</li>
+        <li><a href="code/deephaven.TableManipulation.WindowCheck.html#deephaven.TableManipulation.WindowCheck.addTimeWindow">addTimeWindow() (in module deephaven.TableManipulation.WindowCheck)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.Agg">Agg() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggAbsSum">AggAbsSum() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggAvg">AggAvg() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggCombo">AggCombo() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggCount">AggCount() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggCountDistinct">AggCountDistinct() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggDistinct">AggDistinct() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggFirst">AggFirst() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggFormula">AggFormula() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggGroup">AggGroup() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggLast">AggLast() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggMax">AggMax() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggMed">AggMed() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggMin">AggMin() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggPct">AggPct() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.Aggregation">Aggregation (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.Aggregation">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggSortedFirst">AggSortedFirst() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggSortedLast">AggSortedLast() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggStd">AggStd() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggSum">AggSum() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggUnique">AggUnique() (in module deephaven.AggregationFactory)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggVar">AggVar() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggWAvg">AggWAvg() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.AggregationFactory.html#deephaven.AggregationFactory.AggWSum">AggWSum() (in module deephaven.AggregationFactory)</a>
+</li>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer">Analyzer (class in deephaven.lang.analyzer)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceQueries.html#deephaven.PerformanceQueries.approxRatio">approxRatio() (in module deephaven.PerformanceQueries)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.arg_or_name">arg_or_name() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.arg_types">arg_types() (Transformer method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.array">array() (in module jpy)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.array_access">array_access() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.ASK">ASK (BarDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.assign">assign() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.autoEpochToNanos">autoEpochToNanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.autoEpochToTime">autoEpochToTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.ConsumeKafka.html#deephaven.ConsumeKafka.avro">avro() (in module deephaven.ConsumeKafka)</a>
+
+        <ul>
+          <li><a href="code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.avro">(in module deephaven.ProduceKafka)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axes">axes() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axesRemoveSeries">axesRemoveSeries() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axis">axis() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axisColor">axisColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axisFormat">axisFormat() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axisFormatPattern">axisFormatPattern() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axisLabel">axisLabel() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.axisLabelFont">axisLabelFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.axisTransform">axisTransform() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.axisTransformNames">axisTransformNames() (in module deephaven.Plot)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType">BarDataType (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize">BarSize (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.base64Fingerprint">base64Fingerprint() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.BID">BID (BarDataType attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.BID_ASK">BID_ASK (BarDataType attribute)</a>
+
+        <ul>
+          <li><a href="code/deephaven_ib.html#deephaven_ib.TickDataType.BID_ASK">(TickDataType attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.businessTime">businessTime() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.MovingAverages.html#deephaven.MovingAverages.ByEmaSimple">ByEmaSimple() (in module deephaven.MovingAverages)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.byteCol">byteCol() (in module deephaven.TableTools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.learn.gather.html#deephaven.learn.gather.MemoryLayout.C">C (MemoryLayout attribute)</a>
+</li>
+        <li><a href="code/deephaven.Calendars.html#deephaven.Calendars.calendar">calendar() (in module deephaven.Calendars)</a>
+</li>
+        <li><a href="code/deephaven.Calendars.html#deephaven.Calendars.calendarNames">calendarNames() (in module deephaven.Calendars)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Request.cancel">cancel() (Request method)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.cappedTimeOffset">cappedTimeOffset() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.cast">cast() (in module jpy)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.catErrorBar">catErrorBar() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.catErrorBar">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.catErrorBarBy">catErrorBarBy() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.catErrorBarBy">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.catHistPlot">catHistPlot() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.catHistPlot">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.catPlot">catPlot() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.catPlot">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.catPlotBy">catPlotBy() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.catPlotBy">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.ConsumeCdc.html#deephaven.ConsumeCdc.cdc_long_spec">cdc_long_spec() (in module deephaven.ConsumeCdc)</a>
+</li>
+        <li><a href="code/deephaven.ConsumeCdc.html#deephaven.ConsumeCdc.cdc_short_spec">cdc_short_spec() (in module deephaven.ConsumeCdc)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.charCol">charCol() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.chart">chart() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.chartRemoveSeries">chartRemoveSeries() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.chartTitle">chartTitle() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.chartTitleColor">chartTitleColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.chartTitleFont">chartTitleFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.check_if_none">check_if_none() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.choose_decorator">choose_decorator() (Transformer method)</a>
+</li>
+        <li><a href="code/deephaven.lang.ListBasedSet.html#deephaven.lang.ListBasedSet.ListBasedSet.clear">clear() (ListBasedSet method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.client_id">client_id (IbSessionTws property)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.col">col() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.color">color() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.colorHSL">colorHSL() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.colorNames">colorNames() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.colorRGB">colorRGB() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.colorTable">colorTable() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.colSource">colSource() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.colSpan">colSpan() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.learn.gather.html#deephaven.learn.gather.MemoryLayout.COLUMN_MAJOR">COLUMN_MAJOR (MemoryLayout attribute)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.ColumnName">ColumnName (class in deephaven)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.ColumnRenderersBuilder">ColumnRenderersBuilder (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.ColumnRenderersBuilder">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.columnToNumpyArray">columnToNumpyArray() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.java_to_python.html#deephaven.java_to_python.columnToNumpyArray">(in module deephaven.java_to_python)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.java_to_python.html#deephaven.java_to_python.columnToSeries">columnToSeries() (in module deephaven.java_to_python)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/ibapi.contract.html#ibapi.contract.ComboLeg">ComboLeg (class in ibapi.contract)</a>
+</li>
+        <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.compute_sigs">compute_sigs() (Transformer method)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.computeFingerprint">computeFingerprint() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.connect">connect() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven.ConsumeCdc.html#deephaven.ConsumeCdc.consumeRawToTable">consumeRawToTable() (in module deephaven.ConsumeCdc)</a>
+</li>
+        <li><a href="code/deephaven.ConsumeCdc.html#deephaven.ConsumeCdc.consumeToTable">consumeToTable() (in module deephaven.ConsumeCdc)</a>
+
+        <ul>
+          <li><a href="code/deephaven.ConsumeKafka.html#deephaven.ConsumeKafka.consumeToTable">(in module deephaven.ConsumeKafka)</a>
+</li>
+        </ul></li>
+        <li><a href="code/ibapi.contract.html#ibapi.contract.Contract">Contract (class in ibapi.contract)</a>
+</li>
+        <li><a href="code/ibapi.contract.html#ibapi.contract.ContractDescription">ContractDescription (class in ibapi.contract)</a>
+</li>
+        <li><a href="code/ibapi.contract.html#ibapi.contract.ContractDetails">ContractDetails (class in ibapi.contract)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_CONVERSION.CONVERT">CONVERT (NULL_CONVERSION attribute)</a>
+</li>
+        <li><a href="code/deephaven.learn.gather.html#deephaven.learn.gather.convert_to_numpy_dtype">convert_to_numpy_dtype() (in module deephaven.learn.gather)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDate">convertDate() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDateQuiet">convertDateQuiet() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDateTime">convertDateTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDateTimeQuiet">convertDateTimeQuiet() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertExpression">convertExpression() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.convertJavaArray">convertJavaArray() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.java_to_python.html#deephaven.java_to_python.convertJavaArray">(in module deephaven.java_to_python)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertLocalTimeQuiet">convertLocalTimeQuiet() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertPeriod">convertPeriod() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertPeriodQuiet">convertPeriodQuiet() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.convertSchema">convertSchema() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertTime">convertTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertTimeQuiet">convertTimeQuiet() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.convertToJavaArray">convertToJavaArray() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.convertToJavaArray">(in module deephaven.conversion_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.convertToJavaArrayList">convertToJavaArrayList() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.convertToJavaArrayList">(in module deephaven.conversion_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.convertToJavaHashMap">convertToJavaHashMap() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.convertToJavaHashMap">(in module deephaven.conversion_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.convertToJavaHashSet">convertToJavaHashSet() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.convertToJavaHashSet">(in module deephaven.conversion_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.convertToJavaList">convertToJavaList() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.convertToJavaList">(in module deephaven.conversion_utils)</a>
+</li>
+        </ul></li>
+        <li><a href="code/jpy.html#jpy.create_jvm">create_jvm() (in module jpy)</a>
+</li>
+        <li><a href="code/deephaven.java_to_python.html#deephaven.java_to_python.createCategoricalSeries">createCategoricalSeries() (in module deephaven.java_to_python)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.createFormatter">createFormatter() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.createTableFromData">createTableFromData() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.python_to_java.html#deephaven.python_to_java.createTableFromData">(in module deephaven.python_to_java)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.VecMode.cuda">cuda (VecMode attribute)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.currentDate">currentDate() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.currentDateNy">currentDateNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.currentTime">currentTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.html#deephaven.dataFrameToTable">dataFrameToTable() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.python_to_java.html#deephaven.python_to_java.dataFrameToTable">(in module deephaven.python_to_java)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dateAtMidnight">dateAtMidnight() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.DateTime">DateTime (class in deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.dateTimeCol">dateTimeCol() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.DAY">DAY (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.DAY_1">DAY_1 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfMonth">dayOfMonth() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfMonthNy">dayOfMonthNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfWeek">dayOfWeek() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfWeekNy">dayOfWeekNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfYear">dayOfYear() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfYearNy">dayOfYearNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Duration.days">days() (Duration static method)</a>
+</li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.debugMode">debugMode (in module deephaven.lang.constants)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JOverloadedMethod.decl_class">decl_class (JOverloadedMethod attribute)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.decorate">decorate() (in module deephaven.lang.tools)</a>
+</li>
+        <li>
+    deephaven
+
+        <ul>
+          <li><a href="code/deephaven.html#module-deephaven">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.AggregationFactory
+
+        <ul>
+          <li><a href="code/deephaven.AggregationFactory.html#module-deephaven.AggregationFactory">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.Calendars
+
+        <ul>
+          <li><a href="code/deephaven.Calendars.html#module-deephaven.Calendars">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.ConsumeCdc
+
+        <ul>
+          <li><a href="code/deephaven.ConsumeCdc.html#module-deephaven.ConsumeCdc">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.ConsumeKafka
+
+        <ul>
+          <li><a href="code/deephaven.ConsumeKafka.html#module-deephaven.ConsumeKafka">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.conversion_utils
+
+        <ul>
+          <li><a href="code/deephaven.conversion_utils.html#module-deephaven.conversion_utils">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.csv
+
+        <ul>
+          <li><a href="code/deephaven.csv.html#module-deephaven.csv">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.DateTimeUtils
+
+        <ul>
+          <li><a href="code/deephaven.DateTimeUtils.html#module-deephaven.DateTimeUtils">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.filter
+
+        <ul>
+          <li><a href="code/deephaven.filter.html#module-deephaven.filter">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.java_to_python
+
+        <ul>
+          <li><a href="code/deephaven.java_to_python.html#module-deephaven.java_to_python">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.jvm_init
+
+        <ul>
+          <li><a href="code/deephaven.jvm_init.html#module-deephaven.jvm_init">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.lang
+
+        <ul>
+          <li><a href="code/deephaven.lang.html#module-deephaven.lang">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.lang.analyzer
+
+        <ul>
+          <li><a href="code/deephaven.lang.analyzer.html#module-deephaven.lang.analyzer">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.lang.arrays
+
+        <ul>
+          <li><a href="code/deephaven.lang.arrays.html#module-deephaven.lang.arrays">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.lang.constants
+
+        <ul>
+          <li><a href="code/deephaven.lang.constants.html#module-deephaven.lang.constants">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.lang.ListBasedSet
+
+        <ul>
+          <li><a href="code/deephaven.lang.ListBasedSet.html#module-deephaven.lang.ListBasedSet">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.lang.tools
+
+        <ul>
+          <li><a href="code/deephaven.lang.tools.html#module-deephaven.lang.tools">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.lang.transformer
+
+        <ul>
+          <li><a href="code/deephaven.lang.transformer.html#module-deephaven.lang.transformer">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.learn
+
+        <ul>
+          <li><a href="code/deephaven.learn.html#module-deephaven.learn">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.learn.gather
+
+        <ul>
+          <li><a href="code/deephaven.learn.gather.html#module-deephaven.learn.gather">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.MovingAverages
+
+        <ul>
+          <li><a href="code/deephaven.MovingAverages.html#module-deephaven.MovingAverages">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.ParquetTools
+
+        <ul>
+          <li><a href="code/deephaven.ParquetTools.html#module-deephaven.ParquetTools">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    deephaven.PerformanceQueries
+
+        <ul>
+          <li><a href="code/deephaven.PerformanceQueries.html#module-deephaven.PerformanceQueries">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.PerformanceTools
+
+        <ul>
+          <li><a href="code/deephaven.PerformanceTools.html#module-deephaven.PerformanceTools">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.Plot
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#module-deephaven.Plot">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.Plot.ColorMaps
+
+        <ul>
+          <li><a href="code/deephaven.Plot.ColorMaps.html#module-deephaven.Plot.ColorMaps">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.Plot.figure_wrapper
+
+        <ul>
+          <li><a href="code/deephaven.Plot.figure_wrapper.html#module-deephaven.Plot.figure_wrapper">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.ProduceKafka
+
+        <ul>
+          <li><a href="code/deephaven.ProduceKafka.html#module-deephaven.ProduceKafka">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.python_to_java
+
+        <ul>
+          <li><a href="code/deephaven.python_to_java.html#module-deephaven.python_to_java">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.ResolveTools
+
+        <ul>
+          <li><a href="code/deephaven.ResolveTools.html#module-deephaven.ResolveTools">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.start_jvm
+
+        <ul>
+          <li><a href="code/deephaven.start_jvm.html#module-deephaven.start_jvm">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.TableLoggers
+
+        <ul>
+          <li><a href="code/deephaven.TableLoggers.html#module-deephaven.TableLoggers">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.TableManipulation
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#module-deephaven.TableManipulation">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.TableManipulation.WindowCheck
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.WindowCheck.html#module-deephaven.TableManipulation.WindowCheck">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.TableTools
+
+        <ul>
+          <li><a href="code/deephaven.TableTools.html#module-deephaven.TableTools">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.tutorials
+
+        <ul>
+          <li><a href="code/deephaven.tutorials.html#module-deephaven.tutorials">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.tutorials.crypto_trades
+
+        <ul>
+          <li><a href="code/deephaven.tutorials.crypto_trades.html#module-deephaven.tutorials.crypto_trades">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.Types
+
+        <ul>
+          <li><a href="code/deephaven.Types.html#module-deephaven.Types">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven_ib
+
+        <ul>
+          <li><a href="code/deephaven_ib.html#module-deephaven_ib">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven_ib.time
+
+        <ul>
+          <li><a href="code/deephaven_ib.time.html#module-deephaven_ib.time">module</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.default_globals">default_globals() (in module deephaven.lang.constants)</a>
+</li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.VecMode.default_mode">default_mode (VecMode attribute)</a>
+</li>
+        <li><a href="code/deephaven.lang.arrays.html#deephaven.lang.arrays.default_order">default_order (in module deephaven.lang.arrays)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.MarketDataType.DELAYED">DELAYED (MarketDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.deleteTable">deleteTable() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/ibapi.contract.html#ibapi.contract.DeltaNeutralContract">DeltaNeutralContract (class in ibapi.contract)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.TableListenerHandle.deregister">deregister() (TableListenerHandle method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.destroy_jvm">destroy_jvm() (in module jpy)</a>
+</li>
+        <li><a href="code/deephaven_ib.time.html#deephaven_ib.time.dh_to_ib_datetime">dh_to_ib_datetime() (in module deephaven_ib.time)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.diff">diff() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.diffDay">diffDay() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.diffNanos">diffNanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.diffPair">diffPair() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.diffYear">diffYear() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.lang.ListBasedSet.html#deephaven.lang.ListBasedSet.ListBasedSet.discard">discard() (ListBasedSet method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.disconnect">disconnect() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.DistinctFormatter">DistinctFormatter (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.DistinctFormatter">(in module deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.doLocked">doLocked() (in module deephaven)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.doubleCol">doubleCol() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.DownsampledWhereFilter">DownsampledWhereFilter (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.DownsampledWhereFilter">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Duration">Duration (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.DynamicTableWriter">DynamicTableWriter (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.DynamicTableWriter">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.MovingAverages.html#deephaven.MovingAverages.Ema">Ema() (in module deephaven.MovingAverages)</a>
+</li>
+        <li><a href="code/deephaven.MovingAverages.html#deephaven.MovingAverages.EmaArray">EmaArray() (in module deephaven.MovingAverages)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.emptyTable">emptyTable() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_CONVERSION.ERROR">ERROR (NULL_CONVERSION attribute)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.errorBarColor">errorBarColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.errorBarX">errorBarX() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.errorBarX">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.errorBarXBy">errorBarXBy() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.errorBarXBy">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.errorBarXY">errorBarXY() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.errorBarXY">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.errorBarXYBy">errorBarXYBy() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.errorBarXYBy">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.errorBarY">errorBarY() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.errorBarY">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.errorBarYBy">errorBarYBy() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.errorBarYBy">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.MovingAverages.html#deephaven.MovingAverages.ExponentiallyDecayedSum">ExponentiallyDecayedSum() (in module deephaven.MovingAverages)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.expressionToNanos">expressionToNanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.FEE_RATE">FEE_RATE (BarDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.field_read">field_read() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.figure">figure (FigureWrapper property)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.figure">figure() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.figureRemoveSeries">figureRemoveSeries() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.figureTitle">figureTitle() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.figureTitleColor">figureTitleColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.figureTitleFont">figureTitleFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper">FigureWrapper (class in deephaven.Plot.figure_wrapper)</a>
+</li>
+        <li><a href="code/deephaven.lang.arrays.html#deephaven.lang.arrays.float32_">float32_() (in module deephaven.lang.arrays)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.float32_">(in module deephaven.lang.tools)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.lang.arrays.html#deephaven.lang.arrays.float64_">float64_() (in module deephaven.lang.arrays)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.float64_">(in module deephaven.lang.tools)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.floatCol">floatCol() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.font">font() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.fontFamilyNames">fontFamilyNames() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.fontStyle">fontStyle() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.fontStyleNames">fontStyleNames() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.format">format() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.formatDate">formatDate() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.formatDateNy">formatDateNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.formatNy">formatNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.learn.gather.html#deephaven.learn.gather.MemoryLayout.FORTRAN">FORTRAN (MemoryLayout attribute)</a>
+</li>
+        <li><a href="code/deephaven.java_to_python.html#deephaven.java_to_python.freezeTable">freezeTable() (in module deephaven.java_to_python)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.MarketDataType.FROZEN">FROZEN (MarketDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.funcNPoints">funcNPoints() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.funcRange">funcRange() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.generic_visit">generic_visit() (Analyzer method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.generic_visit">(Transformer method)</a>
+</li>
+        </ul></li>
+        <li><a href="code/jpy.html#jpy.JMethod.get_param_type">get_param_type() (JMethod method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.get_registered_contract">get_registered_contract() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.get_type">get_type() (in module jpy)</a>
+</li>
+        <li><a href="code/ibapi.html#ibapi.get_version_string">get_version_string() (in module ibapi)</a>
+</li>
+        <li><a href="code/deephaven.Calendars.html#deephaven.Calendars.getDefaultName">getDefaultName() (in module deephaven.Calendars)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getExcelDateTime">getExcelDateTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.getFileObject">getFileObject() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getFinestDefinedUnit">getFinestDefinedUnit() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.getJavaClassObject">getJavaClassObject() (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.getKey">getKey() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.getParquetFileReader">getParquetFileReader() (in module deephaven.ParquetTools)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampMicros">getPartitionFromTimestampMicros() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampMillis">getPartitionFromTimestampMillis() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampNanos">getPartitionFromTimestampNanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampSeconds">getPartitionFromTimestampSeconds() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.getPrevKey">getPrevKey() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.getValidGroups">getValidGroups() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.getWidget">getWidget() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.getWorkspaceRoot">getWorkspaceRoot() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getZonedDateTime">getZonedDateTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.gradientVisible">gradientVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.gridLinesVisible">gridLinesVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.group">group() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.VecMode.guvectorize">guvectorize (VecMode attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/jpy.html#jpy.has_jvm">has_jvm() (in module jpy)</a>
+</li>
+        <li><a href="code/deephaven.Plot.ColorMaps.html#deephaven.Plot.ColorMaps.heatMap">heatMap() (in module deephaven.Plot.ColorMaps)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.HISTORICAL_VOLATILITY">HISTORICAL_VOLATILITY (BarDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.histPlot">histPlot() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.histPlot">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.host">host (IbSessionTws property)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.HOUR">HOUR (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.HOUR_1">HOUR_1 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.hourOfDay">hourOfDay() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.hourOfDayNy">hourOfDayNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.html">html() (in module deephaven.TableTools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven_ib.time.html#deephaven_ib.time.ib_to_dh_datetime">ib_to_dh_datetime() (in module deephaven_ib.time)</a>
+</li>
+        <li>
+    ibapi
+
+        <ul>
+          <li><a href="code/ibapi.html#module-ibapi">module</a>
+</li>
+        </ul></li>
+        <li>
+    ibapi.contract
+
+        <ul>
+          <li><a href="code/ibapi.contract.html#module-ibapi.contract">module</a>
+</li>
+        </ul></li>
+        <li>
+    ibapi.order
+
+        <ul>
+          <li><a href="code/ibapi.order.html#module-ibapi.order">module</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws">IbSessionTws (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven.csv.html#deephaven.csv.INFERENCE_MINIMAL">INFERENCE_MINIMAL (in module deephaven.csv)</a>
+</li>
+        <li><a href="code/deephaven.csv.html#deephaven.csv.INFERENCE_STANDARD">INFERENCE_STANDARD (in module deephaven.csv)</a>
+</li>
+        <li><a href="code/deephaven.csv.html#deephaven.csv.INFERENCE_STANDARD_TIMES">INFERENCE_STANDARD_TIMES (in module deephaven.csv)</a>
+</li>
+        <li><a href="code/deephaven.csv.html#deephaven.csv.INFERENCE_STRINGS">INFERENCE_STRINGS (in module deephaven.csv)</a>
+</li>
+        <li><a href="code/deephaven.learn.html#deephaven.learn.Input">Input (class in deephaven.learn)</a>
+</li>
+        <li><a href="code/deephaven.lang.arrays.html#deephaven.lang.arrays.int32_">int32_() (in module deephaven.lang.arrays)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.int32_">(in module deephaven.lang.tools)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.lang.arrays.html#deephaven.lang.arrays.int64_">int64_() (in module deephaven.lang.arrays)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.int64_">(in module deephaven.lang.tools)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.int_or_float">int_or_float() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.intCol">intCol() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.invert">invert() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Request.is_cancellable">is_cancellable() (Request method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.is_connected">is_connected() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JField.is_final">is_final (JField attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.RegisteredContract.is_multi">is_multi() (RegisteredContract method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JMethod.is_param_mutable">is_param_mutable() (JMethod method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JMethod.is_param_output">is_param_output() (JMethod method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JMethod.is_param_return">is_param_return() (JMethod method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JField.is_static">is_static (JField attribute)</a>
+
+        <ul>
+          <li><a href="code/jpy.html#jpy.JMethod.is_static">(JMethod attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.isAfter">isAfter() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.isBefore">isBefore() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.lang.ListBasedSet.html#deephaven.lang.ListBasedSet.ListBasedSet.isdisjoint">isdisjoint() (ListBasedSet method)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.itr">itr() (in module deephaven.lang.tools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="J" class="genindex-section">
+  <h2>J</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/jpy.html#jpy.JException">JException</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JField">JField (class in jpy)</a>
+</li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.VecMode.jit">jit (VecMode attribute)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JMethod">JMethod (class in jpy)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JOverloadedMethod">JOverloadedMethod (class in jpy)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    jpy
+
+        <ul>
+          <li><a href="code/jpy.html#module-jpy">module</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.ConsumeKafka.html#deephaven.ConsumeKafka.json">json() (in module deephaven.ConsumeKafka)</a>
+
+        <ul>
+          <li><a href="code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.json">(in module deephaven.ProduceKafka)</a>
+</li>
+        </ul></li>
+        <li><a href="code/jpy.html#jpy.JType">JType (class in jpy)</a>
+</li>
+        <li><a href="code/deephaven.jvm_init.html#deephaven.jvm_init.jvm_init">jvm_init() (in module deephaven.jvm_init)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="K" class="genindex-section">
+  <h2>K</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.keyword_arg">keyword_arg() (in module deephaven.lang.tools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.TickDataType.LAST">LAST (TickDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.lastBusinessDateNy">lastBusinessDateNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.LayoutHintBuilder">LayoutHintBuilder (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.LayoutHintBuilder">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.learn.html#deephaven.learn.learn">learn() (in module deephaven.learn)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.legendColor">legendColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.legendFont">legendFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.legendVisible">legendVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.lineColor">lineColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.lineEndStyle">lineEndStyle() (in module deephaven.Plot)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.lineEndStyleNames">lineEndStyleNames() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.lineJoinStyle">lineJoinStyle() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.lineJoinStyleNames">lineJoinStyleNames() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.lineStyle">lineStyle() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.lineStyle">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.linesVisible">linesVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.lang.ListBasedSet.html#deephaven.lang.ListBasedSet.ListBasedSet">ListBasedSet (class in deephaven.lang.ListBasedSet)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.listen">listen() (in module deephaven)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.log">log() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.longCol">longCol() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.lowerBin">lowerBin() (in module deephaven.DateTimeUtils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.makeJavaArray">makeJavaArray() (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.MarketDataType">MarketDataType (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.max">max() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.maxRowsInTitle">maxRowsInTitle() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.learn.gather.html#deephaven.learn.gather.MemoryLayout">MemoryLayout (class in deephaven.learn.gather)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.merge">merge() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.merge_two_dicts">merge_two_dicts() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.mergeSorted">mergeSorted() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.method_call">method_call() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JOverloadedMethod.methods">methods (JOverloadedMethod attribute)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceTools.html#deephaven.PerformanceTools.metricsCountsGet">metricsCountsGet() (in module deephaven.PerformanceTools)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceTools.html#deephaven.PerformanceTools.metricsCountsPrint">metricsCountsPrint() (in module deephaven.PerformanceTools)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceTools.html#deephaven.PerformanceTools.metricsCountsReset">metricsCountsReset() (in module deephaven.PerformanceTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsOfMilli">microsOfMilli() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsOfMilliNy">microsOfMilliNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsToNanos">microsToNanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsToTime">microsToTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.MIDPOINT">MIDPOINT (BarDataType attribute)</a>
+
+        <ul>
+          <li><a href="code/deephaven_ib.html#deephaven_ib.TickDataType.MIDPOINT">(TickDataType attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millis">millis() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfDay">millisOfDay() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfDayNy">millisOfDayNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfSecond">millisOfSecond() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfSecondNy">millisOfSecondNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToDateAtMidnight">millisToDateAtMidnight() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToDateAtMidnightNy">millisToDateAtMidnightNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToNanos">millisToNanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToTime">millisToTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.min">min() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.MIN_1">MIN_1 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.MIN_15">MIN_15 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.MIN_2">MIN_2 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.MIN_3">MIN_3 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.MIN_30">MIN_30 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.MIN_5">MIN_5 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.minorTicks">minorTicks() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.minorTicksVisible">minorTicksVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minus">minus() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.MINUTE">MINUTE (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfDay">minuteOfDay() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfDayNy">minuteOfDayNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfHour">minuteOfHour() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfHourNy">minuteOfHourNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="code/deephaven.html#module-deephaven">deephaven</a>
+</li>
+          <li><a href="code/deephaven.AggregationFactory.html#module-deephaven.AggregationFactory">deephaven.AggregationFactory</a>
+</li>
+          <li><a href="code/deephaven.Calendars.html#module-deephaven.Calendars">deephaven.Calendars</a>
+</li>
+          <li><a href="code/deephaven.ConsumeCdc.html#module-deephaven.ConsumeCdc">deephaven.ConsumeCdc</a>
+</li>
+          <li><a href="code/deephaven.ConsumeKafka.html#module-deephaven.ConsumeKafka">deephaven.ConsumeKafka</a>
+</li>
+          <li><a href="code/deephaven.conversion_utils.html#module-deephaven.conversion_utils">deephaven.conversion_utils</a>
+</li>
+          <li><a href="code/deephaven.csv.html#module-deephaven.csv">deephaven.csv</a>
+</li>
+          <li><a href="code/deephaven.DateTimeUtils.html#module-deephaven.DateTimeUtils">deephaven.DateTimeUtils</a>
+</li>
+          <li><a href="code/deephaven.filter.html#module-deephaven.filter">deephaven.filter</a>
+</li>
+          <li><a href="code/deephaven.java_to_python.html#module-deephaven.java_to_python">deephaven.java_to_python</a>
+</li>
+          <li><a href="code/deephaven.jvm_init.html#module-deephaven.jvm_init">deephaven.jvm_init</a>
+</li>
+          <li><a href="code/deephaven.lang.html#module-deephaven.lang">deephaven.lang</a>
+</li>
+          <li><a href="code/deephaven.lang.analyzer.html#module-deephaven.lang.analyzer">deephaven.lang.analyzer</a>
+</li>
+          <li><a href="code/deephaven.lang.arrays.html#module-deephaven.lang.arrays">deephaven.lang.arrays</a>
+</li>
+          <li><a href="code/deephaven.lang.constants.html#module-deephaven.lang.constants">deephaven.lang.constants</a>
+</li>
+          <li><a href="code/deephaven.lang.ListBasedSet.html#module-deephaven.lang.ListBasedSet">deephaven.lang.ListBasedSet</a>
+</li>
+          <li><a href="code/deephaven.lang.tools.html#module-deephaven.lang.tools">deephaven.lang.tools</a>
+</li>
+          <li><a href="code/deephaven.lang.transformer.html#module-deephaven.lang.transformer">deephaven.lang.transformer</a>
+</li>
+          <li><a href="code/deephaven.learn.html#module-deephaven.learn">deephaven.learn</a>
+</li>
+          <li><a href="code/deephaven.learn.gather.html#module-deephaven.learn.gather">deephaven.learn.gather</a>
+</li>
+          <li><a href="code/deephaven.MovingAverages.html#module-deephaven.MovingAverages">deephaven.MovingAverages</a>
+</li>
+          <li><a href="code/deephaven.ParquetTools.html#module-deephaven.ParquetTools">deephaven.ParquetTools</a>
+</li>
+          <li><a href="code/deephaven.PerformanceQueries.html#module-deephaven.PerformanceQueries">deephaven.PerformanceQueries</a>
+</li>
+          <li><a href="code/deephaven.PerformanceTools.html#module-deephaven.PerformanceTools">deephaven.PerformanceTools</a>
+</li>
+          <li><a href="code/deephaven.Plot.html#module-deephaven.Plot">deephaven.Plot</a>
+</li>
+          <li><a href="code/deephaven.Plot.ColorMaps.html#module-deephaven.Plot.ColorMaps">deephaven.Plot.ColorMaps</a>
+</li>
+          <li><a href="code/deephaven.Plot.figure_wrapper.html#module-deephaven.Plot.figure_wrapper">deephaven.Plot.figure_wrapper</a>
+</li>
+          <li><a href="code/deephaven.ProduceKafka.html#module-deephaven.ProduceKafka">deephaven.ProduceKafka</a>
+</li>
+          <li><a href="code/deephaven.python_to_java.html#module-deephaven.python_to_java">deephaven.python_to_java</a>
+</li>
+          <li><a href="code/deephaven.ResolveTools.html#module-deephaven.ResolveTools">deephaven.ResolveTools</a>
+</li>
+          <li><a href="code/deephaven.start_jvm.html#module-deephaven.start_jvm">deephaven.start_jvm</a>
+</li>
+          <li><a href="code/deephaven.TableLoggers.html#module-deephaven.TableLoggers">deephaven.TableLoggers</a>
+</li>
+          <li><a href="code/deephaven.TableManipulation.html#module-deephaven.TableManipulation">deephaven.TableManipulation</a>
+</li>
+          <li><a href="code/deephaven.TableManipulation.WindowCheck.html#module-deephaven.TableManipulation.WindowCheck">deephaven.TableManipulation.WindowCheck</a>
+</li>
+          <li><a href="code/deephaven.TableTools.html#module-deephaven.TableTools">deephaven.TableTools</a>
+</li>
+          <li><a href="code/deephaven.tutorials.html#module-deephaven.tutorials">deephaven.tutorials</a>
+</li>
+          <li><a href="code/deephaven.tutorials.crypto_trades.html#module-deephaven.tutorials.crypto_trades">deephaven.tutorials.crypto_trades</a>
+</li>
+          <li><a href="code/deephaven.Types.html#module-deephaven.Types">deephaven.Types</a>
+</li>
+          <li><a href="code/deephaven_ib.html#module-deephaven_ib">deephaven_ib</a>
+</li>
+          <li><a href="code/deephaven_ib.time.html#module-deephaven_ib.time">deephaven_ib.time</a>
+</li>
+          <li><a href="code/ibapi.html#module-ibapi">ibapi</a>
+</li>
+          <li><a href="code/ibapi.contract.html#module-ibapi.contract">ibapi.contract</a>
+</li>
+          <li><a href="code/ibapi.order.html#module-ibapi.order">ibapi.order</a>
+</li>
+          <li><a href="code/jpy.html#module-jpy">jpy</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.monthOfYear">monthOfYear() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.monthOfYearNy">monthOfYearNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Duration.months">months() (Duration static method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/jpy.html#jpy.JField.name">name (JField attribute)</a>
+
+        <ul>
+          <li><a href="code/jpy.html#jpy.JMethod.name">(JMethod attribute)</a>
+</li>
+          <li><a href="code/jpy.html#jpy.JOverloadedMethod.name">(JOverloadedMethod attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.name_constant">name_constant() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanos">nanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfDay">nanosOfDay() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfDayNy">nanosOfDayNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfSecond">nanosOfSecond() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfSecondNy">nanosOfSecondNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosToMicros">nanosToMicros() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosToMillis">nanosToMillis() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosToTime">nanosToTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.new_func">new_func() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.new_list">new_list() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.newAxes">newAxes() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.newAxes">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.newChart">newChart() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.newChart">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.newTable">newTable() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.next_func_name">next_func_name() (Transformer class method)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.not_py3">not_py3 (class in deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_BYTE">NULL_BYTE (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_CHAR">NULL_CHAR (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_CONVERSION">NULL_CONVERSION (class in deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_DOUBLE">NULL_DOUBLE (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_FLOAT">NULL_FLOAT (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_INT">NULL_INT (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_LONG">NULL_LONG (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_SHORT">NULL_SHORT (in module deephaven.conversion_utils)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.nullToNullString">nullToNullString() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.nullTypeAsString">nullTypeAsString() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.num_size">num_size() (in module deephaven.lang.tools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.objColSource">objColSource() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.ohlcPlot">ohlcPlot() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.ohlcPlot">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.ohlcPlotBy">ohlcPlotBy() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.ohlcPlotBy">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.oneClick">oneClick() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.OPTION_IMPLIED_VOLATILITY">OPTION_IMPLIED_VOLATILITY (BarDataType attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.filter.html#deephaven.filter.or_">or_() (in module deephaven.filter)</a>
+</li>
+        <li><a href="code/ibapi.order.html#ibapi.order.Order">Order (class in ibapi.order)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.order_cancel">order_cancel() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.order_cancel_all">order_cancel_all() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.order_place">order_place() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/ibapi.order.html#ibapi.order.OrderComboLeg">OrderComboLeg (class in ibapi.order)</a>
+</li>
+        <li><a href="code/deephaven.learn.html#deephaven.learn.Output">Output (class in deephaven.learn)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.overrideLastBusinessDateNyFromCurrentDateNy">overrideLastBusinessDateNyFromCurrentDateNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.param">param() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JMethod.param_count">param_count (JMethod attribute)</a>
+</li>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_CONVERSION.PASS">PASS (NULL_CONVERSION attribute)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.Period">Period (class in deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.piePercentLabelFormat">piePercentLabelFormat() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.piePlot">piePlot() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.piePlot">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.plot">plot() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.plot">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.plotBy">plotBy() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.Plot.html#deephaven.Plot.plotBy">(in module deephaven.Plot)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.plotOrientation">plotOrientation() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.plotStyle">plotStyle() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.plotStyleNames">plotStyleNames() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.plus">plus() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointColor">pointColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointColorByY">pointColorByY() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointColorInteger">pointColorInteger() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointLabel">pointLabel() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointLabelFormat">pointLabelFormat() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointShape">pointShape() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointSize">pointSize() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.pointsVisible">pointsVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.lang.ListBasedSet.html#deephaven.lang.ListBasedSet.ListBasedSet.pop">pop() (ListBasedSet method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.port">port (IbSessionTws property)</a>
+</li>
+        <li><a href="code/deephaven.Plot.ColorMaps.html#deephaven.Plot.ColorMaps.predicateMap">predicateMap() (in module deephaven.Plot.ColorMaps)</a>
+</li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.primitive_types">primitive_types (in module deephaven.lang.constants)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceQueries.html#deephaven.PerformanceQueries.processInfo">processInfo() (in module deephaven.PerformanceQueries)</a>
+</li>
+        <li><a href="code/deephaven.TableLoggers.html#deephaven.TableLoggers.processInfoLog">processInfoLog() (in module deephaven.TableLoggers)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceQueries.html#deephaven.PerformanceQueries.processMemory">processMemory() (in module deephaven.PerformanceQueries)</a>
+</li>
+        <li><a href="code/deephaven.TableLoggers.html#deephaven.TableLoggers.processMemoryLog">processMemoryLog() (in module deephaven.TableLoggers)</a>
+</li>
+        <li><a href="code/deephaven.TableLoggers.html#deephaven.TableLoggers.processMetricsLog">processMetricsLog() (in module deephaven.TableLoggers)</a>
+</li>
+        <li><a href="code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.produceFromTable">produceFromTable() (in module deephaven.ProduceKafka)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.PythonFunction">PythonFunction() (in module deephaven)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.PythonListenerAdapter">PythonListenerAdapter() (in module deephaven)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.PythonShiftAwareListenerAdapter">PythonShiftAwareListenerAdapter() (in module deephaven)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="Q" class="genindex-section">
+  <h2>Q</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.PerformanceQueries.html#deephaven.PerformanceQueries.queryOperationPerformance">queryOperationPerformance() (in module deephaven.PerformanceQueries)</a>
+</li>
+        <li><a href="code/deephaven.TableLoggers.html#deephaven.TableLoggers.queryOperationPerformanceLog">queryOperationPerformanceLog() (in module deephaven.TableLoggers)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceQueries.html#deephaven.PerformanceQueries.queryPerformance">queryPerformance() (in module deephaven.PerformanceQueries)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.TableLoggers.html#deephaven.TableLoggers.queryPerformanceLog">queryPerformanceLog() (in module deephaven.TableLoggers)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceQueries.html#deephaven.PerformanceQueries.queryUpdatePerformance">queryUpdatePerformance() (in module deephaven.PerformanceQueries)</a>
+</li>
+        <li><a href="code/deephaven.PerformanceQueries.html#deephaven.PerformanceQueries.queryUpdatePerformanceMap">queryUpdatePerformanceMap() (in module deephaven.PerformanceQueries)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.range">range() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.ColorMaps.html#deephaven.Plot.ColorMaps.rangeMap">rangeMap() (in module deephaven.Plot.ColorMaps)</a>
+</li>
+        <li><a href="code/deephaven.csv.html#deephaven.csv.read">read() (in module deephaven.csv)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.read">(in module deephaven.lang.tools)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.read_csv">read_csv() (in module deephaven)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.read_false">read_false() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.read_none">read_none() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.read_true">read_true() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.readParquetSchemaAndTable">readParquetSchemaAndTable() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.readPartitionedTable">readPartitionedTable() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.readPartitionedTableInferSchema">readPartitionedTableInferSchema() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.readPartitionedTableWithMetadata">readPartitionedTableWithMetadata() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.readSingleFileTable">readSingleFileTable() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.readTable">readTable() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.MarketDataType.REAL_TIME">REAL_TIME (MarketDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.REBATE_RATE">REBATE_RATE (BarDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.TableListenerHandle.register">register() (TableListenerHandle method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.RegisteredContract">RegisteredContract (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven.lang.ListBasedSet.html#deephaven.lang.ListBasedSet.ListBasedSet.remove">remove() (ListBasedSet method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.removeChart">removeChart() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.html#deephaven.Replayer">Replayer (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.Replayer">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Request">Request (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_account_overview">request_account_overview() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_account_pnl">request_account_pnl() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_account_positions">request_account_positions() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_bars_historical">request_bars_historical() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_bars_realtime">request_bars_realtime() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_contracts_matching">request_contracts_matching() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_market_data">request_market_data() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_news_article">request_news_article() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_news_historical">request_news_historical() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_tick_data_historical">request_tick_data_historical() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_tick_data_realtime">request_tick_data_realtime() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/deephaven.ResolveTools.html#deephaven.ResolveTools.resolve">resolve() (in module deephaven.ResolveTools)</a>
+</li>
+        <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.return_type_name">return_type_name() (Transformer method)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.roundDecimalColumns">roundDecimalColumns() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.roundDecimalColumnsExcept">roundDecimalColumnsExcept() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.learn.gather.html#deephaven.learn.gather.MemoryLayout.ROW_MAJOR">ROW_MAJOR (MemoryLayout attribute)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.rowSpan">rowSpan() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.save">save() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.html#deephaven.Plot.scatterPlotMatrix">scatterPlotMatrix() (in module deephaven.Plot)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.SEC_1">SEC_1 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.SEC_15">SEC_15 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.SEC_30">SEC_30 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarSize.SEC_5">SEC_5 (BarSize attribute)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.SECOND">SECOND (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfDay">secondOfDay() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfDayNy">secondOfDayNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfMinute">secondOfMinute() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfMinuteNy">secondOfMinuteNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Duration.seconds">seconds() (Duration static method)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondsToNanos">secondsToNanos() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondsToTime">secondsToTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.series">series() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.seriesColor">seriesColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.seriesNamingFunction">seriesNamingFunction() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.set_market_data_type">set_market_data_type() (IbSessionTws method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JMethod.set_param_mutable">set_param_mutable() (JMethod method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/jpy.html#jpy.JMethod.set_param_output">set_param_output() (JMethod method)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JMethod.set_param_return">set_param_return() (JMethod method)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.setDefaultCompressionCodecName">setDefaultCompressionCodecName() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.setValidGroups">setValidGroups() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.shortCol">shortCol() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.show">show() (FigureWrapper method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.show">(in module deephaven.TableTools)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.showCommaDelimited">showCommaDelimited() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.showWithRowSet">showWithRowSet() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.ConsumeKafka.html#deephaven.ConsumeKafka.simple">simple() (in module deephaven.ConsumeKafka)</a>
+
+        <ul>
+          <li><a href="code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.simple">(in module deephaven.ProduceKafka)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.SmartKey">SmartKey (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.SmartKey">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.html#deephaven.SortColumn">SortColumn (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.SortColumn">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.span">span() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.start_jvm.html#deephaven.start_jvm.start_jvm">start_jvm() (in module deephaven.start_jvm)</a>
+</li>
+        <li><a href="code/deephaven.ConsumeKafka.html#deephaven.ConsumeKafka.streamTableToAppendTable">streamTableToAppendTable() (in module deephaven.ConsumeKafka)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.string">string() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.stringCol">stringCol() (in module deephaven.TableTools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Types.html#deephaven.Types.table_of">table_of() (in module deephaven.Types)</a>
+</li>
+        <li><a href="code/deephaven.learn.gather.html#deephaven.learn.gather.table_to_numpy_2d">table_to_numpy_2d() (in module deephaven.learn.gather)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.TableListenerHandle">TableListenerHandle (class in deephaven)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.tables">tables (IbSessionTws property)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.IbSessionTws.tables_raw">tables_raw (IbSessionTws property)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.tableToDataFrame">tableToDataFrame() (in module deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.java_to_python.html#deephaven.java_to_python.tableToDataFrame">(in module deephaven.java_to_python)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.TickDataType">TickDataType (class in deephaven_ib)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.tickLabelAngle">tickLabelAngle() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.ticks">ticks() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.ticksFont">ticksFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.ticksVisible">ticksVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.timeTable">timeTable() (in module deephaven.TableTools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.TimeZone">TimeZone (class in deephaven.DateTimeUtils)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.timingMode">timingMode (in module deephaven.lang.constants)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.to_ast">to_ast() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.to_numba_type">to_numba_type() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.toDateTime">toDateTime() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.toolTipPattern">toolTipPattern() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.TotalsTableBuilder">TotalsTableBuilder (class in deephaven)</a>
+
+        <ul>
+          <li><a href="code/deephaven.TableManipulation.html#deephaven.TableManipulation.TotalsTableBuilder">(class in deephaven.TableManipulation)</a>
+</li>
+        </ul></li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.BarDataType.TRADES">TRADES (BarDataType attribute)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.transform">transform() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer">Transformer (class in deephaven.lang.transformer)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.twin">twin() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.twinX">twinX() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.twinY">twinY() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.type_map">type_map (Analyzer attribute)</a>
+</li>
+        <li><a href="code/deephaven.TableTools.html#deephaven.TableTools.typeFromName">typeFromName() (in module deephaven.TableTools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven_ib.time.html#deephaven_ib.time.unix_sec_to_dh_datetime">unix_sec_to_dh_datetime() (in module deephaven_ib.time)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.updateInterval">updateInterval() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.TableLoggers.html#deephaven.TableLoggers.updatePerformanceLog">updatePerformanceLog() (in module deephaven.TableLoggers)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.upperBin">upperBin() (in module deephaven.DateTimeUtils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.conversion_utils.html#deephaven.conversion_utils.NULL_CONVERSION.validateValue">validateValue() (NULL_CONVERSION class method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.validGroups">validGroups (FigureWrapper property)</a>
+</li>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.values">values() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.VecMode">VecMode (class in deephaven.lang.constants)</a>
+</li>
+        <li><a href="code/deephaven.lang.constants.html#deephaven.lang.constants.VecMode.vectorize">vectorize (VecMode attribute)</a>
+</li>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.visit">visit() (Analyzer method)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.visit">(Transformer method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.visit_Assign">visit_Assign() (Analyzer method)</a>
+</li>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.visit_FunctionDef">visit_FunctionDef() (Analyzer method)</a>
+</li>
+        <li><a href="code/deephaven.lang.transformer.html#deephaven.lang.transformer.Transformer.visit_Module">visit_Module() (Transformer method)</a>
+</li>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.visit_Name">visit_Name() (Analyzer method)</a>
+</li>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.visit_Statement">visit_Statement() (Analyzer method)</a>
+</li>
+        <li><a href="code/deephaven.lang.analyzer.html#deephaven.lang.analyzer.Analyzer.visit_Subscript">visit_Subscript() (Analyzer method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.WEEK">WEEK (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Duration.weeks">weeks() (Duration static method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.widget">widget (FigureWrapper property)</a>
+</li>
+        <li><a href="code/jpy.html#jpy.JException.with_traceback">with_traceback() (JException method)</a>
+</li>
+        <li><a href="code/deephaven.csv.html#deephaven.csv.write">write() (in module deephaven.csv)</a>
+
+        <ul>
+          <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.write">(in module deephaven.lang.tools)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.lang.tools.html#deephaven.lang.tools.write_array">write_array() (in module deephaven.lang.tools)</a>
+</li>
+        <li><a href="code/deephaven.html#deephaven.write_csv">write_csv() (in module deephaven)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.writeParquetTables">writeParquetTables() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.writeTable">writeTable() (in module deephaven.ParquetTools)</a>
+</li>
+        <li><a href="code/deephaven.ParquetTools.html#deephaven.ParquetTools.writeTables">writeTables() (in module deephaven.ParquetTools)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="X" class="genindex-section">
+  <h2>X</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xAxis">xAxis() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xBusinessTime">xBusinessTime() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xColor">xColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xFormat">xFormat() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xFormatPattern">xFormatPattern() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xGridLinesVisible">xGridLinesVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xInvert">xInvert() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xLabel">xLabel() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xLabelFont">xLabelFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xLog">xLog() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xMax">xMax() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xMin">xMin() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xMinorTicks">xMinorTicks() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xMinorTicksVisible">xMinorTicksVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xRange">xRange() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xTickLabelAngle">xTickLabelAngle() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xTicks">xTicks() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xTicksFont">xTicksFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xTicksVisible">xTicksVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xToolTipPattern">xToolTipPattern() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.xTransform">xTransform() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="Y" class="genindex-section">
+  <h2>Y</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yAxis">yAxis() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yBusinessTime">yBusinessTime() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yColor">yColor() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.YEAR">YEAR (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.year">year() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.yearNy">yearNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.yearOfCentury">yearOfCentury() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.yearOfCenturyNy">yearOfCenturyNy() (in module deephaven.DateTimeUtils)</a>
+</li>
+        <li><a href="code/deephaven_ib.html#deephaven_ib.Duration.years">years() (Duration static method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yFormat">yFormat() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yFormatPattern">yFormatPattern() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yGridLinesVisible">yGridLinesVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yInvert">yInvert() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yLabel">yLabel() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yLabelFont">yLabelFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yLog">yLog() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yMax">yMax() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yMin">yMin() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yMinorTicks">yMinorTicks() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yMinorTicksVisible">yMinorTicksVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yRange">yRange() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yTickLabelAngle">yTickLabelAngle() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yTicks">yTicks() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yTicksFont">yTicksFont() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yTicksVisible">yTicksVisible() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yToolTipPattern">yToolTipPattern() (FigureWrapper method)</a>
+</li>
+        <li><a href="code/deephaven.Plot.figure_wrapper.html#deephaven.Plot.figure_wrapper.FigureWrapper.yTransform">yTransform() (FigureWrapper method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>

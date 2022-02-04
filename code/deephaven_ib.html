@@ -1,0 +1,1152 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven_ib.time" href="deephaven_ib.time.html" /><link rel="prev" title="Python Modules" href="../modules.html" />
+
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>deephaven_ib - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../modules.html">Python Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">deephaven_ib</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.AggregationFactory.html">AggregationFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.Calendars.html">Calendars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.DateTimeUtils.html">DateTimeUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.MovingAverages.html">MovingAverages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ParquetTools.html">ParquetTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.PerformanceQueries.html">PerformanceQueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.PerformanceTools.html">PerformanceTools</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.Plot.html">Plot</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.Plot.ColorMaps.html">ColorMaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.Plot.figure_wrapper.html">figure_wrapper</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ProduceKafka.html">ProduceKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ResolveTools.html">ResolveTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.TableLoggers.html">TableLoggers</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.TableManipulation.html">TableManipulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.TableManipulation.WindowCheck.html">WindowCheck</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.TableTools.html">TableTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.Types.html">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.conversion_utils.html">conversion_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.filter.html">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.java_to_python.html">java_to_python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.jvm_init.html">jvm_init</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.lang.html">lang</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.ListBasedSet.html">ListBasedSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.analyzer.html">analyzer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.arrays.html">arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.constants.html">constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.tools.html">tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.transformer.html">transformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.lang.vectorize_simple.html">vectorize_simple</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.python_to_java.html">python_to_java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.start_jvm.html">start_jvm</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.tutorials.html">tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.tutorials.crypto_trades.html">crypto_trades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="deephaven-ib">
+<h1>deephaven_ib<a class="headerlink" href="#deephaven-ib" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deephaven_ib.time.html">time</a></li>
+</ul>
+</div>
+<span class="target" id="module-deephaven_ib"></span><dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BarDataType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#BarDataType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.BarDataType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Bar data type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.ASK">
+<span class="sig-name descname"><span class="pre">ASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.ASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask prices.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.BID">
+<span class="sig-name descname"><span class="pre">BID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.BID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bid prices.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.BID_ASK">
+<span class="sig-name descname"><span class="pre">BID_ASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.BID_ASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bid/Ask prices.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.FEE_RATE">
+<span class="sig-name descname"><span class="pre">FEE_RATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.FEE_RATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fee rate.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.HISTORICAL_VOLATILITY">
+<span class="sig-name descname"><span class="pre">HISTORICAL_VOLATILITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.HISTORICAL_VOLATILITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Historical volatility.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.MIDPOINT">
+<span class="sig-name descname"><span class="pre">MIDPOINT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.MIDPOINT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Midpoint prices.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.OPTION_IMPLIED_VOLATILITY">
+<span class="sig-name descname"><span class="pre">OPTION_IMPLIED_VOLATILITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.OPTION_IMPLIED_VOLATILITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Option implied volatility.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.REBATE_RATE">
+<span class="sig-name descname"><span class="pre">REBATE_RATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.REBATE_RATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rebate rate.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarDataType.TRADES">
+<span class="sig-name descname"><span class="pre">TRADES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#deephaven_ib.BarDataType.TRADES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trade prices.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BarSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#BarSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.BarSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Bar data sizes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.DAY_1">
+<span class="sig-name descname"><span class="pre">DAY_1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1</span> <span class="pre">day'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.DAY_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>1 day bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.HOUR_1">
+<span class="sig-name descname"><span class="pre">HOUR_1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1</span> <span class="pre">hour'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.HOUR_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>1 hour bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.MIN_1">
+<span class="sig-name descname"><span class="pre">MIN_1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1</span> <span class="pre">min'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.MIN_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>1 minute bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.MIN_15">
+<span class="sig-name descname"><span class="pre">MIN_15</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'15</span> <span class="pre">mins'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.MIN_15" title="Permalink to this definition">¶</a></dt>
+<dd><p>15 minute bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.MIN_2">
+<span class="sig-name descname"><span class="pre">MIN_2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'2</span> <span class="pre">mins'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.MIN_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>2 minute bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.MIN_3">
+<span class="sig-name descname"><span class="pre">MIN_3</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'3</span> <span class="pre">mins'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.MIN_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>3 minute bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.MIN_30">
+<span class="sig-name descname"><span class="pre">MIN_30</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'30</span> <span class="pre">mins'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.MIN_30" title="Permalink to this definition">¶</a></dt>
+<dd><p>30 minute bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.MIN_5">
+<span class="sig-name descname"><span class="pre">MIN_5</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'5</span> <span class="pre">mins'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.MIN_5" title="Permalink to this definition">¶</a></dt>
+<dd><p>5 minute bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.SEC_1">
+<span class="sig-name descname"><span class="pre">SEC_1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1</span> <span class="pre">sec'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.SEC_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>1 second bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.SEC_15">
+<span class="sig-name descname"><span class="pre">SEC_15</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'15</span> <span class="pre">secs'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.SEC_15" title="Permalink to this definition">¶</a></dt>
+<dd><p>15 second bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.SEC_30">
+<span class="sig-name descname"><span class="pre">SEC_30</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'30</span> <span class="pre">secs'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.SEC_30" title="Permalink to this definition">¶</a></dt>
+<dd><p>30 second bar.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.BarSize.SEC_5">
+<span class="sig-name descname"><span class="pre">SEC_5</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'5</span> <span class="pre">secs'</span></em><a class="headerlink" href="#deephaven_ib.BarSize.SEC_5" title="Permalink to this definition">¶</a></dt>
+<dd><p>5 second bar.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.Duration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Duration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Duration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Time period to request data for.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.Duration.days">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Duration.days"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Duration.days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a duration of a specified number of days.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>int</em>) – number of days</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Duration" title="deephaven_ib.Duration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Duration</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A duration.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.Duration.months">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">months</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Duration.months"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Duration.months" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a duration of a specified number of months.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>int</em>) – number of months</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Duration" title="deephaven_ib.Duration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Duration</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A duration.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.Duration.seconds">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seconds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Duration.seconds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Duration.seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a duration of a specified number of seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>int</em>) – number of seconds</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Duration" title="deephaven_ib.Duration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Duration</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A duration.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.Duration.weeks">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">weeks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Duration.weeks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Duration.weeks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a duration of a specified number of weeks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>int</em>) – number of weeks</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Duration" title="deephaven_ib.Duration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Duration</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A duration.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.Duration.years">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Duration.years"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Duration.years" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a duration of a specified number of years.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>int</em>) – number of years</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Duration" title="deephaven_ib.Duration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Duration</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A duration.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">IbSessionTws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7497</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_short_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>IB TWS session.</p>
+<p><strong>NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
+data manually entered into the TWS session.  For example, orders entered by hand.</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>str</em>) – The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
+When run inside docker, you probably want <code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code>.</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – TWS port, specified in TWS on the <code class="docutils literal notranslate"><span class="pre">Configure-&gt;API-&gt;Socket</span> <span class="pre">Port</span></code> field.
+By default production trading uses port 7496 and paper trading uses port 7497.</p></li>
+<li><p><strong>client_id</strong> (<em>int</em>) – <p>A number used to identify this client connection.
+All orders placed/modified from this client will be associated with this client identifier.</p>
+<p><strong>NOTE: Each client MUST connect with a unique clientId.</strong></p>
+</p></li>
+<li><p><strong>download_short_rates</strong> (<em>bool</em>) – True to download a short rates table.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Tables:</dt><dd><ul class="simple">
+<li><p><strong>errors</strong>: an error log.</p></li>
+<li><p><strong>requests</strong>: requests to IB.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>contract_details</strong>: details describing contracts of interest.  Automatically populated.</p></li>
+<li><p><strong>contracts_matching</strong>: contracts matching query strings provided to <code class="docutils literal notranslate"><span class="pre">request_contracts_matching</span></code>.</p></li>
+<li><p><strong>market_rules</strong>: market rules indicating the price increment a contract can trade in.  Automatically populated.</p></li>
+<li><p><strong>short_rates</strong>: interest rates for shorting securities.  Automatically populated if <code class="docutils literal notranslate"><span class="pre">download_short_rates=True</span></code>.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>accounts_managed</strong>: accounts managed by the TWS session login.  Automatically populated.</p></li>
+<li><p><strong>accounts_family_codes</strong>: account family.  Automatically populated.</p></li>
+<li><p><strong>accounts_groups</strong>: account groups.  Automatically populated.</p></li>
+<li><p><strong>accounts_allocation_profiles</strong>: allocation profiles for accounts.  Automatically populated.</p></li>
+<li><p><strong>accounts_value</strong>: account values.  Automatically populated.</p></li>
+<li><p><strong>accounts_overview</strong>: overview of account details.  Automatically populated.</p></li>
+<li><p><strong>accounts_summary</strong>: account summary.  Automatically populated.</p></li>
+<li><p><strong>accounts_positions</strong>: account positions.  Automatically populated.</p></li>
+<li><p><strong>accounts_pnl</strong>: account PNL.  Automatically populated.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>news_providers</strong>: currently subscribed news sources.  Automatically populated.</p></li>
+<li><p><strong>news_bulletins</strong>: news bulletins.  Automatically populated.</p></li>
+<li><p><strong>news_articles</strong>: the content of news articles requested via <code class="docutils literal notranslate"><span class="pre">request_news_article</span></code>.</p></li>
+<li><p><strong>news_historical</strong>: historical news headlines requested via <code class="docutils literal notranslate"><span class="pre">request_news_historical</span></code>.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>ticks_price</strong>: real-time tick market data of price values requested via <code class="docutils literal notranslate"><span class="pre">request_market_data</span></code>.</p></li>
+<li><p><strong>ticks_size</strong>: real-time tick market data of size values requested via <code class="docutils literal notranslate"><span class="pre">request_market_data</span></code>.</p></li>
+<li><p><strong>ticks_string</strong>: real-time tick market data of string values requested via <code class="docutils literal notranslate"><span class="pre">request_market_data</span></code>.</p></li>
+<li><p><strong>ticks_efp</strong>: real-time tick market data of exchange for physical (EFP) values requested via <code class="docutils literal notranslate"><span class="pre">request_market_data</span></code>.</p></li>
+<li><p><strong>ticks_generic</strong>: real-time tick market data of generic floating point values requested via <code class="docutils literal notranslate"><span class="pre">request_market_data</span></code>.</p></li>
+<li><p><strong>ticks_option_computation</strong>: real-time tick market data of option computations requested via <code class="docutils literal notranslate"><span class="pre">request_market_data</span></code>.</p></li>
+<li><p><strong>ticks_trade</strong>: real-time tick market data of trade prices requested via <code class="docutils literal notranslate"><span class="pre">request_tick_data_historical</span></code> or <code class="docutils literal notranslate"><span class="pre">request_tick_data_realtime</span></code>.</p></li>
+<li><p><strong>ticks_bid_ask</strong>: real-time tick market data of bid and ask prices requested via <code class="docutils literal notranslate"><span class="pre">request_tick_data_historical</span></code> or <code class="docutils literal notranslate"><span class="pre">request_tick_data_realtime</span></code>.</p></li>
+<li><p><strong>ticks_mid_point</strong>: real-time tick market data of mid-point prices requested via <code class="docutils literal notranslate"><span class="pre">request_tick_data_historical</span></code> or <code class="docutils literal notranslate"><span class="pre">request_tick_data_realtime</span></code>.</p></li>
+<li><p><strong>bars_historical</strong>: historical price bars requested via <code class="docutils literal notranslate"><span class="pre">request_bars_historical</span></code>.</p></li>
+<li><p><strong>bars_realtime</strong>: real-time price bars requested via <code class="docutils literal notranslate"><span class="pre">request_bars_realtime</span></code>.</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>orders_submitted</strong>: submitted orders <strong>FOR THE THE CLIENT ID</strong>.  A client ID of 0 contains manually entered orders.  Automatically populated.</p></li>
+<li><p><strong>orders_status</strong>: order statuses.  Automatically populated.</p></li>
+<li><p><strong>orders_completed</strong>: completed orders.  Automatically populated.</p></li>
+<li><p><strong>orders_exec_details</strong>: order execution details.  Automatically populated.</p></li>
+<li><p><strong>orders_exec_commission_report</strong>: order execution commission report.  Automatically populated.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.client_id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client_id</span></span><a class="headerlink" href="#deephaven_ib.IbSessionTws.client_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Client ID.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to an IB TWS session.  Raises an exception if already connected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disconnect from an IB TWS session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.get_registered_contract">
+<span class="sig-name descname"><span class="pre">get_registered_contract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.get_registered_contract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.get_registered_contract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a contract that has been registered in the framework.  The registered contract is confirmed to
+exist in the IB system and contains a complete description of the contract.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>contract</strong> (<a class="reference internal" href="ibapi.contract.html#ibapi.contract.Contract" title="ibapi.contract.Contract"><em>Contract</em></a>) – contract to search for</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegisteredContract</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A contract that has been registered with deephaven-ib.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.host">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">host</span></span><a class="headerlink" href="#deephaven_ib.IbSessionTws.host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client host.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Client host.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.is_connected">
+<span class="sig-name descname"><span class="pre">is_connected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.is_connected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.is_connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is there a connection with TWS?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an indication if the client is connected to TWS.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.order_cancel">
+<span class="sig-name descname"><span class="pre">order_cancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.order_cancel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.order_cancel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cancels an order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>order_id</strong> (<em>int</em>) – order ID</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.order_cancel_all">
+<span class="sig-name descname"><span class="pre">order_cancel_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.order_cancel_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.order_cancel_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cancel all open orders.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.order_place">
+<span class="sig-name descname"><span class="pre">order_place</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.order_place"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.order_place" title="Permalink to this definition">¶</a></dt>
+<dd><p>Places an order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract to place an order on</p></li>
+<li><p><strong>order</strong> (<a class="reference internal" href="ibapi.order.html#ibapi.order.Order" title="ibapi.order.Order"><em>Order</em></a>) – order to place</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.port">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#deephaven_ib.IbSessionTws.port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client port.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Client port.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_account_overview">
+<span class="sig-name descname"><span class="pre">request_account_overview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_account_overview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_account_overview" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request portfolio overview updates.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">accounts_overview</span></code> table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>account</strong> (<em>str</em>) – Account to request an overview for.  “All” requests for all accounts.</p></li>
+<li><p><strong>model_code</strong> (<em>str</em>) – Model portfolio code to request an overview for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_account_pnl">
+<span class="sig-name descname"><span class="pre">request_account_pnl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'All'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_account_pnl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_account_pnl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request PNL updates.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">accounts_pnl</span></code> table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>account</strong> (<em>str</em>) – Account to request PNL for.  “All” requests for all accounts.</p></li>
+<li><p><strong>model_code</strong> (<em>str</em>) – Model portfolio code to request PNL for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_account_positions">
+<span class="sig-name descname"><span class="pre">request_account_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_account_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_account_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request portfolio position updates.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">accounts_positions</span></code> table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>account</strong> (<em>str</em>) – Account to request positions for.  “All” requests for all accounts.</p></li>
+<li><p><strong>model_code</strong> (<em>str</em>) – Model portfolio code to request positions for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_bars_historical">
+<span class="sig-name descname"><span class="pre">request_bars_historical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market_data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MarketDataType.FROZEN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_up_to_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_bars_historical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_bars_historical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests historical bars for a contract.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">bars_historical</span></code> table.</p>
+<p>Registered contracts that are associated with multiple contract details produce multiple requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract data is requested for</p></li>
+<li><p><strong>end</strong> (<a class="reference internal" href="deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.DateTime" title="deephaven.DateTimeUtils.DateTime"><em>DateTime</em></a>) – Ending timestamp of the requested data.</p></li>
+<li><p><strong>duration</strong> (<a class="reference internal" href="#deephaven_ib.Duration" title="deephaven_ib.Duration"><em>Duration</em></a>) – Duration of data being requested by the query.</p></li>
+<li><p><strong>bar_size</strong> (<a class="reference internal" href="#deephaven_ib.BarSize" title="deephaven_ib.BarSize"><em>BarSize</em></a>) – Size of the bars that will be returned.</p></li>
+<li><p><strong>bar_type</strong> (<a class="reference internal" href="#deephaven_ib.BarDataType" title="deephaven_ib.BarDataType"><em>BarDataType</em></a>) – Type of bars that will be returned.</p></li>
+<li><p><strong>market_data_type</strong> (<a class="reference internal" href="#deephaven_ib.MarketDataType" title="deephaven_ib.MarketDataType"><em>MarketDataType</em></a>) – Type of market data to return after the close.</p></li>
+<li><p><strong>keep_up_to_date</strong> (<em>bool</em>) – True to continuously update bars</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All of the requests created by this action.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_bars_realtime">
+<span class="sig-name descname"><span class="pre">request_bars_realtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market_data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MarketDataType.FROZEN</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_bars_realtime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_bars_realtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests real time bars for a contract.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">bars_realtime</span></code> table.</p>
+<p>Registered contracts that are associated with multiple contract details produce multiple requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract data is requested for</p></li>
+<li><p><strong>bar_type</strong> (<a class="reference internal" href="#deephaven_ib.BarDataType" title="deephaven_ib.BarDataType"><em>BarDataType</em></a>) – Type of bars that will be returned.</p></li>
+<li><p><strong>bar_size</strong> (<em>int</em>) – Bar size in seconds.</p></li>
+<li><p><strong>market_data_type</strong> (<a class="reference internal" href="#deephaven_ib.MarketDataType" title="deephaven_ib.MarketDataType"><em>MarketDataType</em></a>) – Type of market data to return after the close.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All of the requests created by this action.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_contracts_matching">
+<span class="sig-name descname"><span class="pre">request_contracts_matching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_contracts_matching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_contracts_matching" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request contracts matching a pattern.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">contracts_matching</span></code> table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pattern</strong> (<em>str</em>) – pattern to search for.  Can include part of a ticker or part of the company name.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_market_data">
+<span class="sig-name descname"><span class="pre">request_market_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generic_tick_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regulatory_snapshot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_market_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_market_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request market data for a contract.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">ticks_price</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks_size</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ticks_string</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks_efp</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks_generic</span></code>, and <code class="docutils literal notranslate"><span class="pre">ticks_option_computation</span></code> tables.</p>
+<p>Registered contracts that are associated with multiple contract details produce multiple requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract data is requested for</p></li>
+<li><p><strong>generic_tick_types</strong> (<em>List</em><em>[</em><em>GenericTickType</em><em>]</em>) – generic tick types being requested</p></li>
+<li><p><strong>snapshot</strong> (<em>bool</em>) – True to return a single snapshot of Market data and have the market data subscription cancel.
+Do not enter any genericTicklist values if you use snapshots.</p></li>
+<li><p><strong>regulatory_snapshot</strong> (<em>bool</em>) – True to get a regulatory snapshot.  Requires the US Value Snapshot Bundle for stocks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_news_article">
+<span class="sig-name descname"><span class="pre">request_news_article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_news_article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_news_article" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request the text of a news article.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">news_articles</span></code> table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>provider_code</strong> (<em>str</em>) – short code indicating news provider, e.g. FLY</p></li>
+<li><p><strong>article_id</strong> (<em>str</em>) – id of the specific article</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_news_historical">
+<span class="sig-name descname"><span class="pre">request_news_historical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider_codes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_news_historical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_news_historical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request historical news for a contract.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">news_historical</span></code> table.</p>
+<p>Registered contracts that are associated with multiple contract details produce multiple requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract data is requested for</p></li>
+<li><p><strong>provider_codes</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – a list of provider codes.  By default, all subscribed codes are used.</p></li>
+<li><p><strong>start</strong> (<a class="reference internal" href="deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.DateTime" title="deephaven.DateTimeUtils.DateTime"><em>DateTime</em></a>) – marks the (exclusive) start of the date range.</p></li>
+<li><p><strong>end</strong> (<a class="reference internal" href="deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.DateTime" title="deephaven.DateTimeUtils.DateTime"><em>DateTime</em></a>) – marks the (inclusive) end of the date range.</p></li>
+<li><p><strong>total_results</strong> (<em>int</em>) – the maximum number of headlines to fetch (1 - 300)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All of the requests created by the action.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_tick_data_historical">
+<span class="sig-name descname"><span class="pre">request_tick_data_historical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tick_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_ticks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market_data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MarketDataType.FROZEN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_tick_data_historical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_tick_data_historical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests historical tick-by-tick data. Results are returned in the <code class="docutils literal notranslate"><span class="pre">ticks_trade</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks_bid_ask</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">ticks_mid_point</span></code> tables.</p>
+<p>Registered contracts that are associated with multiple contract details produce multiple requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract data is requested for</p></li>
+<li><p><strong>start</strong> (<a class="reference internal" href="deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.DateTime" title="deephaven.DateTimeUtils.DateTime"><em>DateTime</em></a>) – marks the (exclusive) start of the date range.</p></li>
+<li><p><strong>end</strong> (<a class="reference internal" href="deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.DateTime" title="deephaven.DateTimeUtils.DateTime"><em>DateTime</em></a>) – marks the (inclusive) end of the date range.</p></li>
+<li><p><strong>tick_type</strong> (<a class="reference internal" href="#deephaven_ib.TickDataType" title="deephaven_ib.TickDataType"><em>TickDataType</em></a>) – Type of market data to return.</p></li>
+<li><p><strong>number_of_ticks</strong> (<em>int</em>) – Number of historical ticks to request.</p></li>
+<li><p><strong>market_data_type</strong> (<a class="reference internal" href="#deephaven_ib.MarketDataType" title="deephaven_ib.MarketDataType"><em>MarketDataType</em></a>) – Type of market data to return after the close.</p></li>
+<li><p><strong>ignore_size</strong> (<em>bool</em>) – should size values be ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All of the requests created by this action.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_tick_data_realtime">
+<span class="sig-name descname"><span class="pre">request_tick_data_realtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tick_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_tick_data_realtime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_tick_data_realtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests real-time tick-by-tick data.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">ticks_trade</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks_bid_ask</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">ticks_mid_point</span></code> tables.</p>
+<p>Registered contracts that are associated with multiple contract details produce multiple requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract data is requested for</p></li>
+<li><p><strong>tick_type</strong> (<a class="reference internal" href="#deephaven_ib.TickDataType" title="deephaven_ib.TickDataType"><em>TickDataType</em></a>) – Type of market data to return.</p></li>
+<li><p><strong>number_of_ticks</strong> (<em>int</em>) – Number of historical ticks to request.</p></li>
+<li><p><strong>ignore_size</strong> (<em>bool</em>) – should size values be ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All of the requests created by this action.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.set_market_data_type">
+<span class="sig-name descname"><span class="pre">set_market_data_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">market_data_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.set_market_data_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.set_market_data_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the default type of market data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>market_data_type</strong> (<a class="reference internal" href="#deephaven_ib.MarketDataType" title="deephaven_ib.MarketDataType"><em>MarketDataType</em></a>) – market data type</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.tables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tables</span></span><a class="headerlink" href="#deephaven_ib.IbSessionTws.tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a dictionary of all data tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary of all data tables.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.tables_raw">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tables_raw</span></span><a class="headerlink" href="#deephaven_ib.IbSessionTws.tables_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a dictionary of all raw data tables.  Raw tables are just as the data comes from IB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary of all raw data tables.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.MarketDataType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MarketDataType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#MarketDataType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.MarketDataType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Type of market data to use.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.MarketDataType.DELAYED">
+<span class="sig-name descname"><span class="pre">DELAYED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#deephaven_ib.MarketDataType.DELAYED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delayed market data.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.MarketDataType.FROZEN">
+<span class="sig-name descname"><span class="pre">FROZEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#deephaven_ib.MarketDataType.FROZEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real-time market data during regular trading hours, and frozen prices after the close.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.MarketDataType.REAL_TIME">
+<span class="sig-name descname"><span class="pre">REAL_TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#deephaven_ib.MarketDataType.REAL_TIME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real-time market data.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.RegisteredContract">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegisteredContract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contract_details</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#RegisteredContract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.RegisteredContract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc.</p>
+<p>When some contracts are registered, details on multiple contracts are returned.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.RegisteredContract.is_multi">
+<span class="sig-name descname"><span class="pre">is_multi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#RegisteredContract.is_multi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.RegisteredContract.is_multi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the contract have multiple contract details?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An indication if the requested contract is associated with multiple contract details.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.Request">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancel_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>IB session request.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.Request.cancel">
+<span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Request.cancel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Request.cancel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cancel the request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – request is not cancellable.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.Request.is_cancellable">
+<span class="sig-name descname"><span class="pre">is_cancellable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#Request.is_cancellable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.Request.is_cancellable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is the request cancellable?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An indication if the request is cancellable.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.TickDataType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TickDataType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#TickDataType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.TickDataType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Tick data type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.TickDataType.BID_ASK">
+<span class="sig-name descname"><span class="pre">BID_ASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BidAsk'</span></em><a class="headerlink" href="#deephaven_ib.TickDataType.BID_ASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>“Most recent bid and ask.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.TickDataType.LAST">
+<span class="sig-name descname"><span class="pre">LAST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Last'</span></em><a class="headerlink" href="#deephaven_ib.TickDataType.LAST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Most recent trade.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.TickDataType.MIDPOINT">
+<span class="sig-name descname"><span class="pre">MIDPOINT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MidPoint'</span></em><a class="headerlink" href="#deephaven_ib.TickDataType.MIDPOINT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Most recent midpoint.</p>
+</dd></dl>
+</dd></dl>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="deephaven_ib.time.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">deephaven_ib.time</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../modules.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Python Modules</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            | <a class="muted-link" href="../_sources/code/deephaven_ib.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    </body>
+</html>

@@ -1,0 +1,10 @@
+deephaven.lang.vectorize_simple
+===============================
+
+
+.. automodule:: deephaven.lang.vectorize_simple
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

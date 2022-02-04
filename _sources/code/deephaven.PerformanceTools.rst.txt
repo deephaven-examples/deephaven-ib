@@ -1,0 +1,10 @@
+deephaven.PerformanceTools
+==========================
+
+
+.. automodule:: deephaven.PerformanceTools
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

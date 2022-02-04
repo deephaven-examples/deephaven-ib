@@ -1,0 +1,10 @@
+deephaven.learn.gather
+======================
+
+
+.. automodule:: deephaven.learn.gather
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

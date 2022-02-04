@@ -1,0 +1,10 @@
+deephaven.TableManipulation.WindowCheck
+=======================================
+
+
+.. automodule:: deephaven.TableManipulation.WindowCheck
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

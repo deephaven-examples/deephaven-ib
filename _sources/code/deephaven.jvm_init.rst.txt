@@ -1,0 +1,10 @@
+deephaven.jvm_init
+==================
+
+
+.. automodule:: deephaven.jvm_init
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

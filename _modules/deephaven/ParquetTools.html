@@ -1,0 +1,630 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>deephaven.ParquetTools - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Calendars.html">Calendars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.DateTimeUtils.html">DateTimeUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.MovingAverages.html">MovingAverages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ParquetTools.html">ParquetTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.PerformanceQueries.html">PerformanceQueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.PerformanceTools.html">PerformanceTools</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.Plot.html">Plot</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.Plot.ColorMaps.html">ColorMaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.Plot.figure_wrapper.html">figure_wrapper</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ProduceKafka.html">ProduceKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ResolveTools.html">ResolveTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.TableLoggers.html">TableLoggers</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.TableManipulation.html">TableManipulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.TableManipulation.WindowCheck.html">WindowCheck</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.TableTools.html">TableTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Types.html">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.conversion_utils.html">conversion_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.filter.html">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.java_to_python.html">java_to_python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.jvm_init.html">jvm_init</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.lang.html">lang</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.ListBasedSet.html">ListBasedSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.analyzer.html">analyzer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.arrays.html">arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.constants.html">constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.tools.html">tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.transformer.html">transformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.vectorize_simple.html">vectorize_simple</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.python_to_java.html">python_to_java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.start_jvm.html">start_jvm</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.tutorials.html">tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.tutorials.crypto_trades.html">crypto_trades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for deephaven.ParquetTools</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">"""</span>
+<span class="sd">Tools for managing and manipulating tables on disk in parquet format.</span>
+<span class="sd">"""</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2016-2021 Deephaven Data Labs and Patent Pending</span>
+<span class="c1">#</span>
+
+<span class="c1">##############################################################################</span>
+<span class="c1">#               This code is auto generated. DO NOT EDIT FILE!</span>
+<span class="c1"># Run generatePythonIntegrationStaticMethods or</span>
+<span class="c1"># "./gradlew :Generators:generatePythonIntegrationStaticMethods" to generate</span>
+<span class="c1">##############################################################################</span>
+
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span> <span class="nn">wrapt</span>
+<span class="kn">from</span> <span class="nn">..conversion_utils</span> <span class="kn">import</span> <span class="n">_isJavaType</span><span class="p">,</span> <span class="n">_isStr</span>
+
+<span class="n">_java_type_</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># None until the first _defineSymbols() call</span>
+<span class="n">_java_file_type_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_dh_config_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_compression_codec_</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_defineSymbols</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Defines appropriate java symbol, which requires that the jvm has been initialized through the :class:`jpy` module,</span>
+<span class="sd">    for use throughout the module AT RUNTIME. This is versus static definition upon first import, which would lead to an</span>
+<span class="sd">    exception if the jvm wasn't initialized BEFORE importing the module.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">jpy</span><span class="o">.</span><span class="n">has_jvm</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">"No java functionality can be used until the JVM has been initialized through the jpy module"</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">_java_type_</span><span class="p">,</span> <span class="n">_java_file_type_</span><span class="p">,</span> <span class="n">_dh_config_</span><span class="p">,</span> <span class="n">_compression_codec_</span>
+    <span class="k">if</span> <span class="n">_java_type_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># This will raise an exception if the desired object is not the classpath</span>
+        <span class="n">_java_type_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.parquet.table.ParquetTools"</span><span class="p">)</span>
+        <span class="n">_java_file_type_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"java.io.File"</span><span class="p">)</span>
+        <span class="n">_dh_config_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.configuration.Configuration"</span><span class="p">)</span>
+        <span class="n">_compression_codec_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"org.apache.parquet.hadoop.metadata.CompressionCodecName"</span><span class="p">)</span>
+
+
+<span class="c1"># every module method should be decorated with @_passThrough</span>
+<span class="nd">@wrapt</span><span class="o">.</span><span class="n">decorator</span>
+<span class="k">def</span> <span class="nf">_passThrough</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    For decoration of module methods, to define necessary symbols at runtime</span>
+
+<span class="sd">    :param wrapped: the method to be decorated</span>
+<span class="sd">    :param instance: the object to which the wrapped function was bound when it was called</span>
+<span class="sd">    :param args: the argument list for `wrapped`</span>
+<span class="sd">    :param kwargs: the keyword argument dictionary for `wrapped`</span>
+<span class="sd">    :return: the decorated version of the method</span>
+<span class="sd">    """</span>
+
+    <span class="n">_defineSymbols</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="getFileObject"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.getFileObject">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getFileObject</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Helper function for easily creating a java file object from a path string</span>
+<span class="sd">    :param input: path string, or list of path strings</span>
+<span class="sd">    :return: java File object, or java array of File objects</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="n">_isJavaType</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">input</span>
+    <span class="k">elif</span> <span class="n">_isStr</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_java_file_type_</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="c1"># NB: map() returns an iterator in python 3, so list comprehension is appropriate here</span>
+        <span class="k">return</span> <span class="n">jpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s2">"java.io.File"</span><span class="p">,</span> <span class="p">[</span><span class="n">_java_file_type_</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Method accepts only a java type, string, or list of strings as input. "</span>
+                         <span class="s2">"Got </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="nb">input</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="getWorkspaceRoot"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.getWorkspaceRoot">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getWorkspaceRoot</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Helper function for extracting the root directory for the workspace configuration</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_dh_config_</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getWorkspacePath</span><span class="p">()</span></div>
+
+<span class="k">def</span> <span class="nf">_custom_deleteTable</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">deleteTable</span><span class="p">(</span><span class="n">getFileObject</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">_custom_readTable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readTable</span><span class="p">(</span><span class="n">getFileObject</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readTable</span><span class="p">(</span><span class="n">getFileObject</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_java_type_</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readTable</span><span class="p">(</span><span class="n">getFileObject</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_java_type_</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="o">*</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+
+
+<span class="k">def</span> <span class="nf">_custom_writeParquetTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">codecName</span><span class="p">,</span> <span class="n">destinations</span><span class="p">,</span> <span class="n">groupingColumns</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">_isStr</span><span class="p">(</span><span class="n">codecName</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">writeParquetTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_compression_codec_</span><span class="p">,</span> <span class="n">codecName</span><span class="p">),</span>
+                                              <span class="n">getFileObject</span><span class="p">(</span><span class="n">destinations</span><span class="p">),</span> <span class="n">groupingColumns</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">writeParquetTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">codecName</span><span class="p">,</span>
+                                              <span class="n">getFileObject</span><span class="p">(</span><span class="n">destinations</span><span class="p">),</span> <span class="n">groupingColumns</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_custom_writeTable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">writeTable</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">getFileObject</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">writeTable</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">getFileObject</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>  <span class="nb">getattr</span><span class="p">(</span><span class="n">_java_type_</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'Wrong number of arguments: </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)))</span>
+
+
+<span class="k">def</span> <span class="nf">_custom_writeTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">destinations</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">writeTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">getFileObject</span><span class="p">(</span><span class="n">destinations</span><span class="p">))</span>
+
+
+<span class="c1"># Define all of our functionality, if currently possible</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">_defineSymbols</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<div class="viewcode-block" id="convertSchema"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.convertSchema">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertSchema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">keyValueMetadata</span><span class="p">,</span> <span class="n">readInstructionsIn</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Convert schema information from a ParquetMetadata into ColumnDefinitions.</span>
+<span class="sd">    </span>
+<span class="sd">    :param schema: (org.apache.parquet.schema.MessageType) - Parquet schema. DO NOT RELY ON ParquetMetadataConverter FOR THIS! USE</span>
+<span class="sd">            ParquetFileReader!</span>
+<span class="sd">    :param keyValueMetadata: (java.util.Map&lt;java.lang.String,java.lang.String&gt;) - Parquet key-value metadata map</span>
+<span class="sd">    :param readInstructionsIn: (io.deephaven.parquet.table.ParquetInstructions) - Input conversion ParquetInstructions</span>
+<span class="sd">    :return: (io.deephaven.base.Pair&lt;java.util.List&lt;io.deephaven.engine.table.ColumnDefinition&lt;?&gt;&gt;,io.deephaven.parquet.table.ParquetInstructions&gt;) A Pair with ColumnDefinitions and adjusted ParquetInstructions</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertSchema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">keyValueMetadata</span><span class="p">,</span> <span class="n">readInstructionsIn</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="deleteTable"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.deleteTable">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">deleteTable</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Deletes a table on disk.</span>
+<span class="sd">    </span>
+<span class="sd">    :param path: (java.io.File) - path to delete</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_custom_deleteTable</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getParquetFileReader"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.getParquetFileReader">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getParquetFileReader</span><span class="p">(</span><span class="n">parquetFile</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Make a ParquetFileReader for the supplied File.</span>
+<span class="sd">    </span>
+<span class="sd">    :param parquetFile: (java.io.File) - The File to read</span>
+<span class="sd">    :return: (io.deephaven.parquet.base.ParquetFileReader) The new ParquetFileReader</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getParquetFileReader</span><span class="p">(</span><span class="n">parquetFile</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readParquetSchemaAndTable"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.readParquetSchemaAndTable">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">readParquetSchemaAndTable</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">readInstructionsIn</span><span class="p">,</span> <span class="n">instructionsOut</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    :param source: java.io.File</span>
+<span class="sd">    :param readInstructionsIn: io.deephaven.parquet.table.ParquetInstructions</span>
+<span class="sd">    :param instructionsOut: org.apache.commons.lang3.mutable.MutableObject&lt;io.deephaven.parquet.table.ParquetInstructions&gt;</span>
+<span class="sd">    :return: io.deephaven.engine.table.Table</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readParquetSchemaAndTable</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">readInstructionsIn</span><span class="p">,</span> <span class="n">instructionsOut</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readPartitionedTable"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.readPartitionedTable">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">readPartitionedTable</span><span class="p">(</span><span class="n">locationKeyFinder</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Reads in a table from files discovered with locationKeyFinder using the provided table definition.</span>
+<span class="sd">    </span>
+<span class="sd">    :param locationKeyFinder: (io.deephaven.engine.table.impl.locations.impl.TableLocationKeyFinder&lt;io.deephaven.parquet.table.location.ParquetTableLocationKey&gt;) - The source of location keys to include</span>
+<span class="sd">    :param readInstructions: (io.deephaven.parquet.table.ParquetInstructions) - Instructions for customizations while reading</span>
+<span class="sd">    :param tableDefinition: (io.deephaven.engine.table.TableDefinition) - The table's definition</span>
+<span class="sd">    :return: (io.deephaven.engine.table.Table) The table</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readPartitionedTable</span><span class="p">(</span><span class="n">locationKeyFinder</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readPartitionedTableInferSchema"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.readPartitionedTableInferSchema">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">readPartitionedTableInferSchema</span><span class="p">(</span><span class="n">locationKeyFinder</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Reads in a table from files discovered with locationKeyFinder using a definition built from the first</span>
+<span class="sd">     location found, which must have non-null partition values for all partition keys.</span>
+<span class="sd">    </span>
+<span class="sd">    :param locationKeyFinder: (io.deephaven.engine.table.impl.locations.impl.TableLocationKeyFinder&lt;io.deephaven.parquet.table.location.ParquetTableLocationKey&gt;) - The source of location keys to include</span>
+<span class="sd">    :param readInstructions: (io.deephaven.parquet.table.ParquetInstructions) - Instructions for customizations while reading</span>
+<span class="sd">    :return: (io.deephaven.engine.table.Table) The table</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readPartitionedTableInferSchema</span><span class="p">(</span><span class="n">locationKeyFinder</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readPartitionedTableWithMetadata"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.readPartitionedTableWithMetadata">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">readPartitionedTableWithMetadata</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Reads in a table using metadata files found in the supplied directory.</span>
+<span class="sd">    </span>
+<span class="sd">    :param directory: (java.io.File) - The source of location keys to include</span>
+<span class="sd">    :param readInstructions: (io.deephaven.parquet.table.ParquetInstructions) - Instructions for customizations while reading</span>
+<span class="sd">    :return: (io.deephaven.engine.table.Table) The table</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readPartitionedTableWithMetadata</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readSingleFileTable"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.readSingleFileTable">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">readSingleFileTable</span><span class="p">(</span><span class="n">tableLocationKey</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Reads in a table from a single parquet file using the provided table definition.</span>
+<span class="sd">    </span>
+<span class="sd">    :param tableLocationKey: (io.deephaven.parquet.table.location.ParquetTableLocationKey) - The location keys to include</span>
+<span class="sd">    :param readInstructions: (io.deephaven.parquet.table.ParquetInstructions) - Instructions for customizations while reading</span>
+<span class="sd">    :param tableDefinition: (io.deephaven.engine.table.TableDefinition) - The table's definition</span>
+<span class="sd">    :return: (io.deephaven.engine.table.Table) The table</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">readSingleFileTable</span><span class="p">(</span><span class="n">tableLocationKey</span><span class="p">,</span> <span class="n">readInstructions</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readTable"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.readTable">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">readTable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Reads in a table from a single parquet, metadata file, or directory with recognized layout.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param sourceFilePath: (java.lang.String) - The file or directory to examine</span>
+<span class="sd">      :return: (io.deephaven.engine.table.Table) table</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param sourceFilePath: (java.lang.String) - The file or directory to examine</span>
+<span class="sd">      :param readInstructions: (io.deephaven.parquet.table.ParquetInstructions) - Instructions for customizations while reading</span>
+<span class="sd">      :return: (io.deephaven.engine.table.Table) table</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 3*  </span>
+<span class="sd">      :param sourceFile: (java.io.File) - The file or directory to examine</span>
+<span class="sd">      :return: (io.deephaven.engine.table.Table) table</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 4*  </span>
+<span class="sd">      :param sourceFile: (java.io.File) - The file or directory to examine</span>
+<span class="sd">      :param readInstructions: (io.deephaven.parquet.table.ParquetInstructions) - Instructions for customizations while reading</span>
+<span class="sd">      :return: (io.deephaven.engine.table.Table) table</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_custom_readTable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setDefaultCompressionCodecName"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.setDefaultCompressionCodecName">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">setDefaultCompressionCodecName</span><span class="p">(</span><span class="n">compressionCodecName</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    :param compressionCodecName: java.lang.String</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">setDefaultCompressionCodecName</span><span class="p">(</span><span class="n">compressionCodecName</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="writeParquetTables"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.writeParquetTables">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">writeParquetTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">writeInstructions</span><span class="p">,</span> <span class="n">destinations</span><span class="p">,</span> <span class="n">groupingColumns</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Writes tables to disk in parquet format to a supplied set of destinations. If you specify grouping columns, there</span>
+<span class="sd">     must already be grouping information for those columns in the sources. This can be accomplished with</span>
+<span class="sd">     .groupBy(&lt;grouping columns&gt;).ungroup() or .sort(&lt;grouping column&gt;).</span>
+<span class="sd">    </span>
+<span class="sd">    :param sources: (io.deephaven.engine.table.Table[]) - The tables to write</span>
+<span class="sd">    :param tableDefinition: (io.deephaven.engine.table.TableDefinition) - The common schema for all the tables to write</span>
+<span class="sd">    :param writeInstructions: (io.deephaven.parquet.table.ParquetInstructions) - Write instructions for customizations while writing</span>
+<span class="sd">    :param destinations: (java.io.File[]) - The destinations paths. Any non existing directories in the paths provided are created. If</span>
+<span class="sd">            there is an error any intermediate directories previously created are removed; note this makes this method</span>
+<span class="sd">            unsafe for concurrent use</span>
+<span class="sd">    :param groupingColumns: (java.lang.String[]) - List of columns the tables are grouped by (the write operation will store the grouping</span>
+<span class="sd">            info)</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_custom_writeParquetTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">writeInstructions</span><span class="p">,</span> <span class="n">destinations</span><span class="p">,</span> <span class="n">groupingColumns</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="writeTable"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.writeTable">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">writeTable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Write a table to a file.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param sourceTable: (io.deephaven.engine.table.Table) - source table</span>
+<span class="sd">      :param destPath: (java.lang.String) - destination file path; the file name should end in ".parquet" extension If the path includes</span>
+<span class="sd">              non-existing directories they are created If there is an error any intermediate directories previously</span>
+<span class="sd">              created are removed; note this makes this method unsafe for concurrent use</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param sourceTable: (io.deephaven.engine.table.Table) - source table</span>
+<span class="sd">      :param destFile: (java.io.File) - destination file; the file name should end in ".parquet" extension If the path includes</span>
+<span class="sd">              non-existing directories they are created</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 3*  </span>
+<span class="sd">      :param sourceTable: (io.deephaven.engine.table.Table) - source table</span>
+<span class="sd">      :param destFile: (java.io.File) - destination file; its path must end in ".parquet". Any non existing directories in the path are</span>
+<span class="sd">              created If there is an error any intermediate directories previously created are removed; note this makes</span>
+<span class="sd">              this method unsafe for concurrent use</span>
+<span class="sd">      :param definition: (io.deephaven.engine.table.TableDefinition) - table definition to use (instead of the one implied by the table itself)</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 4*  </span>
+<span class="sd">      :param sourceTable: (io.deephaven.engine.table.Table) - source table</span>
+<span class="sd">      :param destFile: (java.io.File) - destination file; its path must end in ".parquet". Any non existing directories in the path are</span>
+<span class="sd">              created If there is an error any intermediate directories previously created are removed; note this makes</span>
+<span class="sd">              this method unsafe for concurrent use</span>
+<span class="sd">      :param writeInstructions: (io.deephaven.parquet.table.ParquetInstructions) - instructions for customizations while writing</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 5*  </span>
+<span class="sd">      :param sourceTable: (io.deephaven.engine.table.Table) - source table</span>
+<span class="sd">      :param destPath: (java.lang.String) - destination path; it must end in ".parquet". Any non existing directories in the path are created</span>
+<span class="sd">              If there is an error any intermediate directories previously created are removed; note this makes this</span>
+<span class="sd">              method unsafe for concurrent use</span>
+<span class="sd">      :param definition: (io.deephaven.engine.table.TableDefinition) - table definition to use (instead of the one implied by the table itself)</span>
+<span class="sd">      :param writeInstructions: (io.deephaven.parquet.table.ParquetInstructions) - instructions for customizations while writing</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 6*  </span>
+<span class="sd">      :param sourceTable: (io.deephaven.engine.table.Table) - source table</span>
+<span class="sd">      :param destFile: (java.io.File) - destination file; its path must end in ".parquet". Any non existing directories in the path are</span>
+<span class="sd">              created If there is an error any intermediate directories previously created are removed; note this makes</span>
+<span class="sd">              this method unsafe for concurrent use</span>
+<span class="sd">      :param definition: (io.deephaven.engine.table.TableDefinition) - table definition to use (instead of the one implied by the table itself)</span>
+<span class="sd">      :param writeInstructions: (io.deephaven.parquet.table.ParquetInstructions) - instructions for customizations while writing</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_custom_writeTable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="writeTables"><a class="viewcode-back" href="../../code/deephaven.ParquetTools.html#deephaven.ParquetTools.writeTables">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">writeTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">destinations</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Write out tables to disk.</span>
+<span class="sd">    </span>
+<span class="sd">    :param sources: (io.deephaven.engine.table.Table[]) - source tables</span>
+<span class="sd">    :param tableDefinition: (io.deephaven.engine.table.TableDefinition) - table definition</span>
+<span class="sd">    :param destinations: (java.io.File[]) - destinations</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_custom_writeTables</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">tableDefinition</span><span class="p">,</span> <span class="n">destinations</span><span class="p">)</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    </body>
+</html>

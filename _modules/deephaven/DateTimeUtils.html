@@ -1,0 +1,1694 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>deephaven.DateTimeUtils - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Calendars.html">Calendars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.DateTimeUtils.html">DateTimeUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.MovingAverages.html">MovingAverages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ParquetTools.html">ParquetTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.PerformanceQueries.html">PerformanceQueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.PerformanceTools.html">PerformanceTools</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.Plot.html">Plot</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.Plot.ColorMaps.html">ColorMaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.Plot.figure_wrapper.html">figure_wrapper</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ProduceKafka.html">ProduceKafka</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ResolveTools.html">ResolveTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.TableLoggers.html">TableLoggers</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.TableManipulation.html">TableManipulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.TableManipulation.WindowCheck.html">WindowCheck</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.TableTools.html">TableTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Types.html">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.conversion_utils.html">conversion_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.filter.html">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.java_to_python.html">java_to_python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.jvm_init.html">jvm_init</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.lang.html">lang</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.ListBasedSet.html">ListBasedSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.analyzer.html">analyzer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.arrays.html">arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.constants.html">constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.tools.html">tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.transformer.html">transformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.lang.vectorize_simple.html">vectorize_simple</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.python_to_java.html">python_to_java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.start_jvm.html">start_jvm</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.tutorials.html">tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.tutorials.crypto_trades.html">crypto_trades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for deephaven.DateTimeUtils</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">"""</span>
+<span class="sd">Utilities for Deephaven date/time storage and manipulation.</span>
+<span class="sd">"""</span>
+
+
+
+<span class="sd">"""</span>
+<span class="sd">Utilities for creating plots.</span>
+<span class="sd">"""</span>
+
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2016-2021 Deephaven Data Labs and Patent Pending</span>
+<span class="c1">#</span>
+
+<span class="c1">#############################################################################</span>
+<span class="c1">#               This code is auto generated. DO NOT EDIT FILE!</span>
+<span class="c1"># Run generatePythonIntegrationStaticMethods or</span>
+<span class="c1"># "./gradlew :Generators:generatePythonIntegrationStaticMethods" to generate</span>
+<span class="c1">#############################################################################</span>
+
+
+<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span> <span class="nn">wrapt</span>
+
+
+<span class="n">_java_type_</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># None until the first define_symbols() call</span>
+<span class="n">TimeZone</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: Deephaven timezone class (io.deephaven.time.TimeZone).</span>
+<span class="n">DateTime</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: Deephaven date-time class (io.deephaven.time.DateTime).</span>
+<span class="n">Period</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#: Deephaven time period class (io.deephaven.time.Period).</span>
+
+<span class="n">SECOND</span> <span class="o">=</span> <span class="mi">1000000000</span>  <span class="c1">#: One second in nanoseconds.</span>
+<span class="n">MINUTE</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="n">SECOND</span>   <span class="c1">#: One minute in nanoseconds.</span>
+<span class="n">HOUR</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="n">MINUTE</span>     <span class="c1">#: One hour in nanoseconds.</span>
+<span class="n">DAY</span> <span class="o">=</span> <span class="mi">24</span><span class="o">*</span><span class="n">HOUR</span>        <span class="c1">#: One day in nanoseconds.</span>
+<span class="n">WEEK</span> <span class="o">=</span> <span class="mi">7</span><span class="o">*</span><span class="n">DAY</span>         <span class="c1">#: One week in nanoseconds.</span>
+<span class="n">YEAR</span> <span class="o">=</span> <span class="mi">52</span><span class="o">*</span><span class="n">WEEK</span>       <span class="c1">#: One year in nanoseconds.</span>
+
+
+<span class="k">def</span> <span class="nf">_defineSymbols</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Defines appropriate java symbol, which requires that the jvm has been initialized through the :class:`jpy` module,</span>
+<span class="sd">    for use throughout the module AT RUNTIME. This is versus static definition upon first import, which would lead to an</span>
+<span class="sd">    exception if the jvm wasn't initialized BEFORE importing the module.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">jpy</span><span class="o">.</span><span class="n">has_jvm</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">"No java functionality can be used until the JVM has been initialized through the jpy module"</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">_java_type_</span><span class="p">,</span> <span class="n">TimeZone</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">Period</span>
+    <span class="k">if</span> <span class="n">_java_type_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="c1"># This will raise an exception if the desired object is not the classpath</span>
+    <span class="n">_java_type_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.time.DateTimeUtils"</span><span class="p">)</span>
+    <span class="n">TimeZone</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.time.TimeZone"</span><span class="p">)</span>
+    <span class="n">DateTime</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.time.DateTime"</span><span class="p">)</span>
+    <span class="n">Period</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.time.Period"</span><span class="p">)</span>
+
+<span class="c1"># every module method should be decorated with @_passThrough</span>
+<span class="nd">@wrapt</span><span class="o">.</span><span class="n">decorator</span>
+<span class="k">def</span> <span class="nf">_passThrough</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    For decoration of module methods, to define necessary symbols at runtime</span>
+
+<span class="sd">    :param wrapped: the method to be decorated</span>
+<span class="sd">    :param instance: the object to which the wrapped function was bound when it was called</span>
+<span class="sd">    :param args: the argument list for `wrapped`</span>
+<span class="sd">    :param kwargs: the keyword argument dictionary for `wrapped`</span>
+<span class="sd">    :return: the decorated version of the method</span>
+<span class="sd">    """</span>
+
+    <span class="n">_defineSymbols</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="c1"># Define all of our functionality, if currently possible</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">_defineSymbols</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="autoEpochToNanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.autoEpochToNanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">autoEpochToNanos</span><span class="p">(</span><span class="n">epoch</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a long offset from Epoch value to a nanoseconds as a long. This method uses expected date ranges to</span>
+<span class="sd">     infer whether the passed value is in milliseconds, microseconds, or nanoseconds. Thresholds used are</span>
+<span class="sd">     TimeConstants.MICROTIME_THRESHOLD divided by 1000 for milliseconds, as-is for microseconds, and</span>
+<span class="sd">     multiplied by 1000 for nanoseconds. The value is tested to see if its ABS exceeds the threshold. E.g. a value</span>
+<span class="sd">     whose ABS is greater than 1000 * TimeConstants.MICROTIME_THRESHOLD will be treated as nanoseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    :param epoch: (long) - The long Epoch offset value to convert.</span>
+<span class="sd">    :return: (long) null, if the input is equal to QueryConstants.NULL_LONG, otherwise a nanoseconds value</span>
+<span class="sd">             corresponding to the passed in epoch value.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">autoEpochToNanos</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="autoEpochToTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.autoEpochToTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">autoEpochToTime</span><span class="p">(</span><span class="n">epoch</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a long offset from Epoch value to a DateTime. This method uses expected date ranges to infer</span>
+<span class="sd">     whether the passed value is in milliseconds, microseconds, or nanoseconds. Thresholds used are</span>
+<span class="sd">     TimeConstants.MICROTIME_THRESHOLD divided by 1000 for milliseconds, as-is for microseconds, and</span>
+<span class="sd">     multiplied by 1000 for nanoseconds. The value is tested to see if its ABS exceeds the threshold. E.g. a value</span>
+<span class="sd">     whose ABS is greater than 1000 * TimeConstants.MICROTIME_THRESHOLD will be treated as nanoseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    :param epoch: (long) - The long Epoch offset value to convert.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) null, if the input is equal to QueryConstants.NULL_LONG, otherwise a DateTime based on</span>
+<span class="sd">             the inferred conversion.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">autoEpochToTime</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cappedTimeOffset"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.cappedTimeOffset">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">cappedTimeOffset</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">cap</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a DateTime value based on a starting value and a Period to add to it, but with a cap max</span>
+<span class="sd">     value which is returned in case the starting value plus period exceeds the cap.</span>
+<span class="sd">    </span>
+<span class="sd">    :param original: (io.deephaven.time.DateTime) - The starting DateTime value.</span>
+<span class="sd">    :param period: (io.deephaven.time.Period) - The Period to add to dateTime.</span>
+<span class="sd">    :param cap: (io.deephaven.time.DateTime) - A DateTime value to use as the maximum return value.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) a null DateTime if either original or period are null; the starting DateTime plus the</span>
+<span class="sd">             specified period, if the result is not too large for a DateTime and does not exceed the cap value; the</span>
+<span class="sd">             cap value if this is less than offset plus period. Throws a DateTimeOverflowException if the resultant value is more than max long nanoseconds from Epoch.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">cappedTimeOffset</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertDate"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDate">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertDate</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Attempt to convert the given string to a LocalDate. This should not accept dates with times, as we want</span>
+<span class="sd">     those to be interpreted as DateTime values. The ideal date format is YYYY-MM-DD since it's the least ambiguous,</span>
+<span class="sd">     but this method also parses slash-delimited dates according to the system "date style".</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - the date string to convert</span>
+<span class="sd">    :return: java.time.LocalDate</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertDate</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertDateQuiet"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDateQuiet">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertDateQuiet</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Attempt to convert the given string to a LocalDate. This should not accept dates with times, as we want</span>
+<span class="sd">     those to be interpreted as DateTime values. The ideal date format is YYYY-MM-DD since it's the least ambiguous.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param s: (java.lang.String) - the date string to convert</span>
+<span class="sd">      :return: (java.time.LocalDate) the LocalDate formatted using the default date style.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param s: (java.lang.String) - the date string</span>
+<span class="sd">      :param dateStyle: (io.deephaven.time.DateTimeUtils.DateStyle) - indicates how to interpret slash-delimited dates</span>
+<span class="sd">      :return: (java.time.LocalDate) the LocalDate</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertDateQuiet</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertDateTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDateTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertDateTime</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a DateTime String from a few specific zoned formats to a DateTime</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - String to be converted, usually in the form yyyy-MM-ddThh:mm:ss and with optional sub-seconds after an</span>
+<span class="sd">            optional decimal point, followed by a mandatory time zone character code</span>
+<span class="sd">    :return: io.deephaven.time.DateTime</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertDateTime</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertDateTimeQuiet"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertDateTimeQuiet">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertDateTimeQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a DateTime String from a few specific zoned formats to a DateTime</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - String to be converted, usually in the form yyyy-MM-ddThh:mm:ss and with optional sub-seconds after an</span>
+<span class="sd">            optional decimal point, followed by a mandatory time zone character code</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) A DateTime from the parsed String, or null if the format is not recognized or an exception occurs</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertDateTimeQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertExpression"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertExpression">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertExpression</span><span class="p">(</span><span class="n">formula</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts an expression, replacing DateTime and Period literals with references to constant DateTime/Period</span>
+<span class="sd">     instances.</span>
+<span class="sd">    </span>
+<span class="sd">    :param formula: (java.lang.String) - The formula to convert.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTimeUtils.Result) A DateTimeUtils.Result object, which includes the converted formula string, a string of instance variable</span>
+<span class="sd">             declarations, and a map describing the names and types of these instance variables.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertExpression</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertLocalTimeQuiet"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertLocalTimeQuiet">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertLocalTimeQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a time String in the form hh:mm:ss[.nnnnnnnnn] to a LocalTime.</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - The String to convert.</span>
+<span class="sd">    :return: (java.time.LocalTime) null if the String cannot be parsed, otherwise a LocalTime.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertLocalTimeQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertPeriod"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertPeriod">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertPeriod</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a String into a Period object.</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - The String to convert in the form of numbertype, e.g. 1W for one week, and Tnumbertype for times, e.g.</span>
+<span class="sd">            T1M for one minute.</span>
+<span class="sd">    :return: io.deephaven.time.Period</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertPeriod</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertPeriodQuiet"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertPeriodQuiet">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertPeriodQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a String into a Period object.</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - The String to convert in the form of numbertype, e.g. 1W for one week, and Tnumbertype for times, e.g.</span>
+<span class="sd">            T1M for one minute.</span>
+<span class="sd">    :return: (io.deephaven.time.Period) null if the String cannot be parsed, otherwise a Period object.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertPeriodQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertTime</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a String time to nanoseconds from Epoch. The format for the String is:</span>
+<span class="sd">     </span>
+<span class="sd">     hh:mm:ss[.nnnnnnnnn].</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - The String to be evaluated and converted.</span>
+<span class="sd">    :return: (long) A long value representing an Epoch offset in nanoseconds. Throws RuntimeException if the String</span>
+<span class="sd">             cannot be parsed.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertTime</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convertTimeQuiet"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.convertTimeQuiet">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">convertTimeQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a time String in the form hh:mm:ss[.nnnnnnnnn] to a long nanoseconds offset from Epoch.</span>
+<span class="sd">    </span>
+<span class="sd">    :param s: (java.lang.String) - The String to convert.</span>
+<span class="sd">    :return: (long) QueryConstants.NULL_LONG if the String cannot be parsed, otherwise long nanoseconds offset from</span>
+<span class="sd">             Epoch.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">convertTimeQuiet</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="createFormatter"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.createFormatter">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">createFormatter</span><span class="p">(</span><span class="n">timeZoneName</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Create a DateTimeFormatter formatter with the specified time zone name using the standard yyyy-MM-dd format.</span>
+<span class="sd">    </span>
+<span class="sd">    :param timeZoneName: (java.lang.String) - the time zone name</span>
+<span class="sd">    :return: (java.time.format.DateTimeFormatter) a formatter set for the specified time zone</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">createFormatter</span><span class="p">(</span><span class="n">timeZoneName</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="currentDate"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.currentDate">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">currentDate</span><span class="p">(</span><span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a String of the current date in the specified TimeZone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to reference when evaluating the current date for "now".</span>
+<span class="sd">    :return: (java.lang.String) A String in format yyyy-MM-dd.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">currentDate</span><span class="p">(</span><span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="currentDateNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.currentDateNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">currentDateNy</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Provides a String representing the current date in the New York time zone or, if a custom</span>
+<span class="sd">     currentDateNyOverride has been set, the date provided by that override.</span>
+<span class="sd">    </span>
+<span class="sd">    :return: (java.lang.String) A String in yyyy-MM-dd format.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">currentDateNy</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="currentTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.currentTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">currentTime</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Provides the current date/time, or, if a custom timeProvider has been configured, provides the current</span>
+<span class="sd">     time according to the custom provider.</span>
+<span class="sd">    </span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) A DateTime of the current date and time from the system or from the configured alternate time</span>
+<span class="sd">             provider.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">currentTime</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="dateAtMidnight"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dateAtMidnight">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">dateAtMidnight</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a DateTime for the requested DateTime at midnight in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - DateTime for which the new value at midnight should be calculated.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - TimeZone for which the new value at midnight should be calculated.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) A null DateTime if either input is null, otherwise a DateTime representing midnight for</span>
+<span class="sd">             the date and time zone of the inputs.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">dateAtMidnight</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dayOfMonth"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfMonth">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">dayOfMonth</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the day of the month for a DateTime and specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the day of the month.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the day of the</span>
+<span class="sd">             month represented by the DateTime when interpreted in the specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">dayOfMonth</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dayOfMonthNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfMonthNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">dayOfMonthNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the day of the month for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the day of the month.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of the day of the month</span>
+<span class="sd">             represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">dayOfMonthNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dayOfWeek"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfWeek">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">dayOfWeek</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the day of the week for a DateTime in the specified time zone, with 1 being</span>
+<span class="sd">     Monday and 7 being Sunday.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the day of the week.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the day of the week</span>
+<span class="sd">             represented by the DateTime when interpreted in the specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">dayOfWeek</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dayOfWeekNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfWeekNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">dayOfWeekNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the day of the week for a DateTime in the New York time zone, with 1 being Monday</span>
+<span class="sd">     and 7 being Sunday.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the day of the week.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of the day of the week</span>
+<span class="sd">             represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">dayOfWeekNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dayOfYear"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfYear">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">dayOfYear</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the day of the year (Julian date) for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the day of the year.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the day of the year</span>
+<span class="sd">             represented by the DateTime when interpreted in the specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">dayOfYear</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dayOfYearNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.dayOfYearNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">dayOfYearNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the day of the year (Julian date) for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the day of the year.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of the day of the year</span>
+<span class="sd">             represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">dayOfYearNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="diffDay"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.diffDay">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">diffDay</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a double value of the number of days difference between two DateTime values.</span>
+<span class="sd">    </span>
+<span class="sd">    :param start: (io.deephaven.time.DateTime) - The first DateTime.</span>
+<span class="sd">    :param end: (io.deephaven.time.DateTime) - The second DateTime.</span>
+<span class="sd">    :return: (double) QueryConstants.NULL_LONG if either input is null; a double value of the number of days obtained</span>
+<span class="sd">             from the first DateTime value minus d2, if the intermediate value of nanoseconds difference</span>
+<span class="sd">             between the two dates is not out of range for a long value; or throws a DateTimeOverflowException if the intermediate value would be more than min long or max long nanoseconds</span>
+<span class="sd">             from Epoch.</span>
+<span class="sd">             </span>
+<span class="sd">             Note that the subtraction is done based the nanosecond offsets of the two dates from Epoch, so, if either</span>
+<span class="sd">             date is before Epoch (negative offset), the result may be unexpected.</span>
+<span class="sd">             </span>
+<span class="sd">             If the first value is greater than the second value, the result will be negative.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">diffDay</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="diffNanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.diffNanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">diffNanos</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns the difference in nanoseconds between two DateTime values.</span>
+<span class="sd">    </span>
+<span class="sd">    :param d1: (io.deephaven.time.DateTime) - The first DateTime.</span>
+<span class="sd">    :param d2: (io.deephaven.time.DateTime) - The second DateTime.</span>
+<span class="sd">    :return: (long) QueryConstants.NULL_LONG if either input is null; the long nanoseconds from Epoch value of the</span>
+<span class="sd">             first DateTime minus d2, if the result is not out of range for a long value; or throws a</span>
+<span class="sd">             DateTimeOverflowException if the resultant value would be more than min</span>
+<span class="sd">             long or max long nanoseconds from Epoch.</span>
+<span class="sd">             </span>
+<span class="sd">             Note that the subtraction is done based the nanosecond offsets of the two dates from Epoch, so, if either</span>
+<span class="sd">             date is before Epoch (negative offset), the result may be unexpected.</span>
+<span class="sd">             </span>
+<span class="sd">             If the first value is greater than the second value, the result will be negative.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">diffNanos</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="diffYear"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.diffYear">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">diffYear</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a double value of the number of 365 day units difference between two DateTime values.</span>
+<span class="sd">    </span>
+<span class="sd">    :param start: (io.deephaven.time.DateTime) - The first DateTime.</span>
+<span class="sd">    :param end: (io.deephaven.time.DateTime) - The second DateTime.</span>
+<span class="sd">    :return: (double) QueryConstants.NULL_LONG if either input is null; a double value of the number of 365 day periods</span>
+<span class="sd">             obtained from the first DateTime value minus d2, if the intermediate value of nanoseconds</span>
+<span class="sd">             difference between the two dates is not out of range for a long value; or throws a</span>
+<span class="sd">             DateTimeUtils.DateTimeOverflowException if the intermediate value would be more than min long or max long</span>
+<span class="sd">             nanoseconds from Epoch.</span>
+<span class="sd">             </span>
+<span class="sd">             Note that the subtraction is done based the nanosecond offsets of the two dates from Epoch, so, if either</span>
+<span class="sd">             date is before Epoch (negative offset), the result may be unexpected.</span>
+<span class="sd">             </span>
+<span class="sd">             If the first value is greater than the second value, the result will be negative.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">diffYear</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="expressionToNanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.expressionToNanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">expressionToNanos</span><span class="p">(</span><span class="n">formula</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a String date/time to nanoseconds from Epoch or a nanoseconds period. Three patterns are supported:</span>
+<span class="sd">     </span>
+<span class="sd">     yyyy-MM-ddThh:mm:ss[.nnnnnnnnn] TZ for date/time values</span>
+<span class="sd">     </span>
+<span class="sd">    </span>
+<span class="sd">     hh:mm:ss[.nnnnnnnnn] for time values</span>
+<span class="sd">     </span>
+<span class="sd">    </span>
+<span class="sd">     Period Strings in the form of numbertype, e.g. 1W for one week, and Tnumbertype for times, e.g. T1M for one</span>
+<span class="sd">     minute</span>
+<span class="sd">     </span>
+<span class="sd">    </span>
+<span class="sd">    :param formula: (java.lang.String) - The String to be evaluated and converted. Optionally, but preferred, enclosed in straight single</span>
+<span class="sd">            ticks.</span>
+<span class="sd">    :return: (long) A long value representing an Epoch offset in nanoseconds for a time or date/time, or a duration in</span>
+<span class="sd">             nanoseconds for a period. Throws DateTimeUtils.DateTimeOverflowException if the resultant value would be longer</span>
+<span class="sd">             than max long, or IllegalArgumentException if expression cannot be evaluated.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">expressionToNanos</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="format"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.format">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a String date/time representation.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime to format as a String.</span>
+<span class="sd">      :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when formatting the String.</span>
+<span class="sd">      :return: (java.lang.String) A null String if either input is null, otherwise a String formatted as yyyy-MM-ddThh:mm:ss.nnnnnnnnn TZ.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param nanos: (long) - The long number of nanoseconds offset from Epoch.</span>
+<span class="sd">      :return: (java.lang.String) A String of varying format depending on the offset.</span>
+<span class="sd">               </span>
+<span class="sd">               For values greater than one day, the output will start with dddT</span>
+<span class="sd">               </span>
+<span class="sd">      </span>
+<span class="sd">               For values with fractional seconds, the output will be trailed by .nnnnnnnnn</span>
+<span class="sd">               </span>
+<span class="sd">      </span>
+<span class="sd">               e.g. output may be dddThh:mm:ss.nnnnnnnnn or subsets of this.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="formatDate"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.formatDate">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">formatDate</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a String date representation of a DateTime interpreted for a specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime to format as a String.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when formatting the String.</span>
+<span class="sd">    :return: (java.lang.String) A null String if either input is null, otherwise a String formatted as yyyy-MM-dd.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">formatDate</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="formatDateNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.formatDateNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">formatDateNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a String date representation of a DateTime interpreted for the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime to format as a String.</span>
+<span class="sd">    :return: (java.lang.String) A null String if the input is null, otherwise a String formatted as yyyy-MM-dd.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">formatDateNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="formatNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.formatNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">formatNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a String date/time representation of a DateTime interpreted for the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime to format as a String.</span>
+<span class="sd">    :return: (java.lang.String) A null String if the input is null, otherwise a String formatted as yyyy-MM-ddThh:mm:ss.nnnnnnnnn NY.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">formatNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getExcelDateTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getExcelDateTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getExcelDateTime</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns the Excel double time format representation of a DateTime.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime to convert.</span>
+<span class="sd">      :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">      :return: (double) 0.0 if either input is null, otherwise, a double value containing the Excel double format representation</span>
+<span class="sd">               of a DateTime in the specified time zone.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime to convert.</span>
+<span class="sd">      :param timeZone: (java.util.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">      :return: (double) 0.0 if either input is null, otherwise, a double value containing the Excel double format representation</span>
+<span class="sd">               of a DateTime in the specified time zone.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 3*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime to convert.</span>
+<span class="sd">      :return: (double) 0.0 if the input is null, otherwise, a double value containing the Excel double format representation of</span>
+<span class="sd">               a DateTime in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getExcelDateTime</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getFinestDefinedUnit"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getFinestDefinedUnit">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getFinestDefinedUnit</span><span class="p">(</span><span class="n">timeDef</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a ChronoField indicating the level of precision in a String time value.</span>
+<span class="sd">    </span>
+<span class="sd">    :param timeDef: (java.lang.String) - The time String to evaluate.</span>
+<span class="sd">    :return: (java.time.temporal.ChronoField) null if the time String cannot be parsed, otherwise a ChronoField for the finest units in the</span>
+<span class="sd">             String (e.g. "10:00:00" would yield SecondOfMinute).</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getFinestDefinedUnit</span><span class="p">(</span><span class="n">timeDef</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getPartitionFromTimestampMicros"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampMicros">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getPartitionFromTimestampMicros</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampMicros</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Given a DateTimeFormatter and a timestamp in micros from epoch, return the date as a String in standard</span>
+<span class="sd">     column-partition format of yyyy-MM-dd. A timestamp of NULL_LONG means use the system current time.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTimeFormatter: (java.time.format.DateTimeFormatter) - the date formatter</span>
+<span class="sd">    :param timestampMicros: (long) - the timestamp in micros</span>
+<span class="sd">    :return: (java.lang.String) the formatted date</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getPartitionFromTimestampMicros</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampMicros</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getPartitionFromTimestampMillis"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampMillis">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getPartitionFromTimestampMillis</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampMillis</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Given a DateTimeFormatter and a timestamp in millis, return the date as a String in standard column-partition</span>
+<span class="sd">     format of yyyy-MM-dd. A timestamp of NULL_LONG means use the system current time.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTimeFormatter: (java.time.format.DateTimeFormatter) - the date formatter</span>
+<span class="sd">    :param timestampMillis: (long) - the timestamp in millis</span>
+<span class="sd">    :return: (java.lang.String) the formatted date</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getPartitionFromTimestampMillis</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampMillis</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getPartitionFromTimestampNanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampNanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getPartitionFromTimestampNanos</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampNanos</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Given a DateTimeFormatter and a timestamp in nanos from epoch, return the date as a String in standard</span>
+<span class="sd">     column-partition format of yyyy-MM-dd. A timestamp of NULL_LONG means use the system current time.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTimeFormatter: (java.time.format.DateTimeFormatter) - the date formatter</span>
+<span class="sd">    :param timestampNanos: (long) - the timestamp in nanos</span>
+<span class="sd">    :return: (java.lang.String) the formatted date</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getPartitionFromTimestampNanos</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampNanos</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getPartitionFromTimestampSeconds"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getPartitionFromTimestampSeconds">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getPartitionFromTimestampSeconds</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampSeconds</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Given a DateTimeFormatter and a timestamp in seconds from epoch, return the date as a String in standard</span>
+<span class="sd">     column-partition format of yyyy-MM-dd. A timestamp of NULL_LONG means use the system current time.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTimeFormatter: (java.time.format.DateTimeFormatter) - the date formatter</span>
+<span class="sd">    :param timestampSeconds: (long) - the timestamp in seconds</span>
+<span class="sd">    :return: (java.lang.String) the formatted date</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getPartitionFromTimestampSeconds</span><span class="p">(</span><span class="n">dateTimeFormatter</span><span class="p">,</span> <span class="n">timestampSeconds</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getZonedDateTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.getZonedDateTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">getZonedDateTime</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a DateTime to a ZonedDateTime.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The a DateTime to convert.</span>
+<span class="sd">      :return: (java.time.ZonedDateTime) A ZonedDateTime using the default time zone for the session as indicated by</span>
+<span class="sd">               TimeZone.TZ_DEFAULT.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The a DateTime to convert.</span>
+<span class="sd">      :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use for the conversion.</span>
+<span class="sd">      :return: (java.time.ZonedDateTime) A ZonedDateTime using the specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">getZonedDateTime</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="hourOfDay"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.hourOfDay">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">hourOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the hour of the day for a DateTime in the specified time zone. The hour is on a</span>
+<span class="sd">     24 hour clock (0 - 23).</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the hour of the day.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the hour of the day</span>
+<span class="sd">             represented by the DateTime when interpreted in the specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">hourOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="hourOfDayNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.hourOfDayNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">hourOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the hour of the day for a DateTime in the New York time zone. The hour is on a 24</span>
+<span class="sd">     hour clock (0 - 23).</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the hour of the day.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of the hour of the day</span>
+<span class="sd">             represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">hourOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isAfter"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.isAfter">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">isAfter</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Evaluates whether one DateTime value is later than a second DateTime value.</span>
+<span class="sd">    </span>
+<span class="sd">    :param d1: (io.deephaven.time.DateTime) - The first DateTime value to compare.</span>
+<span class="sd">    :param d2: (io.deephaven.time.DateTime) - The second DateTime value to compare.</span>
+<span class="sd">    :return: (boolean) Boolean true if d1 is later than d2, false if either value is null, or if d2 is equal to or later than</span>
+<span class="sd">             d1.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">isAfter</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isBefore"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.isBefore">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">isBefore</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Evaluates whether one DateTime value is earlier than a second DateTime value.</span>
+<span class="sd">    </span>
+<span class="sd">    :param d1: (io.deephaven.time.DateTime) - The first DateTime value to compare.</span>
+<span class="sd">    :param d2: (io.deephaven.time.DateTime) - The second DateTime value to compare.</span>
+<span class="sd">    :return: (boolean) Boolean true if d1 is earlier than d2, false if either value is null, or if d2 is equal to or earlier</span>
+<span class="sd">             than d1.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">isBefore</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="lastBusinessDateNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.lastBusinessDateNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">lastBusinessDateNy</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Provides a String representing the previous business date in the New York time zone using the NYSE calendar, or,</span>
+<span class="sd">     if a custom lastBusinessDayNyOverride has been set, the date provided by that override.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :return: (java.lang.String) A String in yyyy-MM-dd format.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param currentTimeMillis: (long) - The current date/time in milliseconds from Epoch to be used when determining the</span>
+<span class="sd">              previous business date. Typically this is System.currentTimeMillis() and is passed in by calling the</span>
+<span class="sd">              niladic variant of this method.</span>
+<span class="sd">      :return: (java.lang.String) A String in yyyy-MM-dd format.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">lastBusinessDateNy</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="lowerBin"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.lowerBin">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">lowerBin</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a DateTime value, which is at the starting (lower) end of a time range defined by the interval</span>
+<span class="sd">     nanoseconds. For example, a 5*MINUTE intervalNanos value would return the date/time value for the start of the</span>
+<span class="sd">     five minute window that contains the input date time.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to evaluate the start of the containing window.</span>
+<span class="sd">      :param intervalNanos: (long) - The size of the window in nanoseconds.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) Null if either input is null, otherwise a DateTime representing the start of the window.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to evaluate the start of the containing window.</span>
+<span class="sd">      :param intervalNanos: (long) - The size of the window in nanoseconds.</span>
+<span class="sd">      :param offset: (long) - The window start offset in nanoseconds. For example, a value of MINUTE would offset all windows by</span>
+<span class="sd">              one minute.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) Null if either input is null, otherwise a DateTime representing the start of the window.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">lowerBin</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="microsOfMilli"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsOfMilli">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">microsOfMilli</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns the number of microseconds that have elapsed since the start of the millisecond represented by the</span>
+<span class="sd">     provided dateTime in the specified time zone. Nanoseconds are rounded, not dropped --</span>
+<span class="sd">     '20:41:39.123456700' has 457 micros, not 456.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the microseconds.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of microseconds since</span>
+<span class="sd">             the top of the millisecond for the date/time represented by the DateTime when interpreted in the</span>
+<span class="sd">             specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">microsOfMilli</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="microsOfMilliNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsOfMilliNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">microsOfMilliNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns the number of microseconds that have elapsed since the start of the millisecond represented by the</span>
+<span class="sd">     provided dateTime in the New York time zone. Nanoseconds are rounded, not dropped -- '20:41:39.123456700'</span>
+<span class="sd">     has 457 micros, not 456.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the microseconds.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of microseconds since the</span>
+<span class="sd">             top of the millisecond for the date/time represented by the DateTime when interpreted in the New</span>
+<span class="sd">             York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">microsOfMilliNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="microsToNanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsToNanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">microsToNanos</span><span class="p">(</span><span class="n">micros</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts microseconds to nanoseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    :param micros: (long) - The long value of microseconds to convert.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if the input is null. Throws a DateTimeUtils.DateTimeOverflowException if</span>
+<span class="sd">             the resultant value would exceed the range that can be stored in a long. Otherwise, returns a long</span>
+<span class="sd">             containing the equivalent number of nanoseconds for the input in microseconds.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">microsToNanos</span><span class="p">(</span><span class="n">micros</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="microsToTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.microsToTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">microsToTime</span><span class="p">(</span><span class="n">micros</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a value of microseconds from Epoch in the UTC time zone to a DateTime.</span>
+<span class="sd">    </span>
+<span class="sd">    :param micros: (long) - The long microseconds value to convert.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) QueryConstants.NULL_LONG if the input is null, otherwise, a DateTime representation of</span>
+<span class="sd">             the input.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">microsToTime</span><span class="p">(</span><span class="n">micros</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millis"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millis">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millis</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns milliseconds since Epoch for a DateTime value.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which the milliseconds offset should be returned.</span>
+<span class="sd">    :return: (long) A long value of milliseconds since Epoch, or a QueryConstants.NULL_LONG value if the</span>
+<span class="sd">             DateTime is null.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millis</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisOfDay"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfDay">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of milliseconds since midnight for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the milliseconds since midnight.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of milliseconds since</span>
+<span class="sd">             midnight for the date/time represented by the DateTime when interpreted in the specified time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisOfDayNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfDayNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of milliseconds since midnight for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the milliseconds since midnight.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of milliseconds since</span>
+<span class="sd">             midnight for the date/time represented by the DateTime when interpreted in the New York time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisOfSecond"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfSecond">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisOfSecond</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of milliseconds since the top of the second for a DateTime in the specified time</span>
+<span class="sd">     zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the milliseconds.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of milliseconds since</span>
+<span class="sd">             the top of the second for the date/time represented by the DateTime when interpreted in the</span>
+<span class="sd">             specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisOfSecond</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisOfSecondNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisOfSecondNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisOfSecondNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of milliseconds since the top of the second for a DateTime in the New York time</span>
+<span class="sd">     zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the milliseconds.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of milliseconds since the</span>
+<span class="sd">             top of the second for the date/time represented by the DateTime when interpreted in the New York</span>
+<span class="sd">             time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisOfSecondNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisToDateAtMidnight"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToDateAtMidnight">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisToDateAtMidnight</span><span class="p">(</span><span class="n">millis</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a DateTime representing midnight in a selected time zone on the date specified by the a number of</span>
+<span class="sd">     milliseconds from Epoch.</span>
+<span class="sd">    </span>
+<span class="sd">    :param millis: (long) - A long value of the number of milliseconds from Epoch for which the DateTime is to be</span>
+<span class="sd">            calculated.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - TimeZone for which the new value at midnight should be calculated.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) A DateTime rounded down to midnight in the selected time zone for the specified number of</span>
+<span class="sd">             milliseconds from Epoch.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisToDateAtMidnight</span><span class="p">(</span><span class="n">millis</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisToDateAtMidnightNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToDateAtMidnightNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisToDateAtMidnightNy</span><span class="p">(</span><span class="n">millis</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a DateTime representing midnight in New York time zone on the date specified by the a number of</span>
+<span class="sd">     milliseconds from Epoch.</span>
+<span class="sd">    </span>
+<span class="sd">    :param millis: (long) - A long value of the number of milliseconds from Epoch for which the DateTime is to be</span>
+<span class="sd">            calculated.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) A DateTime rounded down to midnight in the New York time zone for the specified number of</span>
+<span class="sd">             milliseconds from Epoch.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisToDateAtMidnightNy</span><span class="p">(</span><span class="n">millis</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisToNanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToNanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisToNanos</span><span class="p">(</span><span class="n">millis</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts milliseconds to nanoseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    :param millis: (long) - The long milliseconds value to convert.</span>
+<span class="sd">    :return: (long) QueryConstants.NULL_LONG if the input is equal to QueryConstants.NULL_LONG. Throws</span>
+<span class="sd">             DateTimeUtils.DateTimeOverflowException if the input is too large for conversion. Otherwise returns a long of</span>
+<span class="sd">             the equivalent number of nanoseconds to the input.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisToNanos</span><span class="p">(</span><span class="n">millis</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="millisToTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.millisToTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">millisToTime</span><span class="p">(</span><span class="n">millis</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a value of milliseconds from Epoch in the UTC time zone to a DateTime.</span>
+<span class="sd">    </span>
+<span class="sd">    :param millis: (long) - The long milliseconds value to convert.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) QueryConstants.NULL_LONG if the input is null, otherwise, a DateTime representation of</span>
+<span class="sd">             the input.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">millisToTime</span><span class="p">(</span><span class="n">millis</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="minus"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minus">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">minus</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Subtracts one time from another.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The starting DateTime value.</span>
+<span class="sd">      :param nanos: (long) - The long number of nanoseconds to subtract from dateTime.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) a null DateTime if either input is null; the starting DateTime minus the specified number</span>
+<span class="sd">               of nanoseconds, if the result is not too negative for a DateTime; or throws a</span>
+<span class="sd">               DateTimeOverflowException if the resultant value is more than min long</span>
+<span class="sd">               nanoseconds from Epoch.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The starting DateTime value.</span>
+<span class="sd">      :param period: (io.deephaven.time.Period) - The Period to subtract from dateTime.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) a null DateTime if either input is null; the starting DateTime minus the specified</span>
+<span class="sd">               period, if the result is not too negative for a DateTime; or throws a</span>
+<span class="sd">               DateTimeOverflowException if the resultant value is more than min long</span>
+<span class="sd">               nanoseconds from Epoch.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 3*  </span>
+<span class="sd">      :param d1: (io.deephaven.time.DateTime) - The first DateTime.</span>
+<span class="sd">      :param d2: (io.deephaven.time.DateTime) - The DateTime to subtract from d1.</span>
+<span class="sd">      :return: (long) QueryConstants.NULL_LONG if either input is null; the long nanoseconds from Epoch value of the</span>
+<span class="sd">               first DateTime minus d2, if the result is not out of range for a long value; or throws a</span>
+<span class="sd">               DateTimeOverflowException if the resultant value would be more than min</span>
+<span class="sd">               long or max long nanoseconds from Epoch.</span>
+<span class="sd">               </span>
+<span class="sd">               Note that the subtraction is done based the nanosecond offsets of the two dates from Epoch, so, if either</span>
+<span class="sd">               date is before Epoch (negative offset), the result may be unexpected.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">minus</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="minuteOfDay"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfDay">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">minuteOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of minutes since midnight for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the minutes.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of minutes since</span>
+<span class="sd">             midnight for the date/time represented by the DateTime when interpreted in the specified time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">minuteOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="minuteOfDayNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfDayNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">minuteOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of minutes since midnight for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the milliseconds since midnight.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of minutes since midnight</span>
+<span class="sd">             for the date/time represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">minuteOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="minuteOfHour"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfHour">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">minuteOfHour</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of minutes since the top of the hour for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the minutes.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of minutes since the</span>
+<span class="sd">             top of the hour for the date/time represented by the DateTime when interpreted in the specified</span>
+<span class="sd">             time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">minuteOfHour</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="minuteOfHourNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.minuteOfHourNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">minuteOfHourNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of minutes since the top of the hour for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the minutes.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of minutes since the top</span>
+<span class="sd">             of the hour for the date/time represented by the DateTime when interpreted in the New York time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">minuteOfHourNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="monthOfYear"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.monthOfYear">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">monthOfYear</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value for the month of a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the month.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the month for the</span>
+<span class="sd">             date/time represented by the DateTime when interpreted in the specified time zone. January is 1,</span>
+<span class="sd">             February is 2, etc.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">monthOfYear</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="monthOfYearNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.monthOfYearNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">monthOfYearNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value for the month of a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the month.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of the month for the</span>
+<span class="sd">             date/time represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">monthOfYearNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanos</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns nanoseconds since Epoch for a DateTime value.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which the nanoseconds offset should be returned.</span>
+<span class="sd">      :return: (long) A long value of nanoseconds since Epoch, or a NULL_LONG value if the DateTime is null.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param instant: java.time.Instant</span>
+<span class="sd">      :return: long</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanos</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanosOfDay"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfDay">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanosOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a long value of nanoseconds since midnight for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the nanoseconds since midnight.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if either input is null, otherwise, a long value of nanoseconds since</span>
+<span class="sd">             midnight for the date/time represented by the DateTime when interpreted in the specified time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanosOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanosOfDayNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfDayNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanosOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a long value of nanoseconds since midnight for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the nanoseconds since midnight.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if the input is null, otherwise, a long value of nanoseconds since</span>
+<span class="sd">             midnight for the date/time represented by the DateTime when interpreted in the New York time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanosOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanosOfSecond"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfSecond">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanosOfSecond</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a long value of nanoseconds since the top of the second for a DateTime in the specified time</span>
+<span class="sd">     zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the nanoseconds.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if either input is null, otherwise, a long value of nanoseconds since</span>
+<span class="sd">             the top of the second for the date/time represented by the DateTime when interpreted in the</span>
+<span class="sd">             specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanosOfSecond</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanosOfSecondNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosOfSecondNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanosOfSecondNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a long value of nanoseconds since the top of the second for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the nanoseconds.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if the input is null, otherwise, a long value of nanoseconds since the</span>
+<span class="sd">             top of the second for the date/time represented by the DateTime when interpreted in the New York</span>
+<span class="sd">             time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanosOfSecondNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanosToMicros"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosToMicros">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanosToMicros</span><span class="p">(</span><span class="n">nanos</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts nanoseconds to microseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    :param nanos: (long) - The long value of nanoseconds to convert.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if the input is null. Otherwise, returns a long containing the</span>
+<span class="sd">             equivalent number of microseconds for the input in nanoseconds.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanosToMicros</span><span class="p">(</span><span class="n">nanos</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanosToMillis"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosToMillis">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanosToMillis</span><span class="p">(</span><span class="n">nanos</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts nanoseconds to milliseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    :param nanos: (long) - The long value of nanoseconds to convert.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if the input is null. Otherwise, returns a long containing the</span>
+<span class="sd">             equivalent number of milliseconds for the input in nanoseconds.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanosToMillis</span><span class="p">(</span><span class="n">nanos</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nanosToTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.nanosToTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">nanosToTime</span><span class="p">(</span><span class="n">nanos</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a value of nanoseconds from Epoch to a DateTime.</span>
+<span class="sd">    </span>
+<span class="sd">    :param nanos: (long) - The long nanoseconds since Epoch value to convert.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) A DateTime for nanos, or null if nanos is equal to</span>
+<span class="sd">             NULL_LONG.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">nanosToTime</span><span class="p">(</span><span class="n">nanos</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="overrideLastBusinessDateNyFromCurrentDateNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.overrideLastBusinessDateNyFromCurrentDateNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">overrideLastBusinessDateNyFromCurrentDateNy</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Sets the lastBusinessDayNyOverride to the previous business day from a currently set</span>
+<span class="sd">     currentDateNyOverride value. If currentDateNyOverride has not been set, this method has no</span>
+<span class="sd">     effect.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">overrideLastBusinessDateNyFromCurrentDateNy</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="plus"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.plus">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">plus</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Adds one time from another.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The starting DateTime value.</span>
+<span class="sd">      :param nanos: (long) - The long number of nanoseconds to add to dateTime.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) a null DateTime if either input is null; the starting DateTime plus the specified number</span>
+<span class="sd">               of nanoseconds, if the result is not too large for a DateTime; or throws a</span>
+<span class="sd">               DateTimeOverflowException if the resultant value is more than max long</span>
+<span class="sd">               nanoseconds from Epoch.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The starting DateTime value.</span>
+<span class="sd">      :param period: (io.deephaven.time.Period) - The Period to add to dateTime.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) a null DateTime if either input is null; the starting DateTime plus the specified period,</span>
+<span class="sd">               if the result is not too large for a DateTime; or throws a DateTimeOverflowException if the resultant value is more than max long nanoseconds from Epoch.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">plus</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="secondOfDay"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfDay">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">secondOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of seconds since midnight for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the seconds.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of seconds since</span>
+<span class="sd">             midnight for the date/time represented by the DateTime when interpreted in the specified time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">secondOfDay</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="secondOfDayNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfDayNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">secondOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of seconds since midnight for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the seconds.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of seconds since</span>
+<span class="sd">             midnight for the date/time represented by the DateTime when interpreted in the New York time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">secondOfDayNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="secondOfMinute"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfMinute">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">secondOfMinute</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of seconds since the top of the minute for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the seconds.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of seconds since the</span>
+<span class="sd">             top of the minute for the date/time represented by the DateTime when interpreted in the specified</span>
+<span class="sd">             time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">secondOfMinute</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="secondOfMinuteNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondOfMinuteNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">secondOfMinuteNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of seconds since the top of the minute for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the seconds.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if the input is null, otherwise, an int value of seconds since the top</span>
+<span class="sd">             of the minute for the date/time represented by the DateTime when interpreted in the New York time</span>
+<span class="sd">             zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">secondOfMinuteNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="secondsToNanos"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondsToNanos">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">secondsToNanos</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts seconds to nanoseconds.</span>
+<span class="sd">    </span>
+<span class="sd">    :param seconds: (long) - The long value of seconds to convert.</span>
+<span class="sd">    :return: (long) A QueryConstants.NULL_LONG if the input is null. Throws a DateTimeUtils.DateTimeOverflowException if</span>
+<span class="sd">             the resultant value would exceed the range that can be stored in a long. Otherwise, returns a long</span>
+<span class="sd">             containing the equivalent number of nanoseconds for the input in seconds.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">secondsToNanos</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="secondsToTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.secondsToTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">secondsToTime</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a value of seconds from Epoch in the UTC time zone to a DateTime.</span>
+<span class="sd">    </span>
+<span class="sd">    :param seconds: (long) - The long seconds value to convert.</span>
+<span class="sd">    :return: (io.deephaven.time.DateTime) QueryConstants.NULL_LONG if the input is null, otherwise, a DateTime representation of</span>
+<span class="sd">             the input.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">secondsToTime</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="toDateTime"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.toDateTime">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">toDateTime</span><span class="p">(</span><span class="n">zonedDateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts a ZonedDateTime to a DateTime.</span>
+<span class="sd">    </span>
+<span class="sd">    :param zonedDateTime: (java.time.ZonedDateTime) - The a ZonedDateTime to convert.</span>
+<span class="sd">    :return: io.deephaven.time.DateTime</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">toDateTime</span><span class="p">(</span><span class="n">zonedDateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="upperBin"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.upperBin">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">upperBin</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns a DateTime value, which is at the ending (upper) end of a time range defined by the interval</span>
+<span class="sd">     nanoseconds. For example, a 5*MINUTE intervalNanos value would return the date/time value for the end of the five</span>
+<span class="sd">     minute window that contains the input date time.</span>
+<span class="sd">    </span>
+<span class="sd">    *Overload 1*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to evaluate the end of the containing window.</span>
+<span class="sd">      :param intervalNanos: (long) - The size of the window in nanoseconds.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) Null if either input is null, otherwise a DateTime representing the end of the window.</span>
+<span class="sd">      </span>
+<span class="sd">    *Overload 2*  </span>
+<span class="sd">      :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to evaluate the end of the containing window.</span>
+<span class="sd">      :param intervalNanos: (long) - The size of the window in nanoseconds.</span>
+<span class="sd">      :param offset: (long) - The window start offset in nanoseconds. For example, a value of MINUTE would offset all windows by</span>
+<span class="sd">              one minute.</span>
+<span class="sd">      :return: (io.deephaven.time.DateTime) Null if either input is null, otherwise a DateTime representing the end of the window.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">upperBin</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="year"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.year">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">year</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the year for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the year.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the year for the</span>
+<span class="sd">             date/time represented by the DateTime when interpreted in the specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">year</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="yearNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.yearNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">yearNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the year for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the year.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the year for the</span>
+<span class="sd">             date/time represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">yearNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="yearOfCentury"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.yearOfCentury">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">yearOfCentury</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the two-digit year for a DateTime in the specified time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the year.</span>
+<span class="sd">    :param timeZone: (io.deephaven.time.TimeZone) - The TimeZone to use when interpreting the date/time.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the two-digit year</span>
+<span class="sd">             for the date/time represented by the DateTime when interpreted in the specified time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">yearOfCentury</span><span class="p">(</span><span class="n">dateTime</span><span class="p">,</span> <span class="n">timeZone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="yearOfCenturyNy"><a class="viewcode-back" href="../../code/deephaven.DateTimeUtils.html#deephaven.DateTimeUtils.yearOfCenturyNy">[docs]</a><span class="nd">@_passThrough</span>
+<span class="k">def</span> <span class="nf">yearOfCenturyNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns an int value of the two-digit year for a DateTime in the New York time zone.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dateTime: (io.deephaven.time.DateTime) - The DateTime for which to find the year.</span>
+<span class="sd">    :return: (int) A QueryConstants.NULL_INT if either input is null, otherwise, an int value of the two-digit year</span>
+<span class="sd">             for the date/time represented by the DateTime when interpreted in the New York time zone.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">return</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">yearOfCenturyNy</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    </body>
+</html>
