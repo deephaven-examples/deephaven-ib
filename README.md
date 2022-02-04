@@ -39,6 +39,8 @@ exchange traded products.  These include:
 * Warrants
 * Commodities
 
+![Overview Image](docs/assets/overview.png)
+
 **WARNING: Automated trading can go horribly wrong very quickly.  Verify your code on a paper trading account before 
 unleashing trading on an account where money can be lost.  If you think this can not happen to you, read
 [The Rise and Fall of Knight Capital](https://medium.com/dataseries/the-rise-and-fall-of-knight-capital-buy-high-sell-low-rinse-and-repeat-ae17fae780f6).
