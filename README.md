@@ -410,6 +410,55 @@ client.order_place(rc, order)
 client.order_cancel_all()
 ```
 
+## Queries and Mathematics
+
+[Deephaven](https://deephaven.io) has very powerful query engine that allows mathematics and queries 
+to be applied to static and real-time data.  The queries can be as simple as filtering data and
+as complex as artificial intelligence.
+
+The example below computes the real-time price ratio of `DIA` (Dow Jones Index) and `SPY` (S&P 500 Index)
+every 5 seconds.
+
+For more details, see the [Deephaven Coummunity Core Documentation](https://deephaven.io/core/docs/).
+
+```python
+from ibapi.contract import Contract
+
+c1 = Contract()
+c1.symbol = 'DIA'
+c1.secType = 'STK'
+c1.exchange = 'SMART'
+c1.currency = 'USD'
+
+rc1 = client.get_registered_contract(c1)
+print(rc1)
+
+c2 = Contract()
+c2.symbol = 'SPY'
+c2.secType = 'STK'
+c2.exchange = 'SMART'
+c2.currency = 'USD'
+
+rc2 = client.get_registered_contract(c2)
+print(rc2)
+
+client.set_market_data_type(dhib.MarketDataType.REAL_TIME)
+client.request_market_data(rc1)
+client.request_market_data(rc2)
+client.request_bars_realtime(rc1, bar_type=dhib.BarDataType.MIDPOINT)
+client.request_bars_realtime(rc2, bar_type=dhib.BarDataType.MIDPOINT)
+
+bars_realtime = client.tables["bars_realtime"]
+
+bars_dia = bars_realtime.where("Symbol=`DIA`")
+bars_spy = bars_realtime.where("Symbol=`SPY`")
+bars_joined = bars_dia.view("Timestamp", "TimestampEnd", "Dia=Close") \
+    .naturalJoin(bars_spy, "TimestampEnd", "Spy=Close") \
+    .update("Ratio = Dia/Spy")
+```
+
+![DIA SPY Ratio](docs/assets/dia_spy_ratio.png)
+
 ## Plotting
 
 [Deephaven](https://deephaven.io) has very powerful plotting functionality for both static and real-time data.
