@@ -57,4 +57,4 @@ examples and details on using `deephaven-ib <https://github.com/deephaven-exampl
 
 .. image:: ./overview.png
   :width: 400
-  :alt: Deephaven log
+  :alt: Deephaven overview
