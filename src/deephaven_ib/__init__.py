@@ -33,7 +33,7 @@ class TickDataType(Enum):
     BID_ASK = "BidAsk"
     """"Most recent bid and ask."""
     MIDPOINT = "MidPoint"
-    """"Most recent midpoint."""
+    """Most recent midpoint."""
 
     def historical_value(self) -> str:
         if self.value == "Last":
@@ -122,31 +122,52 @@ class BarDataType(Enum):
     """Bar data type."""
 
     TRADES = 1
+    """Trade prices."""
     MIDPOINT = 2
+    """Midpoint prices."""
     BID = 3
+    """Bid prices."""
     ASK = 4
+    """Ask prices."""
     BID_ASK = 5
+    """Bid/Ask prices."""
     HISTORICAL_VOLATILITY = 6
+    """Historical volatility."""
     OPTION_IMPLIED_VOLATILITY = 7
+    """Option implied volatility."""
     FEE_RATE = 8
+    """Fee rate."""
     REBATE_RATE = 9
+    """Rebate rate."""
 
 
 class BarSize(Enum):
     """Bar data sizes."""
 
     SEC_1 = "1 sec"
+    """1 second bar."""
     SEC_5 = "5 secs"
+    """5 second bar."""
     SEC_15 = "15 secs"
+    """15 second bar."""
     SEC_30 = "30 secs"
+    """30 second bar."""
     MIN_1 = "1 min"
+    """1 minute bar."""
     MIN_2 = "2 mins"
+    """2 minute bar."""
     MIN_3 = "3 mins"
+    """3 minute bar."""
     MIN_5 = "5 mins"
+    "5 minute bar."
     MIN_15 = "15 mins"
+    """15 minute bar."""
     MIN_30 = "30 mins"
+    """30 minute bar."""
     HOUR_1 = "1 hour"
+    """1 hour bar."""
     DAY_1 = "1 day"
+    """1 day bar."""
 
 
 class Duration:
@@ -158,23 +179,63 @@ class Duration:
         self.value = value
 
     @staticmethod
-    def seconds(value: int):
+    def seconds(value: int) -> "Duration":
+        """Create a duration of a specified number of seconds.
+
+        Args:
+            value (int): number of seconds
+
+        Returns:
+            Duration
+        """
         return Duration(f"{value} S")
 
     @staticmethod
-    def days(value: int):
+    def days(value: int) -> "Duration":
+        """Create a duration of a specified number of days.
+
+        Args:
+            value (int): number of days
+
+        Returns:
+            Duration
+        """
         return Duration(f"{value} D")
 
     @staticmethod
-    def weeks(value: int):
+    def weeks(value: int) -> "Duration":
+        """Create a duration of a specified number of weeks.
+
+        Args:
+            value (int): number of weeks
+
+        Returns:
+            Duration
+        """
         return Duration(f"{value} W")
 
     @staticmethod
-    def months(value: int):
+    def months(value: int) -> "Duration":
+        """Create a duration of a specified number of months.
+
+        Args:
+            value (int): number of months
+
+        Returns:
+            Duration
+        """
         return Duration(f"{value} M")
 
     @staticmethod
-    def years(value: int):
+    def years(value: int) -> "Duration":
+        """Create a duration of a specified number of years.
+
+        Args:
+            value (int): number of years
+
+        Returns:
+            Duration
+        """
         return Duration(f"{value} Y")
 
     def __repr__(self) -> str:
