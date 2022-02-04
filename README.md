@@ -150,7 +150,7 @@ To setup and configure the system:
     ```
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 1) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
-upper right corner.  ![](./docs/assets/config-gear.png)  
+upper right corner.  ![](docs/assets/config-gear.png)  
   In API->Settings, make sure:
 
     * "Enable ActiveX and Socket Clients" is selected.
@@ -158,14 +158,14 @@ upper right corner.  ![](./docs/assets/config-gear.png)
     * "Read-Only API" is selected if you want to prevent trade submission from [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).  
         
     Also, note the "Socket port" value.  It is needed when connecting [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
-    ![](./docs/assets/config-api.png)
+    ![](docs/assets/config-api.png)
 
 ## Launch
 To launch the system:
 
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 1) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
-![](./docs/assets/allow-connections.png)
+![](docs/assets/allow-connections.png)
 1) Build the Docker images:
     ```bash
     ./docker/deephaven_ib_docker.sh build --dh-version <deephaven_version>
@@ -210,7 +210,7 @@ client.connect()
 ```
 
 After `client.connect()` is called, TWS requires that the connection be accepted.
-![](./docs/assets/accept-connection.png)
+![](docs/assets/accept-connection.png)
 
 ## Get data
 
@@ -442,7 +442,7 @@ plot_aapl = Plot.plot("Bid",  ticks_bid_ask, "ReceiveTime", "BidPrice") \
     .show()
 ```
 
-![AAPL Bid Ask](./docs/assets/aapl_bid_ask.png)
+![AAPL Bid Ask](docs/assets/aapl_bid_ask.png)
 
 ## Help!
 
