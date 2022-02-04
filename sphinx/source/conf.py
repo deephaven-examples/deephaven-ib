@@ -80,6 +80,7 @@ dh_sphinx.setup_sphinx_environment()
 import deephaven_ib
 import deephaven
 import ibapi.order
+import ibapi.contract
 import jpy
 
 docs_title = "deephaven_ib python modules."
