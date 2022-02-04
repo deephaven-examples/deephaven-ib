@@ -63,6 +63,9 @@ html_theme_options = {
     'sidebar_width' : '35%',
 }
 
+# favicon
+html_favicon = "favicon.svg"
+
 # A boolean that decides whether module names are prepended to all object names (for object types where a “module” of some kind is defined), e.g. for py:function directives. Default is True.
 add_module_names = False
 # if we allow sphinx to generate type hints for signatures (default), it would make the generated doc cluttered and hard to read
