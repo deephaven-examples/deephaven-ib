@@ -54,7 +54,7 @@ For more details, see:
 For help with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
 * [deephaven-ib Docs](https://deephaven-examples.github.io/deephaven-ib/)
 * [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
-* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+* [Deephaven Community Slack](https://join.slack.com/t/deephavencommunity/shared_invite/zt-11x3hiufp-DmOMWDAvXv_pNDUlVkagLQ)
 
 For Deephaven how-to guides, see:
 * [Deephaven Tutorial](https://deephaven.io/core/docs/tutorials/overview/) 
@@ -62,11 +62,11 @@ For Deephaven how-to guides, see:
 
 For help with [Deephaven](https://deephaven.io):
 * [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
-* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+* [Deephaven Community Slack](https://join.slack.com/t/deephavencommunity/shared_invite/zt-11x3hiufp-DmOMWDAvXv_pNDUlVkagLQ)
 * [Deephaven Community Core Discussions](https://github.com/deephaven/deephaven-core/discussions)
 
 
-# Available Data
+# IB Data Available in Deephaven
 
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all data as dynamically updating 
 [Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io) tables are extremely powerful and can 
@@ -122,7 +122,7 @@ Most tables include a `ReceiveTime` column.  This column indicates the time the 
 
 ## Your data
 
-[Deephaven](https://deephaven.io) can load data from:
+You may want to combine data from other sources with your IB data.  [Deephaven](https://deephaven.io) can load data from:
 * [CSV](https://deephaven.io/core/docs/how-to-guides/csv-import/)
 * [Parquet](https://deephaven.io/core/docs/how-to-guides/parquet-flat/) 
 * [Kafka](https://deephaven.io/core/docs/how-to-guides/kafka-topics/).  
@@ -191,6 +191,10 @@ To get help on running the system:
 ```
 
 # Use deephaven-ib
+
+To use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), you will need to open the [Deephaven Web IDE](http://localhost:10000/ide/) 
+by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.  The following commands
+can be executed in the console.
 
 ## Connect to TWS
 
