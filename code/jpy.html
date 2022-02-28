@@ -5,11 +5,11 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="ibapi.contract" href="ibapi.contract.html" /><link rel="prev" title="deephaven.tutorials.crypto_trades" href="deephaven.tutorials.crypto_trades.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
         <title>jpy - deephaven_ib documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     
     
@@ -42,17 +42,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -61,14 +57,14 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </symbol>
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -83,7 +79,7 @@
   </symbol>
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
@@ -91,7 +87,7 @@
   </symbol>
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
@@ -223,6 +219,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -230,8 +227,13 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
-        <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -246,151 +248,151 @@
         </div>
         <article role="main">
           <section id="module-jpy">
-<span id="jpy"></span><h1>jpy<a class="headerlink" href="#module-jpy" title="Permalink to this headline">¶</a></h1>
+<span id="jpy"></span><h1>jpy<a class="headerlink" href="#module-jpy" title="Permalink to this headline">#</a></h1>
 <p>Bi-directional Python-Java Bridge</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="jpy.JException">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JException</span></span><a class="headerlink" href="#jpy.JException" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JException</span></span><a class="headerlink" href="#jpy.JException" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JException.with_traceback">
-<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JException.with_traceback" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JException.with_traceback" title="Permalink to this definition">#</a></dt>
 <dd><p>Exception.with_traceback(tb) –
 set self.__traceback__ to tb and return self.</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="jpy.JField">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JField</span></span><a class="headerlink" href="#jpy.JField" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JField</span></span><a class="headerlink" href="#jpy.JField" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Java Field Wrapper</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JField.is_final">
-<span class="sig-name descname"><span class="pre">is_final</span></span><a class="headerlink" href="#jpy.JField.is_final" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_final</span></span><a class="headerlink" href="#jpy.JField.is_final" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests if this is a final field</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JField.is_static">
-<span class="sig-name descname"><span class="pre">is_static</span></span><a class="headerlink" href="#jpy.JField.is_static" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_static</span></span><a class="headerlink" href="#jpy.JField.is_static" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests if this is a static field</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JField.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#jpy.JField.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#jpy.JField.name" title="Permalink to this definition">#</a></dt>
 <dd><p>Field name</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="jpy.JMethod">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JMethod</span></span><a class="headerlink" href="#jpy.JMethod" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JMethod</span></span><a class="headerlink" href="#jpy.JMethod" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Java Method Wrapper</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JMethod.get_param_type">
-<span class="sig-name descname"><span class="pre">get_param_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.get_param_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_param_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.get_param_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the type of the parameter given by index</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JMethod.is_param_mutable">
-<span class="sig-name descname"><span class="pre">is_param_mutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.is_param_mutable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_param_mutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.is_param_mutable" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests if the method parameter given by index is mutable</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JMethod.is_param_output">
-<span class="sig-name descname"><span class="pre">is_param_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.is_param_output" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_param_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.is_param_output" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests if the method parameter given by index is a mere output value (and not read from)</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JMethod.is_param_return">
-<span class="sig-name descname"><span class="pre">is_param_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.is_param_return" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_param_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.is_param_return" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests if the method parameter given by index is the return value</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JMethod.is_static">
-<span class="sig-name descname"><span class="pre">is_static</span></span><a class="headerlink" href="#jpy.JMethod.is_static" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_static</span></span><a class="headerlink" href="#jpy.JMethod.is_static" title="Permalink to this definition">#</a></dt>
 <dd><p>Tests if this is a static method</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JMethod.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#jpy.JMethod.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#jpy.JMethod.name" title="Permalink to this definition">#</a></dt>
 <dd><p>Method name</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JMethod.param_count">
-<span class="sig-name descname"><span class="pre">param_count</span></span><a class="headerlink" href="#jpy.JMethod.param_count" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">param_count</span></span><a class="headerlink" href="#jpy.JMethod.param_count" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of method parameters</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JMethod.set_param_mutable">
-<span class="sig-name descname"><span class="pre">set_param_mutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.set_param_mutable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_param_mutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.set_param_mutable" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether the method parameter given by index is mutable</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JMethod.set_param_output">
-<span class="sig-name descname"><span class="pre">set_param_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.set_param_output" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_param_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.set_param_output" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether the method parameter given by index is a mere output value (and not read from)</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="jpy.JMethod.set_param_return">
-<span class="sig-name descname"><span class="pre">set_param_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.set_param_return" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_param_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.JMethod.set_param_return" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether the method parameter given by index is the return value</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="jpy.JOverloadedMethod">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JOverloadedMethod</span></span><a class="headerlink" href="#jpy.JOverloadedMethod" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JOverloadedMethod</span></span><a class="headerlink" href="#jpy.JOverloadedMethod" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Java Overloaded Method</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JOverloadedMethod.decl_class">
-<span class="sig-name descname"><span class="pre">decl_class</span></span><a class="headerlink" href="#jpy.JOverloadedMethod.decl_class" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">decl_class</span></span><a class="headerlink" href="#jpy.JOverloadedMethod.decl_class" title="Permalink to this definition">#</a></dt>
 <dd><p>Declaring Java class</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JOverloadedMethod.methods">
-<span class="sig-name descname"><span class="pre">methods</span></span><a class="headerlink" href="#jpy.JOverloadedMethod.methods" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">methods</span></span><a class="headerlink" href="#jpy.JOverloadedMethod.methods" title="Permalink to this definition">#</a></dt>
 <dd><p>List of methods</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="jpy.JOverloadedMethod.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#jpy.JOverloadedMethod.name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#jpy.JOverloadedMethod.name" title="Permalink to this definition">#</a></dt>
 <dd><p>Overloaded method name</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="jpy.JType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JType</span></span><a class="headerlink" href="#jpy.JType" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JType</span></span><a class="headerlink" href="#jpy.JType" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Java Meta Type</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="jpy.array">
-<span class="sig-name descname"><span class="pre">array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.array" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.array" title="Permalink to this definition">#</a></dt>
 <dd><p>array(name, init) - Return a new Java array of given Java type (type name or type object) and initializer (array length or sequence). Possible primitive types are ‘boolean’, ‘byte’, ‘char’, ‘short’, ‘int’, ‘long’, ‘float’, and ‘double’.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="jpy.cast">
-<span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.cast" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.cast" title="Permalink to this definition">#</a></dt>
 <dd><p>cast(obj, type) - Cast the given Java object to the given Java type (type name or type object). Returns None if the cast is not possible.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="jpy.create_jvm">
-<span class="sig-name descname"><span class="pre">create_jvm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.create_jvm" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_jvm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.create_jvm" title="Permalink to this definition">#</a></dt>
 <dd><p>create_jvm(options) - Create the Java VM from the given list of options.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="jpy.destroy_jvm">
-<span class="sig-name descname"><span class="pre">destroy_jvm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.destroy_jvm" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">destroy_jvm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.destroy_jvm" title="Permalink to this definition">#</a></dt>
 <dd><p>destroy_jvm() - Destroy the current Java VM.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="jpy.get_type">
-<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.get_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.get_type" title="Permalink to this definition">#</a></dt>
 <dd><p>get_type(name, resolve=True) - Return the Java class with the given name, e.g. ‘java.io.File’. Loads the Java class from the JVM if not already done. Optionally avoids resolving the class’ methods.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="jpy.has_jvm">
-<span class="sig-name descname"><span class="pre">has_jvm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.has_jvm" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_jvm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jpy.has_jvm" title="Permalink to this definition">#</a></dt>
 <dd><p>has_jvm() - Check if the JVM is available.</p>
 </dd></dl>
 </section>
@@ -421,15 +423,21 @@ set self.__traceback__ to tb and return self.</p>
               </div>
             </a>
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2021, Deephaven Data Labs |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
-            | <a class="muted-link" href="../_sources/code/jpy.rst.txt"
-               rel="nofollow">
-              Show Source
-            </a>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Deephaven Data Labs
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
         </div>
         
       </footer>

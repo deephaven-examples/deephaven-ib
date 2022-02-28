@@ -5,11 +5,11 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.Types" href="deephaven.Types.html" /><link rel="prev" title="deephaven.TableManipulation.WindowCheck" href="deephaven.TableManipulation.WindowCheck.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
         <title>deephaven.TableTools - deephaven_ib documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     
     
@@ -42,17 +42,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -61,14 +57,14 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </symbol>
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -83,7 +79,7 @@
   </symbol>
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
@@ -91,7 +87,7 @@
   </symbol>
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
@@ -223,6 +219,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -230,8 +227,13 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
-        <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -246,11 +248,11 @@
         </div>
         <article role="main">
           <section id="module-deephaven.TableTools">
-<span id="deephaven-tabletools"></span><h1>deephaven.TableTools<a class="headerlink" href="#module-deephaven.TableTools" title="Permalink to this headline">¶</a></h1>
+<span id="deephaven-tabletools"></span><h1>deephaven.TableTools<a class="headerlink" href="#module-deephaven.TableTools" title="Permalink to this headline">#</a></h1>
 <p>Tools for users to manipulate tables.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.base64Fingerprint">
-<span class="sig-name descname"><span class="pre">base64Fingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#base64Fingerprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.base64Fingerprint" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">base64Fingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#base64Fingerprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.base64Fingerprint" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the SHA256 hash of the input table and return it in base64 string format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -263,7 +265,7 @@
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.byteCol">
-<span class="sig-name descname"><span class="pre">byteCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#byteCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.byteCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">byteCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#byteCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.byteCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new ColumnHolder of type <cite>byte</cite> that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -288,7 +290,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.charCol">
-<span class="sig-name descname"><span class="pre">charCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#charCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.charCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">charCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#charCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.charCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new ColumnHolder of type <cite>char</cite> that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -314,7 +316,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.col">
-<span class="sig-name descname"><span class="pre">col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.col" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.col" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a ColumnHolder that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -338,7 +340,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.colSource">
-<span class="sig-name descname"><span class="pre">colSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#colSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.colSource" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">colSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#colSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.colSource" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a column of appropriate type, used for creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -359,7 +361,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.computeFingerprint">
-<span class="sig-name descname"><span class="pre">computeFingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#computeFingerprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.computeFingerprint" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">computeFingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#computeFingerprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.computeFingerprint" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the SHA256 hash of the input table.</p>
 <blockquote>
 <div><p>The hash is computed using every value in each row, using toString for unrecognized objects. The hash also
@@ -376,7 +378,7 @@ includes the input table definition column names and types.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.dateTimeCol">
-<span class="sig-name descname"><span class="pre">dateTimeCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#dateTimeCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.dateTimeCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dateTimeCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#dateTimeCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.dateTimeCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a ColumnHolder of type DateTime that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -392,7 +394,7 @@ includes the input table definition column names and types.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.diff">
-<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.diff" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.diff" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes the difference of two tables for use in verification.</p>
 <dl class="simple">
 <dt><em>Overload 1</em></dt><dd><dl class="field-list simple">
@@ -433,7 +435,7 @@ values</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.diffPair">
-<span class="sig-name descname"><span class="pre">diffPair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actualResult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expectedResult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxDiffLines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itemsToSkip</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#diffPair"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.diffPair" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">diffPair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actualResult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expectedResult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxDiffLines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itemsToSkip</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#diffPair"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.diffPair" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes the difference of two tables for use in verification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -453,7 +455,7 @@ different data values)</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.doubleCol">
-<span class="sig-name descname"><span class="pre">doubleCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#doubleCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.doubleCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">doubleCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#doubleCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.doubleCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new ColumnHolder of type <cite>double</cite> that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -481,7 +483,7 @@ different data values)</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.emptyTable">
-<span class="sig-name descname"><span class="pre">emptyTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#emptyTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.emptyTable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">emptyTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#emptyTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.emptyTable" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a new, empty Deephaven Table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -494,7 +496,7 @@ different data values)</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.floatCol">
-<span class="sig-name descname"><span class="pre">floatCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#floatCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.floatCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">floatCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#floatCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.floatCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new ColumnHolder of type <cite>float</cite> that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -519,7 +521,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.getKey">
-<span class="sig-name descname"><span class="pre">getKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupByColumnSources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#getKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.getKey" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupByColumnSources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#getKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.getKey" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a SmartKey for the specified row from a set of ColumnSources.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -535,7 +537,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.getPrevKey">
-<span class="sig-name descname"><span class="pre">getPrevKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupByColumnSources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#getPrevKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.getPrevKey" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getPrevKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupByColumnSources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#getPrevKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.getPrevKey" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a SmartKey for the row previous to the specified row from a set of ColumnSources.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -551,7 +553,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.html">
-<span class="sig-name descname"><span class="pre">html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.html" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.html" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a printout of a table formatted as HTML. Limit use to small tables to avoid running out of memory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -564,7 +566,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.intCol">
-<span class="sig-name descname"><span class="pre">intCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#intCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.intCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">intCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#intCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.intCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new ColumnHolder of type <cite>int</cite> that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -589,7 +591,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.longCol">
-<span class="sig-name descname"><span class="pre">longCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#longCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.longCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">longCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#longCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.longCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new ColumnHolder of type <cite>long</cite> that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -614,7 +616,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.merge">
-<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.merge" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.merge" title="Permalink to this definition">#</a></dt>
 <dd><p>Concatenates multiple Deephaven Tables into a single Table.</p>
 <blockquote>
 <div><p>The resultant table will have rows from the same table together, in the order they are specified as inputs.</p>
@@ -656,7 +658,7 @@ tables that are expected to grow at slower rates, and finally by tables that gro
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.mergeSorted">
-<span class="sig-name descname"><span class="pre">mergeSorted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyColumn</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#mergeSorted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.mergeSorted" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">mergeSorted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyColumn</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#mergeSorted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.mergeSorted" title="Permalink to this definition">#</a></dt>
 <dd><p>Concatenates multiple sorted Deephaven Tables into a single Table sorted by the specified key column.</p>
 <blockquote>
 <div><p>The input tables must each individually be sorted by keyColumn, otherwise results are undefined.</p>
@@ -690,7 +692,7 @@ tables that are expected to grow at slower rates, and finally by tables that gro
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.newTable">
-<span class="sig-name descname"><span class="pre">newTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#newTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.newTable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">newTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#newTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.newTable" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new Table.</p>
 <dl class="simple">
 <dt><em>Overload 1</em></dt><dd><dl class="field-list simple">
@@ -754,7 +756,7 @@ tables that are expected to grow at slower rates, and finally by tables that gro
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.nullToNullString">
-<span class="sig-name descname"><span class="pre">nullToNullString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#nullToNullString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.nullToNullString" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nullToNullString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#nullToNullString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.nullToNullString" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>obj</strong> – java.lang.Object</p>
@@ -766,7 +768,7 @@ tables that are expected to grow at slower rates, and finally by tables that gro
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.nullTypeAsString">
-<span class="sig-name descname"><span class="pre">nullTypeAsString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#nullTypeAsString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.nullTypeAsString" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nullTypeAsString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#nullTypeAsString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.nullTypeAsString" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>dataType</strong> – java.lang.Class&lt;?&gt;</p>
@@ -778,7 +780,7 @@ tables that are expected to grow at slower rates, and finally by tables that gro
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.objColSource">
-<span class="sig-name descname"><span class="pre">objColSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#objColSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.objColSource" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">objColSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#objColSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.objColSource" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a column of appropriate object type, used for creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -802,7 +804,7 @@ tables that are expected to grow at slower rates, and finally by tables that gro
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.roundDecimalColumns">
-<span class="sig-name descname"><span class="pre">roundDecimalColumns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#roundDecimalColumns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.roundDecimalColumns" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">roundDecimalColumns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#roundDecimalColumns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.roundDecimalColumns" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Produce a new table with all the columns of this table, in the same order, but with double and</dt><dd><p>float columns rounded to longs.</p>
 </dd>
@@ -831,7 +833,7 @@ tables that are expected to grow at slower rates, and finally by tables that gro
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.roundDecimalColumnsExcept">
-<span class="sig-name descname"><span class="pre">roundDecimalColumnsExcept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">columnsNotToRound</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#roundDecimalColumnsExcept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.roundDecimalColumnsExcept" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">roundDecimalColumnsExcept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">columnsNotToRound</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#roundDecimalColumnsExcept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.roundDecimalColumnsExcept" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Produce a new table with all the columns of this table, in the same order, but with all double and</dt><dd><p>float columns rounded to longs, except for the specified columnsNotToRound.</p>
 </dd>
@@ -851,7 +853,7 @@ longs</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.shortCol">
-<span class="sig-name descname"><span class="pre">shortCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#shortCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.shortCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">shortCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#shortCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.shortCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a new ColumnHolder of type <cite>short</cite> that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -876,7 +878,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.show" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.show" title="Permalink to this definition">#</a></dt>
 <dd><p>Prints the first few rows of a table to standard output.</p>
 <dl class="simple">
 <dt><em>Overload 1</em></dt><dd><dl class="field-list simple">
@@ -973,7 +975,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.showCommaDelimited">
-<span class="sig-name descname"><span class="pre">showCommaDelimited</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#showCommaDelimited"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.showCommaDelimited" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">showCommaDelimited</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#showCommaDelimited"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.showCommaDelimited" title="Permalink to this definition">#</a></dt>
 <dd><p>Prints the first few rows of a table to standard output, with commas between values.</p>
 <dl class="simple">
 <dt><em>Overload 1</em></dt><dd><dl class="field-list simple">
@@ -1001,7 +1003,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.showWithRowSet">
-<span class="sig-name descname"><span class="pre">showWithRowSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#showWithRowSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.showWithRowSet" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">showWithRowSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#showWithRowSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.showWithRowSet" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Prints the first few rows of a table to standard output, and also prints the details of the row keys and row</dt><dd><p>positions that provided the values.</p>
 </dd>
@@ -1081,7 +1083,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.string">
-<span class="sig-name descname"><span class="pre">string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.string" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the first few rows of a table as a pipe-delimited string.</p>
 <dl class="simple">
 <dt><em>Overload 1</em></dt><dd><dl class="field-list simple">
@@ -1148,7 +1150,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.stringCol">
-<span class="sig-name descname"><span class="pre">stringCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#stringCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.stringCol" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stringCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#stringCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.stringCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a ColumnHolder of type String that can be used when creating in-memory tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1164,7 +1166,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.timeTable">
-<span class="sig-name descname"><span class="pre">timeTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#timeTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.timeTable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">timeTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#timeTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.timeTable" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a table that adds a new row on a regular interval.</p>
 <dl class="simple">
 <dt><em>Overload 1</em></dt><dd><dl class="field-list simple">
@@ -1336,7 +1338,7 @@ constant values, and all other values simply cast.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.TableTools.typeFromName">
-<span class="sig-name descname"><span class="pre">typeFromName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataTypeStr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#typeFromName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.typeFromName" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">typeFromName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataTypeStr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/TableTools.html#typeFromName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.TableTools.typeFromName" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>dataTypeStr</strong> – java.lang.String</p>
@@ -1374,15 +1376,21 @@ constant values, and all other values simply cast.</p></li>
               </div>
             </a>
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2021, Deephaven Data Labs |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
-            | <a class="muted-link" href="../_sources/code/deephaven.TableTools.rst.txt"
-               rel="nofollow">
-              Show Source
-            </a>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Deephaven Data Labs
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
         </div>
         
       </footer>
