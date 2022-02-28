@@ -1,7 +1,7 @@
 """Functionality for creating Deephaven tables."""
 
 import logging
-from typing import List, Any, Sequence, Union, Dict
+from typing import List, Any, Sequence, Union, Set
 import collections
 
 import deephaven.DateTimeUtils as dtu
@@ -78,6 +78,7 @@ class TableWriter:
 
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
 
+_unmapped_values_already_logged:Set[str] = set()
 
 def map_values(value, map, default=lambda v: f"UNKNOWN({v})") -> Any:
     """ Maps one set of values to another.  A default value is used if the value is not in the map. """
@@ -88,7 +89,12 @@ def map_values(value, map, default=lambda v: f"UNKNOWN({v})") -> Any:
     try:
         return map[value]
     except KeyError:
-        logging.error(f"Unmapped value: '{value}'\n{trace_str()}\n-----")
+        msg = f"Unmapped value.  Please file an issue at https://github.com/deephaven-examples/deephaven-ib/issues: '{value}'\n{trace_str()}\n-----"
+
+        if msg not in _unmapped_values_already_logged:
+            _unmapped_values_already_logged.add(msg)
+            logging.error(msg)
+
         return default(value)
 
 

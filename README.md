@@ -12,8 +12,8 @@ An [Interactive Brokers](https://www.interactivebrokers.com/) integration for [D
 with about $200B of customer equity.  Quants and hedge funds often choose [Interactive Brokers](https://www.interactivebrokers.com/) because of its low trading costs and API that facilitates automated trading.  With low minimum account balances, 
 it is also an attractive choice for individual investors.
 
-[Deephaven](https://deephaven.io) is the real-time query engine that runs the quantitative trading of the world's largest
-hedge funds, banks, and exchanges.  [Deephaven](https://deephaven.io) makes working with real-time data easy and
+[Deephaven](https://deephaven.io) is the real-time query engine that is the backbone for the quantitative trading of the 
+world's largest hedge funds, banks, and exchanges.  [Deephaven](https://deephaven.io) makes working with real-time data easy and
 facilitates very concise and easy-to-read code.  With [Deephaven](https://deephaven.io), quants can create new models 
 and get them into production quickly, traders can monitor the market and their portfolios, and 
 managers can monitor risk. 
@@ -21,8 +21,9 @@ managers can monitor risk.
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) combines the low-cost trading of 
 [Interactive Brokers](https://www.interactivebrokers.com/) with the analytical power and ease of use of 
 [Deephaven Community Core](https://github.com/deephaven/deephaven-core) to yield an open, quantitative 
-trading platform.  Basically, it provides an open platform for building a quantitative hedge fund or for performing
-quantitative trading in your personal account.
+trading platform.  Basically, it provides an open platform for building quantitative trading strategies and
+custom analytics.  You can build something simple, like a portfolio monitor, or something complex, like a 
+fully-automated, multi-strategy quantitative hedge fund.
 
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) supports trading essentially all common
 exchange traded products.  These include:
@@ -54,7 +55,7 @@ For more details, see:
 For help with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
 * [deephaven-ib Docs](https://deephaven-examples.github.io/deephaven-ib/)
 * [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
-* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+* [Deephaven Community Slack](https://join.slack.com/t/deephavencommunity/shared_invite/zt-11x3hiufp-DmOMWDAvXv_pNDUlVkagLQ)
 
 For Deephaven how-to guides, see:
 * [Deephaven Tutorial](https://deephaven.io/core/docs/tutorials/overview/) 
@@ -62,19 +63,27 @@ For Deephaven how-to guides, see:
 
 For help with [Deephaven](https://deephaven.io):
 * [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
-* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+* [Deephaven Community Slack](https://join.slack.com/t/deephavencommunity/shared_invite/zt-11x3hiufp-DmOMWDAvXv_pNDUlVkagLQ)
 * [Deephaven Community Core Discussions](https://github.com/deephaven/deephaven-core/discussions)
 
 
-# Available Data
+# Data Available in Deephaven
 
-[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all data as dynamically updating 
-[Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io) tables are extremely powerful and can 
-express complex logic concisely.
+The [Deephaven](https://deephaven.io) query engine is built around the concept of tables, which are similar to Pandas dataframes.  
+Unlike Pandas dataframes, [Deephaven](https://deephaven.io) tables can dynamically update as new data is streamed in.
+As input tables change, the [Deephaven](https://deephaven.io) query engine ensures that all queries, no matter how complex, 
+are kept up-to-date. 
 
-## TWS data
+Once data is converted to a [Deephaven](https://deephaven.io) table, it can be used in queries with any other 
+[Deephaven](https://deephaven.io) tables.
 
-Tables available from [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) include:
+## IB TWS data
+
+Data available from [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) can be accessed 
+as [Deephaven](https://deephaven.io) tables by using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+As data streams in, the tables and queries using them will automatically update.
+
+These tables include:
 
 * General
     * `errors`: an error log
@@ -122,7 +131,7 @@ Most tables include a `ReceiveTime` column.  This column indicates the time the 
 
 ## Your data
 
-[Deephaven](https://deephaven.io) can load data from:
+You may want to combine data from other sources with your IB data.  [Deephaven](https://deephaven.io) can load data from:
 * [CSV](https://deephaven.io/core/docs/how-to-guides/csv-import/)
 * [Parquet](https://deephaven.io/core/docs/how-to-guides/parquet-flat/) 
 * [Kafka](https://deephaven.io/core/docs/how-to-guides/kafka-topics/).  
@@ -153,7 +162,7 @@ To setup and configure the system:
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 1) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
 upper right corner.  ![](docs/assets/config-gear.png)  
-  In API->Settings, make sure:
+  In `API->Settings`, make sure:
 
     * "Enable ActiveX and Socket Clients" is selected.
     * "Allow connections from localhost only" is not selected.
@@ -161,12 +170,14 @@ upper right corner.  ![](docs/assets/config-gear.png)
         
     Also, note the "Socket port" value.  It is needed when connecting [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
     ![](docs/assets/config-api.png)
+1) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
+1) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
 
 ## Launch
 To launch the system:
 
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
-1) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+1) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
 ![](docs/assets/allow-connections.png)
 1) Build the Docker images:
     ```bash
@@ -191,6 +202,10 @@ To get help on running the system:
 ```
 
 # Use deephaven-ib
+
+To use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), you will need to open the [Deephaven Web IDE](http://localhost:10000/ide/) 
+by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.  The following commands
+can be executed in the console.
 
 ## Connect to TWS
 
