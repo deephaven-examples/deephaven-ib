@@ -153,7 +153,7 @@ To setup and configure the system:
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 1) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
 upper right corner.  ![](docs/assets/config-gear.png)  
-  In API->Settings, make sure:
+  In `API->Settings`, make sure:
 
     * "Enable ActiveX and Socket Clients" is selected.
     * "Allow connections from localhost only" is not selected.
@@ -161,12 +161,14 @@ upper right corner.  ![](docs/assets/config-gear.png)
         
     Also, note the "Socket port" value.  It is needed when connecting [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
     ![](docs/assets/config-api.png)
+1) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
+1) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
 
 ## Launch
 To launch the system:
 
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
-1) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+1) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
 ![](docs/assets/allow-connections.png)
 1) Build the Docker images:
     ```bash
