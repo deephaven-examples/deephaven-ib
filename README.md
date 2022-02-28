@@ -12,8 +12,8 @@ An [Interactive Brokers](https://www.interactivebrokers.com/) integration for [D
 with about $200B of customer equity.  Quants and hedge funds often choose [Interactive Brokers](https://www.interactivebrokers.com/) because of its low trading costs and API that facilitates automated trading.  With low minimum account balances, 
 it is also an attractive choice for individual investors.
 
-[Deephaven](https://deephaven.io) is the real-time query engine that runs the quantitative trading of the world's largest
-hedge funds, banks, and exchanges.  [Deephaven](https://deephaven.io) makes working with real-time data easy and
+[Deephaven](https://deephaven.io) is the real-time query engine that is the backbone for the quantitative trading of the 
+world's largest hedge funds, banks, and exchanges.  [Deephaven](https://deephaven.io) makes working with real-time data easy and
 facilitates very concise and easy-to-read code.  With [Deephaven](https://deephaven.io), quants can create new models 
 and get them into production quickly, traders can monitor the market and their portfolios, and 
 managers can monitor risk. 
@@ -21,8 +21,9 @@ managers can monitor risk.
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) combines the low-cost trading of 
 [Interactive Brokers](https://www.interactivebrokers.com/) with the analytical power and ease of use of 
 [Deephaven Community Core](https://github.com/deephaven/deephaven-core) to yield an open, quantitative 
-trading platform.  Basically, it provides an open platform for building a quantitative hedge fund or for performing
-quantitative trading in your personal account.
+trading platform.  Basically, it provides an open platform for building quantitative trading strategies and
+custom analytics.  You can build something simple, like a portfolio monitor, or something complex, like a 
+fully-automated, multi-strategy quantitative hedge fund.
 
 [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) supports trading essentially all common
 exchange traded products.  These include:
