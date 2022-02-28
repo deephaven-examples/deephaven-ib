@@ -67,15 +67,23 @@ For help with [Deephaven](https://deephaven.io):
 * [Deephaven Community Core Discussions](https://github.com/deephaven/deephaven-core/discussions)
 
 
-# IB Data Available in Deephaven
+# Data Available in Deephaven
 
-[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) stores all data as dynamically updating 
-[Deephaven](https://deephaven.io) tables.  [Deephaven](https://deephaven.io) tables are extremely powerful and can 
-express complex logic concisely.
+The [Deephaven](https://deephaven.io) query engine is built around the concept of tables, which are similar to Pandas dataframes.  
+Unlike Pandas dataframes, [Deephaven](https://deephaven.io) tables can dynamically update as new data is streamed in.
+As input tables change, the [Deephaven](https://deephaven.io) query engine ensures that all queries, no matter how complex, 
+are kept up-to-date. 
 
-## TWS data
+Once data is converted to a [Deephaven](https://deephaven.io) table, it can be used in queries with any other 
+[Deephaven](https://deephaven.io) tables.
 
-Tables available from [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) include:
+## IB TWS data
+
+Data available from [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) can be accessed 
+as [Deephaven](https://deephaven.io) tables by using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+As data streams in, the tables and queries using them will automatically update.
+
+These tables include:
 
 * General
     * `errors`: an error log
