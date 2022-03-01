@@ -111,11 +111,11 @@ class IbTwsClient(EWrapper, EClient):
         ####
 
         table_writers["requests"] = TableWriter(["RequestId", "RequestType", *logger_contract.names(), "Note"],
-                                                [dht.int32, dht.string, *logger_contract.types(), dht.string])
+                                                [dht.int64, dht.string, *logger_contract.types(), dht.string])
 
         table_writers["errors"] = TableWriter(
             ["RequestId", "ErrorCode", "ErrorDescription", "Error", "Note"],
-            [dht.int32, dht.int32, dht.string, dht.string, dht.string])
+            [dht.int64, dht.int64, dht.string, dht.string, dht.string])
 
         ####
         # Contracts
@@ -123,11 +123,11 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["contracts_details"] = TableWriter(
             ["RequestId", *logger_contract_details.names()],
-            [dht.int32, *logger_contract_details.types()])
+            [dht.int64, *logger_contract_details.types()])
 
         table_writers["contracts_matching"] = TableWriter(
             ["RequestId", *logger_contract.names(), "DerivativeSecTypes"],
-            [dht.int32, *logger_contract.types(), dht.stringset])
+            [dht.int64, *logger_contract.types(), dht.stringset])
 
         table_writers["market_rules"] = TableWriter(
             ["MarketRuleId", *logger_price_increment.names()],
@@ -157,19 +157,19 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["accounts_overview"] = TableWriter(
             ["RequestId", "Account", "ModelCode", "Currency", "Key", "Value"],
-            [dht.int32, dht.string, dht.string, dht.string, dht.string, dht.string])
+            [dht.int64, dht.string, dht.string, dht.string, dht.string, dht.string])
 
         table_writers["accounts_summary"] = TableWriter(
             ["RequestId", "Account", "Tag", "Value", "Currency"],
-            [dht.int32, dht.string, dht.string, dht.string, dht.string])
+            [dht.int64, dht.string, dht.string, dht.string, dht.string])
 
         table_writers["accounts_positions"] = TableWriter(
             ["RequestId", "Account", "ModelCode", *logger_contract.names(), "Position", "AvgCost"],
-            [dht.int32, dht.string, dht.string, *logger_contract.types(), dht.float64, dht.float64])
+            [dht.int64, dht.string, dht.string, *logger_contract.types(), dht.float64, dht.float64])
 
         table_writers["accounts_pnl"] = TableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
-            [dht.int32, dht.float64, dht.float64, dht.float64])
+            [dht.int64, dht.float64, dht.float64, dht.float64])
 
         ####
         # News
@@ -179,15 +179,15 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["news_bulletins"] = TableWriter(
             ["MsgId", "MsgType", "Message", "OriginExch"],
-            [dht.int32, dht.string, dht.string, dht.string])
+            [dht.int64, dht.string, dht.string, dht.string])
 
         table_writers["news_articles"] = TableWriter(
             ["RequestId", "ArticleType", "ArticleText"],
-            [dht.int32, dht.string, dht.string])
+            [dht.int64, dht.string, dht.string])
 
         table_writers["news_historical"] = TableWriter(
             ["RequestId", "Timestamp", "ProviderCode", "ArticleId", "Headline"],
-            [dht.int32, dht.datetime, dht.string, dht.string, dht.string])
+            [dht.int64, dht.datetime, dht.string, dht.string, dht.string])
 
         ####
         # Market Data
@@ -195,52 +195,52 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["ticks_price"] = TableWriter(
             ["RequestId", "TickType", "Price", *logger_tick_attrib.names()],
-            [dht.int32, dht.string, dht.float64, *logger_tick_attrib.types()])
+            [dht.int64, dht.string, dht.float64, *logger_tick_attrib.types()])
 
         table_writers["ticks_size"] = TableWriter(
             ["RequestId", "TickType", "Size"],
-            [dht.int32, dht.string, dht.int32])
+            [dht.int64, dht.string, dht.int64])
 
         table_writers["ticks_string"] = TableWriter(
             ["RequestId", "TickType", "Value"],
-            [dht.int32, dht.string, dht.string])
+            [dht.int64, dht.string, dht.string])
 
         # exchange for physical
         table_writers["ticks_efp"] = TableWriter(
             ["RequestId", "TickType", "BasisPoints", "FormattedBasisPoints", "TotalDividends", "HoldDays",
              "FutureLastTradeDate", "DividendImpact", "DividendsToLastTradeDate"],
-            [dht.int32, dht.string, dht.float64, dht.string, dht.float64, dht.int32,
+            [dht.int64, dht.string, dht.float64, dht.string, dht.float64, dht.int64,
              dht.string, dht.float64, dht.float64])
 
         table_writers["ticks_generic"] = TableWriter(
             ["RequestId", "TickType", "Value"],
-            [dht.int32, dht.string, dht.float64])
+            [dht.int64, dht.string, dht.float64])
 
         table_writers["ticks_option_computation"] = TableWriter(
             ["RequestId", "TickType", "TickAttrib", "ImpliedVol", "Delta", "OptPrice", "PvDividend", "Gamma",
              "Vega", "Theta", "UndPrice"],
-            [dht.int32, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
+            [dht.int64, dht.string, dht.string, dht.float64, dht.float64, dht.float64, dht.float64, dht.float64,
              dht.float64, dht.float64, dht.float64])
 
         table_writers["ticks_trade"] = TableWriter(
             ["RequestId", *logger_hist_tick_last.names()],
-            [dht.int32, *logger_hist_tick_last.types()])
+            [dht.int64, *logger_hist_tick_last.types()])
 
         table_writers["ticks_bid_ask"] = TableWriter(
             ["RequestId", *logger_hist_tick_bid_ask.names()],
-            [dht.int32, *logger_hist_tick_bid_ask.types()])
+            [dht.int64, *logger_hist_tick_bid_ask.types()])
 
         table_writers["ticks_mid_point"] = TableWriter(
             ["RequestId", "Timestamp", "MidPoint"],
-            [dht.int32, dht.datetime, dht.float64])
+            [dht.int64, dht.datetime, dht.float64])
 
         table_writers["bars_historical"] = TableWriter(
             ["RequestId", *logger_bar_data.names()],
-            [dht.int32, *logger_bar_data.types()])
+            [dht.int64, *logger_bar_data.types()])
 
         table_writers["bars_realtime"] = TableWriter(
             ["RequestId", *logger_real_time_bar_data.names()],
-            [dht.int32, *logger_real_time_bar_data.types()])
+            [dht.int64, *logger_real_time_bar_data.types()])
 
         ####
         # Order Management System (OMS)
@@ -253,8 +253,8 @@ class IbTwsClient(EWrapper, EClient):
         table_writers["orders_status"] = TableWriter(
             ["OrderId", "Status", "Filled", "Remaining", "AvgFillPrice", "PermId", "ParentId", "LastFillPrice",
              "ClientId", "WhyHeld", "MktCapPrice"],
-            [dht.int32, dht.string, dht.float64, dht.float64, dht.float64, dht.int32, dht.int32, dht.float64,
-             dht.int32, dht.string, dht.float64])
+            [dht.int64, dht.string, dht.float64, dht.float64, dht.float64, dht.int64, dht.int64, dht.float64,
+             dht.int64, dht.string, dht.float64])
 
         table_writers["orders_completed"] = TableWriter(
             [*logger_contract.names(), *logger_order.names(), *logger_order_state.names()],
@@ -263,7 +263,7 @@ class IbTwsClient(EWrapper, EClient):
         table_writers["orders_exec_details"] = TableWriter(
             ["RequestId", *logger_contract.names(renames={"Exchange": "ContractExchange"}),
              *logger_execution.names(renames={"Exchange": "ExecutionExchange"})],
-            [dht.int32, *logger_contract.types(), *logger_execution.types()])
+            [dht.int64, *logger_contract.types(), *logger_execution.types()])
 
         table_writers["orders_exec_commission_report"] = TableWriter(
             [*logger_commission_report.names()],

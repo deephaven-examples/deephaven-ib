@@ -51,7 +51,7 @@ class TableWriter:
                 continue
 
             if (t is dht.string and not isinstance(v, str)) or \
-                    (t is dht.int32 and not isinstance(v, int)) or \
+                    (t is dht.int64 and not isinstance(v, int)) or \
                     (t is dht.float64 and not isinstance(v, float)):
                 logging.error(
                     f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)} value={v}\n{trace_str()}\n-----")
