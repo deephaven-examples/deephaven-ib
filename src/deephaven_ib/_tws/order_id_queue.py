@@ -63,7 +63,8 @@ class OrderIdEventQueue:
     def _run(self):
         """Re-requests IDs if there is no response."""
         while True:
-            for _ in range(len(self._events)):
+            for event in self._events:
+                print(f"DEBUG: rerequest: event={event}")
                 self._client.reqIds(-1)
 
             sleep(0.01)
