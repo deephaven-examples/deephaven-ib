@@ -219,10 +219,19 @@ of Docker, `host` should be set to `host.docker.internal`.
 communicates on.  This value can be found in the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
 settings.  By default, production trading uses port 7496, and paper trading uses port 7497.  See [Setup](#setup) and [TWS Initial Setup](https://interactivebrokers.github.io/tws-api/initial_setup.html) for more details.
 
+For a read-write session:
 ```python
 import deephaven_ib as dhib
 
 client = dhib.IbSessionTws(host="host.docker.internal", port=7497)
+client.connect()
+```
+
+For a read-only session:
+```python
+import deephaven_ib as dhib
+
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=True)
 client.connect()
 ```
 

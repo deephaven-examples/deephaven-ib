@@ -316,6 +316,7 @@ class IbSessionTws:
             All orders placed/modified from this client will be associated with this client identifier.
 
             **NOTE: Each client MUST connect with a unique clientId.**
+        read_only (bool): True to create a read only client; false to create a read-write client.
         download_short_rates (bool): True to download a short rates table.
 
     Tables:
@@ -386,14 +387,16 @@ class IbSessionTws:
     _host: str
     _port: int
     _client_id: int
+    _read_only: bool
     _client: IbTwsClient
     _tables_raw: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
     _tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
 
-    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates=True):
+    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates:bool = True, read_only:bool = False):
         self._host = host
         self._port = port
         self._client_id = client_id
+        self._read_only = read_only
         self._client = IbTwsClient(download_short_rates=download_short_rates)
         self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
         self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
@@ -425,8 +428,16 @@ class IbSessionTws:
         """
         return self._client_id
 
+    @property
+    def read_only(self) -> bool:
+        """Is the client read only?
+
+        Returns:
+            a boolean indicating if the client is read only.
+        """
+
     def __repr__(self) -> str:
-        return f"IbSessionTws(host={self._host}, port={self._port}, client_id={self._client_id})"
+        return f"IbSessionTws(host={self._host}, port={self._port}, client_id={self._client_id}, read_only={self._read_only})"
 
     ####################################################################################################################
     ####################################################################################################################
@@ -469,6 +480,12 @@ class IbSessionTws:
 
         if not self.is_connected():
             raise Exception("IbSessionTws is not connected.")
+
+    def _assert_read_write(self) -> None:
+        """Assert that the IbSessionTws is read-write."""
+
+        if not self._read_only:
+            raise Exception("IbSessionTws is read-only.")
 
     ####################################################################################################################
     ####################################################################################################################
@@ -1072,6 +1089,7 @@ class IbSessionTws:
               Exception: problem executing action.
         """
         self._assert_connected()
+        self._assert_read_write()
 
         if contract.is_multi():
             raise Exception(
@@ -1097,6 +1115,7 @@ class IbSessionTws:
         """
 
         self._assert_connected()
+        self._assert_read_write()
         self._client.cancelOrder(orderId=order_id)
 
     def order_cancel_all(self) -> None:
@@ -1110,5 +1129,6 @@ class IbSessionTws:
         """
 
         self._assert_connected()
+        self._assert_read_write()
         self._client.reqGlobalCancel()
 
