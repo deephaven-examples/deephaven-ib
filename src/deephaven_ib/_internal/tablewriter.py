@@ -73,7 +73,7 @@ class TableWriter:
             if values[i] == "":
                 values[i] = None
 
-        self._dtw.logRow(values)
+        self._dtw.logRowPermissive(values)
 
 
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
