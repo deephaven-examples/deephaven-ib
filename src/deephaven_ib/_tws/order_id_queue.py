@@ -31,6 +31,7 @@ class OrderIdRequest:
         """A blocking call to get the order ID."""
 
         time_out = 2 * 60.0
+        print(f"DEBUG: get: event={self._event}")
         event_happened = self._event.wait(time_out)
 
         if not event_happened:
@@ -64,6 +65,7 @@ class OrderIdEventQueue:
         with self._lock:
             self._events.append(event)
 
+        print(f"DEBUG: request: event={event}")
         self._client.reqIds(-1)
 
         return OrderIdRequest(event, self._get)
@@ -73,9 +75,11 @@ class OrderIdEventQueue:
 
         with self._lock:
             # if is to filter out values requested by ibapi during initialization
+            print(f"DEBUG: add_value: events={self._events}")
             if self._events:
                 self._values.append(value)
                 event = self._events.pop(0)
+                print(f"DEBUG: add_value: event={event} value={value}")
                 event.set()
 
     def _get(self) -> int:
