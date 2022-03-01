@@ -1,6 +1,7 @@
 """An event queue for managing order ID requests."""
 
-from threading import Event
+from threading import Event, Thread
+from time import sleep
 from typing import List, Callable
 from typing import TYPE_CHECKING
 
@@ -50,12 +51,22 @@ class OrderIdEventQueue:
     _events: List[Event]
     _values: List[int]
     _lock: LoggingLock
+    _request_thread: Thread
 
     def __init__(self, client: 'IbTwsClient'):
         self._events = []
         self._values = []
         self._lock = LoggingLock("OrderIdEventQueue")
+        self._request_thread = Thread(target=self._run, daemon=True)
         self._client = client
+
+    def _run(self):
+        """Re-requests IDs if there is no response."""
+        while True:
+            for _ in range(len(self._events)):
+                self._client.reqIds(-1)
+
+            sleep(0.01)
 
     def request(self) -> OrderIdRequest:
         """Requests data from the queue."""
@@ -75,11 +86,11 @@ class OrderIdEventQueue:
 
         with self._lock:
             # if is to filter out values requested by ibapi during initialization
-            print(f"DEBUG: add_value: events={self._events}")
+            print(f"DEBUG: add_value 1: events={self._events} value={value}")
             if self._events:
                 self._values.append(value)
                 event = self._events.pop(0)
-                print(f"DEBUG: add_value: event={event} value={value}")
+                print(f"DEBUG: add_value 2: event={event} value={value}")
                 event.set()
 
     def _get(self) -> int:
