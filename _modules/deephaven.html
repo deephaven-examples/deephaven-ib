@@ -157,7 +157,6 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.Calendars.html">Calendars</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
@@ -258,8 +257,6 @@
 
 <span class="sd">* Calendars imported as cals</span>
 
-<span class="sd">* AggregationFactory imported as af</span>
-
 <span class="sd">* DateTimeUtils imported as dtu</span>
 
 <span class="sd">* MovingAverages imported as mavg</span>
@@ -307,7 +304,7 @@
     <span class="s1">'Aggregation'</span><span class="p">,</span> <span class="s1">'ColumnName'</span><span class="p">,</span> <span class="s1">'ColumnRenderersBuilder'</span><span class="p">,</span> <span class="s1">'DistinctFormatter'</span><span class="p">,</span> <span class="s1">'DownsampledWhereFilter'</span><span class="p">,</span> <span class="s1">'DynamicTableWriter'</span><span class="p">,</span>
     <span class="s1">'LayoutHintBuilder'</span><span class="p">,</span> <span class="s1">'Replayer'</span><span class="p">,</span> <span class="s1">'SmartKey'</span><span class="p">,</span> <span class="s1">'SortColumn'</span><span class="p">,</span> <span class="s1">'TotalsTableBuilder'</span><span class="p">,</span> <span class="s1">'WindowCheck'</span><span class="p">,</span>  <span class="c1"># from TableManipulation</span>
 
-    <span class="s2">"cals"</span><span class="p">,</span> <span class="s2">"af"</span><span class="p">,</span> <span class="s2">"dtu"</span><span class="p">,</span> <span class="s2">"figw"</span><span class="p">,</span> <span class="s2">"mavg"</span><span class="p">,</span> <span class="s2">"plt"</span><span class="p">,</span> <span class="s2">"pt"</span><span class="p">,</span> <span class="s2">"ttools"</span><span class="p">,</span> <span class="s2">"tloggers"</span><span class="p">,</span>  <span class="c1"># subpackages with abbreviated names</span>
+    <span class="s2">"cals"</span><span class="p">,</span> <span class="s2">"dtu"</span><span class="p">,</span> <span class="s2">"figw"</span><span class="p">,</span> <span class="s2">"mavg"</span><span class="p">,</span> <span class="s2">"plt"</span><span class="p">,</span> <span class="s2">"pt"</span><span class="p">,</span> <span class="s2">"ttools"</span><span class="p">,</span> <span class="s2">"tloggers"</span><span class="p">,</span>  <span class="c1"># subpackages with abbreviated names</span>
 
     <span class="s2">"read_csv"</span><span class="p">,</span> <span class="s2">"write_csv"</span> <span class="c1"># from csv</span>
 <span class="p">]</span>
@@ -330,7 +327,6 @@
 
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Calendars</span> <span class="k">as</span> <span class="n">cals</span><span class="p">,</span> \
-    <span class="n">AggregationFactory</span> <span class="k">as</span> <span class="n">af</span><span class="p">,</span> \
     <span class="n">DateTimeUtils</span> <span class="k">as</span> <span class="n">dtu</span><span class="p">,</span> \
     <span class="n">MovingAverages</span> <span class="k">as</span> <span class="n">mavg</span><span class="p">,</span> \
     <span class="n">ConsumeKafka</span> <span class="k">as</span> <span class="n">ck</span><span class="p">,</span> \
@@ -356,7 +352,6 @@
 
     <span class="c1"># ensure that all the symbols are called and reimport the broken symbols</span>
     <span class="n">cals</span><span class="o">.</span><span class="n">_defineSymbols</span><span class="p">()</span>
-    <span class="n">af</span><span class="o">.</span><span class="n">_defineSymbols</span><span class="p">()</span>
     <span class="n">dtu</span><span class="o">.</span><span class="n">_defineSymbols</span><span class="p">()</span>
     <span class="n">dh</span><span class="o">.</span><span class="n">_defineSymbols</span><span class="p">()</span>
     <span class="n">ck</span><span class="o">.</span><span class="n">_defineSymbols</span><span class="p">()</span>

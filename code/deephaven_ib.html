@@ -158,7 +158,6 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="deephaven.AggregationFactory.html">AggregationFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.Calendars.html">Calendars</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
@@ -459,7 +458,7 @@
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="deephaven_ib.IbSessionTws">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">IbSessionTws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7497</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_short_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">IbSessionTws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7497</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_short_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">OrderIdStrategy.RETRY</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>IB TWS session.</p>
 <p><strong>NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
@@ -476,6 +475,7 @@ All orders placed/modified from this client will be associated with this client 
 <p><strong>NOTE: Each client MUST connect with a unique clientId.</strong></p>
 </p></li>
 <li><p><strong>download_short_rates</strong> (<em>bool</em>) – True to download a short rates table.</p></li>
+<li><p><strong>order_id_strategy</strong> (<a class="reference internal" href="#deephaven_ib.OrderIdStrategy" title="deephaven_ib.OrderIdStrategy"><em>OrderIdStrategy</em></a>) – strategy for obtaining new order ids.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1020,6 +1020,27 @@ and <code class="docutils literal notranslate"><span class="pre">ticks_mid_point
 <dt class="sig sig-object py" id="deephaven_ib.MarketDataType.REAL_TIME">
 <span class="sig-name descname"><span class="pre">REAL_TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#deephaven_ib.MarketDataType.REAL_TIME" title="Permalink to this definition">#</a></dt>
 <dd><p>Real-time market data.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven_ib.OrderIdStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OrderIdStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib/_tws/order_id_queue.html#OrderIdStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.OrderIdStrategy" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Strategy used to obtain order IDs.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.OrderIdStrategy.BASIC">
+<span class="sig-name descname"><span class="pre">BASIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(False,</span> <span class="pre">True)</span></em><a class="headerlink" href="#deephaven_ib.OrderIdStrategy.BASIC" title="Permalink to this definition">#</a></dt>
+<dd><p>Request a new order ID from TWS every time one is needed.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.OrderIdStrategy.INCREMENT">
+<span class="sig-name descname"><span class="pre">INCREMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(False,</span> <span class="pre">False)</span></em><a class="headerlink" href="#deephaven_ib.OrderIdStrategy.INCREMENT" title="Permalink to this definition">#</a></dt>
+<dd><p>Use the initial order ID and increment the value upon every call.  This is fast, but it may fail for multiple, concurrent sessions.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven_ib.OrderIdStrategy.RETRY">
+<span class="sig-name descname"><span class="pre">RETRY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(True,</span> <span class="pre">True)</span></em><a class="headerlink" href="#deephaven_ib.OrderIdStrategy.RETRY" title="Permalink to this definition">#</a></dt>
+<dd><p>Request a new order ID from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond.</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">

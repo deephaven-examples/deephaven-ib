@@ -157,7 +157,6 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Calendars.html">Calendars</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
@@ -259,38 +258,13 @@
 <span class="kn">import</span> <span class="nn">jpy</span>
 <span class="kn">import</span> <span class="nn">wrapt</span>
 
-<span class="kn">from</span> <span class="nn">deephaven.Types</span> <span class="kn">import</span> <span class="n">DataType</span>
+<span class="kn">import</span> <span class="nn">deephaven.Types</span> <span class="k">as</span> <span class="nn">dht</span>
 
 <span class="n">_JCsvHelpers</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">_JCsvSpecs</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">_JInferenceSpecs</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">_JTableHeader</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">_JCsvTools</span> <span class="o">=</span> <span class="kc">None</span>
-
-
-<span class="n">INFERENCE_STRINGS</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="sd">""" The order of parsing: STRING, INSTANT, SHORT, INT, LONG, DOUBLE, BOOL, CHAR, BYTE, FLOAT. </span>
-<span class="sd">The parsers after STRING are only relevant when a specific column data type is given.</span>
-<span class="sd">"""</span>
-
-<span class="n">INFERENCE_MINIMAL</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="sd">""" The order of parsing: INSTANT, LONG, DOUBLE, BOOL, STRING, BYTE, SHORT, INT, FLOAT, CHAR.</span>
-<span class="sd">The parsers after STRING are only relevant when a specific column data type is given.</span>
-<span class="sd">"""</span>
-
-<span class="n">INFERENCE_STANDARD</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="sd">""" The order of parsing: INSTANT, SHORT, INT, LONG, DOUBLE, BOOL, CHAR, STRING, BYTE, FLOAT.</span>
-<span class="sd">The parsers after STRING are only relevant when a specific column data type is given.</span>
-<span class="sd">"""</span>
-
-<span class="n">INFERENCE_STANDARD_TIMES</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="sd">""" The order of parsing: INSTANT, INSTANT_LEGACY, SECONDS, MILLISECONDS, MICROSECONDS, NANOSECONDS, SHORT, INT, </span>
-<span class="sd">LONG, DOUBLE, BOOL, CHAR, STRING, BYTE, FLOAT.</span>
-<span class="sd"> </span>
-<span class="sd">For values that can be parsed as SECONDS/MILLISECONDS/MICROSECONDS/NANOSECONDS, they must be within the 21 century.</span>
-
-<span class="sd">The parsers after STRING are only relevant when a specific column data type is given.</span>
-<span class="sd">"""</span>
+<span class="n">_JParsers</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_JArrays</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <span class="k">def</span> <span class="nf">_defineSymbols</span><span class="p">():</span>
@@ -303,21 +277,16 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">jpy</span><span class="o">.</span><span class="n">has_jvm</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">"No java functionality can be used until the JVM has been initialized through the jpy module"</span><span class="p">)</span>
 
-    <span class="k">global</span> <span class="n">_JCsvHelpers</span><span class="p">,</span> <span class="n">_JCsvSpecs</span><span class="p">,</span> <span class="n">_JInferenceSpecs</span><span class="p">,</span> <span class="n">_JTableHeader</span><span class="p">,</span> <span class="n">_JCsvTools</span><span class="p">,</span> \
-        <span class="n">INFERENCE_STRINGS</span><span class="p">,</span> <span class="n">INFERENCE_MINIMAL</span><span class="p">,</span> <span class="n">INFERENCE_STANDARD</span><span class="p">,</span> <span class="n">INFERENCE_STANDARD_TIMES</span>
+    <span class="k">global</span> <span class="n">_JCsvHelpers</span><span class="p">,</span> <span class="n">_JTableHeader</span><span class="p">,</span> <span class="n">_JCsvTools</span><span class="p">,</span> <span class="n">_JParsers</span><span class="p">,</span> <span class="n">_JArrays</span>
 
     <span class="k">if</span> <span class="n">_JCsvHelpers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># This will raise an exception if the desired object is not the classpath</span>
         <span class="n">_JCsvHelpers</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.csv.CsvTools"</span><span class="p">)</span>
-        <span class="n">_JCsvSpecs</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.csv.CsvSpecs"</span><span class="p">)</span>
-        <span class="n">_JInferenceSpecs</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.csv.InferenceSpecs"</span><span class="p">)</span>
         <span class="n">_JTableHeader</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.qst.table.TableHeader"</span><span class="p">)</span>
         <span class="n">_JCsvTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.csv.CsvTools"</span><span class="p">)</span>
+        <span class="n">_JParsers</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.csv.parsers.Parsers"</span><span class="p">)</span>
+        <span class="n">_JArrays</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"java.util.Arrays"</span><span class="p">)</span>
 
-        <span class="n">INFERENCE_STRINGS</span> <span class="o">=</span> <span class="n">_JInferenceSpecs</span><span class="o">.</span><span class="n">strings</span><span class="p">()</span>
-        <span class="n">INFERENCE_MINIMAL</span> <span class="o">=</span> <span class="n">_JInferenceSpecs</span><span class="o">.</span><span class="n">minimal</span><span class="p">()</span>
-        <span class="n">INFERENCE_STANDARD</span> <span class="o">=</span> <span class="n">_JInferenceSpecs</span><span class="o">.</span><span class="n">standard</span><span class="p">()</span>
-        <span class="n">INFERENCE_STANDARD_TIMES</span> <span class="o">=</span> <span class="n">_JInferenceSpecs</span><span class="o">.</span><span class="n">standardTimes</span><span class="p">()</span>
 
 <span class="c1"># every module method should be decorated with @_passThrough</span>
 <span class="nd">@wrapt</span><span class="o">.</span><span class="n">decorator</span>
@@ -336,22 +305,9 @@
     <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="nd">@_passThrough</span>
-<span class="k">def</span> <span class="nf">_build_header</span><span class="p">(</span><span class="n">header</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">header</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="n">table_header_builder</span> <span class="o">=</span> <span class="n">_JTableHeader</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">header</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">table_header_builder</span><span class="o">.</span><span class="n">putHeaders</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">table_header_builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
-
-
 <div class="viewcode-block" id="read"><a class="viewcode-back" href="../../code/deephaven.csv.html#deephaven.csv.read">[docs]</a><span class="nd">@_passThrough</span>
 <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-         <span class="n">header</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">inference</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">header</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">dht</span><span class="o">.</span><span class="n">DataType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
          <span class="n">headless</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
          <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">","</span><span class="p">,</span>
          <span class="n">quote</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span>
@@ -363,7 +319,6 @@
 <span class="sd">    Args:</span>
 <span class="sd">        path (str): a file path or a URL string</span>
 <span class="sd">        header (Dict[str, DataType]): a dict to define the table columns with key being the name, value being the data type</span>
-<span class="sd">        inference (csv.Inference): an Enum value specifying the rules for data type inference, default is INFERENCE_STANDARD</span>
 <span class="sd">        headless (bool): indicates if the CSV data is headless, default is False</span>
 <span class="sd">        delimiter (str): the delimiter used by the CSV, default is the comma</span>
 <span class="sd">        quote (str): the quote character for the CSV, default is double quote</span>
@@ -379,17 +334,26 @@
 <span class="sd">        Exception</span>
 <span class="sd">    """</span>
 
-    <span class="k">if</span> <span class="n">inference</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">inference</span> <span class="o">=</span> <span class="n">INFERENCE_STANDARD</span>
+    <span class="n">csv_specs_builder</span> <span class="o">=</span> <span class="n">_JCsvTools</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
 
-    <span class="n">csv_specs_builder</span> <span class="o">=</span> <span class="n">_JCsvSpecs</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
+        <span class="n">csv_specs_builder</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="n">_JArrays</span><span class="o">.</span><span class="n">asList</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+        <span class="n">parser_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">bool_</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">byte</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">BYTE</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">char</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">CHAR</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">short</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">SHORT</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">int_</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">INT</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">long_</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">LONG</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">float_</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">FLOAT_FAST</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">double</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">string</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+            <span class="n">dht</span><span class="o">.</span><span class="n">datetime</span> <span class="p">:</span> <span class="n">_JParsers</span><span class="o">.</span><span class="n">DATETIME</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">column_type</span> <span class="ow">in</span> <span class="n">header</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">csv_specs_builder</span><span class="o">.</span><span class="n">putParserForName</span><span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="n">parser_map</span><span class="p">[</span><span class="n">column_type</span><span class="p">])</span>
 
-    <span class="c1"># build the head spec</span>
-    <span class="n">table_header</span> <span class="o">=</span> <span class="n">_build_header</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">table_header</span><span class="p">:</span>
-        <span class="n">csv_specs_builder</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="n">table_header</span><span class="p">)</span>
-
-    <span class="n">csv_specs</span> <span class="o">=</span> <span class="p">(</span><span class="n">csv_specs_builder</span><span class="o">.</span><span class="n">inference</span><span class="p">(</span><span class="n">inference</span><span class="p">)</span>
+    <span class="n">csv_specs</span> <span class="o">=</span> <span class="p">(</span><span class="n">csv_specs_builder</span>
                  <span class="o">.</span><span class="n">hasHeaderRow</span><span class="p">(</span><span class="ow">not</span> <span class="n">headless</span><span class="p">)</span>
                  <span class="o">.</span><span class="n">delimiter</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">delimiter</span><span class="p">))</span>
                  <span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">quote</span><span class="p">))</span>

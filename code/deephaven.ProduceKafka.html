@@ -158,7 +158,6 @@
 </ul>
 </li>
 <li class="toctree-l2 current has-children"><a class="reference internal" href="deephaven.html">deephaven</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="deephaven.AggregationFactory.html">AggregationFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.Calendars.html">Calendars</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
@@ -339,7 +338,21 @@ or None for no such field.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.ProduceKafka.produceFromTable">
 <span class="sig-name descname"><span class="pre">produceFromTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kafka_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_by_key_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/ProduceKafka.html#produceFromTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.ProduceKafka.produceFromTable" title="Permalink to this definition">#</a></dt>
-<dd><p>Produce to Kafka from a Deephaven table.</p>
+<dd><p>Produce a Kafka stream from a Deephaven table.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">table</span></code> must only change in ways that are meaningful when turned into a stream of events over Kafka.</p>
+<p>Two primary use cases are considered:</p>
+<dl class="simple">
+<dt><strong>A stream of changes (puts and removes) to a key-value data set</strong></dt><dd><p>In order to handle this efficiently and allow for correct reconstruction of the state at a consumer, it is assumed
+that the input data is the result of a Deephaven aggregation, e.g. agg_all_by, agg_by, or last_by. This means
+that key columns (as specified by <code class="docutils literal notranslate"><span class="pre">key</span></code>) must not be modified, and no rows should be shifted if there
+are any key columns. Note that specifying <code class="docutils literal notranslate"><span class="pre">last_by_key_columns</span></code> as <code class="docutils literal notranslate"><span class="pre">true</span></code> can make it easy to satisfy this
+constraint if the input data is not already aggregated.</p>
+</dd>
+<dt><strong>A stream of independent log records</strong></dt><dd><p>In this case, the input table should either be a stream table or should only ever add rows.</p>
+</dd>
+</dl>
+<p>If other use cases are identified, a publication mode or extensible listener framework may be introduced at a later
+date.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -347,15 +360,14 @@ or None for no such field.</p></li>
 <li><p><strong>kafka_config</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – Dictionary with properties to configure the associated kafka producer.</p></li>
 <li><p><strong>topic</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The topic name</p></li>
 <li><p><strong>key</strong> – A specification for how to map table column(s) to the Key field in produced
-Kafka messages.  This should be the result of calling one of the methods
-simple, avro or json in this module, or the constant IGNORE.</p></li>
+Kafka messages.  This should be the result of calling one of the methods simple, avro or json in this module,
+or the constant IGNORE. The resulting key serializer must map each input tuple to a unique output key.</p></li>
 <li><p><strong>value</strong> – A specification for how to map table column(s) to the Value field in produced
 Kafka messages.  This should be the result of calling one of the methods
 simple, avro or json in this module, or the constant IGNORE.</p></li>
 <li><p><strong>last_by_key_columns</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to publish only the last record for each unique key.
-Ignored if key is IGNORE.  If key is not IGNORE and last_by_key_columns is false,
-it is expected that table updates will not produce any row shifts; that is, the publisher
-expects keyed tables to be streams, add-only, or aggregated.</p></li>
+Ignored if key is IGNORE.  Otherwise, if last_by_key_columns is true this method will internally perform a
+last_by aggregation on table grouped by the input columns of key and publish to Kafka from the result.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

@@ -157,7 +157,6 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.Calendars.html">Calendars</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
@@ -266,6 +265,7 @@
 <span class="n">_produce_jtype_</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">IGNORE</span> <span class="o">=</span> <span class="kc">None</span>
 
+
 <span class="k">def</span> <span class="nf">_defineSymbols</span><span class="p">():</span>
     <span class="sd">"""</span>
 <span class="sd">    Defines appropriate java symbol, which requires that the jvm has been initialized through the :class:`jpy` module,</span>
@@ -276,14 +276,15 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">jpy</span><span class="o">.</span><span class="n">has_jvm</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s2">"No java functionality can be used until the JVM has been initialized through the jpy module"</span><span class="p">)</span>
 
-    <span class="k">global</span> <span class="n">_java_type_</span><span class="p">,</span>  <span class="n">_avro_schema_jtype_</span><span class="p">,</span> <span class="n">_produce_jtype_</span><span class="p">,</span> <span class="n">IGNORE</span>
+    <span class="k">global</span> <span class="n">_java_type_</span><span class="p">,</span> <span class="n">_avro_schema_jtype_</span><span class="p">,</span> <span class="n">_produce_jtype_</span><span class="p">,</span> <span class="n">IGNORE</span>
     <span class="k">if</span> <span class="n">_java_type_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># This will raise an exception if the desired object is not the classpath</span>
         <span class="n">_java_type_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.kafka.KafkaTools"</span><span class="p">)</span>
         <span class="n">_stream_table_tools_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.table.impl.StreamTableTools"</span><span class="p">)</span>
         <span class="n">_avro_schema_jtype_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"org.apache.avro.Schema"</span><span class="p">)</span>
-        <span class="n">_produce_jtype_</span><span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.kafka.KafkaTools$Produce"</span><span class="p">)</span>
+        <span class="n">_produce_jtype_</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.kafka.KafkaTools$Produce"</span><span class="p">)</span>
         <span class="n">IGNORE</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_produce_jtype_</span><span class="p">,</span> <span class="s1">'IGNORE'</span><span class="p">)</span>
+
 
 <span class="c1"># every module method should be decorated with @_passThrough</span>
 <span class="nd">@wrapt</span><span class="o">.</span><span class="n">decorator</span>
@@ -309,32 +310,47 @@
     <span class="k">pass</span>
 
 
-
 <div class="viewcode-block" id="produceFromTable"><a class="viewcode-back" href="../../code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.produceFromTable">[docs]</a><span class="nd">@_passThrough</span>
 <span class="k">def</span> <span class="nf">produceFromTable</span><span class="p">(</span>
         <span class="n">table</span><span class="p">,</span>
-        <span class="n">kafka_config</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span>
-        <span class="n">topic</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">kafka_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">key</span><span class="p">,</span>
         <span class="n">value</span><span class="p">,</span>
-        <span class="n">last_by_key_columns</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">last_by_key_columns</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">):</span>
     <span class="sd">"""</span>
-<span class="sd">    Produce to Kafka from a Deephaven table.</span>
+<span class="sd">    Produce a Kafka stream from a Deephaven table.</span>
+
+<span class="sd">    Note that ``table`` must only change in ways that are meaningful when turned into a stream of events over Kafka.</span>
+
+<span class="sd">    Two primary use cases are considered:</span>
+
+<span class="sd">    **A stream of changes (puts and removes) to a key-value data set**</span>
+<span class="sd">      In order to handle this efficiently and allow for correct reconstruction of the state at a consumer, it is assumed</span>
+<span class="sd">      that the input data is the result of a Deephaven aggregation, e.g. agg_all_by, agg_by, or last_by. This means</span>
+<span class="sd">      that key columns (as specified by ``key``) must not be modified, and no rows should be shifted if there</span>
+<span class="sd">      are any key columns. Note that specifying ``last_by_key_columns`` as ``true`` can make it easy to satisfy this</span>
+<span class="sd">      constraint if the input data is not already aggregated.</span>
+
+<span class="sd">    **A stream of independent log records**</span>
+<span class="sd">      In this case, the input table should either be a stream table or should only ever add rows.</span>
+
+<span class="sd">    If other use cases are identified, a publication mode or extensible listener framework may be introduced at a later</span>
+<span class="sd">    date.</span>
 
 <span class="sd">    :param table: a Deephaven table used as a source of rows to publish to Kafka.</span>
 <span class="sd">    :param kafka_config: Dictionary with properties to configure the associated kafka producer.</span>
 <span class="sd">    :param topic: The topic name</span>
 <span class="sd">    :param key: A specification for how to map table column(s) to the Key field in produced</span>
-<span class="sd">           Kafka messages.  This should be the result of calling one of the methods</span>
-<span class="sd">           simple, avro or json in this module, or the constant IGNORE.</span>
+<span class="sd">           Kafka messages.  This should be the result of calling one of the methods simple, avro or json in this module,</span>
+<span class="sd">           or the constant IGNORE. The resulting key serializer must map each input tuple to a unique output key.</span>
 <span class="sd">    :param value: A specification for how to map table column(s) to the Value field in produced</span>
 <span class="sd">           Kafka messages.  This should be the result of calling one of the methods</span>
 <span class="sd">           simple, avro or json in this module, or the constant IGNORE.</span>
 <span class="sd">    :param last_by_key_columns:  Whether to publish only the last record for each unique key.</span>
-<span class="sd">           Ignored if key is IGNORE.  If key is not IGNORE and last_by_key_columns is false,</span>
-<span class="sd">           it is expected that table updates will not produce any row shifts; that is, the publisher</span>
-<span class="sd">           expects keyed tables to be streams, add-only, or aggregated.</span>
+<span class="sd">           Ignored if key is IGNORE.  Otherwise, if last_by_key_columns is true this method will internally perform a</span>
+<span class="sd">           last_by aggregation on table grouped by the input columns of key and publish to Kafka from the result.</span>
 <span class="sd">    :return: A callback that, when invoked, stops publishing and cleans up</span>
 <span class="sd">             subscriptions and resources.</span>
 <span class="sd">             Users should hold to this callback to ensure liveness for publishing</span>
@@ -356,21 +372,24 @@
 
     <span class="n">kafka_config</span> <span class="o">=</span> <span class="n">_dictToProperties</span><span class="p">(</span><span class="n">kafka_config</span><span class="p">)</span>
     <span class="n">runnable</span> <span class="o">=</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">produceFromTable</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">kafka_config</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">last_by_key_columns</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">cleanup</span><span class="p">():</span>
         <span class="n">runnable</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
     <span class="k">return</span> <span class="n">cleanup</span></div>
+
 
 <div class="viewcode-block" id="avro"><a class="viewcode-back" href="../../code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.avro">[docs]</a><span class="nd">@_passThrough</span>
 <span class="k">def</span> <span class="nf">avro</span><span class="p">(</span>
         <span class="n">schema</span><span class="p">,</span>
-        <span class="n">schema_version</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">field_to_col_mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">timestamp_field</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">include_only_columns</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">exclude_columns</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">publish_schema</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">schema_namespace</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">column_properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">schema_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">field_to_col_mapping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">timestamp_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_only_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">exclude_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">publish_schema</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">schema_namespace</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">column_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Specify an Avro schema to use when producing a Kafka stream from a Deephaven table.</span>
 
@@ -448,13 +467,14 @@
         <span class="n">include_only_columns</span><span class="p">,</span> <span class="n">exclude_columns</span><span class="p">,</span> <span class="n">publish_schema</span><span class="p">,</span>
         <span class="n">schema_namespace</span><span class="p">,</span> <span class="n">column_properties</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="json"><a class="viewcode-back" href="../../code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.json">[docs]</a><span class="nd">@_passThrough</span>
-<span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">include_columns</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">exclude_columns</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">nested_delim</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">output_nulls</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-         <span class="n">timestamp_field</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">include_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">exclude_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">mapping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">nested_delim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">output_nulls</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+         <span class="n">timestamp_field</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Specify how to produce JSON data when producing a Kafka stream from a Deephaven table.</span>
 
@@ -493,10 +513,12 @@
     <span class="n">exclude_columns</span> <span class="o">=</span> <span class="n">_seqToSet</span><span class="p">(</span><span class="n">exclude_columns</span><span class="p">)</span>
     <span class="n">exclude_columns</span> <span class="o">=</span> <span class="n">_java_type_</span><span class="o">.</span><span class="n">predicateFromSet</span><span class="p">(</span><span class="n">exclude_columns</span><span class="p">)</span>
     <span class="n">mapping</span> <span class="o">=</span> <span class="n">_dictToMap</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_produce_jtype_</span><span class="o">.</span><span class="n">jsonSpec</span><span class="p">(</span><span class="n">include_columns</span><span class="p">,</span> <span class="n">exclude_columns</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">nested_delim</span><span class="p">,</span> <span class="n">output_nulls</span><span class="p">,</span> <span class="n">timestamp_field</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_produce_jtype_</span><span class="o">.</span><span class="n">jsonSpec</span><span class="p">(</span><span class="n">include_columns</span><span class="p">,</span> <span class="n">exclude_columns</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">nested_delim</span><span class="p">,</span> <span class="n">output_nulls</span><span class="p">,</span>
+                                    <span class="n">timestamp_field</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="simple"><a class="viewcode-back" href="../../code/deephaven.ProduceKafka.html#deephaven.ProduceKafka.simple">[docs]</a><span class="nd">@_passThrough</span>
-<span class="k">def</span> <span class="nf">simple</span><span class="p">(</span><span class="n">column_name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">simple</span><span class="p">(</span><span class="n">column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Specify a single column when producing to a Kafka Key or Value field.</span>
 

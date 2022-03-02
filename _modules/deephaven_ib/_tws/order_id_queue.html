@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
-        <title>deephaven.lang.constants - deephaven_ib documentation</title>
+        <title>deephaven_ib._tws.order_id_queue - deephaven_ib documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
@@ -245,106 +245,146 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for deephaven.lang.constants</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""</span>
-<span class="sd">Deephanven Python language constants.</span>
+          <h1>Source code for deephaven_ib._tws.order_id_queue</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""An event queue for managing order ID requests."""</span>
 
-<span class="sd">**The contents of this module are intended only for internal Deephaven use and may change at any time.**</span>
-<span class="sd">"""</span>
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">numba</span> <span class="k">as</span> <span class="nn">nb</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Thread</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span> <span class="nn">.._internal.threading</span> <span class="kn">import</span> <span class="n">LoggingLock</span>
+<span class="kn">from</span> <span class="nn">.._internal.trace</span> <span class="kn">import</span> <span class="n">trace_all_threads_str</span>
+
+<span class="c1"># Type hints on IbTwsClient cause a circular dependency.</span>
+<span class="c1"># This conditional import plus a string-based annotation avoids the problem.</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.tws_client</span> <span class="kn">import</span> <span class="n">IbTwsClient</span>
 
 
-<span class="c1"># TODO: a proper configuration method</span>
+<div class="viewcode-block" id="OrderIdStrategy"><a class="viewcode-back" href="../../../code/deephaven_ib.html#deephaven_ib.OrderIdStrategy">[docs]</a><span class="k">class</span> <span class="nc">OrderIdStrategy</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">"""Strategy used to obtain order IDs."""</span>
 
-<span class="n">debugMode</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1">#: The debug mode.  Set to True to get ast dumps.</span>
-<span class="n">timingMode</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#: The timing mode.  Set to True to get timing info dumps</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">retry</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">tws_request</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">retry</span> <span class="o">=</span> <span class="n">retry</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">tws_request</span> <span class="o">=</span> <span class="n">tws_request</span>
+        <span class="k">return</span> <span class="n">obj</span>
 
-
-<div class="viewcode-block" id="VecMode"><a class="viewcode-back" href="../../../code/deephaven.lang.constants.html#deephaven.lang.constants.VecMode">[docs]</a><span class="k">class</span> <span class="nc">VecMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">"""The various modes of operation for vectorizer.</span>
-
-<span class="sd">    jit -&gt; basic, prototypical version of the vectorizer.</span>
-<span class="sd">    Manually increases the arity of all arguments by 1,</span>
-<span class="sd">    optionally takes an output argument at the end of parameters.</span>
-<span class="sd">    This may produce a less generalized function,</span>
-<span class="sd">    but is less flexible in terms of slicing up input data.</span>
-
-<span class="sd">    vectorize -&gt; uses @vectorize.  Can allow py objects to pass in and out;</span>
-<span class="sd">    defaults to nopython=True only if possible (and nopython not explicitly set).</span>
-<span class="sd">    @vectorize can return values, and accept optional output array at the end of parameters.</span>
-<span class="sd">    This option can perform very efficiently in most cases, and is the default operation.</span>
-
-<span class="sd">    guvectorize -&gt; uses @guvectorize.  Void return type; you supply the output array.</span>
-<span class="sd">    This option is more complex, but gives more control of cardinality, and unlocks cuda mode.</span>
-<span class="sd">    If you want to, say, pass the length of a list to the function as a scalar value</span>
-<span class="sd">    (to avoid wasteful .size checks driving the loop), then you'd need to note that in the numpy signature.</span>
-
-<span class="sd">    Requires both a numba signature (similar to all others), and a numpy signature (controls arity of arguments)</span>
-<span class="sd">    @guvectorize(["void(int32[::1], int32, int32[::1])"], "(n)()-&gt;(n)")</span>
-<span class="sd">    def do_stuff(in, len, out):</span>
-<span class="sd">      for i in range(0, len):</span>
-<span class="sd">        out[i] = in[i] + whatever()</span>
-
-<span class="sd">    cuda -&gt; same as guvec, but runs on graphic card.</span>
-
-<span class="sd">    Do not use cuda unless your expression is complex enough to warrant IO to graphics card.</span>
-<span class="sd">    You must `conda install cudatoolkit=9.0` if you expect cuda mode to work.</span>
-<span class="sd">    Be sure to benchmark against other options to determine if this is actually better.</span>
-<span class="sd">    A plain cpu-bound vectorize can likely win on simple expressions.</span>
-<span class="sd">    https://stackoverflow.com/questions/52046102/numba-and-guvectorize-for-cuda-target-code-running-slower-than-expected</span>
-<span class="sd">    """</span>
-    <span class="n">jit</span> <span class="o">=</span> <span class="mi">0</span>                    <span class="c1">#: Basic, prototypical version of the vectorizer.</span>
-    <span class="n">vectorize</span> <span class="o">=</span> <span class="mi">1</span>              <span class="c1">#: Uses @vectorize.</span>
-    <span class="n">guvectorize</span> <span class="o">=</span> <span class="mi">2</span>            <span class="c1">#: Uses @guvectorize.</span>
-    <span class="n">cuda</span> <span class="o">=</span> <span class="mi">3</span>                   <span class="c1">#: Same as guvectorize, but runs on graphic card.</span>
-    <span class="n">default_mode</span> <span class="o">=</span> <span class="n">vectorize</span>   <span class="c1">#: Default mode.</span></div>
+    <span class="n">INCREMENT</span> <span class="o">=</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="sd">"""Use the initial order ID and increment the value upon every call.  This is fast, but it may fail for multiple, concurrent sessions."""</span>
+    <span class="n">BASIC</span> <span class="o">=</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="sd">"""Request a new order ID from TWS every time one is needed."""</span>
+    <span class="n">RETRY</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="sd">"""Request a new order ID from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond."""</span></div>
 
 
-<span class="n">primitive_types</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">byte</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">uint</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">float128</span>
-<span class="p">])</span> <span class="c1">#: Primitive numpy types.</span>
+<span class="k">class</span> <span class="nc">OrderIdRequest</span><span class="p">:</span>
+    <span class="sd">"""An order ID request."""</span>
 
-<span class="c1"># While this value is mutable, you should not really set it more than once,</span>
-<span class="c1"># and do not expect previously-compiled functions to notice any changes.</span>
-<span class="c1"># Modifactions should likely be done to this source file, rather than at runtime.</span>
-<span class="n">global_seed</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1"># This is all you get for default globals, and __builtins__ may even be too much.</span>
-    <span class="s1">'__builtins__'</span><span class="p">:</span> <span class="n">__builtins__</span><span class="p">,</span>
-    <span class="s1">'numpy'</span><span class="p">:</span> <span class="n">np</span><span class="p">,</span>
-    <span class="s1">'np'</span><span class="p">:</span> <span class="n">np</span><span class="p">,</span>
-    <span class="s1">'numba'</span><span class="p">:</span> <span class="n">nb</span><span class="p">,</span>
-    <span class="s1">'nb'</span><span class="p">:</span> <span class="n">nb</span><span class="p">,</span>
-    <span class="s1">'jit'</span><span class="p">:</span> <span class="n">nb</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span>
-    <span class="s1">'vectorize'</span><span class="p">:</span> <span class="n">nb</span><span class="o">.</span><span class="n">vectorize</span><span class="p">,</span>
-    <span class="s1">'guvectorize'</span><span class="p">:</span> <span class="n">nb</span><span class="o">.</span><span class="n">guvectorize</span><span class="p">,</span>
-<span class="p">}</span>
+    <span class="n">_event</span><span class="p">:</span> <span class="n">Event</span>
+    <span class="n">_getter</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">_value</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">_lock</span><span class="p">:</span> <span class="n">LoggingLock</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">,</span> <span class="n">getter</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event</span> <span class="o">=</span> <span class="n">event</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getter</span> <span class="o">=</span> <span class="n">getter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">LoggingLock</span><span class="p">(</span><span class="s2">"OrderIdRequest"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">"""A blocking call to get the order ID."""</span>
+
+        <span class="n">time_out</span> <span class="o">=</span> <span class="mf">60.0</span>
+        <span class="n">event_happened</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">time_out</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">event_happened</span><span class="p">:</span>
+            <span class="n">trace</span> <span class="o">=</span> <span class="n">trace_all_threads_str</span><span class="p">()</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"OrderIdRequest.get() timed out after </span><span class="si">{</span><span class="n">time_out</span><span class="si">}</span><span class="s2"> sec.  A possible deadlock or TWS bug was detected!  You may be able to avoid this problem by using a different OrderIdStrategy.  Please create an issue at https://github.com/deephaven-examples/deephaven-ib/issues containing this error message</span><span class="se">\n</span><span class="si">{</span><span class="n">trace</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getter</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
 
 
-<div class="viewcode-block" id="default_globals"><a class="viewcode-back" href="../../../code/deephaven.lang.constants.html#deephaven.lang.constants.default_globals">[docs]</a><span class="k">def</span> <span class="nf">default_globals</span><span class="p">():</span>
-    <span class="sd">"""</span>
-<span class="sd">    Gets the default global values when parsing user code.</span>
+<span class="k">class</span> <span class="nc">OrderIdEventQueue</span><span class="p">:</span>
+    <span class="sd">"""A thread-safe queue for requesting and getting order IDs."""</span>
 
-<span class="sd">    :return: default global values</span>
-<span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">global_seed</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+    <span class="n">_events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Event</span><span class="p">]</span>
+    <span class="n">_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">_lock</span><span class="p">:</span> <span class="n">LoggingLock</span>
+    <span class="n">_strategy</span><span class="p">:</span> <span class="n">OrderIdStrategy</span>
+    <span class="n">_last_value</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">_request_thread</span><span class="p">:</span> <span class="n">Thread</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">'IbTwsClient'</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">OrderIdStrategy</span> <span class="o">=</span> <span class="n">OrderIdStrategy</span><span class="o">.</span><span class="n">RETRY</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">LoggingLock</span><span class="p">(</span><span class="s2">"OrderIdEventQueue"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_value</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">strategy</span><span class="o">.</span><span class="n">retry</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_request_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"OrderIdEventQueueRetry"</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_retry</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_request_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Re-requests IDs if there is no response."""</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">reqIds</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrderIdRequest</span><span class="p">:</span>
+        <span class="sd">"""Requests data from the queue."""</span>
+
+        <span class="n">event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span><span class="o">.</span><span class="n">tws_request</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">reqIds</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_increment_value</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">OrderIdRequest</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Adds a new value to the queue."""</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="c1"># Upon startup, add_value is called, to set the initial value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_value</span> <span class="o">=</span> <span class="n">value</span>
+
+            <span class="c1"># if is to filter out values requested by ibapi during initialization</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_increment_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Increments the latest value and adds the value to the queue."""</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_value</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_last_value</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">"""Gets a value from the queue."""</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
         </article>
       </div>

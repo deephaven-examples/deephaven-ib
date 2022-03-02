@@ -2,7 +2,6 @@ deephaven
 =========
 
 .. toctree::
-    AggregationFactory <deephaven.AggregationFactory>
     Calendars <deephaven.Calendars>
     ConsumeCdc <deephaven.ConsumeCdc>
     ConsumeKafka <deephaven.ConsumeKafka>

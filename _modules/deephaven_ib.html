@@ -157,7 +157,6 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../code/deephaven.AggregationFactory.html">AggregationFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.Calendars.html">Calendars</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.ConsumeCdc.html">ConsumeCdc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.ConsumeKafka.html">ConsumeKafka</a></li>
@@ -257,10 +256,11 @@
 
 <span class="kn">from</span> <span class="nn">._query_inputs</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">._tws</span> <span class="kn">import</span> <span class="n">IbTwsClient</span>
+<span class="kn">from</span> <span class="nn">._tws.order_id_queue</span> <span class="kn">import</span> <span class="n">OrderIdStrategy</span>
 <span class="kn">from</span> <span class="nn">.time</span> <span class="kn">import</span> <span class="n">dh_to_ib_datetime</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"MarketDataType"</span><span class="p">,</span> <span class="s2">"TickDataType"</span><span class="p">,</span> <span class="s2">"BarDataType"</span><span class="p">,</span> <span class="s2">"BarSize"</span><span class="p">,</span> <span class="s2">"Duration"</span><span class="p">,</span> <span class="s2">"Request"</span><span class="p">,</span> <span class="s2">"RegisteredContract"</span><span class="p">,</span>
-           <span class="s2">"IbSessionTws"</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"MarketDataType"</span><span class="p">,</span> <span class="s2">"TickDataType"</span><span class="p">,</span> <span class="s2">"BarDataType"</span><span class="p">,</span> <span class="s2">"BarSize"</span><span class="p">,</span> <span class="s2">"Duration"</span><span class="p">,</span> <span class="s2">"OrderIdStrategy"</span><span class="p">,</span>
+           <span class="s2">"Request"</span><span class="p">,</span> <span class="s2">"RegisteredContract"</span><span class="p">,</span> <span class="s2">"IbSessionTws"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="MarketDataType"><a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.MarketDataType">[docs]</a><span class="k">class</span> <span class="nc">MarketDataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -566,6 +566,8 @@
 
 <span class="sd">            **NOTE: Each client MUST connect with a unique clientId.**</span>
 <span class="sd">        download_short_rates (bool): True to download a short rates table.</span>
+<span class="sd">        order_id_strategy (OrderIdStrategy): strategy for obtaining new order ids.</span>
+
 
 <span class="sd">    Tables:</span>
 <span class="sd">        ####</span>
@@ -639,11 +641,11 @@
     <span class="n">_tables_raw</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># TODO: should be Dict[str, Table] with deephaven v2</span>
     <span class="n">_tables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># TODO: should be Dict[str, Table] with deephaven v2</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7497</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">download_short_rates</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7497</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">download_short_rates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="p">:</span> <span class="n">OrderIdStrategy</span> <span class="o">=</span> <span class="n">OrderIdStrategy</span><span class="o">.</span><span class="n">RETRY</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="n">host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span> <span class="o">=</span> <span class="n">client_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">IbTwsClient</span><span class="p">(</span><span class="n">download_short_rates</span><span class="o">=</span><span class="n">download_short_rates</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">IbTwsClient</span><span class="p">(</span><span class="n">download_short_rates</span><span class="o">=</span><span class="n">download_short_rates</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="o">=</span><span class="n">order_id_strategy</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tables_raw</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">"raw_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">IbSessionTws</span><span class="o">.</span><span class="n">_make_tables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tables_raw</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
 
