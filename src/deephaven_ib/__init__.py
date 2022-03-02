@@ -487,7 +487,7 @@ class IbSessionTws:
     def _assert_read_write(self) -> None:
         """Assert that the IbSessionTws is read-write."""
 
-        if not self._read_only:
+        if self._read_only:
             raise Exception("IbSessionTws is read-only.")
 
     ####################################################################################################################
