@@ -2,8 +2,8 @@
 
 from threading import Event, Thread
 from time import sleep
-from typing import List, Callable
-from typing import TYPE_CHECKING
+from typing import List, Callable, TYPE_CHECKING
+from enum import Enum
 
 from .._internal.threading import LoggingLock
 from .._internal.trace import trace_all_threads_str
@@ -49,24 +49,48 @@ class OrderIdRequest:
             return self._value
 
 
+class OrderIdEventQueueStrategy(Enum):
+    """Strategy used to obtain order IDs."""
+
+    def __new__(cls, retry:bool, tws_request:bool):
+        obj = bytes.__new__(cls)
+        obj.retry = retry
+        obj.tws_request = tws_request
+        return obj
+
+    INCREMENT = (False, False)
+    """Use the initial next order ID and increment the value upon every call.  This is fast, but it may fail for multiple sessions."""
+    BASIC = (False, True)
+    """Request a new order IDs from TWS every time one is needed."""
+    RETRY = (True, True)
+    """Request a new order IDs from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond."""
+
+
 class OrderIdEventQueue:
     """A thread-safe queue for requesting and getting order IDs."""
 
     _events: List[Event]
     _values: List[int]
     _lock: LoggingLock
+    _strategy: OrderIdEventQueueStrategy
+    _last_value: int
     _request_thread: Thread
 
-    def __init__(self, client: 'IbTwsClient'):
+    def __init__(self, client: 'IbTwsClient', strategy:OrderIdEventQueueStrategy = OrderIdEventQueueStrategy.RETRY):
         self._events = []
         self._values = []
         self._lock = LoggingLock("OrderIdEventQueue")
-        self._request_thread = Thread(name="OrderIdEventQueueRetry", target=self._run, daemon=True)
-        self._request_thread.start()
         self._client = client
+        self._strategy = strategy
+        self._last_value = None
 
-    def _run(self):
+        if strategy.retry:
+            self._request_thread = Thread(name="OrderIdEventQueueRetry", target=self._retry, daemon=True)
+            self._request_thread.start()
+
+    def _retry(self):
         """Re-requests IDs if there is no response."""
+        
         while True:
             for event in self._events:
                 print(f"DEBUG: rerequest: event={event}")
@@ -83,7 +107,10 @@ class OrderIdEventQueue:
             self._events.append(event)
 
         print(f"DEBUG: request: event={event}")
-        self._client.reqIds(-1)
+        if self._strategy.tws_request:
+            self._client.reqIds(-1)
+        else:
+            self._increment_value()
 
         return OrderIdRequest(event, self._get)
 
@@ -91,12 +118,25 @@ class OrderIdEventQueue:
         """Adds a new value to the queue."""
 
         with self._lock:
+            # Upon startup, add_value is called, to set the initial value
+            self._last_value = value
+
             # if is to filter out values requested by ibapi during initialization
             print(f"DEBUG: add_value 1: events={self._events} value={value}")
             if self._events:
                 self._values.append(value)
                 event = self._events.pop(0)
                 print(f"DEBUG: add_value 2: event={event} value={value}")
+                event.set()
+
+    def _increment_value(self) -> None:
+        """Increments the latest value and adds the value to the queue."""
+
+        with self._lock:
+            if self._events:
+                self._values.append(self._last_value)
+                self._last_value += 1
+                event = self._events.pop(0)
                 event.set()
 
     def _get(self) -> int:
