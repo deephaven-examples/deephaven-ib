@@ -695,7 +695,7 @@ class IbTwsClient(EWrapper, EClient):
 
         c = Contract()
         c.conId = contract.conId
-        c = contract
+        contract = c
         # if not contract.primaryExchange:
         #     contract.primaryExchange = contract.exchange
 
