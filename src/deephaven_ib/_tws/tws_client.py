@@ -692,9 +692,12 @@ class IbTwsClient(EWrapper, EClient):
         # contract may not be fully filled in with the relevant details.  This can result in errors when requesting
         # contract details.  Attempt to fill in required data.
         # See https://github.com/deephaven-examples/deephaven-ib/issues/33
-        
-        if not contract.primaryExchange:
-            contract.primaryExchange = contract.exchange
+
+        c = Contract()
+        c.conId = contract.conId
+        c = contract
+        # if not contract.primaryExchange:
+        #     contract.primaryExchange = contract.exchange
 
         self._table_writers["accounts_positions"].write_row(
             [reqId, account, modelCode, *logger_contract.vals(contract), pos, avgCost])
