@@ -14,7 +14,6 @@ if TYPE_CHECKING:
     from .tws_client import IbTwsClient
 
 
-
 class OrderIdRequest:
     """An order ID request."""
 
