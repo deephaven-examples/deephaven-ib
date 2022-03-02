@@ -688,6 +688,14 @@ class IbTwsClient(EWrapper, EClient):
 
     def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: float, avgCost: float):
         EWrapper.positionMulti(self, reqId, account, modelCode, contract, pos, avgCost)
+
+        # contract may not be fully filled in with the relevant details.  This can result in errors when requesting
+        # contract details.  Attempt to fill in required data.
+        # See https://github.com/deephaven-examples/deephaven-ib/issues/33
+        
+        if not contract.primaryExchange:
+            contract.primaryExchange = contract.exchange
+
         self._table_writers["accounts_positions"].write_row(
             [reqId, account, modelCode, *logger_contract.vals(contract), pos, avgCost])
 
