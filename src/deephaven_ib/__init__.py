@@ -393,7 +393,7 @@ class IbSessionTws:
     _tables_raw: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
     _tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
 
-    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY):
+    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY):
         self._host = host
         self._port = port
         self._client_id = client_id
