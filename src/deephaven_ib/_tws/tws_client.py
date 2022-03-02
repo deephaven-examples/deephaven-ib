@@ -693,9 +693,9 @@ class IbTwsClient(EWrapper, EClient):
         # contract details.  Attempt to fill in required data.
         # See https://github.com/deephaven-examples/deephaven-ib/issues/33
 
-        c = Contract()
-        c.conId = contract.conId
-        contract = c
+        # c = Contract()
+        # c.conId = contract.conId
+        # contract = c
         # if not contract.primaryExchange:
         #     contract.primaryExchange = contract.exchange
 
