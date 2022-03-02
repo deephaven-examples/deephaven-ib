@@ -57,7 +57,7 @@ class OrderIdEventQueue:
         self._events = []
         self._values = []
         self._lock = LoggingLock("OrderIdEventQueue")
-        self._request_thread = Thread(target=self._run, daemon=True)
+        self._request_thread = Thread(name="OrderIdEventQueueRetry", target=self._run, daemon=True)
         self._request_thread.start()
         self._client = client
 
