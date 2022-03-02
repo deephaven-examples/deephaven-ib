@@ -74,7 +74,7 @@ class IbTwsClient(EWrapper, EClient):
     _accounts_managed: Set[str]
     _order_id_strategy: OrderIdStrategy
 
-    def __init__(self, download_short_rates, order_id_strategy:OrderIdStrategy):
+    def __init__(self, download_short_rates: bool, order_id_strategy: OrderIdStrategy):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()

@@ -6,7 +6,7 @@ from typing import List, Callable, TYPE_CHECKING
 
 from .._internal.threading import LoggingLock
 from .._internal.trace import trace_all_threads_str
-from ..__init__ import OrderIdStrategy
+from .. import OrderIdStrategy
 
 # Type hints on IbTwsClient cause a circular dependency.
 # This conditional import plus a string-based annotation avoids the problem.
