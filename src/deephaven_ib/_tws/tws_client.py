@@ -351,16 +351,10 @@ class IbTwsClient(EWrapper, EClient):
     def _subscribe(self) -> None:
         """Subscribe to IB data."""
 
-        #TODO: remove debug error logging
-        self.error(-1, -1, "DEBUG: reqFamilyCodes")
         self.reqFamilyCodes()
-        self.error(-1, -1, "DEBUG: requestFA(1)")
-        self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
-        self.error(-1, -1, "DEBUG: requestFA(2)")
-        self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
-        self.error(-1, -1, "DEBUG: requestFA(3)")
-        self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
-        self.error(-1, -1, "DEBUG: DONE")
+        # self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
+        # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
+        # self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.request_account_summary("All")
         self.request_account_pnl("All")
         self.request_account_overview("All")
