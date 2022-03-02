@@ -25,13 +25,12 @@ from ratelimit import limits, sleep_and_retry
 
 from .contract_registry import ContractRegistry
 from .ib_type_logger import *
-from .order_id_queue import OrderIdEventQueue
+from .order_id_queue import OrderIdEventQueue, OrderIdStrategy
 from .requests import RequestIdManager
 from .._internal.error_codes import load_error_codes
 from .._internal.short_rates import load_short_rates
 from .._internal.tablewriter import TableWriter
 from ..time import unix_sec_to_dh_datetime
-from .. import OrderIdStrategy
 
 _error_code_message_map, _error_code_note_map = load_error_codes()
 _news_msgtype_map: Dict[int, str] = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",

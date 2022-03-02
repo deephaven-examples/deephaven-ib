@@ -8,10 +8,11 @@ from ibapi.order import Order
 
 from ._query_inputs import *
 from ._tws import IbTwsClient
+from ._tws.order_id_queue import OrderIdStrategy
 from .time import dh_to_ib_datetime
 
-__all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "Request", "RegisteredContract",
-           "IbSessionTws"]
+__all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "OrderIdStrategy",
+           "Request", "RegisteredContract", "IbSessionTws"]
 
 
 class MarketDataType(Enum):
@@ -240,23 +241,6 @@ class Duration:
 
     def __repr__(self) -> str:
         return f"Duration('{self.value}')"
-
-
-class OrderIdStrategy(Enum):
-    """Strategy used to obtain order IDs."""
-
-    def __new__(cls, retry:bool, tws_request:bool):
-        obj = bytes.__new__(cls)
-        obj.retry = retry
-        obj.tws_request = tws_request
-        return obj
-
-    INCREMENT = (False, False)
-    """Use the initial next order ID and increment the value upon every call.  This is fast, but it may fail for multiple sessions."""
-    BASIC = (False, True)
-    """Request a new order IDs from TWS every time one is needed."""
-    RETRY = (True, True)
-    """Request a new order IDs from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond."""
 
 
 class Request:
