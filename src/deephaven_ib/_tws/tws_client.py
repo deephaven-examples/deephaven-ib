@@ -688,6 +688,14 @@ class IbTwsClient(EWrapper, EClient):
 
     def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: float, avgCost: float):
         EWrapper.positionMulti(self, reqId, account, modelCode, contract, pos, avgCost)
+
+        # The returned contract seems to be inconsistent with IB's API to request contract details.
+        # This hack is to work around the problem.
+        # See https://github.com/deephaven-examples/deephaven-ib/issues/33
+        
+        if contract.secType == "STK":
+            contract.exchange = "SMART"
+
         self._table_writers["accounts_positions"].write_row(
             [reqId, account, modelCode, *logger_contract.vals(contract), pos, avgCost])
 
