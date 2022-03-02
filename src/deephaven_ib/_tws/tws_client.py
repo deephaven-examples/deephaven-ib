@@ -353,7 +353,7 @@ class IbTwsClient(EWrapper, EClient):
 
         self.reqFamilyCodes()
         self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
-        # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
+        self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
         # self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.request_account_summary("All")
         self.request_account_pnl("All")
