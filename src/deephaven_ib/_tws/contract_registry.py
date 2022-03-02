@@ -203,6 +203,11 @@ class ContractRegistry:
                 self._requests_by_id[req_id] = req
                 self._requests_by_key[key] = req
                 self._client.log_request(req_id, "ContractDetails", contract, None)
+
+                #TODO: remove me debug
+                from .._internal.trace import trace_str
+                print(f"DEBUG contract details: {req_id} {trace_str()}")
+
                 self._client.reqContractDetails(reqId=req_id, contract=contract)
 
     def _get_contract_details(self, contract: Contract) -> ContractEntry:
