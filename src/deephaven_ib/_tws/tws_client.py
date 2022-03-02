@@ -353,7 +353,8 @@ class IbTwsClient(EWrapper, EClient):
 
         self.reqFamilyCodes()
         self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
-        self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
+        #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/32
+        # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
         self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.request_account_summary("All")
         self.request_account_pnl("All")
@@ -366,7 +367,7 @@ class IbTwsClient(EWrapper, EClient):
         self.reqNewsProviders()
         # Just subscribe to orders from the current client id.
         # When subscribing to all clients, data from other clients does not update.
-        self.reqOpenOrders()
+        # self.reqOpenOrders()
 
     ####################################################################################################################
     ####################################################################################################################
