@@ -144,7 +144,7 @@ See [Access your file system with Docker data volumes](https://deephaven.io/core
 
 Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
 
-`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g., `0.9.0`).  A list of available versions 
+`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g., `0.10.0`).  A list of available versions 
 can be found on the [Deephaven Releases GitHub page](https://github.com/deephaven/deephaven-core/releases).
 
 **Windows users need to run the commands in WSL.**
@@ -218,6 +218,11 @@ of Docker, `host` should be set to `host.docker.internal`.
 `port` is the network port [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
 communicates on.  This value can be found in the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
 settings.  By default, production trading uses port 7496, and paper trading uses port 7497.  See [Setup](#setup) and [TWS Initial Setup](https://interactivebrokers.github.io/tws-api/initial_setup.html) for more details.
+
+`order_id_strategy` is the strategy used for obtaining new order ids.
+* `OrderIdStrategy.RETRY` (default) - Request a new order ID from TWS every time one is needed.  Retry if TWS does not respond quickly.  This usually avoids a TWS bug where it does not always respond.
+* `OrderIdStrategy.BASIC` - Request a new order ID from TWS every time one is needed.  Does not retry, so it may deadlock if TWS does not respond.
+* `OrderIdStrategy.INCREMENT` - Use the initial order ID sent by TWS and increment the value upon every request.  This is fast, but it may fail for multiple, concurrent sessions connected to TWS.
 
 For a read-write session:
 ```python

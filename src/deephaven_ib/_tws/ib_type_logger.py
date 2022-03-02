@@ -81,7 +81,7 @@ def _details_contract() -> List[Tuple]:
         return right
 
     return [
-        ("ContractId", dht.int32, lambda contract: contract.conId),
+        ("ContractId", dht.int64, lambda contract: contract.conId),
         ("SecId", dht.string, lambda contract: contract.secId),
         ("SecIdType", dht.string, lambda contract: contract.secIdType),
         ("SecType", dht.string, lambda contract: contract.secType),
@@ -130,8 +130,8 @@ def _details_contract_details() -> List[Tuple]:
         ("MinTick", dht.float64, lambda cd: cd.minTick),
         ("OrderTypes", dht.stringset, lambda cd: to_string_set(cd.orderTypes.split(","))),
         ("ValidExchanges", dht.stringset, lambda cd: to_string_set(cd.validExchanges.split(","))),
-        ("PriceMagnifier", dht.int32, lambda cd: cd.priceMagnifier),
-        ("UnderConId", dht.int32, lambda cd: cd.underConId),
+        ("PriceMagnifier", dht.int64, lambda cd: cd.priceMagnifier),
+        ("UnderConId", dht.int64, lambda cd: cd.underConId),
         ("LongName", dht.string, lambda cd: cd.longName),
         ("ContractMonth", dht.string, lambda cd: cd.contractMonth),
         ("Industry", dht.string, lambda cd: cd.industry),
@@ -141,9 +141,9 @@ def _details_contract_details() -> List[Tuple]:
         ("TradingHours", dht.stringset, lambda cd: to_string_set(cd.tradingHours.split(";"))),
         ("LiquidHours", dht.stringset, lambda cd: to_string_set(cd.liquidHours.split(";"))),
         ("EvRule", dht.string, lambda cd: cd.evRule),
-        ("EvMultiplier", dht.int32, lambda cd: cd.evMultiplier),
-        ("MdSizeMultiplier", dht.int32, lambda cd: cd.mdSizeMultiplier),
-        ("AggGroup", dht.int32, lambda cd: map_null_int(cd.aggGroup)),
+        ("EvMultiplier", dht.int64, lambda cd: cd.evMultiplier),
+        ("MdSizeMultiplier", dht.int64, lambda cd: cd.mdSizeMultiplier),
+        ("AggGroup", dht.int64, lambda cd: map_null_int(cd.aggGroup)),
         ("UnderSymbol", dht.string, lambda cd: cd.underSymbol),
         ("UnderSecType", dht.string, lambda cd: cd.underSecType),
         ("MarketRuleIds", dht.stringset, lambda cd: to_string_set(cd.marketRuleIds.split(","))),
@@ -159,7 +159,7 @@ def _details_contract_details() -> List[Tuple]:
         ("CouponType", dht.string, lambda cd: cd.couponType),
         ("Callable", dht.bool_, lambda cd: cd.callable),
         ("Putable", dht.bool_, lambda cd: cd.putable),
-        ("Coupon", dht.int32, lambda cd: cd.coupon),
+        ("Coupon", dht.int64, lambda cd: cd.coupon),
         ("Convertible", dht.bool_, lambda cd: cd.convertible),
         ("Maturity", dht.string, lambda cd: cd.maturity),
         # TODO: convert date time?  Values are not provided in TWS, and the format is not documented. (https://github.com/deephaven-examples/deephaven-ib/issues/10)
@@ -207,8 +207,8 @@ def _details_bar_data() -> List[Tuple]:
         ("High", dht.float64, lambda bd: bd.high),
         ("Low", dht.float64, lambda bd: bd.low),
         ("Close", dht.float64, lambda bd: bd.close),
-        ("Volume", dht.int32, lambda bd: map_null(bd.volume)),
-        ("BarCount", dht.int32, lambda bd: map_null(bd.barCount)),
+        ("Volume", dht.int64, lambda bd: map_null(bd.volume)),
+        ("BarCount", dht.int64, lambda bd: map_null(bd.barCount)),
         ("Average", dht.float64, lambda bd: map_null(bd.average)),
     ]
 
@@ -234,9 +234,9 @@ def _details_real_time_bar_data() -> List[Tuple]:
         ("High", dht.float64, lambda bd: bd.high),
         ("Low", dht.float64, lambda bd: bd.low),
         ("Close", dht.float64, lambda bd: bd.close),
-        ("Volume", dht.int32, lambda bd: map_null(bd.volume)),
+        ("Volume", dht.int64, lambda bd: map_null(bd.volume)),
         ("WAP", dht.float64, lambda bd: map_null(bd.wap)),
-        ("Count", dht.int32, lambda bd: map_null(bd.count)),
+        ("Count", dht.int64, lambda bd: map_null(bd.count)),
     ]
 
 
@@ -319,7 +319,7 @@ def _details_historical_tick_last() -> List[Tuple]:
     return [
         ("Timestamp", dht.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("Price", dht.float64, lambda t: t.price),
-        ("Size", dht.int32, lambda t: t.size),
+        ("Size", dht.int64, lambda t: t.size),
         *_include_details(_details_tick_attrib_last(), lambda t: t.tickAttribLast),
         ("Exchange", dht.string, lambda t: t.exchange),
         ("SpecialConditions", dht.stringset, lambda t: map_special_conditions(t.specialConditions))
@@ -352,8 +352,8 @@ def _details_historical_tick_bid_ask() -> List[Tuple]:
         ("Timestamp", dht.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("BidPrice", dht.float64, lambda t: t.priceBid),
         ("AskPrice", dht.float64, lambda t: t.priceAsk),
-        ("BidSize", dht.int32, lambda t: t.sizeBid),
-        ("AskSize", dht.int32, lambda t: t.sizeAsk),
+        ("BidSize", dht.int64, lambda t: t.sizeBid),
+        ("AskSize", dht.int64, lambda t: t.sizeAsk),
         *_include_details(_details_tick_attrib_bid_ask(), lambda t: t.tickAttribBidAsk),
     ]
 
@@ -384,9 +384,9 @@ def _details_order() -> List[Tuple]:
     return [
 
         # order identifier
-        ("OrderId", dht.int32, lambda o: o.orderId),
-        ("ClientId", dht.int32, lambda o: o.clientId),
-        ("PermId", dht.int32, lambda o: o.permId),
+        ("OrderId", dht.int64, lambda o: o.orderId),
+        ("ClientId", dht.int64, lambda o: o.clientId),
+        ("PermId", dht.int64, lambda o: o.permId),
 
         # main order fields
         ("Action", dht.string, lambda o: o.action),
@@ -403,10 +403,10 @@ def _details_order() -> List[Tuple]:
         ("OcaType", dht.string, lambda o: map_values(o.ocaType, oca_types)),
         ("OrderRef", dht.string, lambda o: o.orderRef),
         ("Transmit", dht.bool_, lambda o: o.transmit),
-        ("ParentId", dht.int32, lambda o: o.parentId),
+        ("ParentId", dht.int64, lambda o: o.parentId),
         ("BlockOrder", dht.bool_, lambda o: o.blockOrder),
         ("SweepToFill", dht.bool_, lambda o: o.sweepToFill),
-        ("DisplaySize", dht.int32, lambda o: o.displaySize),
+        ("DisplaySize", dht.int64, lambda o: o.displaySize),
         ("TriggerMethod", dht.string, lambda o: map_values(o.triggerMethod, trigger_methods)),
         ("OutsideRth", dht.bool_, lambda o: o.outsideRth),
         ("Hidden", dht.bool_, lambda o: o.hidden),
@@ -414,7 +414,7 @@ def _details_order() -> List[Tuple]:
         ("GoodTillDate", dht.string, lambda o: o.goodTillDate),
         ("Rule80A", dht.string, lambda o: map_values(o.rule80A, rule80_values)),
         ("AllOrNone", dht.bool_, lambda o: o.allOrNone),
-        ("MinQty", dht.int32, lambda o: o.minQty),
+        ("MinQty", dht.int64, lambda o: o.minQty),
         ("PercentOffset", dht.float64, lambda o: o.percentOffset),
         ("OverridePercentageConstraints", dht.bool_, lambda o: o.overridePercentageConstraints),
         ("TrailStopPrice", dht.float64, lambda o: o.trailStopPrice),
@@ -431,7 +431,7 @@ def _details_order() -> List[Tuple]:
         ("OpenClose", dht.string, lambda o: map_values(o.openClose, open_close_values)),
         ("Origin", dht.string, lambda o: map_values(o.origin, origin_values)),
         ("ShortSaleSlot", dht.string, lambda o: map_values(o.shortSaleSlot, short_sale_slot_values)),
-        ("ExemptCode", dht.int32, lambda o: o.exemptCode),
+        ("ExemptCode", dht.int64, lambda o: o.exemptCode),
 
         # SMART routing only
         ("DiscretionaryAmt", dht.float64, lambda o: o.discretionaryAmt),
@@ -458,31 +458,31 @@ def _details_order() -> List[Tuple]:
         ("VolatilityType", dht.string, lambda o: map_values(o.volatilityType, volatility_type)),
         ("DeltaNeutralOrderType", dht.string, lambda o: o.deltaNeutralOrderType),
         ("DeltaNeutralAuxPrice", dht.float64, lambda o: o.deltaNeutralAuxPrice),
-        ("DeltaNeutralConId", dht.int32, lambda o: o.deltaNeutralConId),
+        ("DeltaNeutralConId", dht.int64, lambda o: o.deltaNeutralConId),
         ("DeltaNeutralSettlingFirm", dht.string, lambda o: o.deltaNeutralSettlingFirm),
         ("DeltaNeutralClearingAccount", dht.string, lambda o: o.deltaNeutralClearingAccount),
         ("DeltaNeutralClearingIntent", dht.string, lambda o: o.deltaNeutralClearingIntent),
         ("DeltaNeutralOpenClose", dht.string, lambda o: o.deltaNeutralOpenClose),
         ("DeltaNeutralShortSale", dht.bool_, lambda o: o.deltaNeutralShortSale),
-        ("DeltaNeutralShortSaleSlot", dht.int32, lambda o: o.deltaNeutralShortSaleSlot),
+        ("DeltaNeutralShortSaleSlot", dht.int64, lambda o: o.deltaNeutralShortSaleSlot),
         ("DeltaNeutralDesignatedLocation", dht.string, lambda o: o.deltaNeutralDesignatedLocation),
         ("ContinuousUpdate", dht.bool_, lambda o: o.continuousUpdate),
         ("ReferencePriceType", dht.string, lambda o: map_values(o.referencePriceType, reference_price_type)),
 
         # COMBO ORDERS ONLY
         ("BasisPoints", dht.float64, lambda o: o.basisPoints),
-        ("BasisPointsType", dht.int32, lambda o: o.basisPointsType),
+        ("BasisPointsType", dht.int64, lambda o: o.basisPointsType),
 
         # SCALE ORDERS ONLY
-        ("ScaleInitLevelSize", dht.int32, lambda o: o.scaleInitLevelSize),
-        ("ScaleSubsLevelSize", dht.int32, lambda o: o.scaleSubsLevelSize),
+        ("ScaleInitLevelSize", dht.int64, lambda o: o.scaleInitLevelSize),
+        ("ScaleSubsLevelSize", dht.int64, lambda o: o.scaleSubsLevelSize),
         ("ScalePriceIncrement", dht.float64, lambda o: o.scalePriceIncrement),
         ("ScalePriceAdjustValue", dht.float64, lambda o: o.scalePriceAdjustValue),
-        ("ScalePriceAdjustInterval", dht.int32, lambda o: o.scalePriceAdjustInterval),
+        ("ScalePriceAdjustInterval", dht.int64, lambda o: o.scalePriceAdjustInterval),
         ("ScaleProfitOffset", dht.float64, lambda o: o.scaleProfitOffset),
         ("ScaleAutoReset", dht.bool_, lambda o: o.scaleAutoReset),
-        ("ScaleInitPosition", dht.int32, lambda o: o.scaleInitPosition),
-        ("ScaleInitFillQty", dht.int32, lambda o: o.scaleInitFillQty),
+        ("ScaleInitPosition", dht.int64, lambda o: o.scaleInitPosition),
+        ("ScaleInitFillQty", dht.int64, lambda o: o.scaleInitFillQty),
         ("ScaleRandomPercent", dht.bool_, lambda o: o.scaleRandomPercent),
         ("ScaleTable", dht.string, lambda o: o.scaleTable),
 
@@ -521,7 +521,7 @@ def _details_order() -> List[Tuple]:
         ("OrderMiscOptions", dht.stringset, lambda o: to_string_set(o.orderMiscOptions)),
 
         # VER PEG2BENCH fields:
-        ("ReferenceContractId", dht.int32, lambda o: o.referenceContractId),
+        ("ReferenceContractId", dht.int64, lambda o: o.referenceContractId),
         ("PeggedChangeAmount", dht.float64, lambda o: o.peggedChangeAmount),
         ("IsPeggedChangeAmountDecrease", dht.bool_, lambda o: o.isPeggedChangeAmountDecrease),
         ("ReferenceChangeAmount", dht.float64, lambda o: o.referenceChangeAmount),
@@ -532,7 +532,7 @@ def _details_order() -> List[Tuple]:
         ("AdjustedStopPrice", dht.float64, lambda o: o.adjustedStopPrice),
         ("AdjustedStopLimitPrice", dht.float64, lambda o: o.adjustedStopLimitPrice),
         ("AdjustedTrailingAmount", dht.float64, lambda o: o.adjustedTrailingAmount),
-        ("AdjustableTrailingUnit", dht.int32, lambda o: o.adjustableTrailingUnit),
+        ("AdjustableTrailingUnit", dht.int64, lambda o: o.adjustableTrailingUnit),
         ("LmtPriceOffset", dht.float64, lambda o: o.lmtPriceOffset),
 
         ("Conditions", dht.stringset, lambda o: to_string_set(o.conditions)),
@@ -558,12 +558,12 @@ def _details_order() -> List[Tuple]:
 
         ("AutoCancelDate", dht.string, lambda o: o.autoCancelDate),
         ("FilledQuantity", dht.float64, lambda o: o.filledQuantity),
-        ("RefFuturesConId", dht.int32, lambda o: o.refFuturesConId),
+        ("RefFuturesConId", dht.int64, lambda o: o.refFuturesConId),
         ("AutoCancelParent", dht.bool_, lambda o: o.autoCancelParent),
         ("Shareholder", dht.string, lambda o: o.shareholder),
         ("ImbalanceOnly", dht.bool_, lambda o: o.imbalanceOnly),
         ("RouteMarketableToBbo", dht.bool_, lambda o: o.routeMarketableToBbo),
-        ("ParentPermId", dht.int32, lambda o: o.parentPermId),
+        ("ParentPermId", dht.int64, lambda o: o.parentPermId),
 
         ("UsePriceMgmtAlgo", dht.bool_, lambda o: o.usePriceMgmtAlgo),
 
@@ -619,17 +619,17 @@ def _details_execution() -> List[Tuple]:
         ("Side", dht.string, lambda e: e.side),
         ("Shares", dht.float64, lambda e: e.shares),
         ("Price", dht.float64, lambda e: e.price),
-        ("PermId", dht.int32, lambda e: e.permId),
-        ("ClientId", dht.int32, lambda e: e.clientId),
-        ("OrderId", dht.int32, lambda e: e.orderId),
-        ("Liquidation", dht.int32, lambda e: e.liquidation),
+        ("PermId", dht.int64, lambda e: e.permId),
+        ("ClientId", dht.int64, lambda e: e.clientId),
+        ("OrderId", dht.int64, lambda e: e.orderId),
+        ("Liquidation", dht.int64, lambda e: e.liquidation),
         ("CumQty", dht.float64, lambda e: e.cumQty),
         ("AvgPrice", dht.float64, lambda e: e.avgPrice),
         ("OrderRef", dht.string, lambda e: e.orderRef),
         ("EvRule", dht.string, lambda e: e.evRule),
         ("EvMultiplier", dht.float64, lambda e: e.evMultiplier),
         ("ModelCode", dht.string, lambda e: e.modelCode),
-        ("LastLiquidity", dht.int32, lambda e: e.lastLiquidity),
+        ("LastLiquidity", dht.int64, lambda e: e.lastLiquidity),
     ]
 
 
