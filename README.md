@@ -219,20 +219,22 @@ of Docker, `host` should be set to `host.docker.internal`.
 communicates on.  This value can be found in the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
 settings.  By default, production trading uses port 7496, and paper trading uses port 7497.  See [Setup](#setup) and [TWS Initial Setup](https://interactivebrokers.github.io/tws-api/initial_setup.html) for more details.
 
-`order_id_strategy` is the strategy used for obtaining new order ids.
+`read_only` is a boolean value that is used to enable trading.  By default `read_only=True`, preventing trading.  Use `read_only=False` to enable trading.
+
+`order_id_strategy` is the strategy used for obtaining new order ids.  Order id algorithms have tradeoffs in execution time, support for multiple, concurrent sessions, and avoidance of TWS bugs.
 * `OrderIdStrategy.RETRY` (default) - Request a new order ID from TWS every time one is needed.  Retry if TWS does not respond quickly.  This usually avoids a TWS bug where it does not always respond.
 * `OrderIdStrategy.BASIC` - Request a new order ID from TWS every time one is needed.  Does not retry, so it may deadlock if TWS does not respond.
 * `OrderIdStrategy.INCREMENT` - Use the initial order ID sent by TWS and increment the value upon every request.  This is fast, but it may fail for multiple, concurrent sessions connected to TWS.
 
-For a read-write session:
+For a read-write session that allows trading:
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=False)
 client.connect()
 ```
 
-For a read-only session:
+For a read-only session that does not allow trading:
 ```python
 import deephaven_ib as dhib
 

@@ -319,7 +319,7 @@ class IbSessionTws:
             **NOTE: Each client MUST connect with a unique clientId.**
         download_short_rates (bool): True to download a short rates table.
         order_id_strategy (OrderIdStrategy): strategy for obtaining new order ids.
-        read_only (bool): True to create a read only client; false to create a read-write client.
+        read_only (bool): True to create a read only client that can not trade; false to create a read-write client that can trade.  Default is true.
 
 
     Tables:
@@ -395,7 +395,7 @@ class IbSessionTws:
     _tables_raw: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
     _tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
 
-    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY, read_only:bool = False):
+    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY, read_only:bool = True):
         self._host = host
         self._port = port
         self._client_id = client_id
@@ -488,7 +488,7 @@ class IbSessionTws:
         """Assert that the IbSessionTws is read-write."""
 
         if self._read_only:
-            raise Exception("IbSessionTws is read-only.")
+            raise Exception("IbSessionTws is read-only.  Set 'read_only=False' to enable read-write operations, such as trading.")
 
     ####################################################################################################################
     ####################################################################################################################
