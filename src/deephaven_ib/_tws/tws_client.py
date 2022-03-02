@@ -698,6 +698,7 @@ class IbTwsClient(EWrapper, EClient):
         # contract = c
         # if not contract.primaryExchange:
         #     contract.primaryExchange = contract.exchange
+        contract.primaryExchange = contract.exchange
 
         self._table_writers["accounts_positions"].write_row(
             [reqId, account, modelCode, *logger_contract.vals(contract), pos, avgCost])
