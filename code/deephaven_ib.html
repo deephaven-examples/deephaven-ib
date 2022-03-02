@@ -458,7 +458,7 @@
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="deephaven_ib.IbSessionTws">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">IbSessionTws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7497</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_short_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">OrderIdStrategy.RETRY</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">IbSessionTws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7497</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_short_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">OrderIdStrategy.RETRY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>IB TWS session.</p>
 <p><strong>NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
@@ -476,6 +476,7 @@ All orders placed/modified from this client will be associated with this client 
 </p></li>
 <li><p><strong>download_short_rates</strong> (<em>bool</em>) – True to download a short rates table.</p></li>
 <li><p><strong>order_id_strategy</strong> (<a class="reference internal" href="#deephaven_ib.OrderIdStrategy" title="deephaven_ib.OrderIdStrategy"><em>OrderIdStrategy</em></a>) – strategy for obtaining new order ids.</p></li>
+<li><p><strong>read_only</strong> (<em>bool</em>) – True to create a read only client that can not trade; false to create a read-write client that can trade.  Default is true.</p></li>
 </ul>
 </dd>
 </dl>
@@ -684,6 +685,19 @@ exist in the IB system and contains a complete description of the contract.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Client port.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.read_only">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_only</span></span><a class="headerlink" href="#deephaven_ib.IbSessionTws.read_only" title="Permalink to this definition">#</a></dt>
+<dd><p>Is the client read only?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a boolean indicating if the client is read only.</p>
 </dd>
 </dl>
 </dd></dl>

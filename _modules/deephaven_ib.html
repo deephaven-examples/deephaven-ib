@@ -567,6 +567,7 @@
 <span class="sd">            **NOTE: Each client MUST connect with a unique clientId.**</span>
 <span class="sd">        download_short_rates (bool): True to download a short rates table.</span>
 <span class="sd">        order_id_strategy (OrderIdStrategy): strategy for obtaining new order ids.</span>
+<span class="sd">        read_only (bool): True to create a read only client that can not trade; false to create a read-write client that can trade.  Default is true.</span>
 
 
 <span class="sd">    Tables:</span>
@@ -637,15 +638,17 @@
     <span class="n">_host</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">_port</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">_client_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">_read_only</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="n">_client</span><span class="p">:</span> <span class="n">IbTwsClient</span>
     <span class="n">_tables_raw</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># TODO: should be Dict[str, Table] with deephaven v2</span>
     <span class="n">_tables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># TODO: should be Dict[str, Table] with deephaven v2</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7497</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">download_short_rates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="p">:</span> <span class="n">OrderIdStrategy</span> <span class="o">=</span> <span class="n">OrderIdStrategy</span><span class="o">.</span><span class="n">RETRY</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7497</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">download_short_rates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="p">:</span> <span class="n">OrderIdStrategy</span> <span class="o">=</span> <span class="n">OrderIdStrategy</span><span class="o">.</span><span class="n">RETRY</span><span class="p">,</span> <span class="n">read_only</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="n">host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span> <span class="o">=</span> <span class="n">client_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">IbTwsClient</span><span class="p">(</span><span class="n">download_short_rates</span><span class="o">=</span><span class="n">download_short_rates</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="o">=</span><span class="n">order_id_strategy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span> <span class="o">=</span> <span class="n">read_only</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">IbTwsClient</span><span class="p">(</span><span class="n">download_short_rates</span><span class="o">=</span><span class="n">download_short_rates</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="o">=</span><span class="n">order_id_strategy</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="n">read_only</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tables_raw</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">"raw_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">IbSessionTws</span><span class="o">.</span><span class="n">_make_tables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tables_raw</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
 
@@ -676,8 +679,16 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">read_only</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""Is the client read only?</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a boolean indicating if the client is read only.</span>
+<span class="sd">        """</span>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"IbSessionTws(host=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_host</span><span class="si">}</span><span class="s2">, port=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="si">}</span><span class="s2">, client_id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span><span class="si">}</span><span class="s2">)"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"IbSessionTws(host=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_host</span><span class="si">}</span><span class="s2">, port=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="si">}</span><span class="s2">, client_id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span><span class="si">}</span><span class="s2">, read_only=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span><span class="si">}</span><span class="s2">)"</span>
 
     <span class="c1">####################################################################################################################</span>
     <span class="c1">####################################################################################################################</span>
@@ -720,6 +731,12 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_connected</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"IbSessionTws is not connected."</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_assert_read_write</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Assert that the IbSessionTws is read-write."""</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"IbSessionTws is read-only.  Set 'read_only=False' to enable read-write operations, such as trading."</span><span class="p">)</span>
 
     <span class="c1">####################################################################################################################</span>
     <span class="c1">####################################################################################################################</span>
@@ -1323,6 +1340,7 @@
 <span class="sd">              Exception: problem executing action.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_connected</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_read_write</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">contract</span><span class="o">.</span><span class="n">is_multi</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
@@ -1348,6 +1366,7 @@
 <span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_connected</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_read_write</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">cancelOrder</span><span class="p">(</span><span class="n">orderId</span><span class="o">=</span><span class="n">order_id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="IbSessionTws.order_cancel_all"><a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.order_cancel_all">[docs]</a>    <span class="k">def</span> <span class="nf">order_cancel_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1361,6 +1380,7 @@
 <span class="sd">        """</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_connected</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_read_write</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">reqGlobalCancel</span><span class="p">()</span></div></div>
 
 </pre></div>
