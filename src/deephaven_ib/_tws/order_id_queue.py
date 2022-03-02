@@ -6,6 +6,7 @@ from typing import List, Callable
 from typing import TYPE_CHECKING
 
 from .._internal.threading import LoggingLock
+from .._internal.trace import trace_all_threads_str
 
 # Type hints on IbTwsClient cause a circular dependency.
 # This conditional import plus a string-based annotation avoids the problem.
@@ -36,6 +37,9 @@ class OrderIdRequest:
         event_happened = self._event.wait(time_out)
 
         if not event_happened:
+            #TODO: debug remove
+            trace = trace_all_threads_str()
+            print(trace)
             raise Exception(f"OrderIdRequest.get() timed out after {time_out} sec.")
 
         with self._lock:
