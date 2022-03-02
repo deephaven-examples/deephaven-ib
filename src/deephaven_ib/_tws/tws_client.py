@@ -691,9 +691,6 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["accounts_positions"].write_row(
             [reqId, account, modelCode, *logger_contract.vals(contract), pos, avgCost])
 
-        #TODO: remove
-        contract.primaryExchange = contract.exchange
-
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     def positionMultiEnd(self, reqId: int):
