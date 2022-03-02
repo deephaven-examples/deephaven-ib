@@ -48,15 +48,13 @@ class OrderIdRequest:
     def get(self) -> int:
         """A blocking call to get the order ID."""
 
-        time_out = 2 * 60.0
-        print(f"DEBUG: get: event={self._event}")
+        time_out = 60.0
         event_happened = self._event.wait(time_out)
 
         if not event_happened:
-            #TODO: debug remove
             trace = trace_all_threads_str()
-            print(trace)
-            raise Exception(f"OrderIdRequest.get() timed out after {time_out} sec.")
+            msg = f"OrderIdRequest.get() timed out after {time_out} sec.  A possible deadlock or TWS bug was detected!  Please create an issue at https://github.com/deephaven-examples/deephaven-ib/issues containing this error message\n{trace}\n"
+            raise Exception(msg)
 
         with self._lock:
             if self._value is None:
@@ -92,7 +90,6 @@ class OrderIdEventQueue:
 
         while True:
             for event in self._events:
-                print(f"DEBUG: rerequest: event={event}")
                 self._client.reqIds(-1)
 
             sleep(0.01)
@@ -105,7 +102,6 @@ class OrderIdEventQueue:
         with self._lock:
             self._events.append(event)
 
-        print(f"DEBUG: request: event={event}")
         if self._strategy.tws_request:
             self._client.reqIds(-1)
         else:
@@ -121,11 +117,9 @@ class OrderIdEventQueue:
             self._last_value = value
 
             # if is to filter out values requested by ibapi during initialization
-            print(f"DEBUG: add_value 1: events={self._events} value={value}")
             if self._events:
                 self._values.append(value)
                 event = self._events.pop(0)
-                print(f"DEBUG: add_value 2: event={event} value={value}")
                 event.set()
 
     def _increment_value(self) -> None:
