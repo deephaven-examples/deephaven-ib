@@ -18,7 +18,7 @@ class OrderIdStrategy(Enum):
     """Strategy used to obtain order IDs."""
 
     def __new__(cls, retry:bool, tws_request:bool):
-        obj = bytes.__new__(cls)
+        obj = object.__new__(cls)
         obj.retry = retry
         obj.tws_request = tws_request
         return obj
