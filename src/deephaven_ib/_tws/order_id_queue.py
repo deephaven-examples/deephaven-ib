@@ -24,11 +24,11 @@ class OrderIdStrategy(Enum):
         return obj
 
     INCREMENT = (False, False)
-    """Use the initial next order ID and increment the value upon every call.  This is fast, but it may fail for multiple sessions."""
+    """Use the initial order ID and increment the value upon every call.  This is fast, but it may fail for multiple, concurrent sessions."""
     BASIC = (False, True)
-    """Request a new order IDs from TWS every time one is needed."""
+    """Request a new order ID from TWS every time one is needed."""
     RETRY = (True, True)
-    """Request a new order IDs from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond."""
+    """Request a new order ID from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond."""
 
 
 class OrderIdRequest:
