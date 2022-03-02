@@ -354,6 +354,7 @@ class IbTwsClient(EWrapper, EClient):
         self.reqFamilyCodes()
         self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
         #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/32
+        #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/5
         # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
         self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.request_account_summary("All")
@@ -362,7 +363,7 @@ class IbTwsClient(EWrapper, EClient):
         self.request_account_positions("All")
         self.reqManagedAccts()
         self.reqNewsBulletins(allMsgs=True)
-        # self.request_executions()
+        self.request_executions()
         # self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
         # Just subscribe to orders from the current client id.
