@@ -3,10 +3,10 @@
 from threading import Event, Thread
 from time import sleep
 from typing import List, Callable, TYPE_CHECKING
-from enum import Enum
 
 from .._internal.threading import LoggingLock
 from .._internal.trace import trace_all_threads_str
+from ..__init__ import OrderIdStrategy
 
 # Type hints on IbTwsClient cause a circular dependency.
 # This conditional import plus a string-based annotation avoids the problem.
@@ -49,34 +49,17 @@ class OrderIdRequest:
             return self._value
 
 
-class OrderIdEventQueueStrategy(Enum):
-    """Strategy used to obtain order IDs."""
-
-    def __new__(cls, retry:bool, tws_request:bool):
-        obj = bytes.__new__(cls)
-        obj.retry = retry
-        obj.tws_request = tws_request
-        return obj
-
-    INCREMENT = (False, False)
-    """Use the initial next order ID and increment the value upon every call.  This is fast, but it may fail for multiple sessions."""
-    BASIC = (False, True)
-    """Request a new order IDs from TWS every time one is needed."""
-    RETRY = (True, True)
-    """Request a new order IDs from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond."""
-
-
 class OrderIdEventQueue:
     """A thread-safe queue for requesting and getting order IDs."""
 
     _events: List[Event]
     _values: List[int]
     _lock: LoggingLock
-    _strategy: OrderIdEventQueueStrategy
+    _strategy: OrderIdStrategy
     _last_value: int
     _request_thread: Thread
 
-    def __init__(self, client: 'IbTwsClient', strategy:OrderIdEventQueueStrategy = OrderIdEventQueueStrategy.RETRY):
+    def __init__(self, client: 'IbTwsClient', strategy:OrderIdStrategy = OrderIdStrategy.RETRY):
         self._events = []
         self._values = []
         self._lock = LoggingLock("OrderIdEventQueue")
@@ -90,7 +73,7 @@ class OrderIdEventQueue:
 
     def _retry(self):
         """Re-requests IDs if there is no response."""
-        
+
         while True:
             for event in self._events:
                 print(f"DEBUG: rerequest: event={event}")

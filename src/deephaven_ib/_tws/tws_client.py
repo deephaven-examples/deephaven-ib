@@ -31,6 +31,7 @@ from .._internal.error_codes import load_error_codes
 from .._internal.short_rates import load_short_rates
 from .._internal.tablewriter import TableWriter
 from ..time import unix_sec_to_dh_datetime
+from ..__init__ import OrderIdStrategy
 
 _error_code_message_map, _error_code_note_map = load_error_codes()
 _news_msgtype_map: Dict[int, str] = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
@@ -71,8 +72,9 @@ class IbTwsClient(EWrapper, EClient):
     _realtime_bar_sizes: Dict[TickerId, int]
     news_providers: List[str]
     _accounts_managed: Set[str]
+    _order_id_strategy: OrderIdStrategy
 
-    def __init__(self, download_short_rates=True):
+    def __init__(self, download_short_rates, order_id_strategy:OrderIdStrategy):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
@@ -84,6 +86,7 @@ class IbTwsClient(EWrapper, EClient):
         self._realtime_bar_sizes = None
         self.news_providers = None
         self._accounts_managed = None
+        self._order_id_strategy = order_id_strategy
 
         tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
 
@@ -304,7 +307,7 @@ class IbTwsClient(EWrapper, EClient):
             raise Exception("IbTwsClient is already connected.")
 
         self.contract_registry = ContractRegistry(self)
-        self.order_id_queue = OrderIdEventQueue(self)
+        self.order_id_queue = OrderIdEventQueue(self, strategy=self._order_id_strategy)
         self._registered_market_rules = set()
         self._realtime_bar_sizes = {}
         self.news_providers = []

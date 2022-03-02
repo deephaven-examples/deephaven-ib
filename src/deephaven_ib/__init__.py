@@ -242,6 +242,23 @@ class Duration:
         return f"Duration('{self.value}')"
 
 
+class OrderIdStrategy(Enum):
+    """Strategy used to obtain order IDs."""
+
+    def __new__(cls, retry:bool, tws_request:bool):
+        obj = bytes.__new__(cls)
+        obj.retry = retry
+        obj.tws_request = tws_request
+        return obj
+
+    INCREMENT = (False, False)
+    """Use the initial next order ID and increment the value upon every call.  This is fast, but it may fail for multiple sessions."""
+    BASIC = (False, True)
+    """Request a new order IDs from TWS every time one is needed."""
+    RETRY = (True, True)
+    """Request a new order IDs from TWS every time one is needed.  Retry if TWS does not respond quickly.  TWS seems to have a bug where it does not always respond."""
+
+
 class Request:
     """ IB session request. """
 
@@ -317,6 +334,8 @@ class IbSessionTws:
 
             **NOTE: Each client MUST connect with a unique clientId.**
         download_short_rates (bool): True to download a short rates table.
+        order_id_strategy (OrderIdStrategy): strategy for obtaining new order ids.
+
 
     Tables:
         ####
@@ -390,11 +409,11 @@ class IbSessionTws:
     _tables_raw: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
     _tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
 
-    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates=True):
+    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY):
         self._host = host
         self._port = port
         self._client_id = client_id
-        self._client = IbTwsClient(download_short_rates=download_short_rates)
+        self._client = IbTwsClient(download_short_rates=download_short_rates, order_id_strategy=order_id_strategy)
         self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
         self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
 
