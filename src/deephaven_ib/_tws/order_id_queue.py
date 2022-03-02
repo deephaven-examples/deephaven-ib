@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 class OrderIdStrategy(Enum):
     """Strategy used to obtain order IDs."""
 
-    def __new__(cls, retry:bool, tws_request:bool):
+    def __new__(cls, retry: bool, tws_request: bool):
         obj = object.__new__(cls)
         obj.retry = retry
         obj.tws_request = tws_request
@@ -53,7 +53,7 @@ class OrderIdRequest:
 
         if not event_happened:
             trace = trace_all_threads_str()
-            msg = f"OrderIdRequest.get() timed out after {time_out} sec.  A possible deadlock or TWS bug was detected!  Please create an issue at https://github.com/deephaven-examples/deephaven-ib/issues containing this error message\n{trace}\n"
+            msg = f"OrderIdRequest.get() timed out after {time_out} sec.  A possible deadlock or TWS bug was detected!  You may be able to avoid this problem by using a different OrderIdStrategy.  Please create an issue at https://github.com/deephaven-examples/deephaven-ib/issues containing this error message\n{trace}\n"
             raise Exception(msg)
 
         with self._lock:
@@ -73,7 +73,7 @@ class OrderIdEventQueue:
     _last_value: int
     _request_thread: Thread
 
-    def __init__(self, client: 'IbTwsClient', strategy:OrderIdStrategy = OrderIdStrategy.RETRY):
+    def __init__(self, client: 'IbTwsClient', strategy: OrderIdStrategy = OrderIdStrategy.RETRY):
         self._events = []
         self._values = []
         self._lock = LoggingLock("OrderIdEventQueue")
