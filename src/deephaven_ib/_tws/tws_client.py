@@ -364,7 +364,7 @@ class IbTwsClient(EWrapper, EClient):
         self.reqManagedAccts()
         self.reqNewsBulletins(allMsgs=True)
         self.request_executions()
-        # self.reqCompletedOrders(apiOnly=False)
+        self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
         # Just subscribe to orders from the current client id.
         # When subscribing to all clients, data from other clients does not update.
