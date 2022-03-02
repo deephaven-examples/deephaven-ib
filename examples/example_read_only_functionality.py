@@ -14,7 +14,7 @@ print("=========================================================================
 print("==== Create a client and connect.")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=False, read_only=False)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=False, read_only=True)
 print(f"IsConnected: {client.is_connected()}")
 
 client.connect()
@@ -422,9 +422,15 @@ order.lmtPrice = 3000
 order.eTradeOnly = False
 order.firmQuoteOnly = False
 
-print("Placing order: START")
-client.order_place(rc, order)
-print("Placing order: END")
+print("Placing order -- confirm fail: START")
+try:
+    client.order_place(rc, order)
+    raise AssertionError("Operation should not be possible")
+except AssertionError as e:
+    raise e
+except Exception:
+    pass
+print("Placing order -- confirm fail: END")
 
 order = Order()
 order.account = "DF4943843"
@@ -435,9 +441,15 @@ order.lmtPrice = 2600
 order.eTradeOnly = False
 order.firmQuoteOnly = False
 
-print("Placing order: START")
-client.order_place(rc, order)
-print("Placing order: START")
+print("Placing order -- confirm fail: START")
+try:
+    client.order_place(rc, order)
+    raise AssertionError("Operation should not be possible")
+except AssertionError as e:
+    raise e
+except Exception:
+    pass
+print("Placing order -- confirm fail: START")
 
 order = Order()
 order.account = "DF4943843"
@@ -448,9 +460,15 @@ order.lmtPrice = 2700
 order.eTradeOnly = False
 order.firmQuoteOnly = False
 
-print("Placing order: START")
-req = client.order_place(rc, order)
-print("Placing order: END")
+print("Placing order -- confirm fail: START")
+try:
+    req = client.order_place(rc, order)
+    raise AssertionError("Operation should not be possible")
+except AssertionError as e:
+    raise e
+except Exception:
+    pass
+print("Placing order -- confirm fail: END")
 # req.cancel()
 
 # client.order_cancel_all()

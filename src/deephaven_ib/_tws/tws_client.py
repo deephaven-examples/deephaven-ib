@@ -72,8 +72,9 @@ class IbTwsClient(EWrapper, EClient):
     news_providers: List[str]
     _accounts_managed: Set[str]
     _order_id_strategy: OrderIdStrategy
+    _read_only: bool
 
-    def __init__(self, download_short_rates: bool, order_id_strategy: OrderIdStrategy):
+    def __init__(self, download_short_rates: bool, order_id_strategy: OrderIdStrategy, read_only: bool):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
@@ -86,6 +87,7 @@ class IbTwsClient(EWrapper, EClient):
         self.news_providers = None
         self._accounts_managed = None
         self._order_id_strategy = order_id_strategy
+        self._read_only = read_only
 
         tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
 
@@ -353,7 +355,9 @@ class IbTwsClient(EWrapper, EClient):
 
         self.reqFamilyCodes()
         self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
-        self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
+        #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/32
+        #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/5
+        # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
         self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
         self.request_account_summary("All")
         self.request_account_pnl("All")
@@ -362,11 +366,13 @@ class IbTwsClient(EWrapper, EClient):
         self.reqManagedAccts()
         self.reqNewsBulletins(allMsgs=True)
         self.request_executions()
-        self.reqCompletedOrders(apiOnly=False)
         self.reqNewsProviders()
-        # Just subscribe to orders from the current client id.
-        # When subscribing to all clients, data from other clients does not update.
-        self.reqOpenOrders()
+
+        if not self._read_only:
+            self.reqCompletedOrders(apiOnly=False)
+            # Just subscribe to orders from the current client id.
+            # When subscribing to all clients, data from other clients does not update.
+            self.reqOpenOrders()
 
     ####################################################################################################################
     ####################################################################################################################
@@ -684,6 +690,7 @@ class IbTwsClient(EWrapper, EClient):
         EWrapper.positionMulti(self, reqId, account, modelCode, contract, pos, avgCost)
         self._table_writers["accounts_positions"].write_row(
             [reqId, account, modelCode, *logger_contract.vals(contract), pos, avgCost])
+
         self.contract_registry.request_contract_details_nonblocking(contract)
 
     def positionMultiEnd(self, reqId: int):
@@ -924,7 +931,7 @@ class IbTwsClient(EWrapper, EClient):
         self.order_id_queue.add_value(orderId)
 
     ####
-    # reqAllOpenOrders
+    # reqAllOpenOrders / reqOpenOrders
     ####
 
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
