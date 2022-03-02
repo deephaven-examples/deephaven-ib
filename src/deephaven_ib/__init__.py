@@ -400,7 +400,7 @@ class IbSessionTws:
         self._port = port
         self._client_id = client_id
         self._read_only = read_only
-        self._client = IbTwsClient(download_short_rates=download_short_rates, order_id_strategy=order_id_strategy)
+        self._client = IbTwsClient(download_short_rates=download_short_rates, order_id_strategy=order_id_strategy, read_only=read_only)
         self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
         self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
 

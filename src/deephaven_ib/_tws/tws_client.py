@@ -72,8 +72,9 @@ class IbTwsClient(EWrapper, EClient):
     news_providers: List[str]
     _accounts_managed: Set[str]
     _order_id_strategy: OrderIdStrategy
+    _read_only: bool
 
-    def __init__(self, download_short_rates: bool, order_id_strategy: OrderIdStrategy):
+    def __init__(self, download_short_rates: bool, order_id_strategy: OrderIdStrategy, read_only: bool):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
@@ -86,6 +87,7 @@ class IbTwsClient(EWrapper, EClient):
         self.news_providers = None
         self._accounts_managed = None
         self._order_id_strategy = order_id_strategy
+        self._read_only = read_only
 
         tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
 
@@ -365,12 +367,12 @@ class IbTwsClient(EWrapper, EClient):
         self.reqNewsBulletins(allMsgs=True)
         self.request_executions()
         self.reqNewsProviders()
-        # Just subscribe to orders from the current client id.
-        # When subscribing to all clients, data from other clients does not update.
-        self.reqOpenOrders()
 
-        # if self._read_only:
-        #     self.reqCompletedOrders(apiOnly=False)
+        if not self._read_only:
+            self.reqCompletedOrders(apiOnly=False)
+            # Just subscribe to orders from the current client id.
+            # When subscribing to all clients, data from other clients does not update.
+            self.reqOpenOrders()
 
     ####################################################################################################################
     ####################################################################################################################
@@ -928,7 +930,7 @@ class IbTwsClient(EWrapper, EClient):
         self.order_id_queue.add_value(orderId)
 
     ####
-    # reqAllOpenOrders
+    # reqAllOpenOrders / reqOpenOrders
     ####
 
     def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
