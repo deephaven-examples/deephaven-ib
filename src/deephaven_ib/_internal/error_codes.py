@@ -34,7 +34,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
         502: "Couldn't connect to TWS. Confirm that 'Enable ActiveX and Socket EClients' is enabled and connection port is the same as 'Socket Port' on the TWS 'Edit->Global Configuration...->API->Settings' menu. Live Trading ports: TWS: 7496; IB Gateway: 4001. Simulated Trading ports for new installations of version 954.1 or newer:  TWS: 7497; IB Gateway: 4002",
         2113: "The order size for Bonds (Bills) is entered as a nominal par value of the order, and must be a multiple",
         10089: "Requested market data requires additional subscription for API.See link in 'Market Data Connections' dialog for more details.",
-        10172: "Failed to request news article:No data available",
+        10172: "Failed to request news article: No data available",
         10187: "Failed to request historical ticks",
         10189: "Failed to request tick-by-tick data",
     }
