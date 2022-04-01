@@ -15,7 +15,7 @@ import json
 from typing import Union
 
 import jpy
-from deephaven import PythonFunction
+from deephaven._j_compat import j_function
 from deephaven.conversion_utils import NULL_DOUBLE
 
 _QueryScope = jpy.get_type("io.deephaven.engine.table.lang.QueryScope")
@@ -31,7 +31,7 @@ def __deephaven_ib_float_value(s: str) -> Union[float, None]:
         return NULL_DOUBLE
 
 
-_QueryScope.addParam("__deephaven_ib_float_value", PythonFunction(__deephaven_ib_float_value, "double"))
+_QueryScope.addParam("__deephaven_ib_float_value", j_function(__deephaven_ib_float_value, "double"))
 
 
 # def __deephaven_ib_parse_note(note:str, key:str) -> Union[str,None]:
@@ -54,4 +54,4 @@ def __deephaven_ib_parse_note(inputs) -> Union[str, None]:
     return None
 
 
-_QueryScope.addParam("__deephaven_ib_parse_note", PythonFunction(__deephaven_ib_parse_note, "java.lang.String"))
+_QueryScope.addParam("__deephaven_ib_parse_note", j_function(__deephaven_ib_parse_note, "java.lang.String"))
