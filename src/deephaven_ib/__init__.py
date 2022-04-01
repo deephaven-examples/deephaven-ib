@@ -1,6 +1,7 @@
 from enum import Enum
 from typing import Dict, List, Callable
 
+from deephaven.table import Table
 from deephaven.dtypes import DateTime
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
