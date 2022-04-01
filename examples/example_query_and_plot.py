@@ -34,7 +34,7 @@ bars_realtime = client.tables["bars_realtime"]
 bars_dia = bars_realtime.where("Symbol=`DIA`")
 bars_spy = bars_realtime.where("Symbol=`SPY`")
 bars_joined = bars_dia.view("Timestamp", "TimestampEnd", "Dia=Close") \
-    .naturalJoin(bars_spy, "TimestampEnd", "Spy=Close") \
+    .natural_join(bars_spy, on="TimestampEnd", joins="Spy=Close") \
     .update("Ratio = Dia/Spy")
 
 from deephaven import Plot
