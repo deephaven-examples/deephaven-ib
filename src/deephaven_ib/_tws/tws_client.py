@@ -194,7 +194,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["news_historical"] = TableWriter(
             ["RequestId", "Timestamp", "ProviderCode", "ArticleId", "Headline"],
-            [dtypes.int64, dtypes.datetime, dtypes.string, dtypes.string, dtypes.string])
+            [dtypes.int64, dtypes.DateTime, dtypes.string, dtypes.string, dtypes.string])
 
         ####
         # Market Data
@@ -239,7 +239,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["ticks_mid_point"] = TableWriter(
             ["RequestId", "Timestamp", "MidPoint"],
-            [dtypes.int64, dtypes.datetime, dtypes.float64])
+            [dtypes.int64, dtypes.DateTime, dtypes.float64])
 
         table_writers["bars_historical"] = TableWriter(
             ["RequestId", *logger_bar_data.names()],

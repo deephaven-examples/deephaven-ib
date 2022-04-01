@@ -201,7 +201,7 @@ def _details_bar_data() -> List[Tuple]:
         return val
 
     return [
-        ("Timestamp", dtypes.datetime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
+        ("Timestamp", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
         ("Open", dtypes.float64, lambda bd: bd.open),
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
@@ -227,8 +227,8 @@ def _details_real_time_bar_data() -> List[Tuple]:
         return val
 
     return [
-        ("Timestamp", dtypes.datetime, lambda bd: unix_sec_to_dh_datetime(bd.time)),
-        ("TimestampEnd", dtypes.datetime, lambda bd: unix_sec_to_dh_datetime(bd.endTime)),
+        ("Timestamp", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(bd.time)),
+        ("TimestampEnd", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(bd.endTime)),
         ("Open", dtypes.float64, lambda bd: bd.open_),
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
@@ -316,7 +316,7 @@ def _details_historical_tick_last() -> List[Tuple]:
 
 
     return [
-        ("Timestamp", dtypes.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
+        ("Timestamp", dtypes.DateTime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("Price", dtypes.float64, lambda t: t.price),
         ("Size", dtypes.int64, lambda t: t.size),
         *_include_details(_details_tick_attrib_last(), lambda t: t.tickAttribLast),
@@ -348,7 +348,7 @@ def _details_historical_tick_bid_ask() -> List[Tuple]:
     """Details for logging HistoricalTickBidAsk."""
 
     return [
-        ("Timestamp", dtypes.datetime, lambda t: unix_sec_to_dh_datetime(t.time)),
+        ("Timestamp", dtypes.DateTime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("BidPrice", dtypes.float64, lambda t: t.priceBid),
         ("AskPrice", dtypes.float64, lambda t: t.priceAsk),
         ("BidSize", dtypes.int64, lambda t: t.sizeBid),
@@ -612,7 +612,7 @@ def _details_execution() -> List[Tuple]:
 
     return [
         ("ExecId", dtypes.string, lambda e: e.execId),
-        ("Timestamp", dtypes.datetime, lambda e: ib_to_dh_datetime(e.time)),
+        ("Timestamp", dtypes.DateTime, lambda e: ib_to_dh_datetime(e.time)),
         ("AcctNumber", dtypes.string, lambda e: e.acctNumber),
         ("Exchange", dtypes.string, lambda e: e.exchange),
         ("Side", dtypes.string, lambda e: e.side),
