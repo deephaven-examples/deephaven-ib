@@ -15,7 +15,7 @@ import json
 from typing import Union
 
 import jpy
-from deephaven._j_compat import j_function
+from deephaven._jcompat import j_function
 from deephaven.conversion_utils import NULL_DOUBLE
 
 _QueryScope = jpy.get_type("io.deephaven.engine.table.lang.QueryScope")
