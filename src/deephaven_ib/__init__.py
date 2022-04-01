@@ -534,7 +534,7 @@ class IbSessionTws:
             "accounts_aliases": tables_raw["raw_accounts_aliases"] \
                 .drop_columns("ReceiveTime"),
             "accounts_managed": tables_raw["raw_accounts_managed"] \
-                .selectDistinct("Account"),
+                .select_distinct("Account"),
             "accounts_positions": tables_raw["raw_accounts_positions"] \
                 .lastBy("RequestId", "Account", "ModelCode", "ContractId") \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
@@ -561,7 +561,7 @@ class IbSessionTws:
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note") \
                 .move_columns_up(["RequestId", "ReceiveTime", "Pattern"]) \
                 .update("Pattern=(String)__deephaven_ib_parse_note.apply(new String[]{Pattern,`pattern`})"),
-            "market_rules": tables_raw["raw_market_rules"].selectDistinct("MarketRuleId", "LowEdge", "Increment"),
+            "market_rules": tables_raw["raw_market_rules"].select_distinct(["MarketRuleId", "LowEdge", "Increment"]),
             "news_bulletins": tables_raw["raw_news_bulletins"],
             "news_providers": tables_raw["raw_news_providers"] \
                 .drop_columns("ReceiveTime"),
