@@ -8,7 +8,8 @@ import deephaven.DateTimeUtils as dtu
 # noinspection PyPep8Naming
 import deephaven.Types as dht
 import jpy
-from deephaven import DynamicTableWriter
+from deephaven import Table, DynamicTableWriter
+from deephaven.dtypes import DType
 
 from .trace import trace_str
 
@@ -23,8 +24,7 @@ class TableWriter:
     _string_indices: List[int]
     _receive_time: bool
 
-    # TODO: improve types type annotation once deephaven v2 is available
-    def __init__(self, names: List[str], types: List[Any], receive_time: bool = True):
+    def __init__(self, names: List[str], types: List[DType], receive_time: bool = True):
         TableWriter._check_for_duplicate_names(names)
         self.names = names
         self.types = types
@@ -34,7 +34,8 @@ class TableWriter:
             self.names.insert(0, "ReceiveTime")
             self.types.insert(0, dht.datetime)
 
-        self._dtw = DynamicTableWriter(names, types)
+        col_defs = {name: type for name, type in zip(names, types)}
+        self._dtw = DynamicTableWriter(col_defs)
         self._string_indices = [i for (i, t) in enumerate(types) if t == dht.string]
 
     @staticmethod
@@ -56,10 +57,9 @@ class TableWriter:
                 logging.error(
                     f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)} value={v}\n{trace_str()}\n-----")
 
-    # TODO: improve types type annotation once deephaven v2 is available
-    def table(self) -> Any:
+    def table(self) -> Table:
         """Gets the table data is logged to."""
-        return self._dtw.getTable()
+        return self._dtw.table
 
     def write_row(self, values: List) -> None:
         """Writes a row of data.  The input values may be modified."""
@@ -73,7 +73,7 @@ class TableWriter:
             if values[i] == "":
                 values[i] = None
 
-        self._dtw.logRowPermissive(values)
+        self._dtw.write_row(values)
 
 
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
