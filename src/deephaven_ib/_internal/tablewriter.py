@@ -5,11 +5,10 @@ from typing import List, Any, Sequence, Union, Set
 import collections
 
 from deephaven.time import now
-# noinspection PyPep8Naming
-import deephaven.Types as dht
 import jpy
 from deephaven import DynamicTableWriter
 from deephaven.table import Table
+from deephaven import dtypes
 from deephaven.dtypes import DType
 
 from .trace import trace_str
@@ -33,11 +32,11 @@ class TableWriter:
 
         if receive_time:
             self.names.insert(0, "ReceiveTime")
-            self.types.insert(0, dht.datetime)
+            self.types.insert(0, dtypes.datetime)
 
         col_defs = {name: type for name, type in zip(names, types)}
         self._dtw = DynamicTableWriter(col_defs)
-        self._string_indices = [i for (i, t) in enumerate(types) if t == dht.string]
+        self._string_indices = [i for (i, t) in enumerate(types) if t == dtypes.string]
 
     @staticmethod
     def _check_for_duplicate_names(names: List[str]) -> None:
@@ -52,9 +51,9 @@ class TableWriter:
             if v is None:
                 continue
 
-            if (t is dht.string and not isinstance(v, str)) or \
-                    (t is dht.int64 and not isinstance(v, int)) or \
-                    (t is dht.float64 and not isinstance(v, float)):
+            if (t is dtypes.string and not isinstance(v, str)) or \
+                    (t is dtypes.int64 and not isinstance(v, int)) or \
+                    (t is dtypes.float64 and not isinstance(v, float)):
                 logging.error(
                     f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)} value={v}\n{trace_str()}\n-----")
 
