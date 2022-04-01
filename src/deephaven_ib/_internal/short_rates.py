@@ -91,11 +91,11 @@ def load_short_rates() -> Table:
         p.flush()
 
         return read_csv(p.file_name(), delimiter="|") \
-            .renameColumns(
-            "Sym=SYM",
-            "Currency=CUR",
-            "Name=NAME",
-            "Contract=CON",
-            "RebateRate=REBATERATE",
-            "FeeRate=FEERATE",
-            "Available=AVAILABLE")
+            .rename_columns([
+                "Sym=SYM",
+                "Currency=CUR",
+                "Name=NAME",
+                "Contract=CON",
+                "RebateRate=REBATERATE",
+                "FeeRate=FEERATE",
+                "Available=AVAILABLE"])
