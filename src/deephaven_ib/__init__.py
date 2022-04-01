@@ -1,8 +1,7 @@
 from enum import Enum
 from typing import Dict, List, Callable
 
-# noinspection PyPep8Naming
-from deephaven import DateTimeUtils as dtu
+from deephaven.dtypes import DateTime
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
@@ -727,7 +726,7 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_news_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
+    def request_news_historical(self, contract: RegisteredContract, start: DateTime, end: DateTime,
                                 provider_codes: List[str] = None, total_results: int = 100) -> List[Request]:
         """ Request historical news for a contract.  Results are returned in the ``news_historical`` table.
 
@@ -869,7 +868,7 @@ class IbSessionTws:
 
     def request_bars_historical(self, contract: RegisteredContract,
                                 duration: Duration, bar_size: BarSize, bar_type: BarDataType,
-                                end: dtu.DateTime = None,
+                                end: DateTime = None,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
                                 keep_up_to_date: bool = True) -> List[Request]:
         """Requests historical bars for a contract.  Results are returned in the ``bars_historical`` table.
@@ -1020,7 +1019,7 @@ class IbSessionTws:
 
     def request_tick_data_historical(self, contract: RegisteredContract,
                                      tick_type: TickDataType, number_of_ticks: int,
-                                     start: dtu.DateTime = None, end: dtu.DateTime = None,
+                                     start: DateTime = None, end: DateTime = None,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
                                      ignore_size: bool = False) -> List[Request]:
         """Requests historical tick-by-tick data. Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,

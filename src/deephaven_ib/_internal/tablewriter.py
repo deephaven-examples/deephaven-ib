@@ -4,7 +4,7 @@ import logging
 from typing import List, Any, Sequence, Union, Set
 import collections
 
-import deephaven.DateTimeUtils as dtu
+from deephaven.time import now
 # noinspection PyPep8Naming
 import deephaven.Types as dht
 import jpy
@@ -65,7 +65,7 @@ class TableWriter:
         """Writes a row of data.  The input values may be modified."""
 
         if self._receive_time:
-            values.insert(0, dtu.currentTime())
+            values.insert(0, now())
 
         self._check_logged_value_types(values)
 

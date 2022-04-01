@@ -1,6 +1,6 @@
 from typing import Dict
 
-from deephaven import DateTimeUtils as dtu
+from deephaven.time import to_datetime
 from ibapi.contract import Contract
 from ibapi.order import Order
 
@@ -257,8 +257,8 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-start = dtu.convertDateTime("2021-01-01T00:00:00 NY")
-end = dtu.convertDateTime("2021-01-10T00:00:00 NY")
+start = to_datetime("2021-01-01T00:00:00 NY")
+end = to_datetime("2021-01-10T00:00:00 NY")
 client.request_news_historical(rc, start=start, end=end)
 
 client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
@@ -316,7 +316,7 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-now = dtu.convertDateTime("2021-01-01T00:00:00 NY")
+now = to_datetime("2021-01-01T00:00:00 NY")
 
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, start=now)
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, end=now)
