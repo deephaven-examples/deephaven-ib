@@ -16,7 +16,7 @@ from typing import Union
 
 import jpy
 from deephaven._jcompat import j_function
-from deephaven.conversion_utils import NULL_DOUBLE
+from deephaven.constants import NULL_DOUBLE
 
 _QueryScope = jpy.get_type("io.deephaven.engine.table.lang.QueryScope")
 
