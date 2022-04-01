@@ -97,7 +97,7 @@ def _details_contract() -> List[Tuple]:
 
         # combos
         ("ComboLegsDescrip", dtypes.string, lambda contract: contract.comboLegsDescrip),
-        ("ComboLegs", dtypes.stringset, lambda contract: to_string_set(contract.comboLegs)),
+        ("ComboLegs", dtypes.StringSet, lambda contract: to_string_set(contract.comboLegs)),
         ("DeltaNeutralContract", dtypes.string, lambda contract: to_string_val(contract.deltaNeutralContract)),
     ]
 
@@ -127,8 +127,8 @@ def _details_contract_details() -> List[Tuple]:
         *_include_details(_details_contract(), lambda cd: cd.contract),
         ("MarketName", dtypes.string, lambda cd: cd.marketName),
         ("MinTick", dtypes.float64, lambda cd: cd.minTick),
-        ("OrderTypes", dtypes.stringset, lambda cd: to_string_set(cd.orderTypes.split(","))),
-        ("ValidExchanges", dtypes.stringset, lambda cd: to_string_set(cd.validExchanges.split(","))),
+        ("OrderTypes", dtypes.StringSet, lambda cd: to_string_set(cd.orderTypes.split(","))),
+        ("ValidExchanges", dtypes.StringSet, lambda cd: to_string_set(cd.validExchanges.split(","))),
         ("PriceMagnifier", dtypes.int64, lambda cd: cd.priceMagnifier),
         ("UnderConId", dtypes.int64, lambda cd: cd.underConId),
         ("LongName", dtypes.string, lambda cd: cd.longName),
@@ -137,16 +137,16 @@ def _details_contract_details() -> List[Tuple]:
         ("Category", dtypes.string, lambda cd: cd.category),
         ("SubCategory", dtypes.string, lambda cd: cd.subcategory),
         ("TimeZoneId", dtypes.string, lambda cd: cd.timeZoneId),
-        ("TradingHours", dtypes.stringset, lambda cd: to_string_set(cd.tradingHours.split(";"))),
-        ("LiquidHours", dtypes.stringset, lambda cd: to_string_set(cd.liquidHours.split(";"))),
+        ("TradingHours", dtypes.StringSet, lambda cd: to_string_set(cd.tradingHours.split(";"))),
+        ("LiquidHours", dtypes.StringSet, lambda cd: to_string_set(cd.liquidHours.split(";"))),
         ("EvRule", dtypes.string, lambda cd: cd.evRule),
         ("EvMultiplier", dtypes.int64, lambda cd: cd.evMultiplier),
         ("MdSizeMultiplier", dtypes.int64, lambda cd: cd.mdSizeMultiplier),
         ("AggGroup", dtypes.int64, lambda cd: map_null_int(cd.aggGroup)),
         ("UnderSymbol", dtypes.string, lambda cd: cd.underSymbol),
         ("UnderSecType", dtypes.string, lambda cd: cd.underSecType),
-        ("MarketRuleIds", dtypes.stringset, lambda cd: to_string_set(cd.marketRuleIds.split(","))),
-        ("SecIdList", dtypes.stringset, lambda cd: map_sec_id_list(cd.secIdList)),
+        ("MarketRuleIds", dtypes.StringSet, lambda cd: to_string_set(cd.marketRuleIds.split(","))),
+        ("SecIdList", dtypes.StringSet, lambda cd: map_sec_id_list(cd.secIdList)),
         ("RealExpirationDate", dtypes.string, lambda cd: cd.realExpirationDate),
         ("LastTradeTime", dtypes.string, lambda cd: cd.lastTradeTime),
         ("StockType", dtypes.string, lambda cd: cd.stockType),
@@ -321,7 +321,7 @@ def _details_historical_tick_last() -> List[Tuple]:
         ("Size", dtypes.int64, lambda t: t.size),
         *_include_details(_details_tick_attrib_last(), lambda t: t.tickAttribLast),
         ("Exchange", dtypes.string, lambda t: t.exchange),
-        ("SpecialConditions", dtypes.stringset, lambda t: map_special_conditions(t.specialConditions))
+        ("SpecialConditions", dtypes.StringSet, lambda t: map_special_conditions(t.specialConditions))
     ]
 
 
@@ -498,8 +498,8 @@ def _details_order() -> List[Tuple]:
         # ALGO ORDERS ONLY
         ("AlgoStrategy", dtypes.string, lambda o: o.algoStrategy),
 
-        ("AlgoParams", dtypes.stringset, lambda o: to_string_set(o.algoParams)),
-        ("SmartComboRoutingParams", dtypes.stringset, lambda o: to_string_set(o.smartComboRoutingParams)),
+        ("AlgoParams", dtypes.StringSet, lambda o: to_string_set(o.algoParams)),
+        ("SmartComboRoutingParams", dtypes.StringSet, lambda o: to_string_set(o.smartComboRoutingParams)),
 
         ("AlgoId", dtypes.string, lambda o: o.algoId),
 
@@ -515,9 +515,9 @@ def _details_order() -> List[Tuple]:
 
         # order combo legs
 
-        ("OrderComboLegs", dtypes.stringset, lambda o: to_string_set(o.orderComboLegs)),
+        ("OrderComboLegs", dtypes.StringSet, lambda o: to_string_set(o.orderComboLegs)),
 
-        ("OrderMiscOptions", dtypes.stringset, lambda o: to_string_set(o.orderMiscOptions)),
+        ("OrderMiscOptions", dtypes.StringSet, lambda o: to_string_set(o.orderMiscOptions)),
 
         # VER PEG2BENCH fields:
         ("ReferenceContractId", dtypes.int64, lambda o: o.referenceContractId),
@@ -534,7 +534,7 @@ def _details_order() -> List[Tuple]:
         ("AdjustableTrailingUnit", dtypes.int64, lambda o: o.adjustableTrailingUnit),
         ("LmtPriceOffset", dtypes.float64, lambda o: o.lmtPriceOffset),
 
-        ("Conditions", dtypes.stringset, lambda o: to_string_set(o.conditions)),
+        ("Conditions", dtypes.StringSet, lambda o: to_string_set(o.conditions)),
         ("ConditionsCancelOrder", dtypes.bool_, lambda o: o.conditionsCancelOrder),
         ("ConditionsIgnoreRth", dtypes.bool_, lambda o: o.conditionsIgnoreRth),
 
