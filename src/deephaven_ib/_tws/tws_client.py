@@ -11,7 +11,7 @@ from functools import wraps
 from threading import Thread
 from typing import Set
 
-from deephaven import Table
+from deephaven.table import Table
 
 from ibapi import news
 from ibapi.client import EClient

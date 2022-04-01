@@ -4,7 +4,8 @@ import ftplib
 import html
 import tempfile
 
-from deephaven import read_csv, Table
+from deephaven import read_csv
+from deephaven.table import Table
 
 
 class IBFtpWriter:

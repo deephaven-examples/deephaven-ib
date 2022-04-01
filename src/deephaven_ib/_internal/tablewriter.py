@@ -8,7 +8,8 @@ from deephaven.time import now
 # noinspection PyPep8Naming
 import deephaven.Types as dht
 import jpy
-from deephaven import Table, DynamicTableWriter
+from deephaven import DynamicTableWriter
+from deephaven.table import Table
 from deephaven.dtypes import DType
 
 from .trace import trace_str
