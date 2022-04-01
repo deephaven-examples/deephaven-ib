@@ -11,6 +11,8 @@ from functools import wraps
 from threading import Thread
 from typing import Set
 
+from deephaven import Table
+
 from ibapi import news
 from ibapi.client import EClient
 from ibapi.commission_report import CommissionReport
@@ -62,7 +64,7 @@ class IbTwsClient(EWrapper, EClient):
     """
 
     _table_writers: Dict[str, TableWriter]
-    tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
+    tables: Dict[str, Table]
     _thread: Thread
     contract_registry: ContractRegistry
     request_id_manager: RequestIdManager

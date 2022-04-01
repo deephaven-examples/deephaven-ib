@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict, List, Any, Callable
+from typing import Dict, List, Callable
 
 # noinspection PyPep8Naming
 from deephaven import DateTimeUtils as dtu
@@ -392,8 +392,8 @@ class IbSessionTws:
     _client_id: int
     _read_only: bool
     _client: IbTwsClient
-    _tables_raw: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
-    _tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
+    _tables_raw: Dict[str, Table]
+    _tables: Dict[str, Table]
 
     def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY, read_only:bool = True):
         self._host = host
@@ -496,9 +496,8 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO: fix Any type annotation with Deephaven v2
     @staticmethod
-    def _make_tables(tables_raw: Dict[str, Any]) -> Dict[str, Any]:
+    def _make_tables(tables_raw: Dict[str, Table]) -> Dict[str, Table]:
         def annotate_ticks(t):
             requests = tables_raw["raw_requests"] \
                 .dropColumns("ReceiveTime", "RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note")
@@ -603,7 +602,7 @@ class IbSessionTws:
 
 
     @property
-    def tables(self) -> Dict[str, Any]:
+    def tables(self) -> Dict[str, Table]:
         """Gets a dictionary of all data tables.
 
         Returns:
@@ -612,7 +611,7 @@ class IbSessionTws:
         return self._tables
 
     @property
-    def tables_raw(self) -> Dict[str, Any]:
+    def tables_raw(self) -> Dict[str, Table]:
         """Gets a dictionary of all raw data tables.  Raw tables are just as the data comes from IB.
 
         Returns:
