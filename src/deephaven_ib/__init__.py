@@ -551,9 +551,9 @@ class IbSessionTws:
                 .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
             "accounts_pnl": tables_raw["raw_accounts_pnl"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
-                .update(
-                "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
-                "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})") \
+                .update([
+                    "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
+                    "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})"]) \
                 .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
                 .drop_columns("Note") \
                 .last_by("RequestId"),
