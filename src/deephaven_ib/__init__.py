@@ -504,27 +504,27 @@ class IbSessionTws:
 
             requests_col_names = requests.getDefinition().getColumnNamesArray()
 
-            rst = t.naturalJoin(requests, "RequestId").moveColumnsUp(requests_col_names)
+            rst = t.naturalJoin(requests, "RequestId").move_columns_up(requests_col_names)
 
             if "Timestamp" in rst.getDefinition().getColumnNamesArray():
                 if "TimestampEnd" in rst.getDefinition().getColumnNamesArray():
-                    rst = rst.moveColumnsUp("RequestId", "ReceiveTime", "Timestamp", "TimestampEnd")
+                    rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "TimestampEnd"])
                 else:
-                    rst = rst.moveColumnsUp("RequestId", "ReceiveTime", "Timestamp")
+                    rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp"])
             else:
-                rst = rst.moveColumnsUp("RequestId", "ReceiveTime")
+                rst = rst.move_columns_up(["RequestId", "ReceiveTime"])
 
             return rst
 
         return {
             "requests": tables_raw["raw_requests"] \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "errors": tables_raw["raw_errors"] \
                 .naturalJoin(tables_raw["raw_requests"] \
                              .dropColumns("Note").renameColumns("RequestTime=ReceiveTime"), "RequestId") \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "contracts_details": tables_raw["raw_contracts_details"] \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_family_codes": tables_raw["raw_accounts_family_codes"] \
                 .dropColumns("ReceiveTime"),
             "accounts_groups": tables_raw["raw_accounts_groups"] \
@@ -537,55 +537,55 @@ class IbSessionTws:
                 .selectDistinct("Account"),
             "accounts_positions": tables_raw["raw_accounts_positions"] \
                 .lastBy("RequestId", "Account", "ModelCode", "ContractId") \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_overview": tables_raw["raw_accounts_overview"] \
                 .lastBy("RequestId", "Account", "Currency", "Key") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_summary": tables_raw["raw_accounts_summary"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
                 .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
                 .dropColumns("Note") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
                 .lastBy("RequestId", "GroupName", "Account", "Tag") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "GroupName"),
+                .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
             "accounts_pnl": tables_raw["raw_accounts_pnl"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
                 .update(
                 "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
                 "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Account", "ModelCode") \
+                .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
                 .dropColumns("Note") \
                 .lastBy("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "Pattern=Note") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Pattern") \
+                .move_columns_up(["RequestId", "ReceiveTime", "Pattern"]) \
                 .update("Pattern=(String)__deephaven_ib_parse_note.apply(new String[]{Pattern,`pattern`})"),
             "market_rules": tables_raw["raw_market_rules"].selectDistinct("MarketRuleId", "LowEdge", "Increment"),
             "news_bulletins": tables_raw["raw_news_bulletins"],
             "news_providers": tables_raw["raw_news_providers"] \
                 .dropColumns("ReceiveTime"),
             "news_articles": tables_raw["raw_news_articles"] \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "news_historical": tables_raw["raw_news_historical"] \
                 .naturalJoin(tables_raw["raw_requests"], "RequestId", "ContractId,SecType,Symbol,LocalSymbol") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Timestamp", "ContractId", "SecType", "Symbol",
-                               "LocalSymbol"),
+                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ContractId", "SecType", "Symbol",
+                               "LocalSymbol"]),
             "orders_completed": tables_raw["raw_orders_completed"] \
-                .moveColumnsUp("ReceiveTime", "OrderId", "ClientId", "PermId", "ParentId"),
+                .move_columns_up(["ReceiveTime", "OrderId", "ClientId", "PermId", "ParentId"]),
             "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
             "orders_exec_details": tables_raw["raw_orders_exec_details"] \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"),
+                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"]),
             # The status on raw_orders_submitted is buggy, so using the status from raw_orders_status
             "orders_submitted": tables_raw["raw_orders_submitted"] \
                 .lastBy("PermId") \
                 .dropColumns("Status") \
                 .naturalJoin(tables_raw["raw_orders_status"].lastBy("PermId"), "PermId", "Status")
-                .moveColumnsUp("ReceiveTime", "Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId",
-                               "Status"),
+                .move_columns_up(["ReceiveTime", "Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId",
+                               "Status"]),
             "orders_status": tables_raw["raw_orders_status"] \
                 .lastBy("PermId") \
-                .moveColumnsUp("ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"),
+                .move_columns_up(["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]),
             "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
             "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
