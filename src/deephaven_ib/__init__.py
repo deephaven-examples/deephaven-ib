@@ -502,12 +502,12 @@ class IbSessionTws:
             requests = tables_raw["raw_requests"] \
                 .drop_columns(["ReceiveTime", "RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note"])
 
-            requests_col_names = requests.getDefinition().getColumnNamesArray()
+            requests_col_names = [ c.name for c in requests.columns ]
 
             rst = t.natural_join(requests, on="RequestId").move_columns_up(requests_col_names)
 
-            if "Timestamp" in rst.getDefinition().getColumnNamesArray():
-                if "TimestampEnd" in rst.getDefinition().getColumnNamesArray():
+            if "Timestamp" in [ c.name for c in rst.columns ]:
+                if "TimestampEnd" in [ c.name for c in rst.columns ]:
                     rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "TimestampEnd"])
                 else:
                     rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp"])
