@@ -500,7 +500,7 @@ class IbSessionTws:
     def _make_tables(tables_raw: Dict[str, Table]) -> Dict[str, Table]:
         def annotate_ticks(t):
             requests = tables_raw["raw_requests"] \
-                .dropColumns("ReceiveTime", "RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note")
+                .drop_columns(["ReceiveTime", "RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note"])
 
             requests_col_names = requests.getDefinition().getColumnNamesArray()
 
@@ -521,18 +521,18 @@ class IbSessionTws:
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "errors": tables_raw["raw_errors"] \
                 .natural_join(tables_raw["raw_requests"] \
-                             .dropColumns("Note").renameColumns("RequestTime=ReceiveTime"), on="RequestId") \
+                             .drop_columns("Note").rename_columns("RequestTime=ReceiveTime"), on="RequestId") \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "contracts_details": tables_raw["raw_contracts_details"] \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_family_codes": tables_raw["raw_accounts_family_codes"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_groups": tables_raw["raw_accounts_groups"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_allocation_profiles": tables_raw["raw_accounts_allocation_profiles"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_aliases": tables_raw["raw_accounts_aliases"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_managed": tables_raw["raw_accounts_managed"] \
                 .selectDistinct("Account"),
             "accounts_positions": tables_raw["raw_accounts_positions"] \
@@ -545,7 +545,7 @@ class IbSessionTws:
             "accounts_summary": tables_raw["raw_accounts_summary"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
                 .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
-                .dropColumns("Note") \
+                .drop_columns("Note") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
                 .lastBy("RequestId", "GroupName", "Account", "Tag") \
                 .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
@@ -555,7 +555,7 @@ class IbSessionTws:
                 "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
                 "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})") \
                 .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
-                .dropColumns("Note") \
+                .drop_columns("Note") \
                 .lastBy("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note") \
@@ -564,7 +564,7 @@ class IbSessionTws:
             "market_rules": tables_raw["raw_market_rules"].selectDistinct("MarketRuleId", "LowEdge", "Increment"),
             "news_bulletins": tables_raw["raw_news_bulletins"],
             "news_providers": tables_raw["raw_news_providers"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "news_articles": tables_raw["raw_news_articles"] \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "news_historical": tables_raw["raw_news_historical"] \
@@ -579,7 +579,7 @@ class IbSessionTws:
             # The status on raw_orders_submitted is buggy, so using the status from raw_orders_status
             "orders_submitted": tables_raw["raw_orders_submitted"] \
                 .lastBy("PermId") \
-                .dropColumns("Status") \
+                .drop_columns("Status") \
                 .natural_join(tables_raw["raw_orders_status"].lastBy("PermId"), on="PermId", joins="Status")
                 .move_columns_up(["ReceiveTime", "Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId",
                                "Status"]),
@@ -596,7 +596,7 @@ class IbSessionTws:
             "ticks_size": annotate_ticks(tables_raw["raw_ticks_size"]),
             "ticks_string": annotate_ticks(tables_raw["raw_ticks_string"]),
             "ticks_trade": annotate_ticks(tables_raw["raw_ticks_trade"] \
-                                          .renameColumns("TradeExchange=Exchange")),
+                                          .rename_columns("TradeExchange=Exchange")),
             "ticks_bid_ask": annotate_ticks(tables_raw["raw_ticks_bid_ask"]),
         }
 
