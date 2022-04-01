@@ -536,10 +536,10 @@ class IbSessionTws:
             "accounts_managed": tables_raw["raw_accounts_managed"] \
                 .select_distinct("Account"),
             "accounts_positions": tables_raw["raw_accounts_positions"] \
-                .lastBy("RequestId", "Account", "ModelCode", "ContractId") \
+                .last_by(["RequestId", "Account", "ModelCode", "ContractId"]) \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_overview": tables_raw["raw_accounts_overview"] \
-                .lastBy("RequestId", "Account", "Currency", "Key") \
+                .last_by(["RequestId", "Account", "Currency", "Key"]) \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_summary": tables_raw["raw_accounts_summary"] \
@@ -547,7 +547,7 @@ class IbSessionTws:
                 .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
                 .drop_columns("Note") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
-                .lastBy("RequestId", "GroupName", "Account", "Tag") \
+                .last_by(["RequestId", "GroupName", "Account", "Tag"]) \
                 .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
             "accounts_pnl": tables_raw["raw_accounts_pnl"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
@@ -556,7 +556,7 @@ class IbSessionTws:
                 "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})") \
                 .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
                 .drop_columns("Note") \
-                .lastBy("RequestId"),
+                .last_by("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note") \
                 .move_columns_up(["RequestId", "ReceiveTime", "Pattern"]) \
@@ -578,13 +578,13 @@ class IbSessionTws:
                 .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"]),
             # The status on raw_orders_submitted is buggy, so using the status from raw_orders_status
             "orders_submitted": tables_raw["raw_orders_submitted"] \
-                .lastBy("PermId") \
+                .last_by("PermId") \
                 .drop_columns("Status") \
-                .natural_join(tables_raw["raw_orders_status"].lastBy("PermId"), on="PermId", joins="Status")
+                .natural_join(tables_raw["raw_orders_status"].last_by("PermId"), on="PermId", joins="Status")
                 .move_columns_up(["ReceiveTime", "Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId",
                                "Status"]),
             "orders_status": tables_raw["raw_orders_status"] \
-                .lastBy("PermId") \
+                .last_by("PermId") \
                 .move_columns_up(["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]),
             "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
