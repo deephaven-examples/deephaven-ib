@@ -42,16 +42,16 @@ def ib_to_dh_datetime(time: str) -> DateTime:
     if time is None:
         return None
 
-    print("START DATE TIME PARSE***")
+    exceptions = []
 
     for formatter in _ib_date_time_formatters:
         try:
             return DateTime.j_type.of(formatter.parse(time).toInstant())
         except Exception as e:
-            print("FAILED DATE TIME PARSE: ", e)
+            exceptions.append(e)
             pass
 
-    raise Exception(f"Unable to parse time '{time}'")
+    raise Exception(f"Unable to parse time '{time}'", exceptions)
 
 
 def unix_sec_to_dh_datetime(time: int) -> DateTime:
