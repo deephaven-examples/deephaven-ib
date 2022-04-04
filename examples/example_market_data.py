@@ -2,6 +2,10 @@ from ibapi.contract import Contract
 
 import deephaven_ib as dhib
 
+print("==============================================================================================================")
+print("==== ** Accept the connection in TWS **")
+print("==============================================================================================================")
+
 client = dhib.IbSessionTws(host="host.docker.internal", port=7497, download_short_rates=False)
 client.connect()
 

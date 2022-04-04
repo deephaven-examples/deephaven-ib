@@ -1,5 +1,9 @@
 import deephaven_ib as dhib
 
+print("==============================================================================================================")
+print("==== ** Accept the connection in TWS **")
+print("==============================================================================================================")
+
 client = dhib.IbSessionTws(host="host.docker.internal", port=7497)
 client.connect()
 
@@ -33,18 +37,18 @@ bars_realtime = client.tables["bars_realtime"]
 
 bars_dia = bars_realtime.where("Symbol=`DIA`")
 bars_spy = bars_realtime.where("Symbol=`SPY`")
-bars_joined = bars_dia.view("Timestamp", "TimestampEnd", "Dia=Close") \
+bars_joined = bars_dia.view(["Timestamp", "TimestampEnd", "Dia=Close"]) \
     .natural_join(bars_spy, on="TimestampEnd", joins="Spy=Close") \
     .update("Ratio = Dia/Spy")
 
-from deephaven import Plot
+from deephaven.plot import Figure
 
-plot_prices = Plot.plot("DIA", bars_dia, "TimestampEnd", "Close") \
-    .twinX() \
-    .plot("SPY", bars_dia, "TimestampEnd", "Close") \
+plot_prices = Figure().plot_xy("DIA", t=bars_dia, x="TimestampEnd", y="Close") \
+    .x_twin() \
+    .plot_xy("SPY", t=bars_spy, x="TimestampEnd", y="Close") \
     .show()
 
-plot_ratio = Plot.plot("Ratio", bars_joined, "TimestampEnd", "Ratio") \
+plot_ratio = Figure().plot_xy("Ratio", t=bars_joined, x="TimestampEnd", y="Ratio") \
     .show()
 
 
