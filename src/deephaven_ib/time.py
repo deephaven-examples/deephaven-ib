@@ -42,10 +42,13 @@ def ib_to_dh_datetime(time: str) -> DateTime:
     if time is None:
         return None
 
+    print("START DATE TIME PARSE")
+
     for formatter in _ib_date_time_formatters:
         try:
             return DateTime.of(formatter.parse(time).toInstant())
-        except:
+        except Exception as e:
+            print("FAILED DATE TIME PARSE: ", e)
             pass
 
     raise Exception(f"Unable to parse time '{time}'")
