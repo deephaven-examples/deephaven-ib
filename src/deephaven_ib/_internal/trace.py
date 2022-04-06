@@ -11,7 +11,10 @@ def trace_str() -> str:
 
 def trace_thread_str(thread:threading.Thread) -> str:
     """Gets a string of the stacktrace of a thread."""
-    return "".join(traceback.format_stack(sys._current_frames()[thread.ident]))
+    try:
+        return "".join(traceback.format_stack(sys._current_frames()[thread.ident]))
+    except KeyError:
+        return f"Thread stack not found: thread={thread.ident}"
 
 
 def trace_all_threads_str() -> str:
