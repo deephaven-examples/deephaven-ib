@@ -144,8 +144,9 @@ See [Access your file system with Docker data volumes](https://deephaven.io/core
 
 Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
 
-`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g., `0.10.0`).  A list of available versions 
-can be found on the [Deephaven Releases GitHub page](https://github.com/deephaven/deephaven-core/releases).
+`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g., `0.11.0`).  A list of available versions 
+can be found on the [Deephaven Releases GitHub page](https://github.com/deephaven/deephaven-core/releases).  
+Version `0.11.0` or higher must be used.
 
 **Windows users need to run the commands in WSL.**
 
@@ -371,7 +372,7 @@ Market data can be requested from the client using:
 ```python
 from ibapi.contract import Contract
 
-from deephaven import DateTimeUtils as dtu
+from deephaven.time import to_datetime
 
 contract = Contract()
 contract.symbol = "GOOG"
@@ -382,8 +383,8 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-start = dtu.convertDateTime("2021-01-01T00:00:00 NY")
-end = dtu.convertDateTime("2021-01-10T00:00:00 NY")
+start = to_datetime("2021-01-01T00:00:00 NY")
+end = to_datetime("2021-01-10T00:00:00 NY")
 client.request_news_historical(rc, start=start, end=end)
 
 client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
@@ -485,8 +486,8 @@ bars_realtime = client.tables["bars_realtime"]
 
 bars_dia = bars_realtime.where("Symbol=`DIA`")
 bars_spy = bars_realtime.where("Symbol=`SPY`")
-bars_joined = bars_dia.view("Timestamp", "TimestampEnd", "Dia=Close") \
-    .naturalJoin(bars_spy, "TimestampEnd", "Spy=Close") \
+bars_joined = bars_dia.view(["Timestamp", "TimestampEnd", "Dia=Close"]) \
+    .natural_join(bars_spy, on="TimestampEnd", joins="Spy=Close") \
     .update("Ratio = Dia/Spy")
 ```
 
@@ -518,9 +519,10 @@ client.request_tick_data_realtime(rc, dhib.TickDataType.BID_ASK)
 
 ticks_bid_ask = client.tables["ticks_bid_ask"]
 
-from deephaven import Plot
-plot_aapl = Plot.plot("Bid",  ticks_bid_ask, "ReceiveTime", "BidPrice") \
-    .plot("Ask",  ticks_bid_ask, "ReceiveTime", "AskPrice") \
+from deephaven.plot import Figure
+
+plot_aapl = Figure().plot_xy("Bid",  t=ticks_bid_ask, x="ReceiveTime", y="BidPrice") \
+    .plot_xy("Ask",  t=ticks_bid_ask, x="ReceiveTime", y="AskPrice") \
     .show()
 ```
 
@@ -561,6 +563,7 @@ A discussion of available logging levels can be found in the [Python `logging` m
 
 If you can not solve your problems through either the `errors` table or through logging, you can try:
 
+* [deephaven-ib API Documentation](https://deephaven-examples.github.io/deephaven-ib/)
 * [Interactive Brokers Support](https://www.interactivebrokers.com/en/support/individuals.php)
 * [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
 * [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
