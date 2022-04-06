@@ -4,11 +4,12 @@ import logging
 from typing import List, Any, Sequence, Union, Set
 import collections
 
-import deephaven.DateTimeUtils as dtu
-# noinspection PyPep8Naming
-import deephaven.Types as dht
+from deephaven.time import now
 import jpy
 from deephaven import DynamicTableWriter
+from deephaven.table import Table
+from deephaven import dtypes
+from deephaven.dtypes import DType
 
 from .trace import trace_str
 
@@ -23,8 +24,7 @@ class TableWriter:
     _string_indices: List[int]
     _receive_time: bool
 
-    # TODO: improve types type annotation once deephaven v2 is available
-    def __init__(self, names: List[str], types: List[Any], receive_time: bool = True):
+    def __init__(self, names: List[str], types: List[DType], receive_time: bool = True):
         TableWriter._check_for_duplicate_names(names)
         self.names = names
         self.types = types
@@ -32,10 +32,11 @@ class TableWriter:
 
         if receive_time:
             self.names.insert(0, "ReceiveTime")
-            self.types.insert(0, dht.datetime)
+            self.types.insert(0, dtypes.DateTime)
 
-        self._dtw = DynamicTableWriter(names, types)
-        self._string_indices = [i for (i, t) in enumerate(types) if t == dht.string]
+        col_defs = {name: type for name, type in zip(names, types)}
+        self._dtw = DynamicTableWriter(col_defs)
+        self._string_indices = [i for (i, t) in enumerate(types) if t == dtypes.string]
 
     @staticmethod
     def _check_for_duplicate_names(names: List[str]) -> None:
@@ -50,22 +51,21 @@ class TableWriter:
             if v is None:
                 continue
 
-            if (t is dht.string and not isinstance(v, str)) or \
-                    (t is dht.int64 and not isinstance(v, int)) or \
-                    (t is dht.float64 and not isinstance(v, float)):
+            if (t is dtypes.string and not isinstance(v, str)) or \
+                    (t is dtypes.int64 and not isinstance(v, int)) or \
+                    (t is dtypes.float64 and not isinstance(v, float)):
                 logging.error(
                     f"TableWriter column type and value type are mismatched: column_name={n} column_type={t} value_type={type(v)} value={v}\n{trace_str()}\n-----")
 
-    # TODO: improve types type annotation once deephaven v2 is available
-    def table(self) -> Any:
+    def table(self) -> Table:
         """Gets the table data is logged to."""
-        return self._dtw.getTable()
+        return self._dtw.table
 
     def write_row(self, values: List) -> None:
         """Writes a row of data.  The input values may be modified."""
 
         if self._receive_time:
-            values.insert(0, dtu.currentTime())
+            values.insert(0, now())
 
         self._check_logged_value_types(values)
 
@@ -73,7 +73,7 @@ class TableWriter:
             if values[i] == "":
                 values[i] = None
 
-        self._dtw.logRowPermissive(values)
+        self._dtw.write_row(values)
 
 
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")

@@ -45,7 +45,7 @@ from deephaven.plot import Figure
 
 plot_prices = Figure().plot_xy("DIA", t=bars_dia, x="TimestampEnd", y="Close") \
     .x_twin() \
-    .plot_xy("SPY", t=bars_spy, x="TimestampEnd", y="Close") \
+    .plot_xy("SPY", t=bars_dia, x="TimestampEnd", y="Close") \
     .show()
 
 plot_ratio = Figure().plot_xy("Ratio", t=bars_joined, x="TimestampEnd", y="Ratio") \

@@ -1,8 +1,8 @@
 from enum import Enum
-from typing import Dict, List, Any, Callable
+from typing import Dict, List, Callable
 
-# noinspection PyPep8Naming
-from deephaven import DateTimeUtils as dtu
+from deephaven.table import Table
+from deephaven.dtypes import DateTime
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
@@ -392,8 +392,8 @@ class IbSessionTws:
     _client_id: int
     _read_only: bool
     _client: IbTwsClient
-    _tables_raw: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
-    _tables: Dict[str, Any]  # TODO: should be Dict[str, Table] with deephaven v2
+    _tables_raw: Dict[str, Table]
+    _tables: Dict[str, Table]
 
     def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY, read_only:bool = True):
         self._host = host
@@ -496,97 +496,96 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    # TODO: fix Any type annotation with Deephaven v2
     @staticmethod
-    def _make_tables(tables_raw: Dict[str, Any]) -> Dict[str, Any]:
+    def _make_tables(tables_raw: Dict[str, Table]) -> Dict[str, Table]:
         def annotate_ticks(t):
             requests = tables_raw["raw_requests"] \
-                .dropColumns("ReceiveTime", "RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note")
+                .drop_columns(["ReceiveTime", "RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note"])
 
-            requests_col_names = requests.getDefinition().getColumnNamesArray()
+            requests_col_names = [ c.name for c in requests.columns ]
 
-            rst = t.naturalJoin(requests, "RequestId").moveColumnsUp(requests_col_names)
+            rst = t.natural_join(requests, on="RequestId").move_columns_up(requests_col_names)
 
-            if "Timestamp" in rst.getDefinition().getColumnNamesArray():
-                if "TimestampEnd" in rst.getDefinition().getColumnNamesArray():
-                    rst = rst.moveColumnsUp("RequestId", "ReceiveTime", "Timestamp", "TimestampEnd")
+            if "Timestamp" in [ c.name for c in rst.columns ]:
+                if "TimestampEnd" in [ c.name for c in rst.columns ]:
+                    rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "TimestampEnd"])
                 else:
-                    rst = rst.moveColumnsUp("RequestId", "ReceiveTime", "Timestamp")
+                    rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp"])
             else:
-                rst = rst.moveColumnsUp("RequestId", "ReceiveTime")
+                rst = rst.move_columns_up(["RequestId", "ReceiveTime"])
 
             return rst
 
         return {
             "requests": tables_raw["raw_requests"] \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "errors": tables_raw["raw_errors"] \
-                .naturalJoin(tables_raw["raw_requests"] \
-                             .dropColumns("Note").renameColumns("RequestTime=ReceiveTime"), "RequestId") \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .natural_join(tables_raw["raw_requests"] \
+                             .drop_columns("Note").rename_columns("RequestTime=ReceiveTime"), on="RequestId") \
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "contracts_details": tables_raw["raw_contracts_details"] \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_family_codes": tables_raw["raw_accounts_family_codes"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_groups": tables_raw["raw_accounts_groups"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_allocation_profiles": tables_raw["raw_accounts_allocation_profiles"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_aliases": tables_raw["raw_accounts_aliases"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "accounts_managed": tables_raw["raw_accounts_managed"] \
-                .selectDistinct("Account"),
+                .select_distinct("Account"),
             "accounts_positions": tables_raw["raw_accounts_positions"] \
-                .lastBy("RequestId", "Account", "ModelCode", "ContractId") \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .last_by(["RequestId", "Account", "ModelCode", "ContractId"]) \
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_overview": tables_raw["raw_accounts_overview"] \
-                .lastBy("RequestId", "Account", "Currency", "Key") \
+                .last_by(["RequestId", "Account", "Currency", "Key"]) \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_summary": tables_raw["raw_accounts_summary"] \
-                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
+                .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
                 .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
-                .dropColumns("Note") \
+                .drop_columns("Note") \
                 .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
-                .lastBy("RequestId", "GroupName", "Account", "Tag") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "GroupName"),
+                .last_by(["RequestId", "GroupName", "Account", "Tag"]) \
+                .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
             "accounts_pnl": tables_raw["raw_accounts_pnl"] \
-                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Note") \
-                .update(
-                "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
-                "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Account", "ModelCode") \
-                .dropColumns("Note") \
-                .lastBy("RequestId"),
+                .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
+                .update([
+                    "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
+                    "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})"]) \
+                .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
+                .drop_columns("Note") \
+                .last_by("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
-                .naturalJoin(tables_raw["raw_requests"], "RequestId", "Pattern=Note") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Pattern") \
+                .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note") \
+                .move_columns_up(["RequestId", "ReceiveTime", "Pattern"]) \
                 .update("Pattern=(String)__deephaven_ib_parse_note.apply(new String[]{Pattern,`pattern`})"),
-            "market_rules": tables_raw["raw_market_rules"].selectDistinct("MarketRuleId", "LowEdge", "Increment"),
+            "market_rules": tables_raw["raw_market_rules"].select_distinct(["MarketRuleId", "LowEdge", "Increment"]),
             "news_bulletins": tables_raw["raw_news_bulletins"],
             "news_providers": tables_raw["raw_news_providers"] \
-                .dropColumns("ReceiveTime"),
+                .drop_columns("ReceiveTime"),
             "news_articles": tables_raw["raw_news_articles"] \
-                .moveColumnsUp("RequestId", "ReceiveTime"),
+                .move_columns_up(["RequestId", "ReceiveTime"]),
             "news_historical": tables_raw["raw_news_historical"] \
-                .naturalJoin(tables_raw["raw_requests"], "RequestId", "ContractId,SecType,Symbol,LocalSymbol") \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Timestamp", "ContractId", "SecType", "Symbol",
-                               "LocalSymbol"),
+                .natural_join(tables_raw["raw_requests"], on="RequestId", joins=["ContractId","SecType","Symbol","LocalSymbol"]) \
+                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ContractId", "SecType", "Symbol",
+                               "LocalSymbol"]),
             "orders_completed": tables_raw["raw_orders_completed"] \
-                .moveColumnsUp("ReceiveTime", "OrderId", "ClientId", "PermId", "ParentId"),
+                .move_columns_up(["ReceiveTime", "OrderId", "ClientId", "PermId", "ParentId"]),
             "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
             "orders_exec_details": tables_raw["raw_orders_exec_details"] \
-                .moveColumnsUp("RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"),
+                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"]),
             # The status on raw_orders_submitted is buggy, so using the status from raw_orders_status
             "orders_submitted": tables_raw["raw_orders_submitted"] \
-                .lastBy("PermId") \
-                .dropColumns("Status") \
-                .naturalJoin(tables_raw["raw_orders_status"].lastBy("PermId"), "PermId", "Status")
-                .moveColumnsUp("ReceiveTime", "Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId",
-                               "Status"),
+                .last_by("PermId") \
+                .drop_columns("Status") \
+                .natural_join(tables_raw["raw_orders_status"].last_by("PermId"), on="PermId", joins="Status")
+                .move_columns_up(["ReceiveTime", "Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId",
+                               "Status"]),
             "orders_status": tables_raw["raw_orders_status"] \
-                .lastBy("PermId") \
-                .moveColumnsUp("ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"),
+                .last_by("PermId") \
+                .move_columns_up(["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]),
             "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
             "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
@@ -597,13 +596,13 @@ class IbSessionTws:
             "ticks_size": annotate_ticks(tables_raw["raw_ticks_size"]),
             "ticks_string": annotate_ticks(tables_raw["raw_ticks_string"]),
             "ticks_trade": annotate_ticks(tables_raw["raw_ticks_trade"] \
-                                          .renameColumns("TradeExchange=Exchange")),
+                                          .rename_columns("TradeExchange=Exchange")),
             "ticks_bid_ask": annotate_ticks(tables_raw["raw_ticks_bid_ask"]),
         }
 
 
     @property
-    def tables(self) -> Dict[str, Any]:
+    def tables(self) -> Dict[str, Table]:
         """Gets a dictionary of all data tables.
 
         Returns:
@@ -612,7 +611,7 @@ class IbSessionTws:
         return self._tables
 
     @property
-    def tables_raw(self) -> Dict[str, Any]:
+    def tables_raw(self) -> Dict[str, Table]:
         """Gets a dictionary of all raw data tables.  Raw tables are just as the data comes from IB.
 
         Returns:
@@ -728,7 +727,7 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_news_historical(self, contract: RegisteredContract, start: dtu.DateTime, end: dtu.DateTime,
+    def request_news_historical(self, contract: RegisteredContract, start: DateTime, end: DateTime,
                                 provider_codes: List[str] = None, total_results: int = 100) -> List[Request]:
         """ Request historical news for a contract.  Results are returned in the ``news_historical`` table.
 
@@ -870,7 +869,7 @@ class IbSessionTws:
 
     def request_bars_historical(self, contract: RegisteredContract,
                                 duration: Duration, bar_size: BarSize, bar_type: BarDataType,
-                                end: dtu.DateTime = None,
+                                end: DateTime = None,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
                                 keep_up_to_date: bool = True) -> List[Request]:
         """Requests historical bars for a contract.  Results are returned in the ``bars_historical`` table.
@@ -1021,7 +1020,7 @@ class IbSessionTws:
 
     def request_tick_data_historical(self, contract: RegisteredContract,
                                      tick_type: TickDataType, number_of_ticks: int,
-                                     start: dtu.DateTime = None, end: dtu.DateTime = None,
+                                     start: DateTime = None, end: DateTime = None,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
                                      ignore_size: bool = False) -> List[Request]:
         """Requests historical tick-by-tick data. Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,

@@ -1,6 +1,6 @@
 from typing import Dict
 
-from deephaven import DateTimeUtils as dtu
+from deephaven.time import to_datetime
 from ibapi.contract import Contract
 from ibapi.order import Order
 
@@ -12,6 +12,7 @@ import deephaven_ib as dhib
 
 print("==============================================================================================================")
 print("==== Create a client and connect.")
+print("==== ** Accept the connection in TWS **")
 print("==============================================================================================================")
 
 client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=False, read_only=False)
@@ -22,6 +23,7 @@ print(f"IsConnected: {client.is_connected()}")
 
 print("==============================================================================================================")
 print("==== Get registered contracts for all contract types.")
+print("==== See https://interactivebrokers.github.io/tws-api/basic_contracts.html for details on supported contract types.")
 print("==============================================================================================================")
 
 
@@ -88,14 +90,14 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202203"
+    contract.lastTradeDateOrContractMonth = "202206"
     rst["future_1"] = contract
 
     contract = Contract()
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.localSymbol = "ESH2"
+    contract.localSymbol = "MESZ2"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -103,7 +105,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "DTB"
     contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "202203"
+    contract.lastTradeDateOrContractMonth = "202206"
     contract.multiplier = "5"
     rst["future_3"] = contract
 
@@ -126,7 +128,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "OPT"
     contract.exchange = "BOX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "20220318"
+    contract.lastTradeDateOrContractMonth = "20230120"
     contract.strike = 2800
     contract.right = "C"
     contract.multiplier = "100"
@@ -159,7 +161,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202203"
+    contract.lastTradeDateOrContractMonth = "202206"
     contract.strike = 4700
     contract.right = "C"
     contract.multiplier = "50"
@@ -213,12 +215,12 @@ def get_contracts() -> Dict[str, Contract]:
 
     # Dutch warrants and structured products
 
-    contract = Contract()
-    contract.localSymbol = "PJ07S"
-    contract.secType = "IOPT"
-    contract.exchange = "SBF"
-    contract.currency = "EUR"
-    rst["dutchwarrant_1"] = contract
+    # contract = Contract()
+    # contract.localSymbol = "B881G"
+    # contract.secType = "IOPT"
+    # contract.exchange = "SBF"
+    # contract.currency = "EUR"
+    # rst["dutchwarrant_1"] = contract
 
     return rst
 
@@ -257,8 +259,8 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-start = dtu.convertDateTime("2021-01-01T00:00:00 NY")
-end = dtu.convertDateTime("2021-01-10T00:00:00 NY")
+start = to_datetime("2021-01-01T00:00:00 NY")
+end = to_datetime("2021-01-10T00:00:00 NY")
 client.request_news_historical(rc, start=start, end=end)
 
 client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
@@ -316,7 +318,7 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-now = dtu.convertDateTime("2021-01-01T00:00:00 NY")
+now = to_datetime("2021-01-01T00:00:00 NY")
 
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, start=now)
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, end=now)
@@ -390,7 +392,7 @@ contract.symbol = "GOOG"
 contract.secType = "OPT"
 contract.exchange = "BOX"
 contract.currency = "USD"
-contract.lastTradeDateOrContractMonth = "20220318"
+contract.lastTradeDateOrContractMonth = "20230120"
 contract.strike = 2800
 contract.right = "C"
 contract.multiplier = "100"

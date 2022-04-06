@@ -3,9 +3,9 @@
 import ftplib
 import html
 import tempfile
-from typing import Any
 
 from deephaven import read_csv
+from deephaven.table import Table
 
 
 class IBFtpWriter:
@@ -68,8 +68,7 @@ class IBFtpWriter:
             self.file.write(f"{self.source}|{line}\n")
 
 
-# TODO: change the return type for deephaven v2 to Table
-def load_short_rates() -> Any:
+def load_short_rates() -> Table:
     """Downloads the short rates from the IB FTP site and returns them as a table."""
 
     host: str = "ftp3.interactivebrokers.com"
@@ -92,11 +91,11 @@ def load_short_rates() -> Any:
         p.flush()
 
         return read_csv(p.file_name(), delimiter="|") \
-            .renameColumns(
-            "Sym=SYM",
-            "Currency=CUR",
-            "Name=NAME",
-            "Contract=CON",
-            "RebateRate=REBATERATE",
-            "FeeRate=FEERATE",
-            "Available=AVAILABLE")
+            .rename_columns([
+                "Sym=SYM",
+                "Currency=CUR",
+                "Name=NAME",
+                "Contract=CON",
+                "RebateRate=REBATERATE",
+                "FeeRate=FEERATE",
+                "Available=AVAILABLE"])
