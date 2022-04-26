@@ -566,7 +566,7 @@ If you can not solve your problems through either the `errors` table or through 
 * [deephaven-ib API Documentation](https://deephaven-examples.github.io/deephaven-ib/)
 * [Interactive Brokers Support](https://www.interactivebrokers.com/en/support/individuals.php)
 * [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
-* [Deephaven Community Slack](https://http://deephavencommunity.slack.com/)
+* [Deephaven Community Slack](https://join.slack.com/t/deephavencommunity/shared_invite/zt-11x3hiufp-DmOMWDAvXv_pNDUlVkagLQ)
 
 
 # Examples
