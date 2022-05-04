@@ -15,7 +15,7 @@ import json
 from typing import Union
 
 import jpy
-from deephaven._jcompat import j_function
+from deephaven.jcompat import j_function
 from deephaven.constants import NULL_DOUBLE
 import deephaven.dtypes
 
