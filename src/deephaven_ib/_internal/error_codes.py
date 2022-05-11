@@ -39,6 +39,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
         10172: "Failed to request news article: No data available",
         10187: "Failed to request historical ticks",
         10189: "Failed to request tick-by-tick data",
+        10190: "Maxnumber of tick-by-tick requests has been reached.",
     }
 
     for k, v in overrides.items():
