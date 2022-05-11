@@ -404,6 +404,11 @@ class IbTwsClient(EWrapper, EClient):
         if reqId == 2147483647:
             reqId = None
 
+        if errorCode not in _error_code_message_map:
+            msg = f"Unmapped error code.  Please file an issue at https://github.com/deephaven-examples/deephaven-ib/issues: errorCode='{errorCode}' errorString='{errorString}'\nThis only impacts the error message you see and will not impact the execution of your program."
+            logging.error(msg)
+            _error_code_message_map[errorCode] = errorString
+
         self._table_writers["errors"].write_row(
             [reqId, errorCode, map_values(errorCode, _error_code_message_map), errorString,
              map_values(errorCode, _error_code_note_map)])
