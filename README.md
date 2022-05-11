@@ -222,6 +222,12 @@ settings.  By default, production trading uses port 7496, and paper trading uses
 
 `read_only` is a boolean value that is used to enable trading.  By default `read_only=True`, preventing trading.  Use `read_only=False` to enable trading.
 
+`is_fa` is a boolean value that is used to indicate if an account is a financial advisor (FA) account or a regular acccount. 
+ By using `is_fa=True`, FA account configuration details are requested.  By default `is_fa=False`.  
+ If `is_fa=True` is used on a non-FA account, everything should work fine, but there will be error messages.
+ If `is_fa=False` (the default) is used on a FA account, FA account configurations will not be populated in tables such as
+ `accounts_groups`, `accounts_allocation_profiles`, and `accounts_aliases`.
+
 `order_id_strategy` is the strategy used for obtaining new order ids.  Order id algorithms have tradeoffs in execution time, support for multiple, concurrent sessions, and avoidance of TWS bugs.
 * `OrderIdStrategy.RETRY` (default) - Request a new order ID from TWS every time one is needed.  Retry if TWS does not respond quickly.  This usually avoids a TWS bug where it does not always respond.
 * `OrderIdStrategy.BASIC` - Request a new order ID from TWS every time one is needed.  Does not retry, so it may deadlock if TWS does not respond.
@@ -240,6 +246,14 @@ For a read-only session that does not allow trading:
 import deephaven_ib as dhib
 
 client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=True)
+client.connect()
+```
+
+For a read-only financial advisor (FA) session that does not allow trading:
+```python
+import deephaven_ib as dhib
+
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=True, is_fa=True)
 client.connect()
 ```
 

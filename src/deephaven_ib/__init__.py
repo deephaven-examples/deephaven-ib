@@ -320,6 +320,7 @@ class IbSessionTws:
         download_short_rates (bool): True to download a short rates table.
         order_id_strategy (OrderIdStrategy): strategy for obtaining new order ids.
         read_only (bool): True to create a read only client that can not trade; false to create a read-write client that can trade.  Default is true.
+        is_fa (bool): True for financial advisor accounts; false otherwise.  Default is false.
 
 
     Tables:
@@ -395,12 +396,12 @@ class IbSessionTws:
     _tables_raw: Dict[str, Table]
     _tables: Dict[str, Table]
 
-    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY, read_only:bool = True):
+    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY, read_only: bool = True, is_fa: bool = False):
         self._host = host
         self._port = port
         self._client_id = client_id
         self._read_only = read_only
-        self._client = IbTwsClient(download_short_rates=download_short_rates, order_id_strategy=order_id_strategy, read_only=read_only)
+        self._client = IbTwsClient(download_short_rates=download_short_rates, order_id_strategy=order_id_strategy, read_only=read_only, is_fa=is_fa)
         self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
         self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
 

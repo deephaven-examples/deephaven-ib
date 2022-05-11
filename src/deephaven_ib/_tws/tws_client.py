@@ -76,8 +76,9 @@ class IbTwsClient(EWrapper, EClient):
     _accounts_managed: Set[str]
     _order_id_strategy: OrderIdStrategy
     _read_only: bool
+    _is_fa: bool
 
-    def __init__(self, download_short_rates: bool, order_id_strategy: OrderIdStrategy, read_only: bool):
+    def __init__(self, download_short_rates: bool, order_id_strategy: OrderIdStrategy, read_only: bool, is_fa: bool):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
         self._table_writers = IbTwsClient._build_table_writers()
@@ -91,6 +92,7 @@ class IbTwsClient(EWrapper, EClient):
         self._accounts_managed = None
         self._order_id_strategy = order_id_strategy
         self._read_only = read_only
+        self._is_fa = is_fa
 
         tables = {name: tw.table() for (name, tw) in self._table_writers.items()}
 
@@ -357,11 +359,14 @@ class IbTwsClient(EWrapper, EClient):
         """Subscribe to IB data."""
 
         self.reqFamilyCodes()
-        self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
-        #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/32
-        #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/5
-        # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
-        self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
+
+        if self._is_fa:
+            self.requestFA(1)  # request GROUPS.  See FaDataTypeEnum.
+            #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/32
+            #TODO: see https://github.com/deephaven-examples/deephaven-ib/issues/5
+            # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
+            self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
+
         self.request_account_summary("All")
         self.request_account_pnl("All")
         self.request_account_overview("All")
