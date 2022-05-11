@@ -200,8 +200,13 @@ def _details_bar_data() -> List[Tuple]:
 
         return val
 
+    def debug_timestamp(bd):
+        print(f"BD: {bd}")
+        return unix_sec_to_dh_datetime(int(bd.date))
+
     return [
-        ("Timestamp", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
+        # ("Timestamp", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
+        ("Timestamp", dtypes.DateTime, debug_timestamp),
         ("Open", dtypes.float64, lambda bd: bd.open),
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
