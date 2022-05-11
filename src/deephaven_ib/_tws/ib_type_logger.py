@@ -200,13 +200,26 @@ def _details_bar_data() -> List[Tuple]:
 
         return val
 
-    def debug_timestamp(bd):
+    def parse_timestamp(bd):
         print(f"BD: {bd}")
-        return unix_sec_to_dh_datetime(int(bd.date))
+
+        if bd.date < 21000000:
+            # bd.date is a date string encoded as an int
+            n = bd.date
+            day = n % 100
+            n = n / 100
+            month = n % 100
+            n = n / 100
+            year = n
+            time_string = f"{year:04}{month:02}{day:02} 23:59:59"
+            print(time_string)
+            return ib_to_dh_datetime(time_string)
+        else:
+            # bd.date is unix sec
+            return unix_sec_to_dh_datetime(int(bd.date))
 
     return [
-        # ("Timestamp", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
-        ("Timestamp", dtypes.DateTime, debug_timestamp),
+        ("Timestamp", dtypes.DateTime, parse_timestamp),
         ("Open", dtypes.float64, lambda bd: bd.open),
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
