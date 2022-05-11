@@ -201,19 +201,15 @@ def _details_bar_data() -> List[Tuple]:
         return val
 
     def parse_timestamp(bd):
-        print(f"BD: {bd}\t{len(bd.date)}")
-
         if len(bd.date) is 8:
             # bd.date is a date string
             year = bd.date[0:4]
             month = bd.date[4:6]
             day = bd.date[6:]
             time_string = f"{year}{month}{day} 23:59:59"
-            print(f"TOP: {time_string}")
             return ib_to_dh_datetime(time_string)
         else:
             # bd.date is unix sec
-            print(f"BOTTOM: {int(bd.date)}")
             return unix_sec_to_dh_datetime(int(bd.date))
 
     return [
