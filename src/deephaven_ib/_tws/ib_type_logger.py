@@ -203,7 +203,7 @@ def _details_bar_data() -> List[Tuple]:
     def parse_timestamp(bd):
         print(f"BD: {bd}")
 
-        if len(bd.date) is 8:
+        if len(bd.date) == 8:
             # bd.date is a date string
             year = bd.date[0:4]
             month = bd.date[4:6]
