@@ -200,8 +200,20 @@ def _details_bar_data() -> List[Tuple]:
 
         return val
 
+    def parse_timestamp(bd):
+        if len(bd.date) is 8:
+            # bd.date is a date string
+            year = bd.date[0:4]
+            month = bd.date[4:6]
+            day = bd.date[6:]
+            time_string = f"{year}{month}{day} 23:59:59"
+            return ib_to_dh_datetime(time_string)
+        else:
+            # bd.date is unix sec
+            return unix_sec_to_dh_datetime(int(bd.date))
+
     return [
-        ("Timestamp", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(int(bd.date))),
+        ("Timestamp", dtypes.DateTime, parse_timestamp),
         ("Open", dtypes.float64, lambda bd: bd.open),
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
