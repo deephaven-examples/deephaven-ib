@@ -367,8 +367,9 @@ class IbTwsClient(EWrapper, EClient):
             # self.requestFA(2)  # request PROFILE.  See FaDataTypeEnum.
             self.requestFA(3)  # request ACCOUNT ALIASES.  See FaDataTypeEnum.
 
+            self.request_account_pnl("All")
+
         self.request_account_summary("All")
-        self.request_account_pnl("All")
         self.request_account_overview("All")
         self.request_account_positions("All")
         self.reqManagedAccts()
