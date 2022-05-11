@@ -34,6 +34,7 @@ function help() {
     echo "------"
     echo "build - build Docker images for the system"
     echo "up - launch the system"
+    echo "build_up - build the Docker images for the system and launch the system"
     echo "down - shut down the system"
     echo "help - print a help message"
     echo ""
@@ -87,6 +88,10 @@ case "$ACTION" in
         build
         ;;
     "up")
+        up
+        ;;
+    "build_up")
+        build
         up
         ;;
     "down")
