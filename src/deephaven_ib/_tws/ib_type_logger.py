@@ -203,15 +203,12 @@ def _details_bar_data() -> List[Tuple]:
     def parse_timestamp(bd):
         print(f"BD: {bd}")
 
-        if bd.date < 21000000:
-            # bd.date is a date string encoded as an int
-            n = bd.date
-            day = n % 100
-            n = n / 100
-            month = n % 100
-            n = n / 100
-            year = n
-            time_string = f"{year:04}{month:02}{day:02} 23:59:59"
+        if len(bd.date) is 8:
+            # bd.date is a date string
+            year = bd.date[0:4]
+            month = bd.date[4:6]
+            day = bd.date[6:]
+            time_string = f"{year}{month}{day} 23:59:59"
             print(time_string)
             return ib_to_dh_datetime(time_string)
         else:
