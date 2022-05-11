@@ -404,6 +404,8 @@ class IbTwsClient(EWrapper, EClient):
     ####
 
     def error(self, reqId: TickerId, errorCode: int, errorString: str):
+        EWrapper.error(self, reqId, errorCode, errorString)
+
         if reqId == 2147483647:
             reqId = None
 
