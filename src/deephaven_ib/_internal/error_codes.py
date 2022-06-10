@@ -35,6 +35,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
         2113: "The order size for Bonds (Bills) is entered as a nominal par value of the order, and must be a multiple",
         2157: "Sec-def data farm connection is broken:secdefil",
         10089: "Requested market data requires additional subscription for API.See link in 'Market Data Connections' dialog for more details.",
+        10147: "OrderId that needs to be cancelled is not found.",
         10168: "Requested market data is not subscribed.Delayed market data is not enabled.",
         10172: "Failed to request news article: No data available",
         10187: "Failed to request historical ticks",
