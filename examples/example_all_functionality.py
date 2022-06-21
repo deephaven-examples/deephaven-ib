@@ -299,11 +299,37 @@ client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhi
                                bar_type=dhib.BarDataType.OPTION_IMPLIED_VOLATILITY, keep_up_to_date=False)
 client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
                                bar_type=dhib.BarDataType.TRADES)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.ADJUSTED_LAST, keep_up_to_date=False)
 
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.MIDPOINT)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.BID)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.ASK)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
+
+
+print("==============================================================================================================")
+print("==== Request bars (bonds).")
+print("==============================================================================================================")
+
+# enter CUSIP as symbol
+contract = Contract()
+contract.symbol = "IBCID411964960"
+contract.secType = "BOND"
+contract.exchange = "SMART"
+contract.currency = "USD"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_BID, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_ASK, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_BID_ASK, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_LAST, keep_up_to_date=False)
 
 print("==============================================================================================================")
 print("==== Request tick data.")
