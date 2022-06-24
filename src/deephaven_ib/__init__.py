@@ -132,14 +132,24 @@ class BarDataType(Enum):
     """Ask prices."""
     BID_ASK = 5
     """Bid/Ask prices."""
-    HISTORICAL_VOLATILITY = 6
+    ADJUSTED_LAST = 6
+    """Bid/Ask prices."""
+    HISTORICAL_VOLATILITY = 7
     """Historical volatility."""
-    OPTION_IMPLIED_VOLATILITY = 7
+    OPTION_IMPLIED_VOLATILITY = 8
     """Option implied volatility."""
-    FEE_RATE = 8
-    """Fee rate."""
     REBATE_RATE = 9
     """Rebate rate."""
+    FEE_RATE = 10
+    """Fee rate."""
+    YIELD_BID = 11
+    """Bid yield."""
+    YIELD_ASK = 12
+    """Ask yield."""
+    YIELD_BID_ASK = 13
+    """Bid/Ask yield."""
+    YIELD_LAST = 14
+    """Last yield."""
 
 
 class BarSize(Enum):
