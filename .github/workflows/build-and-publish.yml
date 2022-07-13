@@ -38,7 +38,7 @@ jobs:
 #        path: |
 #          dist/*
         name: whls
-        path: deephaven_ib-development-py3-none-any.whl
+        path: dist/deephaven_ib-development-py3-none-any.whl
 #TODO: publish
 #    - name: Publish
 #      if: xxxx
