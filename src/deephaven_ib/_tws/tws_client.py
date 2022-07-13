@@ -11,6 +11,9 @@ from functools import wraps
 from threading import Thread
 from typing import Set
 
+import decimal
+from decimal import Decimal
+
 from deephaven.table import Table
 from deephaven import dtypes
 
@@ -208,7 +211,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["ticks_size"] = TableWriter(
             ["RequestId", "TickType", "Size"],
-            [dtypes.int64, dtypes.string, dtypes.int64])
+            [dtypes.int64, dtypes.string, dtypes.float64])
 
         table_writers["ticks_string"] = TableWriter(
             ["RequestId", "TickType", "Value"],
@@ -404,8 +407,8 @@ class IbTwsClient(EWrapper, EClient):
     # Always present
     ####
 
-    def error(self, reqId: TickerId, errorCode: int, errorString: str):
-        EWrapper.error(self, reqId, errorCode, errorString)
+    def error(self, reqId: TickerId, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
+        EWrapper.error(self, reqId, errorCode, errorString, advancedOrderRejectJson)
 
         if reqId == 2147483647:
             reqId = None
@@ -804,7 +807,7 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["ticks_price"].write_row([reqId, TickTypeEnum.to_str(tickType), price,
                                                       *logger_tick_attrib.vals(attrib)])
 
-    def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
+    def tickSize(self, reqId: TickerId, tickType: TickType, size: decimal.Decimal):
         EWrapper.tickSize(self, reqId, tickType, size)
         self._table_writers["ticks_size"].write_row([reqId, TickTypeEnum.to_str(tickType), size])
 
@@ -920,7 +923,7 @@ class IbTwsClient(EWrapper, EClient):
         EClient.reqRealTimeBars(self, reqId, contract, barSize, whatToShow, useRTH, realTimeBarsOptions)
 
     def realtimeBar(self, reqId: TickerId, timestamp: int, open_: float, high: float, low: float, close: float,
-                    volume: int, wap: float, count: int):
+                    volume: float, wap: float, count: int):
         EWrapper.realtimeBar(self, reqId, timestamp, open_, high, low, close, volume, wap, count)
         bar_size = self._realtime_bar_sizes[reqId]
         bar = RealTimeBar(time=timestamp, endTime=timestamp + bar_size, open_=open_, high=high, low=low, close=close,
