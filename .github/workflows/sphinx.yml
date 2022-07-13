@@ -1,42 +1,91 @@
 name: "Sphinx Documentation"
 
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  workflow_run:
+    workflows: [Build Whl]
+    types:
+      - completed
 
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Get branch name
-      id: branch-name
-      uses: tj-actions/branch-names@v5
-    - name: Build Sphinx Docker
-      env:
-        BRANCH: ${{ steps.branch-name.outputs.current_branch }}
-      working-directory: ./sphinx
-      run: |
-        docker build . -t deephaven-ib/sphinx --build-arg VERSION=latest --build-arg DH_IB_VERSION=${BRANCH} --build-arg DH_IB_BRANCH=${BRANCH}
-    - name: Run Sphinx Docker
-      working-directory: ./sphinx
-      run: |
-        docker images
-        docker run -v `pwd`/build/:/build/deephaven-ib/sphinx/build/ deephaven-ib/sphinx
-        echo "DOCS FILES:"
-        find ./build
-    - uses: actions/upload-artifact@v1
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
       with:
-        name: DocumentationHTML
-        path: sphinx/build/html/
-    - name: Deploy to gh-pages
-      if: github.event_name == 'push'
-      uses: JamesIves/github-pages-deploy-action@v4.2.3
-      with:
-        branch: gh-pages
-        folder: sphinx/build/html/
+        name: Artifacts
+    - name: Install Whl
+      run: pip3 install *.whl
+    - name: Run Sphinx
+      working-directory: ./sphinx
+      run: make html && touch build/html/.nojekyll
+#    - uses: actions/checkout@v1
+#    - name: Get branch name
+#      id: branch-name
+#      uses: tj-actions/branch-names@v5
+#    - name: Build Sphinx Docker
+#      env:
+#        BRANCH: ${{ steps.branch-name.outputs.current_branch }}
+#      working-directory: ./sphinx
+#      run: |
+#        docker build . -t deephaven-ib/sphinx --build-arg VERSION=latest --build-arg DH_IB_VERSION=${BRANCH} --build-arg DH_IB_BRANCH=${BRANCH}
+#    - name: Run Sphinx Docker
+#      working-directory: ./sphinx
+#      run: |
+#        docker images
+#        docker run -v `pwd`/build/:/build/deephaven-ib/sphinx/build/ deephaven-ib/sphinx
+#        echo "DOCS FILES:"
+#        find ./build
+#    - uses: actions/upload-artifact@v1
+#      with:
+#        name: DocumentationHTML
+#        path: sphinx/build/html/
+#    - name: Deploy to gh-pages
+#      if: github.event_name == 'push'
+#      uses: JamesIves/github-pages-deploy-action@v4.2.3
+#      with:
+#        branch: gh-pages
+#        folder: sphinx/build/html/
+
+
+#on:
+#  pull_request:
+#    branches:
+#      - main
+#  push:
+#    branches:
+#      - main
+#  workflow_dispatch:
+#
+#jobs:
+#  docs:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v1
+#    - name: Get branch name
+#      id: branch-name
+#      uses: tj-actions/branch-names@v5
+#    - name: Build Sphinx Docker
+#      env:
+#        BRANCH: ${{ steps.branch-name.outputs.current_branch }}
+#      working-directory: ./sphinx
+#      run: |
+#        docker build . -t deephaven-ib/sphinx --build-arg VERSION=latest --build-arg DH_IB_VERSION=${BRANCH} --build-arg DH_IB_BRANCH=${BRANCH}
+#    - name: Run Sphinx Docker
+#      working-directory: ./sphinx
+#      run: |
+#        docker images
+#        docker run -v `pwd`/build/:/build/deephaven-ib/sphinx/build/ deephaven-ib/sphinx
+#        echo "DOCS FILES:"
+#        find ./build
+#    - uses: actions/upload-artifact@v1
+#      with:
+#        name: DocumentationHTML
+#        path: sphinx/build/html/
+#    - name: Deploy to gh-pages
+#      if: github.event_name == 'push'
+#      uses: JamesIves/github-pages-deploy-action@v4.2.3
+#      with:
+#        branch: gh-pages
+#        folder: sphinx/build/html/

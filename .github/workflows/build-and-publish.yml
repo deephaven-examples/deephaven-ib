@@ -1,10 +1,10 @@
-name: Build and publish to PyPI
+name: Build Whl
 
 on: push
 
 jobs:
   build-and-publish:
-    name: Build and publish to PyPI
+    name: Build Whl
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@master
@@ -34,11 +34,11 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
-#        name: Artifacts
-#        path: |
-#          dist/*
-        name: whls
-        path: dist/deephaven_ib-development-py3-none-any.whl
+        name: Artifacts
+        path: |
+          dist/*
+#        name: whls
+#        path: dist/deephaven_ib-development-py3-none-any.whl
 #TODO: publish
 #    - name: Publish
 #      if: xxxx
