@@ -63,13 +63,15 @@ jobs:
         name: build-artifacts
     - name: Install Whl
       run: pip3 install *.whl
+    - name: DEBUG JAVA_HOME
+      run: find / -name java
     - name: Run Sphinx
       working-directory: ./sphinx
+      env:
+        JAVA_HOME: /usr/lib/jvm/java-11-openjdk-arm64/
       run: |
         make html
         touch build/html/.nojekyll
-      env:
-        JAVA_HOME: /usr/lib/jvm/java-11-openjdk-arm64/
 
 
 #  publish:
