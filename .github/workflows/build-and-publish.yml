@@ -44,12 +44,15 @@ jobs:
         name: build-artifacts
         path: |
           dist/*
+
   sphinx:
     name: Sphinx
     runs-on: ubuntu-20.04
     needs: [build]
     steps:
     - uses: actions/checkout@v1
+    - name: Pip installs
+      run:  pip3 install --upgrade sphinx sphinx-autodoc-typehints furo
     - name: Download Artifacts
       uses: actions/download-artifact@v3
       with:
