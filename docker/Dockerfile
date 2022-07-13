@@ -1,6 +1,6 @@
 ARG VERSION
 
-FROM ghcr.io/deephaven/server-sklearn:${VERSION}
+FROM ghcr.io/deephaven/server:${VERSION}
 
 ARG DH_IB_VERSION
 ARG DH_IB_BRANCH
@@ -10,7 +10,10 @@ COPY deephaven_ib-0.2.4-py3-none-any.whl /tmp/
 # Install requirements
 RUN apt update && \
     apt install --yes git python3-venv zip && \
-    python3 -m pip install --upgrade pip
+    python3 -m pip install --upgrade pip && \
+    python3 -m pip install --upgrade setuptools wheel build twine
+# Invalidate the cache below here, so that the latest repo changes get cloned
+ARG CACHEBUST
 
 RUN mkdir /build && \
     cd /build && \
@@ -18,10 +21,9 @@ RUN mkdir /build && \
     unzip api.zip && \
     cd ./IBJts/source/pythonclient && \
     python3 setup.py install && \
-    rm -rf ./build
+    rm -rf ./build ./api.zip ./IBJts ./META-INF
+
 
 
 RUN pip3 install /tmp/deephaven_ib-0.2.4-py3-none-any.whl 
 
-# Invalidate the cache below here, so that the latest repo changes get cloned
-ARG CACHEBUST

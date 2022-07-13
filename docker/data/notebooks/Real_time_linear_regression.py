@@ -84,6 +84,9 @@ def calc_reg(x,y):
 
 get_val = lambda rst, i: rst[i]
 
+import time
+time.sleep(5)
+
 realtime_with_reg = realtime_combined\
   .group_by()\
   .update(formulas=["Reg = calc_reg(vec(BTCLog), vec(MSTRLog))", "Beta = (double) get_val(Reg,0)", "Intercept = (double) get_val(Reg,1)", "R2 = (double) get_val(Reg,2)"])\

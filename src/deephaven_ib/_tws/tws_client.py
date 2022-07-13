@@ -407,7 +407,7 @@ class IbTwsClient(EWrapper, EClient):
     # Always present
     ####
 
-    def error(self, reqId: TickerId, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
+    def error(self, reqId: TickerId, errorCode: int, errorString: str, advancedOrderRejectJson: str = ""):
         EWrapper.error(self, reqId, errorCode, errorString, advancedOrderRejectJson)
 
         if reqId == 2147483647:
@@ -704,7 +704,7 @@ class IbTwsClient(EWrapper, EClient):
     # reqPositionsMulti
     ####
 
-    def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: float, avgCost: float):
+    def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: decimal.Decimal, avgCost: float):
         EWrapper.positionMulti(self, reqId, account, modelCode, contract, pos, avgCost)
 
         # The returned contract seems to be inconsistent with IB's API to request contract details.
@@ -849,7 +849,7 @@ class IbTwsClient(EWrapper, EClient):
     ####
 
     def tickByTickAllLast(self, reqId: int, tickType: int, timestamp: int, price: float,
-                          size: int, tickAttribLast: TickAttribLast, exchange: str,
+                          size: decimal.Decimal, tickAttribLast: TickAttribLast, exchange: str,
                           specialConditions: str):
         EWrapper.tickByTickAllLast(self, reqId, tickType, timestamp, price, size, tickAttribLast, exchange,
                                    specialConditions)
@@ -872,7 +872,7 @@ class IbTwsClient(EWrapper, EClient):
             self._table_writers["ticks_trade"].write_row([reqId, *logger_hist_tick_last.vals(t)])
 
     def tickByTickBidAsk(self, reqId: int, timestamp: int, bidPrice: float, askPrice: float,
-                         bidSize: int, askSize: int, tickAttribBidAsk: TickAttribBidAsk):
+                         bidSize: decimal.Decimal, askSize: decimal.Decimal, tickAttribBidAsk: TickAttribBidAsk):
         EWrapper.tickByTickBidAsk(self, reqId, timestamp, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)
 
         t = HistoricalTickBidAsk()
@@ -923,7 +923,7 @@ class IbTwsClient(EWrapper, EClient):
         EClient.reqRealTimeBars(self, reqId, contract, barSize, whatToShow, useRTH, realTimeBarsOptions)
 
     def realtimeBar(self, reqId: TickerId, timestamp: int, open_: float, high: float, low: float, close: float,
-                    volume: float, wap: float, count: int):
+                    volume: decimal.Decimal, wap: decimal.Decimal, count: int):
         EWrapper.realtimeBar(self, reqId, timestamp, open_, high, low, close, volume, wap, count)
         bar_size = self._realtime_bar_sizes[reqId]
         bar = RealTimeBar(time=timestamp, endTime=timestamp + bar_size, open_=open_, high=high, low=low, close=close,
@@ -970,8 +970,8 @@ class IbTwsClient(EWrapper, EClient):
             [*logger_contract.vals(contract), *logger_order.vals(order), *logger_order_state.vals(orderState)])
         self.contract_registry.request_contract_details_nonblocking(contract)
 
-    def orderStatus(self, orderId: OrderId, status: str, filled: float,
-                    remaining: float, avgFillPrice: float, permId: int,
+    def orderStatus(self, orderId: OrderId, status: str, filled: decimal.Decimal,
+                    remaining: decimal.Decimal, avgFillPrice: float, permId: int,
                     parentId: int, lastFillPrice: float, clientId: int,
                     whyHeld: str, mktCapPrice: float):
         EWrapper.orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice,
