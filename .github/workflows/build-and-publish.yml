@@ -51,6 +51,8 @@ jobs:
     needs: [build]
     steps:
     - uses: actions/checkout@v1
+    - name: Apt installs
+      run: apt install -y openjdk-11-jdk
     - name: Pip installs
       run:  pip3 install --upgrade sphinx sphinx-autodoc-typehints furo
     - name: Download Artifacts
