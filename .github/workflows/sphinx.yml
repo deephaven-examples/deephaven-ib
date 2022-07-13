@@ -2,9 +2,11 @@ name: "Sphinx Documentation"
 
 on:
   workflow_run:
-    workflows: [Build Whl]
+    workflows:
+      - Build Whl
     types:
       - completed
+  workflow_dispatch:
 
 jobs:
   docs:
@@ -14,7 +16,7 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@v3
       with:
-        name: Artifacts
+        name: build-artifacts
     - name: Install Whl
       run: pip3 install *.whl
     - name: Run Sphinx
