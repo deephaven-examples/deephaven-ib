@@ -70,6 +70,7 @@ jobs:
       env:
         JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
       run: |
+        env
         make html
         touch build/html/.nojekyll
 
