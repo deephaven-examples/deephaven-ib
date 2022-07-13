@@ -61,7 +61,9 @@ jobs:
       run: pip3 install *.whl
     - name: Run Sphinx
       working-directory: ./sphinx
-      run: make html && touch build/html/.nojekyll
+      run: |
+        make html
+        touch build/html/.nojekyll
 
 
 #  publish:
