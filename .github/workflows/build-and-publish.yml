@@ -48,6 +48,7 @@ jobs:
     name: Sphinx
     runs-on: ubuntu-20.04
     needs: [build]
+    steps:
     - name: Download Artifacts
       uses: actions/download-artifact@v3
       with:
