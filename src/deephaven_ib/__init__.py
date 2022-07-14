@@ -150,7 +150,8 @@ class BarDataType(Enum):
     """Bid/Ask yield."""
     YIELD_LAST = 14
     """Last yield."""
-
+    AGGTRADES = 15
+    """Aggregate trade prices."""
 
 class BarSize(Enum):
     """Bar data sizes."""
@@ -966,7 +967,7 @@ class IbSessionTws:
         self._assert_connected()
         requests = []
 
-        if bar_type not in [BarDataType.TRADES, BarDataType.MIDPOINT, BarDataType.BID, BarDataType.ASK]:
+        if bar_type not in [BarDataType.TRADES, BarDataType.AGGTRADES, BarDataType.MIDPOINT, BarDataType.BID, BarDataType.ASK]:
             raise Exception(f"Unsupported bar type: {bar_type}")
 
         for cd in contract.contract_details:
