@@ -127,8 +127,6 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5.2
-      - name: DEBUG
-        run: echo ${{ steps.branch-name.outputs.current_branch }}
       - name: Download wheels
         uses: actions/download-artifact@v3
         with:
@@ -150,6 +148,10 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: DEBUG TAGS
+        run: echo ${{ steps.meta-base.outputs.tags }}
+      - name: DEBUG LABELS
+        run: echo ${{ steps.meta-base.outputs.labels }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.7.0
         with:
