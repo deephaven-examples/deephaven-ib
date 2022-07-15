@@ -1,4 +1,4 @@
-name: Build Whl
+name: Build & Publish
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Build Whl
+    name: Whl
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@master
@@ -78,6 +78,16 @@ jobs:
         pip3 show pygments
         make html
         touch build/html/.nojekyll
+    - uses: actions/upload-artifact@v1
+      with:
+        name: DocumentationHTML
+        path: sphinx/build/html/
+#    - name: Deploy to gh-pages
+#      if: github.event_name == 'push'
+#      uses: JamesIves/github-pages-deploy-action@v4.2.3
+#      with:
+#        branch: gh-pages
+#        folder: sphinx/build/html/
 
 #  publish:
 #    name: Publish Whl
