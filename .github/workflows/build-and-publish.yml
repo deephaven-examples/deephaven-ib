@@ -41,7 +41,7 @@ jobs:
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: build-artifacts
+        name: wheels
         path: |
           dist/*
 
@@ -57,10 +57,10 @@ jobs:
         sudo apt install -y openjdk-11-jdk
     - name: Pip installs
       run:  pip3 install --upgrade sphinx==4.2.0 sphinx-autodoc-typehints furo==2021.10.9
-    - name: Download Artifacts
+    - name: Download wheels
       uses: actions/download-artifact@v3
       with:
-        name: build-artifacts
+        name: wheels
     - name: Install Whl
       run: pip3 install *.whl
     - name: Run Sphinx
@@ -95,7 +95,7 @@ jobs:
         packages_dir: wheel/
 
   publish-sphinx:
-    name: Publish Sphinx to gh-pages
+    name: Publish Sphinx
     runs-on: ubuntu-20.04
     needs: [build-sphinx]
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
