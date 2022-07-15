@@ -6,7 +6,7 @@ RUN apt update && \
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 
-COPY wheels/ /wheels/
+COPY ./wheels /wheels
 
 RUN pip3 install /wheels/*.whl && \
     rm -rf /wheels/
