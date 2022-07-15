@@ -1,0 +1,98 @@
+# Build the Docker image and publish it to the GitHub Container Registry
+#
+# See: https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
+# See: https://github.com/marketplace/actions/docker-login
+# See: https://github.com/marketplace/actions/docker-metadata-action
+# See: https://github.com/marketplace/actions/build-and-push-docker-images
+
+name: Create and publish a Docker image
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
+
+      - name: Build whls
+        run: |
+          python3 -m pip install --upgrade setuptools wheel build twine
+          python3 -m build
+        env:
+          CCPY_VERSION: ${{ github.head_ref }}.${{ github.sha }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker (Base)
+        id: meta-base
+        uses: docker/metadata-action@v3.5.0
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}-base
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Build and push Docker image (Base)
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          file: ./docker/base/Dockerfile
+          push: true
+          tags: ${{ steps.meta-base.outputs.tags }}
+          labels: ${{ steps.meta-base.outputs.labels }}
+        env:
+          IMAGE_NAME: ${{ github.repository }}-base
+
+      - name: Extract metadata (tags, labels) for Docker (Downloader)
+        id: meta-downloader
+        uses: docker/metadata-action@v3.5.0
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}-downloader
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,${{ steps.branch-name.outputs.current_branch }}
+
+      - name: Build and push Docker image (Downloader)
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          file: ./docker/downloader/Dockerfile
+          push: true
+          tags: ${{ steps.meta-downloader.outputs.tags }}
+          labels: ${{ steps.meta-downloader.outputs.labels }}
+          build-args: |
+            BASE_VERSION=${{ steps.branch-name.outputs.current_branch }}
+        env:
+          IMAGE_NAME: ${{ github.repository }}-downloader

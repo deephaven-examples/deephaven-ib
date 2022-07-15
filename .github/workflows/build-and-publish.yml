@@ -45,6 +45,25 @@ jobs:
         path: |
           dist/*
 
+  publish-whl:
+    name: Publish WHL
+    runs-on: ubuntu-20.04
+    needs: [build-whl]
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    steps:
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+        path: wheel/
+    - name: Publish WHL to PyPi
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.DEEPHAVENSERVER_PYPI_TOKEN }}
+        packages_dir: wheel/
+
+
   build-sphinx:
     name: Build Sphinx
     runs-on: ubuntu-20.04
@@ -76,24 +95,6 @@ jobs:
         name: documentation-html
         path: sphinx/build/html/
 
-  publish-whl:
-    name: Publish WHL
-    runs-on: ubuntu-20.04
-    needs: [build-whl]
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    steps:
-    - name: Download Build Artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: build-artifacts
-        path: wheel/
-    - name: Publish WHL to PyPi
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: __token__
-        password: ${{ secrets.DEEPHAVENSERVER_PYPI_TOKEN }}
-        packages_dir: wheel/
-
   publish-sphinx:
     name: Publish Sphinx
     runs-on: ubuntu-20.04
@@ -112,3 +113,48 @@ jobs:
         folder: html/
 
 
+
+  docker:
+    name: Build and Publish Docker
+    runs-on: ubuntu-20.04
+    needs: [build-whl]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
+      - name: Download wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: wheels
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-base
+        uses: docker/metadata-action@v3.5.0
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          file: ./.github/workflows/Dockerfile
+          push: true
+          tags: ${{ steps.meta-base.outputs.tags }}
+          labels: ${{ steps.meta-base.outputs.labels }}
+        env:
+          IMAGE_NAME: ${{ github.repository }}
