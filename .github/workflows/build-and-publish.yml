@@ -72,6 +72,7 @@ jobs:
       run: |
         env
         find $JAVA_HOME
+        $JAVA_HOME/bin/java -version
         make html
         touch build/html/.nojekyll
 
