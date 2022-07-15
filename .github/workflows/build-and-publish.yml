@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-whl:
-    name: Build Whl
+    name: Build WHL
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@master
@@ -148,6 +148,8 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: DEBUG
+        run: find ./wheels
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.7.0
         with:
