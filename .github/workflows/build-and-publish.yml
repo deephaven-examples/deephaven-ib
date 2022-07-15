@@ -142,7 +142,7 @@ jobs:
 #        uses: docker/metadata-action@v3.5.0
         uses: docker/metadata-action@v4.0.1
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}
+          images: ghcr.io/${{ github.repository }}
           tags: |
             type=schedule
             type=ref,event=branch
