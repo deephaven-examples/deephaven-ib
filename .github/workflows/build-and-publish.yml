@@ -127,6 +127,8 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5.2
+      - name: DEBUG
+        run: echo ${{ steps.branch-name.outputs.current_branch }}
       - name: Download wheels
         uses: actions/download-artifact@v3
         with:
