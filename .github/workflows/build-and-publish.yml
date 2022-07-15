@@ -97,7 +97,7 @@ jobs:
   publish-sphinx:
     name: Publish Sphinx to gh-pages
     runs-on: ubuntu-20.04
-    needs: [build-whl]
+    needs: [build-sphinx]
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
     - name: Download Sphinx Artifacts
