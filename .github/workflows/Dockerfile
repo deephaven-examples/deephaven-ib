@@ -11,4 +11,4 @@ COPY ./wheels /wheels
 RUN pip3 install /wheels/*.whl && \
     rm -rf /wheels/
 
-CMD python
+CMD python3
