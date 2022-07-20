@@ -1,4 +1,3 @@
-xxxx
 # deephaven-ib
 
 ![Deephaven Data Labs Logo](docs/assets/Deephaven-Logo-Wordmark-Community-OnLight.png)
