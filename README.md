@@ -1,4 +1,4 @@
-
+xxxx
 # deephaven-ib
 
 ![Deephaven Data Labs Logo](docs/assets/Deephaven-Logo-Wordmark-Community-OnLight.png)
@@ -173,6 +173,10 @@ upper right corner.  ![](docs/assets/config-gear.png)
     ![](docs/assets/config-api.png)
 1) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
 1) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
+
+***** use prebuilt images? 
+***** use dev script?
+***** local install?
 
 ## Launch
 To launch the system:
