@@ -29,7 +29,7 @@ jobs:
         if [ -z "${TAG_NAME}" ]
         then
             PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-            echo "::set-output name=version::pr${PR_NUMBER}"
+            echo "::set-output name=version::0.0.0.dev${PR_NUMBER}"
         else
             echo "::set-output name=version::${{ github.event.release.tag_name }}"
         fi
