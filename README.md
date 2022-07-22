@@ -194,12 +194,12 @@ This is the most tested way to launch.
     git clone git@github.com:deephaven-examples/deephaven-ib.git
     cd deephaven-ib/docker/dev/build.sh
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data --expose 10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=["-Xmx4g"]); _server.start()"
+    docker run -it -v data:/data --expose 10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
     * On other platforms:
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data --expose 10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=["-Xmx4g"]); _server.start()"
+    docker run -it -v data:/data --expose 10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
 5) Launch the system and execute a custom script (Option 2):
     * On Mac:
