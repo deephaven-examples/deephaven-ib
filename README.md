@@ -194,12 +194,12 @@ This is the most tested way to launch.
     git clone git@github.com:deephaven-examples/deephaven-ib.git
     cd deephaven-ib/docker/dev/build.sh
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data --expose 10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
     * On other platforms:
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data --expose 10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    docker run -it -v data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
 5) Launch the system and execute a custom script (Option 2):
     * On Mac:
@@ -209,14 +209,14 @@ This is the most tested way to launch.
     # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     # Set jvm_args to the desired JVM memory for Deephaven
     cp path/to/your_script.py data/your_script.py
-    docker run -it -v data:/data --expose 10000 deephaven-examples/deephaven-ib:dev python3 -i /data/your_script.py
+    docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i /data/your_script.py
     ```
     * On other platforms:
     ```bash
     # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     # Set jvm_args to the desired JVM memory for Deephaven
     cp path/to/your_script.py data/your_script.py
-    docker run -it -v data:/data --expose 10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
+    docker run -it -v data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
     ```
 7) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
 

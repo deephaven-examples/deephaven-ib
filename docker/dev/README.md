@@ -14,6 +14,6 @@ This is useful when doing local development or when offical images are not avail
 
 ```bash
 # Set jvm_args to the desired JVM memory for Deephaven
-docker run -it -v data:/data --expose 10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=["-4g"]); _server.start()"
+docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=["-4g"]); _server.start()"
 ```
 
