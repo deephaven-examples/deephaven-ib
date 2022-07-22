@@ -222,6 +222,8 @@ This is the most tested way to launch.
 
 ### Launch with a local installation (No Docker)
 
+> **_NOTE:_**  This method is not yet supported on all architectures.  This should work on Linux (AMD64 and ARM64) and Windows WSL.  It is not yet supported on Windows without WSL or Mac.  For these architectures, you should use the Docker installation.
+
 It is possible to use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) without docker, but this is a 
 new feature and has not been well tested.  To do this:
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
