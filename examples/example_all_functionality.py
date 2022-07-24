@@ -68,10 +68,10 @@ def get_contracts() -> Dict[str, Contract]:
     # Index
 
     contract = Contract()
-    contract.symbol = "DAX"
+    contract.symbol = "VIX"
     contract.secType = "IND"
-    contract.currency = "EUR"
-    contract.exchange = "DTB"
+    contract.currency = "USD"
+    contract.exchange = "CBOE"
     rst["index_1"] = contract
 
     # CFD
@@ -90,23 +90,23 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202206"
+    contract.lastTradeDateOrContractMonth = "202209"
     rst["future_1"] = contract
 
     contract = Contract()
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.localSymbol = "MESZ2"
+    contract.localSymbol = "MESU2"
     rst["future_2"] = contract
 
     contract = Contract()
     contract.symbol = "DAX"
     contract.secType = "FUT"
-    contract.exchange = "DTB"
+    contract.exchange = "EUREX"
     contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "202206"
-    contract.multiplier = "5"
+    contract.lastTradeDateOrContractMonth = "202209"
+    contract.multiplier = "1"
     rst["future_3"] = contract
 
     contract = Contract()
@@ -129,7 +129,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.exchange = "BOX"
     contract.currency = "USD"
     contract.lastTradeDateOrContractMonth = "20230120"
-    contract.strike = 2800
+    contract.strike = 110
     contract.right = "C"
     contract.multiplier = "100"
     rst["option_1"] = contract
@@ -161,7 +161,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202206"
+    contract.lastTradeDateOrContractMonth = "202209"
     contract.strike = 4700
     contract.right = "C"
     contract.multiplier = "50"
@@ -419,7 +419,7 @@ contract.secType = "OPT"
 contract.exchange = "BOX"
 contract.currency = "USD"
 contract.lastTradeDateOrContractMonth = "20230120"
-contract.strike = 2800
+contract.strike = 110
 contract.right = "C"
 contract.multiplier = "100"
 
