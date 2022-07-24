@@ -107,6 +107,7 @@ class ContractRegistry:
 
             contract, event = self._requests_by_id[req_id]
             self._update_error(contract, error_string)
+            event.set()
 
     def request_end(self, req_id: int) -> None:
         """Indicate that the request is over and all data has been received."""
@@ -178,7 +179,7 @@ class ContractRegistry:
             event_happened = event.wait(time_out)
 
             if not event_happened:
-                raise Exception(f"ContractRegistry.request_contract_details_blocking() timed out after {time_out} sec.")
+                raise Exception(f"ContractRegistry.request_contract_details_blocking() timed out after {time_out} sec.  contract={contract}")
 
             cd = self._get_contract_details(contract)
             return cd.get()
