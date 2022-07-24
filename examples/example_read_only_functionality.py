@@ -64,10 +64,10 @@ def get_contracts() -> Dict[str, Contract]:
     # Index
 
     contract = Contract()
-    contract.symbol = "DAX"
+    contract.symbol = "VIX"
     contract.secType = "IND"
-    contract.currency = "EUR"
-    contract.exchange = "DTB"
+    contract.currency = "USD"
+    contract.exchange = "CBOE"
     rst["index_1"] = contract
 
     # CFD
@@ -86,23 +86,23 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202206"
+    contract.lastTradeDateOrContractMonth = "202209"
     rst["future_1"] = contract
 
     contract = Contract()
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.localSymbol = "MESZ2"
+    contract.localSymbol = "MESU2"
     rst["future_2"] = contract
 
     contract = Contract()
     contract.symbol = "DAX"
     contract.secType = "FUT"
-    contract.exchange = "DTB"
+    contract.exchange = "EUREX"
     contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "202206"
-    contract.multiplier = "5"
+    contract.lastTradeDateOrContractMonth = "202209"
+    contract.multiplier = "1"
     rst["future_3"] = contract
 
     contract = Contract()
@@ -125,7 +125,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.exchange = "BOX"
     contract.currency = "USD"
     contract.lastTradeDateOrContractMonth = "20230120"
-    contract.strike = 2800
+    contract.strike = 110
     contract.right = "C"
     contract.multiplier = "100"
     rst["option_1"] = contract
@@ -157,7 +157,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202206"
+    contract.lastTradeDateOrContractMonth = "202209"
     contract.strike = 4700
     contract.right = "C"
     contract.multiplier = "50"
@@ -295,11 +295,37 @@ client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhi
                                bar_type=dhib.BarDataType.OPTION_IMPLIED_VOLATILITY, keep_up_to_date=False)
 client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
                                bar_type=dhib.BarDataType.TRADES)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.ADJUSTED_LAST, keep_up_to_date=False)
 
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.MIDPOINT)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.BID)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.ASK)
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
+
+
+print("==============================================================================================================")
+print("==== Request bars (bonds).")
+print("==============================================================================================================")
+
+# enter CUSIP as symbol
+contract = Contract()
+contract.symbol = "IBCID411964960"
+contract.secType = "BOND"
+contract.exchange = "SMART"
+contract.currency = "USD"
+
+rc = client.get_registered_contract(contract)
+print(contract)
+
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_BID, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_ASK, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_BID_ASK, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhib.BarSize.DAY_1,
+                               bar_type=dhib.BarDataType.YIELD_LAST, keep_up_to_date=False)
 
 print("==============================================================================================================")
 print("==== Request tick data.")
@@ -389,7 +415,7 @@ contract.secType = "OPT"
 contract.exchange = "BOX"
 contract.currency = "USD"
 contract.lastTradeDateOrContractMonth = "20230120"
-contract.strike = 2800
+contract.strike = 110
 contract.right = "C"
 contract.multiplier = "100"
 

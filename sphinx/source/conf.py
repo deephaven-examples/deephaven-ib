@@ -75,11 +75,14 @@ autodoc_typehints = 'none'
 
 import sys
 
-sys.path.append("/build/deephaven-ib/sphinx/lib/")
+import pathlib
+sys.path.append("%s/lib/"%(pathlib.Path(__file__).parent.parent.resolve()))
+# sys.path.append("/build/deephaven-ib/sphinx/lib/")
 import dh_sphinx
 
 dh_sphinx.setup_sphinx_environment()
 
+import deephaven_server
 import deephaven_ib
 import deephaven
 import ibapi.order
@@ -87,7 +90,7 @@ import ibapi.contract
 import jpy
 
 docs_title = "deephaven_ib python modules."
-package_roots = [deephaven_ib, deephaven, jpy, ibapi.contract, ibapi.order]
+package_roots = [deephaven_server, deephaven_ib, deephaven, jpy, ibapi.contract, ibapi.order]
 package_excludes = ['._']
 
 dh_sphinx.gen_sphinx_modules(docs_title, package_roots, package_excludes)
