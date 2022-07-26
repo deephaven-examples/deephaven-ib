@@ -1,0 +1,10 @@
+deephaven.plot.figure
+=====================
+
+
+.. automodule:: deephaven.plot.figure
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

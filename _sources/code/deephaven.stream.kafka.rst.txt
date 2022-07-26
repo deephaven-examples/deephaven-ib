@@ -1,0 +1,14 @@
+deephaven.stream.kafka
+======================
+
+.. toctree::
+    cdc <deephaven.stream.kafka.cdc>
+    consumer <deephaven.stream.kafka.consumer>
+    producer <deephaven.stream.kafka.producer>
+
+.. automodule:: deephaven.stream.kafka
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

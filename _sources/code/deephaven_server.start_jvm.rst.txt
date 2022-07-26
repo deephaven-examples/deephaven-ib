@@ -1,0 +1,10 @@
+deephaven_server.start_jvm
+==========================
+
+
+.. automodule:: deephaven_server.start_jvm
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

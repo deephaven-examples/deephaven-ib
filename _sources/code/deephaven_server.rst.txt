@@ -1,0 +1,13 @@
+deephaven_server
+================
+
+.. toctree::
+    server <deephaven_server.server>
+    start_jvm <deephaven_server.start_jvm>
+
+.. automodule:: deephaven_server
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

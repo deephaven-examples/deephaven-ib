@@ -1,0 +1,13 @@
+deephaven.server
+================
+
+.. toctree::
+    plugin <deephaven.server.plugin>
+    script_session <deephaven.server.script_session>
+
+.. automodule:: deephaven.server
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

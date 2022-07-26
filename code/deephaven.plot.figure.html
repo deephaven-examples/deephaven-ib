@@ -1,0 +1,1156 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.plot.font" href="deephaven.plot.font.html" /><link rel="prev" title="deephaven.plot.color" href="deephaven.plot.color.html" />
+
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>deephaven.plot.figure - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../modules.html">Python Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="deephaven_server.server.html">server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven_server.start_jvm.html">start_jvm</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="deephaven.html">deephaven</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="deephaven.agg.html">agg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.appmode.html">appmode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.calendar.html">calendar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.column.html">column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.config.html">config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.constants.html">constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.dherror.html">dherror</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.html.html">html</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.jcompat.html">jcompat</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.liveness_scope.html">liveness_scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.numpy.html">numpy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.pandas.html">pandas</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.parquet.html">parquet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.perfmon.html">perfmon</a></li>
+<li class="toctree-l3 current has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axisformat.html">axisformat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axistransform.html">axistransform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.color.html">color</a></li>
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.font.html">font</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.linestyle.html">linestyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.plotstyle.html">plotstyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.selectable_dataset.html">selectable_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.shape.html">shape</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object.html">object</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.query_library.html">query_library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.replay.html">replay</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.server.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="deephaven.server.plugin.object.html">object</a></li>
+<li class="toctree-l5"><a class="reference internal" href="deephaven.server.plugin.register.html">register</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.server.script_session.html">script_session</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.cdc.html">cdc</a></li>
+<li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.consumer.html">consumer</a></li>
+<li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.producer.html">producer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.table.html">table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.table_factory.html">table_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.time.html">time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.uri.html">uri</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="module-deephaven.plot.figure">
+<span id="deephaven-plot-figure"></span><h1>deephaven.plot.figure<a class="headerlink" href="#module-deephaven.plot.figure" title="Permalink to this headline">¶</a></h1>
+<p>This module implements the Figure class for creating plots, charts, line, axis, color, etc.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j_figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven._wrapper.JObjectWrapper</span></code></p>
+<p>A Figure represents a graphical figure such as a plot, chart, line, axis, color, etc. A Figure is immutable,
+and all function calls return a new immutable Figure instance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.axes">
+<span class="sig-name descname"><span class="pre">axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets specific axes from the chart and updates the chart’s axes’s configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name</p></li>
+<li><p><strong>axes</strong> (<em>int</em>) – identifier</p></li>
+<li><p><strong>remove_series</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – names of series to remove</p></li>
+<li><p><strong>plot_style</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="deephaven.plot.plotstyle.html#deephaven.plot.plotstyle.PlotStyle" title="deephaven.plot.plotstyle.PlotStyle"><em>PlotStyle</em></a><em>]</em>) – plot style</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.axis">
+<span class="sig-name descname"><span class="pre">axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">business_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calendar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a specific axis from a chart’s axes and updates the axis’s configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<em>int</em>) – dimension of the axis</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – label</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+<li><p><strong>format</strong> (<a class="reference internal" href="deephaven.plot.axisformat.html#deephaven.plot.axisformat.AxisFormat" title="deephaven.plot.axisformat.AxisFormat"><em>AxisFormat</em></a>) – label format</p></li>
+<li><p><strong>format_pattern</strong> (<em>str</em>) – label format pattern</p></li>
+<li><p><strong>min</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – minimum value to display</p></li>
+<li><p><strong>max</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – maximum value to display</p></li>
+<li><p><strong>invert</strong> (<em>bool</em>) – invert the axis.</p></li>
+<li><p><strong>log</strong> (<em>bool</em>) – log axis</p></li>
+<li><p><strong>business_time</strong> (<em>bool</em>) – business time axis using the default calendar</p></li>
+<li><p><strong>calendar</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="deephaven.calendar.html#deephaven.calendar.BusinessCalendar" title="deephaven.calendar.BusinessCalendar"><em>BusinessCalendar</em></a><em>]</em>) – business time axis using the specified calendar</p></li>
+<li><p><strong>transform</strong> (<a class="reference internal" href="deephaven.plot.axistransform.html#deephaven.plot.axistransform.AxisTransform" title="deephaven.plot.axistransform.AxisTransform"><em>AxisTransform</em></a>) – axis transform.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.chart">
+<span class="sig-name descname"><span class="pre">chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_series_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_grid_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_grid_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pie_label_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a chart from the figure’s grid and updates a chart’s configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>multi_series_key</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – multi-series keys or a column name containing keys.</p></li>
+<li><p><strong>remove_series</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – names of series to remove</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – index from the Figure’s grid. The index starts at 0 in the upper left hand corner of the grid and increases going left to right, top to bottom. E.g. for a 2x2 Figure, the indices would be [0, 1] [2, 3].</p></li>
+<li><p><strong>row</strong> (<em>int</em>) – row index in the Figure’s grid. The row index starts at 0.</p></li>
+<li><p><strong>col</strong> (<em>int</em>) – column index in this Figure’s grid. The column index starts at 0.</p></li>
+<li><p><strong>row_span</strong> (<em>int</em>) – how many rows high.</p></li>
+<li><p><strong>col_span</strong> (<em>int</em>) – how many rows wide.</p></li>
+<li><p><strong>orientation</strong> (<em>str</em>) – plot orientation.</p></li>
+<li><p><strong>grid_visible</strong> (<em>bool</em>) – x-grid and y-grid are visible.</p></li>
+<li><p><strong>x_grid_visible</strong> (<em>bool</em>) – x-grid is visible.</p></li>
+<li><p><strong>y_grid_visible</strong> (<em>bool</em>) – y-grid is visible.</p></li>
+<li><p><strong>pie_label_format</strong> (<em>str</em>) – pie chart format of the percentage point label.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.chart_legend">
+<span class="sig-name descname"><span class="pre">chart_legend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.chart_legend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.chart_legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates a chart’s legend’s configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.chart_title">
+<span class="sig-name descname"><span class="pre">chart_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_names_in_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.chart_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.chart_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the title of the chart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – title</p></li>
+<li><p><strong>columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – columns to include in the title</p></li>
+<li><p><strong>format</strong> (<em>str</em>) – a java.text.MessageFormat format string for formatting column values in the title</p></li>
+<li><p><strong>max_rows</strong> (<em>int</em>) – maximum number of row values to show in title</p></li>
+<li><p><strong>column_names_in_title</strong> (<em>bool</em>) – whether to show column names in title. If this is true, the title format will include the column name before the comma separated values; otherwise only the comma separated values will be included.</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.figure">
+<span class="sig-name descname"><span class="pre">figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remove_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_chart_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_chart_row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_chart_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_millis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.figure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the figure’s configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remove_series</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – names of series to remove</p></li>
+<li><p><strong>remove_chart_index</strong> (<em>int</em>) – index from the Figure’s grid to remove. The index starts at 0 in the upper left hand corner of the grid and increases going left to right, top to bottom. E.g. for a 2x2 Figure, the indices would be [0, 1][2, 3].</p></li>
+<li><p><strong>remove_chart_row</strong> (<em>int</em>) – row index in this Figure’s grid. The row index starts at 0.</p></li>
+<li><p><strong>remove_chart_col</strong> (<em>int</em>) – column index in this Figure’s grid. The row index starts at 0.</p></li>
+<li><p><strong>update_millis</strong> (<em>int</em>) – update interval in milliseconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.figure_title">
+<span class="sig-name descname"><span class="pre">figure_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.figure_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.figure_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the title of the figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – title</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.func">
+<span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration for plotting a function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xmin</strong> (<em>float</em>) – minimum x value to display</p></li>
+<li><p><strong>xmax</strong> (<em>float</em>) – maximum x value to display</p></li>
+<li><p><strong>npoints</strong> (<em>int</em>) – number of points</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.j_object_type">
+<span class="sig-name descname"><span class="pre">j_object_type</span></span><a class="headerlink" href="#deephaven.plot.figure.Figure.j_object_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">io.deephaven.plot.Figure</span></code></p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.line">
+<span class="sig-name descname"><span class="pre">line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_series_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the line color, style, visibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>multi_series_key</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – multi-series keys or a column name containing keys.</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>style</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="deephaven.plot.linestyle.html#deephaven.plot.linestyle.LineStyle" title="deephaven.plot.linestyle.LineStyle"><em>LineStyle</em></a><em>]</em>) – line style</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.new_axes">
+<span class="sig-name descname"><span class="pre">new_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.new_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.new_axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates new axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – dimension of the axis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.new_chart">
+<span class="sig-name descname"><span class="pre">new_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.new_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.new_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new chart to this figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – index from the Figure’s grid. The index starts at 0 in the upper left hand corner of the grid and increases going left to right, top to bottom. E.g. for a 2x2 Figure, the indices would be [0, 1] [2, 3].</p></li>
+<li><p><strong>row</strong> (<em>int</em>) – row index in the Figure’s grid. The row index starts at 0.</p></li>
+<li><p><strong>col</strong> (<em>int</em>) – column index in this Figure’s grid. The column index starts at 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.plot_cat">
+<span class="sig-name descname"><span class="pre">plot_cat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.plot_cat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.plot_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a plot with a discrete, categorical axis. Categorical data must not have duplicates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_name</strong> (<em>str</em>) – name of the data series</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>category</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em>) – discrete data or column name</p></li>
+<li><p><strong>y</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – y-values or column name</p></li>
+<li><p><strong>y_low</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – lower y error bar</p></li>
+<li><p><strong>y_high</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – upper y error bar</p></li>
+<li><p><strong>by</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – columns that hold grouping data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.plot_cat_hist">
+<span class="sig-name descname"><span class="pre">plot_cat_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.plot_cat_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.plot_cat_hist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a histogram with a discrete axis. Charts the frequency of each unique element in the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_name</strong> (<em>str</em>) – name of the data series</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>category</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em>) – discrete data or column name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.plot_ohlc">
+<span class="sig-name descname"><span class="pre">plot_ohlc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.plot_ohlc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.plot_ohlc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an open-high-low-close plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_name</strong> (<em>str</em>) – name of the data series</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – x-values or column name</p></li>
+<li><p><strong>open</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – bar open y-values.</p></li>
+<li><p><strong>high</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – bar high y-values.</p></li>
+<li><p><strong>low</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – bar low y-values.</p></li>
+<li><p><strong>close</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – bar close y-values.</p></li>
+<li><p><strong>by</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – columns that hold grouping data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.plot_pie">
+<span class="sig-name descname"><span class="pre">plot_pie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.plot_pie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.plot_pie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a pie plot. Categorical data must not have duplicates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_name</strong> (<em>str</em>) – name of the data series</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>category</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em>) – discrete data or column name</p></li>
+<li><p><strong>y</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – y-values or column name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.plot_xy">
+<span class="sig-name descname"><span class="pre">plot_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_time_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_time_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.plot_xy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.plot_xy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an XY plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_name</strong> (<em>str</em>) – name of the data series</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – x-values or column name</p></li>
+<li><p><strong>x_low</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – lower x error bar</p></li>
+<li><p><strong>x_high</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – upper x error bar</p></li>
+<li><p><strong>y</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – y-values or column name</p></li>
+<li><p><strong>y_low</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – lower y error bar</p></li>
+<li><p><strong>y_high</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – upper y error bar</p></li>
+<li><p><strong>function</strong> (<em>Callable</em>) – function</p></li>
+<li><p><strong>by</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – columns that hold grouping data</p></li>
+<li><p><strong>x_time_axis</strong> (<em>bool</em>) – whether to treat the x-values as times</p></li>
+<li><p><strong>y_time_axis</strong> (<em>bool</em>) – whether to treat the y-values as times</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.plot_xy_hist">
+<span class="sig-name descname"><span class="pre">plot_xy_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.plot_xy_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.plot_xy_hist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an XY histogram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_name</strong> (<em>str</em>) – name of the data series</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – x-values or column name</p></li>
+<li><p><strong>xmin</strong> (<em>float</em>) – minimum x value to display</p></li>
+<li><p><strong>xmax</strong> (<em>float</em>) – maximum x value to display</p></li>
+<li><p><strong>nbins</strong> (<em>int</em>) – number of bins</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.point">
+<span class="sig-name descname"><span class="pre">point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_series_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the point color, label, size, visibility, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>category</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em>) – discrete data or column name</p></li>
+<li><p><strong>multi_series_key</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – multi-series keys or a column name containing keys.</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em><em>, </em><em>Callable</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><em>str</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><em>int</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em><em>]</em>) – colors or a column name containing colors</p></li>
+<li><p><strong>label</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>Callable</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><em>str</em><em>]</em><em>]</em>) – labels or a column name containing labels</p></li>
+<li><p><strong>shape</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="deephaven.plot.shape.html#deephaven.plot.shape.Shape" title="deephaven.plot.shape.Shape"><em>Shape</em></a><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>List</em><em>[</em><a class="reference internal" href="deephaven.plot.shape.html#deephaven.plot.shape.Shape" title="deephaven.plot.shape.Shape"><em>Shape</em></a><em>]</em><em>, </em><em>Callable</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><em>str</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><a class="reference internal" href="deephaven.plot.shape.html#deephaven.plot.shape.Shape" title="deephaven.plot.shape.Shape"><em>Shape</em></a><em>]</em><em>]</em>) – shapes or a column name containing shapes</p></li>
+<li><p><strong>size</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>float</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>Callable</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><em>int</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>Any</em><em>,</em><em>float</em><em>]</em><em>]</em>) – sizes or a column name containing sizes</p></li>
+<li><p><strong>label_format</strong> (<em>str</em>) – point label format.</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the Figure as an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – output path.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – figure height.</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – figure width.</p></li>
+<li><p><strong>wait</strong> (<em>bool</em>) – whether to hold the calling thread until the file is written.</p></li>
+<li><p><strong>timeout_seconds</strong> (<em>int</em>) – timeout in seconds to wait for the file to be written.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.series">
+<span class="sig-name descname"><span class="pre">series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_series_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_tip_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_tool_tip_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_tool_tip_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_bar_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient_visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">naming_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.series" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a specific data series and updates the data series’s configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name</p></li>
+<li><p><strong>axes</strong> (<em>int</em>) – identifier</p></li>
+<li><p><strong>group</strong> (<em>int</em>) – group for the data series.</p></li>
+<li><p><strong>multi_series_key</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – multi-series keys or a column name containing keys.</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>tool_tip_pattern</strong> (<em>str</em>) – x and y tool tip format pattern</p></li>
+<li><p><strong>x_tool_tip_pattern</strong> (<em>str</em>) – x tool tip format pattern</p></li>
+<li><p><strong>y_tool_tip_pattern</strong> (<em>str</em>) – y tool tip format pattern</p></li>
+<li><p><strong>error_bar_color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – error bar color.</p></li>
+<li><p><strong>gradient_visible</strong> (<em>bool</em>) – bar gradient visibility.</p></li>
+<li><p><strong>naming_function</strong> (<em>Callable</em>) – series naming function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a displayable version of the figure and returns it.</p>
+<p>Args:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a new Figure</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.ticks">
+<span class="sig-name descname"><span class="pre">ticks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.ticks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration for major ticks of an axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+<li><p><strong>gap</strong> (<em>float</em>) – distance between ticks.</p></li>
+<li><p><strong>loc</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – coordinates of the tick locations.</p></li>
+<li><p><strong>angle</strong> (<em>int</em>) – angle in degrees.</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.ticks_minor">
+<span class="sig-name descname"><span class="pre">ticks_minor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nminor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.ticks_minor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.ticks_minor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration for minor ticks of an axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nminor</strong> (<em>int</em>) – number of minor ticks between consecutive major ticks.</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.twin">
+<span class="sig-name descname"><span class="pre">twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.twin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.twin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Axes which shares one Axis with the current Axes. For example, this is used for creating plots with a common x-axis but two different y-axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – dimension of the axis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.x_axis">
+<span class="sig-name descname"><span class="pre">x_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">business_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calendar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.x_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.x_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the x-Axis from a chart’s axes and updates the x-Axis’s configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – label</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+<li><p><strong>format</strong> (<a class="reference internal" href="deephaven.plot.axisformat.html#deephaven.plot.axisformat.AxisFormat" title="deephaven.plot.axisformat.AxisFormat"><em>AxisFormat</em></a>) – label format</p></li>
+<li><p><strong>format_pattern</strong> (<em>str</em>) – label format pattern</p></li>
+<li><p><strong>min</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – minimum value to display</p></li>
+<li><p><strong>max</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – maximum value to display</p></li>
+<li><p><strong>invert</strong> (<em>bool</em>) – invert the axis.</p></li>
+<li><p><strong>log</strong> (<em>bool</em>) – log axis</p></li>
+<li><p><strong>business_time</strong> (<em>bool</em>) – business time axis using the default calendar</p></li>
+<li><p><strong>calendar</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="deephaven.calendar.html#deephaven.calendar.BusinessCalendar" title="deephaven.calendar.BusinessCalendar"><em>BusinessCalendar</em></a><em>]</em>) – business time axis using the specified calendar</p></li>
+<li><p><strong>transform</strong> (<a class="reference internal" href="deephaven.plot.axistransform.html#deephaven.plot.axistransform.AxisTransform" title="deephaven.plot.axistransform.AxisTransform"><em>AxisTransform</em></a>) – axis transform.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.x_ticks">
+<span class="sig-name descname"><span class="pre">x_ticks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.x_ticks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.x_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration for major ticks of the x-Axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+<li><p><strong>gap</strong> (<em>float</em>) – distance between ticks.</p></li>
+<li><p><strong>loc</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – coordinates of the tick locations.</p></li>
+<li><p><strong>angle</strong> (<em>int</em>) – angle in degrees.</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.x_ticks_minor">
+<span class="sig-name descname"><span class="pre">x_ticks_minor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nminor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.x_ticks_minor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.x_ticks_minor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration for minor ticks of the x-Axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nminor</strong> (<em>int</em>) – number of minor ticks between consecutive major ticks.</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.x_twin">
+<span class="sig-name descname"><span class="pre">x_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.x_twin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.x_twin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Axes which shares the x-Axis with the current Axes. For example, this is used for creating plots with a common x-axis but two different y-axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.y_axis">
+<span class="sig-name descname"><span class="pre">y_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">business_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calendar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.y_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.y_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the y-Axis from a chart’s axes and updates the y-Axis’s configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – label</p></li>
+<li><p><strong>color</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>, </em><a class="reference internal" href="deephaven.plot.color.html#deephaven.plot.color.Color" title="deephaven.plot.color.Color"><em>Color</em></a><em>]</em>) – color</p></li>
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+<li><p><strong>format</strong> (<a class="reference internal" href="deephaven.plot.axisformat.html#deephaven.plot.axisformat.AxisFormat" title="deephaven.plot.axisformat.AxisFormat"><em>AxisFormat</em></a>) – label format</p></li>
+<li><p><strong>format_pattern</strong> (<em>str</em>) – label format pattern</p></li>
+<li><p><strong>min</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – minimum value to display</p></li>
+<li><p><strong>max</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – maximum value to display</p></li>
+<li><p><strong>invert</strong> (<em>bool</em>) – invert the axis.</p></li>
+<li><p><strong>log</strong> (<em>bool</em>) – log axis</p></li>
+<li><p><strong>business_time</strong> (<em>bool</em>) – business time axis using the default calendar</p></li>
+<li><p><strong>calendar</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="deephaven.calendar.html#deephaven.calendar.BusinessCalendar" title="deephaven.calendar.BusinessCalendar"><em>BusinessCalendar</em></a><em>]</em>) – business time axis using the specified calendar</p></li>
+<li><p><strong>transform</strong> (<a class="reference internal" href="deephaven.plot.axistransform.html#deephaven.plot.axistransform.AxisTransform" title="deephaven.plot.axistransform.AxisTransform"><em>AxisTransform</em></a>) – axis transform.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.y_ticks">
+<span class="sig-name descname"><span class="pre">y_ticks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.y_ticks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.y_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration for major ticks of the y-Axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>font</strong> (<a class="reference internal" href="deephaven.plot.font.html#deephaven.plot.font.Font" title="deephaven.plot.font.Font"><em>Font</em></a>) – font</p></li>
+<li><p><strong>gap</strong> (<em>float</em>) – distance between ticks.</p></li>
+<li><p><strong>loc</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – coordinates of the tick locations.</p></li>
+<li><p><strong>angle</strong> (<em>int</em>) – angle in degrees.</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.y_ticks_minor">
+<span class="sig-name descname"><span class="pre">y_ticks_minor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nminor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.y_ticks_minor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.y_ticks_minor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration for minor ticks of the y-Axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nminor</strong> (<em>int</em>) – number of minor ticks between consecutive major ticks.</p></li>
+<li><p><strong>visible</strong> (<em>int</em>) – true to draw the design element; false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.y_twin">
+<span class="sig-name descname"><span class="pre">y_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.y_twin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.y_twin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Axes which shares the y-Axis with the current Axes. For example, this is used for creating plots with a common x-axis but two different y-axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="deephaven.plot.font.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">deephaven.plot.font</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="deephaven.plot.color.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">deephaven.plot.color</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="../_sources/code/deephaven.plot.figure.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    </body>
+</html>

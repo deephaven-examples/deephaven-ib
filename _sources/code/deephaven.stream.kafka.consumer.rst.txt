@@ -1,0 +1,10 @@
+deephaven.stream.kafka.consumer
+===============================
+
+
+.. automodule:: deephaven.stream.kafka.consumer
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

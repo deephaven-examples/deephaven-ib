@@ -1,0 +1,10 @@
+deephaven.plot.color
+====================
+
+
+.. automodule:: deephaven.plot.color
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

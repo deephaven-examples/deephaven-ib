@@ -1,0 +1,12 @@
+deephaven.stream
+================
+
+.. toctree::
+    kafka <deephaven.stream.kafka>
+
+.. automodule:: deephaven.stream
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

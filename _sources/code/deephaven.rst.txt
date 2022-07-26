@@ -2,31 +2,38 @@ deephaven
 =========
 
 .. toctree::
-    Calendars <deephaven.Calendars>
-    ConsumeCdc <deephaven.ConsumeCdc>
-    ConsumeKafka <deephaven.ConsumeKafka>
-    DateTimeUtils <deephaven.DateTimeUtils>
-    MovingAverages <deephaven.MovingAverages>
-    ParquetTools <deephaven.ParquetTools>
-    PerformanceQueries <deephaven.PerformanceQueries>
-    PerformanceTools <deephaven.PerformanceTools>
-    Plot <deephaven.Plot>
-    ProduceKafka <deephaven.ProduceKafka>
-    ResolveTools <deephaven.ResolveTools>
-    TableLoggers <deephaven.TableLoggers>
-    TableManipulation <deephaven.TableManipulation>
-    TableTools <deephaven.TableTools>
-    Types <deephaven.Types>
-    conversion_utils <deephaven.conversion_utils>
+    agg <deephaven.agg>
+    appmode <deephaven.appmode>
+    calendar <deephaven.calendar>
+    column <deephaven.column>
+    config <deephaven.config>
+    constants <deephaven.constants>
     csv <deephaven.csv>
-    filter <deephaven.filter>
-    java_to_python <deephaven.java_to_python>
-    jvm_init <deephaven.jvm_init>
-    lang <deephaven.lang>
+    dherror <deephaven.dherror>
+    dtypes <deephaven.dtypes>
+    experimental <deephaven.experimental>
+    filters <deephaven.filters>
+    html <deephaven.html>
+    jcompat <deephaven.jcompat>
     learn <deephaven.learn>
-    python_to_java <deephaven.python_to_java>
-    start_jvm <deephaven.start_jvm>
-    tutorials <deephaven.tutorials>
+    liveness_scope <deephaven.liveness_scope>
+    numpy <deephaven.numpy>
+    pandas <deephaven.pandas>
+    pandasplugin <deephaven.pandasplugin>
+    parquet <deephaven.parquet>
+    perfmon <deephaven.perfmon>
+    plot <deephaven.plot>
+    plugin <deephaven.plugin>
+    query_library <deephaven.query_library>
+    replay <deephaven.replay>
+    server <deephaven.server>
+    stream <deephaven.stream>
+    table <deephaven.table>
+    table_factory <deephaven.table_factory>
+    table_listener <deephaven.table_listener>
+    time <deephaven.time>
+    ugp <deephaven.ugp>
+    uri <deephaven.uri>
 
 .. automodule:: deephaven
     :members:

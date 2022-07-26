@@ -1,0 +1,12 @@
+deephaven.pandasplugin
+======================
+
+.. toctree::
+    pandas_as_table <deephaven.pandasplugin.pandas_as_table>
+
+.. automodule:: deephaven.pandasplugin
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

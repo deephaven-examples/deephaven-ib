@@ -1,0 +1,10 @@
+deephaven.uri
+=============
+
+
+.. automodule:: deephaven.uri
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

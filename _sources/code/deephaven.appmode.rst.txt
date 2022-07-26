@@ -1,0 +1,10 @@
+deephaven.appmode
+=================
+
+
+.. automodule:: deephaven.appmode
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

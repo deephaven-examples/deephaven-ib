@@ -8,6 +8,7 @@ deephaven_ib python modules.
     :glob:
 
 
+    ./code/deephaven_server
     ./code/deephaven_ib
     ./code/deephaven
     ./code/jpy

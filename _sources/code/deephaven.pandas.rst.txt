@@ -1,0 +1,10 @@
+deephaven.pandas
+================
+
+
+.. automodule:: deephaven.pandas
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

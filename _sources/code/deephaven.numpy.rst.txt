@@ -1,0 +1,10 @@
+deephaven.numpy
+===============
+
+
+.. automodule:: deephaven.numpy
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

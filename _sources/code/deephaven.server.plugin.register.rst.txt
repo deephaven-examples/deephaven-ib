@@ -1,0 +1,10 @@
+deephaven.server.plugin.register
+================================
+
+
+.. automodule:: deephaven.server.plugin.register
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

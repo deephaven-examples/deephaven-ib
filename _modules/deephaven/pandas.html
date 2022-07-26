@@ -1,0 +1,463 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>deephaven.pandas - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_server.server.html">server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_server.start_jvm.html">start_jvm</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.agg.html">agg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.appmode.html">appmode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.calendar.html">calendar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.column.html">column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.config.html">config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.constants.html">constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dherror.html">dherror</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.experimental.ema.html">ema</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.html.html">html</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.jcompat.html">jcompat</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.liveness_scope.html">liveness_scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.numpy.html">numpy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.pandas.html">pandas</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.parquet.html">parquet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.perfmon.html">perfmon</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.axisformat.html">axisformat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.axistransform.html">axistransform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.color.html">color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.font.html">font</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.linestyle.html">linestyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.plotstyle.html">plotstyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.selectable_dataset.html">selectable_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.shape.html">shape</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plugin.object.html">object</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.query_library.html">query_library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.replay.html">replay</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../code/deephaven.server.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.server.plugin.object.html">object</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.server.plugin.register.html">register</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.server.script_session.html">script_session</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../code/deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.stream.kafka.cdc.html">cdc</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.stream.kafka.consumer.html">consumer</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.stream.kafka.producer.html">producer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table.html">table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_factory.html">table_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for deephaven.pandas</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Copyright (c) 2016-2022 Deephaven Data Labs and Patent Pending</span>
+<span class="c1">#</span>
+
+<span class="sd">""" This module supports the conversion between Deephaven tables and Pandas DataFrames. """</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">deephaven</span> <span class="k">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">new_table</span><span class="p">,</span> <span class="n">dtypes</span>
+<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="k">import</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">deephaven.constants</span> <span class="k">import</span> <span class="n">NULL_BYTE</span><span class="p">,</span> <span class="n">NULL_SHORT</span><span class="p">,</span> <span class="n">NULL_INT</span><span class="p">,</span> <span class="n">NULL_LONG</span><span class="p">,</span> <span class="n">NULL_FLOAT</span><span class="p">,</span> <span class="n">NULL_DOUBLE</span><span class="p">,</span> <span class="n">NULL_BOOLEAN</span>
+<span class="kn">from</span> <span class="nn">deephaven.numpy</span> <span class="k">import</span> <span class="n">column_to_numpy_array</span><span class="p">,</span> <span class="n">freeze_table</span><span class="p">,</span> <span class="n">_make_input_column</span>
+<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="k">import</span> <span class="n">Table</span>
+
+<span class="n">_JPrimitiveArrayConversionUtility</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.common.PrimitiveArrayConversionUtility"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_column_to_series</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">col_def</span><span class="p">:</span> <span class="n">Column</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="sd">""" Produce a copy of the specified column as a pandas.Series object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        table (Table): the table</span>
+<span class="sd">        col_def (Column):  the column definition</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.Series</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data_col</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">getColumn</span><span class="p">(</span><span class="n">col_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">np_array</span> <span class="o">=</span> <span class="n">column_to_numpy_array</span><span class="p">(</span><span class="n">col_def</span><span class="p">,</span> <span class="n">data_col</span><span class="o">.</span><span class="n">getDirect</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np_array</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"failed to create apandas Series for </span><span class="si">{col}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+
+<div class="viewcode-block" id="to_pandas"><a class="viewcode-back" href="../../code/deephaven.pandas.html#deephaven.pandas.to_pandas">[docs]</a><span class="k">def</span> <span class="nf">to_pandas</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">"""  Produces a pandas.DataFrame from a table.</span>
+
+<span class="sd">    Note that the **entire table** is going to be cloned into memory, so the total number of entries in the table</span>
+<span class="sd">    should be considered before blindly doing this. For large tables, consider using the Deephaven query language to</span>
+<span class="sd">    select a subset of the table **before** using this method.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        table (Table): the source table</span>
+<span class="sd">        cols (List[str]): the source column names, default is None which means include all columns</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame</span>
+
+<span class="sd">    Raise:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">is_refreshing</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">freeze_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+        <span class="n">col_def_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_def_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">diff_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">col_def_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">diff_set</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">f</span><span class="s2">"columns - {list(diff_set)} not found"</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="n">_column_to_series</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">col_def_dict</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span>
+
+        <span class="n">dtype_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dtype_set</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">array</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                                    <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span>
+                                    <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a Pandas DataFrame from table."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<span class="n">EX_DTYPE_NULL_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># This reflects the fact that in the server we use NULL_BOOLEAN_AS_BYTE - the byte encoding of null boolean to</span>
+    <span class="c1"># translate boxed Boolean to/from primitive bytes</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">BooleanDtype</span><span class="p">:</span> <span class="n">NULL_BYTE</span><span class="p">,</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">Int8Dtype</span><span class="p">:</span> <span class="n">NULL_BYTE</span><span class="p">,</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">Int16Dtype</span><span class="p">:</span> <span class="n">NULL_SHORT</span><span class="p">,</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">Int32Dtype</span><span class="p">:</span> <span class="n">NULL_INT</span><span class="p">,</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">Int64Dtype</span><span class="p">:</span> <span class="n">NULL_LONG</span><span class="p">,</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">Float32Dtype</span><span class="p">:</span> <span class="n">NULL_FLOAT</span><span class="p">,</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">Float64Dtype</span><span class="p">:</span> <span class="n">NULL_DOUBLE</span><span class="p">,</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">StringDtype</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_map_na</span><span class="p">(</span><span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="sd">"""Replaces the pd.NA values in the array if it is of Pandas ExtensionDtype(nullable)."""</span>
+    <span class="n">pd_dtype</span> <span class="o">=</span> <span class="n">np_array</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pd_dtype</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExtensionDtype</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np_array</span>
+
+    <span class="n">dh_null</span> <span class="o">=</span> <span class="n">EX_DTYPE_NULL_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pd_dtype</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pd_dtype</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">StringDtype</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pd_dtype</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">BooleanDtype</span><span class="p">):</span>
+        <span class="n">np_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">dh_null</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="n">pd</span><span class="o">.</span><span class="n">NA</span> <span class="k">else</span> <span class="n">v</span><span class="p">,</span> <span class="n">np_array</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">dh_null</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">np_array</span> <span class="o">=</span> <span class="n">np_array</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">dh_null</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np_array</span>
+
+
+<div class="viewcode-block" id="to_table"><a class="viewcode-back" href="../../code/deephaven.pandas.html#deephaven.pandas.to_table">[docs]</a><span class="k">def</span> <span class="nf">to_table</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="sd">"""  Creates a new table from a pandas.DataFrame.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (DataFrame): the Pandas DataFrame instance</span>
+<span class="sd">        cols (List[str]): the dataframe column names, default is None which means including all columns in the dataframe</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Deephaven table</span>
+
+<span class="sd">    Raise:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">diff_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">diff_set</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">f</span><span class="s2">"columns - {list(diff_set)} not found"</span><span class="p">)</span>
+
+        <span class="n">input_cols</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">np_array</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtypes</span><span class="o">.</span><span class="n">from_np_dtype</span><span class="p">(</span><span class="n">np_array</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">np_array</span> <span class="o">=</span> <span class="n">_map_na</span><span class="p">(</span><span class="n">np_array</span><span class="p">)</span>
+            <span class="n">input_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_make_input_column</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">np_array</span><span class="p">,</span> <span class="n">dtype</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">new_table</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="n">input_cols</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a Deephaven Table from a Pandas DataFrame."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/main.js"></script>
+    </body>
+</html>

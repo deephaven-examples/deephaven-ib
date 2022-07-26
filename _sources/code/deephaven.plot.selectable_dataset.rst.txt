@@ -1,0 +1,10 @@
+deephaven.plot.selectable_dataset
+=================================
+
+
+.. automodule:: deephaven.plot.selectable_dataset
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+
