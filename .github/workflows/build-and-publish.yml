@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  IB_VERSION: 1016.01
+
 jobs:
   build-whl:
     name: Build WHL
@@ -120,6 +123,12 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Build IB
+        run: |
+          curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${{ env.IB_VERSION }}.zip"
+          unzip api.zip
+          cd ./IBJts/source/pythonclient
+          python3 setup.py install
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Get branch name
