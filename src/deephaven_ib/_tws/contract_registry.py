@@ -34,13 +34,13 @@ class ContractEntry:
 
         self.contract_details.append(contract_details)
 
-    def add_error_sring(self, error_string: str):
+    def add_error_string(self, req_id: int, error_string: str):
         """Adds an error string to the entry."""
 
         if self.contract_details:
-            raise Exception(f"Adding an error string to an entry that already has contract details: {self.contract}")
+            raise Exception(f"Adding an error string to an entry that already has contract details: req_id={req_id} {self.contract}")
 
-        self.error_strings.append(error_string)
+        self.error_strings.append(f"req_id={req_id} {error_string}")
 
     def get(self) -> List[ContractDetails]:
         """Gets the details or raises an exception if there are no details."""
@@ -106,7 +106,8 @@ class ContractRegistry:
                 return
 
             contract, event = self._requests_by_id[req_id]
-            self._update_error(contract, error_string)
+            self._update_error(contract, req_id, error_string)
+            event.set()
 
     def request_end(self, req_id: int) -> None:
         """Indicate that the request is over and all data has been received."""
@@ -178,7 +179,7 @@ class ContractRegistry:
             event_happened = event.wait(time_out)
 
             if not event_happened:
-                raise Exception(f"ContractRegistry.request_contract_details_blocking() timed out after {time_out} sec.")
+                raise Exception(f"ContractRegistry.request_contract_details_blocking() timed out after {time_out} sec.  contract={contract}")
 
             cd = self._get_contract_details(contract)
             return cd.get()
@@ -223,7 +224,7 @@ class ContractRegistry:
 
         self._contracts[key].add_contract_details(contract_details)
 
-    def _update_error(self, contract: Contract, error_string: str) -> None:
+    def _update_error(self, contract: Contract, req_id: int, error_string: str) -> None:
         """Updates the error string for a query contract."""
 
         key = str(contract)
@@ -231,4 +232,4 @@ class ContractRegistry:
         if key not in self._contracts:
             self._contracts[key] = ContractEntry(contract)
 
-        self._contracts[key].add_error_sring(error_string)
+        self._contracts[key].add_error_string(req_id, error_string)
