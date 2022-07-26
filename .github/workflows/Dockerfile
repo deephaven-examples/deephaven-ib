@@ -4,7 +4,8 @@ FROM ubuntu:22.04
 ARG IB_VERSION
 
 RUN apt update && \
-    apt install -y openjdk-11-jdk python3-pip curl zip
+    apt install -y openjdk-11-jdk python3-pip curl zip && \
+    pip3 install --upgrade pip setuptools wheel
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 

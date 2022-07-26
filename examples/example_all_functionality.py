@@ -332,6 +332,42 @@ client.request_bars_historical(rc, duration=dhib.Duration.days(22), bar_size=dhi
                                bar_type=dhib.BarDataType.YIELD_LAST, keep_up_to_date=False)
 
 print("==============================================================================================================")
+print("==== Request bars (Crypto).")
+print("==============================================================================================================")
+
+contract = Contract()
+contract.symbol = "BTC"
+contract.secType = "CRYPTO"
+contract.exchange = "PAXOS"
+contract.currency = "USD"
+
+rc = client.get_registered_contract(c2)
+client.request_bars_historical(rc2, duration=dhib.Duration.days(253), 
+  bar_size=dhib.BarSize.DAY_1, 
+  bar_type=dhib.BarDataType.AGGTRADES, 
+  keep_up_to_date = False
+)
+client.request_bars_realtime(rc2, bar_type=dhib.BarDataType.TRADES)
+
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.MIDPOINT)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.BID)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.ASK)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.BID_ASK, keep_up_to_date=False)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.AGGTRADES)
+client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+                               bar_type=dhib.BarDataType.ADJUSTED_LAST, keep_up_to_date=False)
+
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.MIDPOINT)
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.BID)
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.ASK)
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
+
+print("==============================================================================================================")
 print("==== Request tick data.")
 print("==============================================================================================================")
 

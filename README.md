@@ -234,6 +234,7 @@ new feature and has not been well tested.  To do this:
     ```
 4) Install [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
     ```bash
+    pip3 install --upgrade pip setuptools wheel
     pip3 install deephaven-ib
     ```
 5) Install Java 11 and set the appropriate `JAVA_HOME` environment variable.    

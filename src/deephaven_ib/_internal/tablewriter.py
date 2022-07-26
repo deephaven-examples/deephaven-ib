@@ -10,6 +10,8 @@ from deephaven import DynamicTableWriter
 from deephaven.table import Table
 from deephaven import dtypes
 from deephaven.dtypes import DType
+import decimal
+from decimal import Decimal
 
 from .trace import trace_str
 
@@ -66,6 +68,10 @@ class TableWriter:
 
         if self._receive_time:
             values.insert(0, now())
+
+        for i in range(len(values)):
+            if  isinstance(values[i], decimal.Decimal): 
+                values[i] = float(values[i])
 
         self._check_logged_value_types(values)
 

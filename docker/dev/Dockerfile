@@ -12,7 +12,7 @@ RUN apt update && \
     apt install -y openjdk-11-jdk && \
     ln -s /usr/lib/jvm/java-11-openjdk-*/ /usr/lib/jvm/java-11-openjdk && \
     apt install --yes git python3-venv python3-pip && \
-    pip3 install --upgrade setuptools wheel build twine
+    pip3 install --upgrade pip setuptools wheel build twine
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 

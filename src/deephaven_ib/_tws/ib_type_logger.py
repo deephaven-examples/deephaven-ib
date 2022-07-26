@@ -141,7 +141,6 @@ def _details_contract_details() -> List[Tuple]:
         ("LiquidHours", dtypes.StringSet, lambda cd: to_string_set(cd.liquidHours.split(";"))),
         ("EvRule", dtypes.string, lambda cd: cd.evRule),
         ("EvMultiplier", dtypes.int64, lambda cd: cd.evMultiplier),
-        ("MdSizeMultiplier", dtypes.int64, lambda cd: cd.mdSizeMultiplier),
         ("AggGroup", dtypes.int64, lambda cd: map_null_int(cd.aggGroup)),
         ("UnderSymbol", dtypes.string, lambda cd: cd.underSymbol),
         ("UnderSecType", dtypes.string, lambda cd: cd.underSecType),
@@ -218,9 +217,9 @@ def _details_bar_data() -> List[Tuple]:
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
         ("Close", dtypes.float64, lambda bd: bd.close),
-        ("Volume", dtypes.int64, lambda bd: map_null(bd.volume)),
+        ("Volume", dtypes.float64, lambda bd: map_null(bd.volume)),
         ("BarCount", dtypes.int64, lambda bd: map_null(bd.barCount)),
-        ("Average", dtypes.float64, lambda bd: map_null(bd.average)),
+        ("WAP", dtypes.float64, lambda bd: map_null(bd.wap)),
     ]
 
 
@@ -245,7 +244,7 @@ def _details_real_time_bar_data() -> List[Tuple]:
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
         ("Close", dtypes.float64, lambda bd: bd.close),
-        ("Volume", dtypes.int64, lambda bd: map_null(bd.volume)),
+        ("Volume", dtypes.float64, lambda bd: map_null(bd.volume)),
         ("WAP", dtypes.float64, lambda bd: map_null(bd.wap)),
         ("Count", dtypes.int64, lambda bd: map_null(bd.count)),
     ]
@@ -330,7 +329,7 @@ def _details_historical_tick_last() -> List[Tuple]:
     return [
         ("Timestamp", dtypes.DateTime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("Price", dtypes.float64, lambda t: t.price),
-        ("Size", dtypes.int64, lambda t: t.size),
+        ("Size", dtypes.float64, lambda t: t.size),
         *_include_details(_details_tick_attrib_last(), lambda t: t.tickAttribLast),
         ("Exchange", dtypes.string, lambda t: t.exchange),
         ("SpecialConditions", dtypes.StringSet, lambda t: map_special_conditions(t.specialConditions))
