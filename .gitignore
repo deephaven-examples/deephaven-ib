@@ -3,3 +3,5 @@ venv
 dist
 src/deephaven_ib.egg-info
 docker/data
+docker/*/data
+docker/*/build
