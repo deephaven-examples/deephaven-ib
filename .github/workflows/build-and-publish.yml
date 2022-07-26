@@ -57,7 +57,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v3
       with:
-        name: build-artifacts
+        name: wheels
         path: wheel/
     - name: Publish WHL to PyPi
       uses: pypa/gh-action-pypi-publish@release/v1
@@ -104,6 +104,7 @@ jobs:
     needs: [build-sphinx]
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
+    - uses: actions/checkout@v1
     - name: Download Sphinx Artifacts
       uses: actions/download-artifact@v3
       with:
