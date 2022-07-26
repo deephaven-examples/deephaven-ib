@@ -226,6 +226,7 @@ new feature and has not been well tested.  To do this:
 ![](docs/assets/allow-connections.png)
 3) Install `ibapi`:
     ```bash
+    # pip installed version of ibapi is too old.  You must download and install a more recent version.
     curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.1016.01.zip"
     unzip api.zip
     cd ./IBJts/source/pythonclient
