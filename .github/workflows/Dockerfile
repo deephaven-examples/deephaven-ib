@@ -4,14 +4,18 @@ FROM ubuntu:22.04
 ARG IB_VERSION
 
 RUN apt update && \
-    apt install -y openjdk-11-jdk python3-pip
+    apt install -y openjdk-11-jdk python3-pip curl zip
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 
-RUN curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip" && \
+RUN mkdir /build && \
+    cd /build && \
+    curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip" && \
     unzip api.zip && \
     cd ./IBJts/source/pythonclient && \
-    python3 setup.py install
+    python3 setup.py install && \
+    cd / && \
+    rm -rf /build
 
 COPY ./wheels /wheels
 
