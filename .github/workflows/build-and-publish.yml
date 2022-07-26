@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - v*
 
 env:
   IB_VERSION: 1016.01
