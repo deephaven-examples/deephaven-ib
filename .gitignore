@@ -2,4 +2,10 @@
 venv
 dist
 src/deephaven_ib.egg-info
+<<<<<<< HEAD
 docker/data
+=======
+docker/data
+docker/*/data
+docker/*/build
+>>>>>>> a3235c3ea34c99a4309b17202bcde38b2ce2f5db
