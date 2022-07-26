@@ -154,11 +154,6 @@ To setup and configure the system:
 
 1) Follow the [Deephaven Quick Start Guide](https://deephaven.io/core/docs/tutorials/quickstart/) to get [Deephaven](https://deephaven.io) running.  
 1) Follow the [TWS Installation Instructions](https://www.interactivebrokers.com/en/trading/tws.php) to get [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) running.
-1) Check out the [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) repository:
-    ```bash
-    git clone https://github.com/deephaven-examples/deephaven-ib.git
-    cd deephaven-ib
-    ```
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 1) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
 upper right corner.  ![](docs/assets/config-gear.png)  
@@ -222,31 +217,39 @@ This is the most tested way to launch.
 
 ### Launch with a local installation (No Docker)
 
-> **_NOTE:_**  Deephaven pip install does not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64) and Windows WSL.  It is not yet supported on Windows without WSL or Mac.  For these architectures, you should use the Docker installation.  As soon as Deephaven supports these architectures for pip, [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) will work.
+> **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64) and Windows WSL.  It is not yet supported on Windows without WSL or Mac.  For these architectures, you should use the Docker installation.  As soon as Deephaven supports these architectures for pip, [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) will work.
 
 It is possible to use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) without docker, but this is a 
 new feature and has not been well tested.  To do this:
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 2) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
 ![](docs/assets/allow-connections.png)
-3) Install [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
+3) Install `ibapi`:
+    ```bash
+    # pip installed version of ibapi is too old.  You must download and install a more recent version.
+    curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.1016.01.zip"
+    unzip api.zip
+    cd ./IBJts/source/pythonclient
+    python3 setup.py install
+    ```
+4) Install [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
     ```bash
     pip3 install deephaven-ib
     ```
-4) Install Java 11 and set the appropriate `JAVA_HOME` environment variable.    
-5) Launch the system (Option 1):
+5) Install Java 11 and set the appropriate `JAVA_HOME` environment variable.    
+6) Launch the system (Option 1):
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
     python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
-6) Launch the system and execute a custom script (Option 2):
+7) Launch the system and execute a custom script (Option 2):
     ```bash
     # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     # Set jvm_args to the desired JVM memory for Deephaven
     python3 -i /data/your_script.py
     ```
-7) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
-8) Use `host=localhost` for the hostname in the examples
+8) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+9) Use `host=localhost` for the hostname in the examples
 
 # Use deephaven-ib
 
@@ -632,3 +635,4 @@ If you can not solve your problems through either the `errors` table or through 
 # Examples
 
 Examples can be found in [./examples](./examples).
+

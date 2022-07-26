@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  IB_VERSION: 1016.01
+
 jobs:
   build-whl:
     name: Build WHL
@@ -155,5 +158,6 @@ jobs:
           push: true
           tags: ${{ steps.meta-base.outputs.tags }}
           labels: ${{ steps.meta-base.outputs.labels }}
+          build-args: IB_VERSION=${{ env.IB_VERSION }}
         env:
           IMAGE_NAME: ${{ github.repository }}
