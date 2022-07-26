@@ -159,6 +159,6 @@ jobs:
           tags: ${{ steps.meta-base.outputs.tags }}
           labels: ${{ steps.meta-base.outputs.labels }}
           build-args:
-            IB_VERSION: ${{ env.IB_VERSION }}
+            - IB_VERSION=${{ env.IB_VERSION }}
         env:
           IMAGE_NAME: ${{ github.repository }}
