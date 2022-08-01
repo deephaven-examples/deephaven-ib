@@ -183,35 +183,36 @@ This is the most tested way to launch.
     ```bash
     mkdir data
     ```
-4) Launch the system (Option 1):
-    * On Mac:
+4) Clone the repository
     ```bash
     git clone git@github.com:deephaven-examples/deephaven-ib.git
-    cd deephaven-ib/docker/dev/build.sh
+    cd deephaven-ib/docker/dev/ && ./build.sh
+    ```
+5) Launch the system (Option 1):
+    * On Mac:
+    ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    docker run -it -v /data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
     * On other platforms:
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    docker run -it -v /data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
-5) Launch the system and execute a custom script (Option 2):
+6) Launch the system and execute a custom script (Option 2):
     * On Mac:
     ```bash
-    git clone git@github.com:deephaven-examples/deephaven-ib.git
-    cd deephaven-ib/docker/dev/build.sh
     # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     # Set jvm_args to the desired JVM memory for Deephaven
-    cp path/to/your_script.py data/your_script.py
-    docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i /data/your_script.py
+    cp path/to/your_script.py /data/your_script.py
+    docker run -it -v /data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i /data/your_script.py
     ```
     * On other platforms:
     ```bash
     # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     # Set jvm_args to the desired JVM memory for Deephaven
-    cp path/to/your_script.py data/your_script.py
-    docker run -it -v data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
+    cp path/to/your_script.py /data/your_script.py
+    docker run -it -v /data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
     ```
 7) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
 
@@ -231,6 +232,9 @@ new feature and has not been well tested.  To do this:
     unzip api.zip
     cd ./IBJts/source/pythonclient
     python3 setup.py install
+    # cleanup leftover files
+    cd ../../..
+    rm -rf api.zip IBJts META-INF
     ```
 4) Install [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
     ```bash
