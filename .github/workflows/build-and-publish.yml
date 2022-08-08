@@ -7,8 +7,9 @@ on:
   push:
     branches:
       - main
-    tags:
-      - v*
+  release:
+    types:
+      - released
 
 env:
   IB_VERSION: 1016.01
@@ -54,7 +55,7 @@ jobs:
     name: Publish WHL
     runs-on: ubuntu-20.04
     needs: [build-whl]
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
     steps:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v3
@@ -104,7 +105,7 @@ jobs:
     name: Publish Sphinx
     runs-on: ubuntu-20.04
     needs: [build-sphinx]
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
     steps:
     - uses: actions/checkout@v1
     - name: Download Sphinx Artifacts
