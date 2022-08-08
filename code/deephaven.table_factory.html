@@ -237,6 +237,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -406,7 +407,8 @@ followed by sort.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>period</strong> (<em>str</em>) – time interval between new row additions</p></li>
+<li><p><strong>period</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – time interval between new row additions, can be expressed as an integer in
+nanoseconds or a time interval string, e.g. “00:00:00.001”</p></li>
 <li><p><strong>start_time</strong> (<em>str</em>) – start time for adding new rows</p></li>
 </ul>
 </dd>

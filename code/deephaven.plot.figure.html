@@ -237,6 +237,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -657,6 +658,34 @@ and all function calls return a new immutable Figure instance.</p>
 <li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
 <li><p><strong>category</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em>) – discrete data or column name</p></li>
 <li><p><strong>y</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>, </em><em>List</em><em>[</em><em>DateTime</em><em>]</em><em>]</em>) – y-values or column name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.plot.figure.Figure" title="deephaven.plot.figure.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Figure</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plot.figure.Figure.plot_treemap">
+<span class="sig-name descname"><span class="pre">plot_treemap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hover_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/figure.html#Figure.plot_treemap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.figure.Figure.plot_treemap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a treemap. Must have only one root.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_name</strong> (<em>str</em>) – name of the data series</p></li>
+<li><p><strong>t</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet" title="deephaven.plot.selectable_dataset.SelectableDataSet"><em>SelectableDataSet</em></a><em>]</em>) – table or selectable data set (e.g. OneClick filterable table)</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – column name containing IDs</p></li>
+<li><p><strong>parent</strong> (<em>str</em>) – column name containing parent IDs</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – column name containing values</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – column name containing labels</p></li>
+<li><p><strong>hover_text</strong> (<em>str</em>) – column name containing hover text</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – column name containing color</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

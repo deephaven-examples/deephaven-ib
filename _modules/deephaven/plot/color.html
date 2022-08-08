@@ -236,6 +236,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -301,6 +302,9 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_color</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span> <span class="o">=</span> <span class="n">j_color</span>
+
+    <span class="k">def</span> <span class="nf">to_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span><span class="o">.</span><span class="n">toHex</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Color.of_name"><a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_name">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">of_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>

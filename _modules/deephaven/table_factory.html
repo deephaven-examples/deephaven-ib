@@ -236,6 +236,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -278,7 +279,7 @@
 <span class="c1">#</span>
 
 <span class="sd">""" This module provides various ways to make a Deephaven table. """</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">jpy</span>
 
@@ -286,8 +287,9 @@
 <span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="k">import</span> <span class="n">JObjectWrapper</span>
 <span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="k">import</span> <span class="n">InputColumn</span>
 <span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="k">import</span> <span class="n">DType</span>
+<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="k">import</span> <span class="n">to_sequence</span>
 <span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="k">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">deephaven.ugp</span> <span class="k">import</span> <span class="n">auto_locking_op</span>
+<span class="kn">from</span> <span class="nn">deephaven.ugp</span> <span class="k">import</span> <span class="n">auto_locking_ctx</span>
 
 <span class="n">_JTableFactory</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.table.TableFactory"</span><span class="p">)</span>
 <span class="n">_JTableTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.util.TableTools"</span><span class="p">)</span>
@@ -312,11 +314,12 @@
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create an empty table."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
 
-<div class="viewcode-block" id="time_table"><a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.table_factory.time_table">[docs]</a><span class="k">def</span> <span class="nf">time_table</span><span class="p">(</span><span class="n">period</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start_time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<div class="viewcode-block" id="time_table"><a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.table_factory.time_table">[docs]</a><span class="k">def</span> <span class="nf">time_table</span><span class="p">(</span><span class="n">period</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">start_time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
     <span class="sd">"""Creates a table that adds a new row on a regular interval.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        period (str): time interval between new row additions</span>
+<span class="sd">        period (Union[str, int]): time interval between new row additions, can be expressed as an integer in</span>
+<span class="sd">            nanoseconds or a time interval string, e.g. "00:00:00.001"</span>
 <span class="sd">        start_time (str): start time for adding new rows</span>
 
 <span class="sd">    Returns:</span>
@@ -353,8 +356,7 @@
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a new time table."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
 
-<div class="viewcode-block" id="merge"><a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.table_factory.merge">[docs]</a><span class="nd">@auto_locking_op</span>
-<span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]):</span>
+<div class="viewcode-block" id="merge"><a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.table_factory.merge">[docs]</a><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]):</span>
     <span class="sd">"""Combines two or more tables into one aggregate table. This essentially appends the tables one on top of the</span>
 <span class="sd">    other. Null tables are ignored.</span>
 
@@ -368,13 +370,13 @@
 <span class="sd">        DHError</span>
 <span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]))</span>
+        <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="o">*</span><span class="n">tables</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"merge tables operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
 
-<div class="viewcode-block" id="merge_sorted"><a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.table_factory.merge_sorted">[docs]</a><span class="nd">@auto_locking_op</span>
-<span class="k">def</span> <span class="nf">merge_sorted</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">],</span> <span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<div class="viewcode-block" id="merge_sorted"><a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.table_factory.merge_sorted">[docs]</a><span class="k">def</span> <span class="nf">merge_sorted</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">],</span> <span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
     <span class="sd">"""Combines two or more tables into one sorted, aggregate table. This essentially stacks the tables one on top</span>
 <span class="sd">    of the other and sorts the result. Null tables are ignored. mergeSorted is more efficient than using merge</span>
 <span class="sd">    followed by sort.</span>
@@ -390,7 +392,8 @@
 <span class="sd">        DHError</span>
 <span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">mergeSorted</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]))</span>
+        <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="o">*</span><span class="n">tables</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">mergeSorted</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"merge sorted operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
@@ -455,7 +458,8 @@
 <span class="sd">             DHError</span>
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_writer</span><span class="o">.</span><span class="n">logRowPermissive</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_writer</span><span class="o">.</span><span class="n">logRowPermissive</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to write a row."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div></div>
 </pre></div>

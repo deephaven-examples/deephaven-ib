@@ -237,6 +237,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -275,8 +276,8 @@
         <article role="main">
           <section id="module-deephaven.table">
 <span id="deephaven-table"></span><h1>deephaven.table<a class="headerlink" href="#module-deephaven.table" title="Permalink to this headline">¶</a></h1>
-<p>This module implements the Table and PartitionedTable classes which are the main instruments for working with
-Deephaven refreshing and static data.</p>
+<p>This module implements the Table, PartitionedTable and PartitionedTableProxy classes which are the main
+instruments for working with Deephaven refreshing and static data.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="deephaven.table.AsOfMatchRule">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">AsOfMatchRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#AsOfMatchRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.AsOfMatchRule" title="Permalink to this definition">¶</a></dt>
@@ -538,6 +539,28 @@ argument to the provided function</p></li>
 </dl>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTable.proxy">
+<span class="sig-name descname"><span class="pre">proxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">require_matching_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sanity_check_joins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTable.proxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTable.proxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a proxy that allows table operations to be applied to the constituent tables of this
+PartitionedTable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>require_matching_keys</strong> (<em>bool</em>) – whether to ensure that both partitioned tables have all the same keys
+present when an operation uses this PartitionedTable and another PartitionedTable as inputs for a
+<a class="reference internal" href="#deephaven.table.PartitionedTable.partitioned_transform" title="deephaven.table.PartitionedTable.partitioned_transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">partitioned_transform()</span></code></a>, default is True</p></li>
+<li><p><strong>sanity_check_joins</strong> (<em>bool</em>) – whether to check that for proxied join operations, a given join key only occurs</p></li>
+<li><p><strong>a</strong> (<em>in exactly one constituent table of the underlying partitioned table. If the other table argument is also</em>) – </p></li>
+<li><p><strong>PartitionedTableProxy</strong> – </p></li>
+<li><p><strong>constraint.</strong> (<em>its constituents will also be subjected to this</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.sort">
 <span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTable.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTable.sort" title="Permalink to this definition">¶</a></dt>
 <dd><p>The sort method creates a new partitioned table where the rows are ordered based on values in a specified
@@ -610,6 +633,899 @@ produce equivalent tables.</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">PartitionedTableProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j_pt_proxy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven._wrapper.JObjectWrapper</span></code></p>
+<p>A PartitionedTableProxy is a table operation proxy for the underlying partitioned table. It provides methods
+that apply table operations to the constituent tables of the underlying partitioned table, produce a new
+partitioned table from the resulting constituent tables, and return a proxy of it.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.target">
+<span class="sig-name descname"><span class="pre">target</span></span><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.target" title="Permalink to this definition">¶</a></dt>
+<dd><p>the underlying partitioned table of the proxy</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deephaven.table.PartitionedTable" title="deephaven.table.PartitionedTable">PartitionedTable</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.require_matching_keys">
+<span class="sig-name descname"><span class="pre">require_matching_keys</span></span><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.require_matching_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>whether to ensure that both partitioned tables have all the same keys
+present when an operation uses this PartitionedTable and another PartitionedTable as inputs for a
+<a class="reference internal" href="#deephaven.table.PartitionedTable.partitioned_transform" title="deephaven.table.PartitionedTable.partitioned_transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">partitioned_transform()</span></code></a>, default is True</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.sanity_check_joins">
+<span class="sig-name descname"><span class="pre">sanity_check_joins</span></span><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.sanity_check_joins" title="Permalink to this definition">¶</a></dt>
+<dd><p>whether to check that for proxied join operations, a given join key only occurs
+in exactly one constituent table of the underlying partitioned table. If the other table argument is also a
+PartitionedTableProxy, its constituents will also be subjected to this constraint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.abs_sum_by">
+<span class="sig-name descname"><span class="pre">abs_sum_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.abs_sum_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.abs_sum_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.abs_sum_by" title="deephaven.table.Table.abs_sum_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">abs_sum_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.agg_all_by">
+<span class="sig-name descname"><span class="pre">agg_all_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.agg_all_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.agg_all_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.agg_all_by" title="deephaven.table.Table.agg_all_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">agg_all_by()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table, and produces a new PartitionedTableProxy with the result tables as the constituents of its
+underlying partitioned table.</p>
+<p>Note, because agg_all_by applies the aggregation to all the columns of the table, it will ignore
+any column names specified for the aggregation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agg</strong> (<a class="reference internal" href="deephaven.agg.html#deephaven.agg.Aggregation" title="deephaven.agg.Aggregation"><em>Aggregation</em></a>) – the aggregation</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.agg_by">
+<span class="sig-name descname"><span class="pre">agg_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aggs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.agg_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.agg_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.agg_by" title="deephaven.table.Table.agg_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">agg_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aggs</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.agg.html#deephaven.agg.Aggregation" title="deephaven.agg.Aggregation"><em>Aggregation</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference internal" href="deephaven.agg.html#deephaven.agg.Aggregation" title="deephaven.agg.Aggregation"><em>Aggregation</em></a><em>]</em><em>]</em>) – the aggregation(s)</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the group-by column name(s), default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.aj">
+<span class="sig-name descname"><span class="pre">aj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_rule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AsOfMatchRule.LESS_THAN_EQUAL</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.aj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.aj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.aj" title="deephaven.table.Table.aj"><code class="xref py py-meth docutils literal notranslate"><span class="pre">aj()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table with the provided right table or PartitionedTableProxy, and produces a new PartitionedTableProxy with
+the result tables as the constituents of its underlying partitioned table.</p>
+<p>In the case of the right table being another PartitionedTableProxy, the <a class="reference internal" href="#deephaven.table.Table.aj" title="deephaven.table.Table.aj"><code class="xref py py-meth docutils literal notranslate"><span class="pre">aj()</span></code></a> table operation
+is applied to the matching pairs of the constituent tables from both underlying partitioned tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><em>PartitionedTableProxy</em></a><em>]</em>) – the right table or PartitionedTableProxy of the join</p></li>
+<li><p><strong>on</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
+i.e. “col_a = col_b” for different column names</p></li>
+<li><p><strong>joins</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column(s) to be added from the right table to the result
+table, can be renaming expressions, i.e. “new_col = col”; default is None</p></li>
+<li><p><strong>match_rule</strong> (<a class="reference internal" href="#deephaven.table.AsOfMatchRule" title="deephaven.table.AsOfMatchRule"><em>AsOfMatchRule</em></a>) – the inexact matching rule on the last column to match specified in ‘on’,
+default is AsOfMatchRule.LESS_THAN_EQUAL. The other valid value is AsOfMatchRule.LESS_THAN.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.avg_by">
+<span class="sig-name descname"><span class="pre">avg_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.avg_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.avg_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.avg_by" title="deephaven.table.Table.avg_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">avg_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.count_by">
+<span class="sig-name descname"><span class="pre">count_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.count_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.count_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.count_by" title="deephaven.table.Table.count_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">count_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table with the provided source table, and produces a new PartitionedTableProxy with the result tables as the
+constituents of its underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col</strong> (<em>str</em>) – the name of the column to store the counts</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.exact_join">
+<span class="sig-name descname"><span class="pre">exact_join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.exact_join"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.exact_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.exact_join" title="deephaven.table.Table.exact_join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exact_join()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table with the provided right table or PartitionedTableProxy,and produces a new
+PartitionedTableProxy with the result tables as the constituents of its underlying partitioned table.</p>
+<p>In the case of the right table being another PartitionedTableProxy, the <a class="reference internal" href="#deephaven.table.Table.exact_join" title="deephaven.table.Table.exact_join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">exact_join()</span></code></a> table
+operation is applied to the matching pairs of the constituent tables from both underlying partitioned tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><em>PartitionedTableProxy</em></a><em>]</em>) – the right table or PartitionedTableProxy of the join</p></li>
+<li><p><strong>on</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
+i.e. “col_a = col_b” for different column names</p></li>
+<li><p><strong>joins</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column(s) to be added from the right table to the result
+table, can be renaming expressions, i.e. “new_col = col”; default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.first_by">
+<span class="sig-name descname"><span class="pre">first_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.first_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.first_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.first_by" title="deephaven.table.Table.first_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">first_by()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table, and produces a new PartitionedTableProxy with the result tables as the constituents of its
+underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.group_by">
+<span class="sig-name descname"><span class="pre">group_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.group_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.group_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.group_by" title="deephaven.table.Table.group_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">group_by()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table, and produces a new PartitionedTableProxy with the result tables as the constituents of its
+underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.head">
+<span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_rows</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.head" title="deephaven.table.Table.head"><code class="xref py py-meth docutils literal notranslate"><span class="pre">head()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_rows</strong> (<em>int</em>) – the number of rows at the head of the constituent tables</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.is_refreshing">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_refreshing</span></span><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.is_refreshing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether this proxy represents a refreshing partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.j_object_type">
+<span class="sig-name descname"><span class="pre">j_object_type</span></span><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.j_object_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">io.deephaven.engine.table.PartitionedTable$Proxy</span></code></p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.join">
+<span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.join"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.join" title="deephaven.table.Table.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table with the provided right table or PartitionedTableProxy, and produces a new PartitionedTableProxy with
+the result tables as the constituents of its underlying partitioned table.</p>
+<p>In the case of the right table being another PartitionedTableProxy, the <a class="reference internal" href="#deephaven.table.Table.join" title="deephaven.table.Table.join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">join()</span></code></a> table operation
+is applied to the matching pairs of the constituent tables from both underlying partitioned tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><em>PartitionedTableProxy</em></a><em>]</em>) – the right table or PartitionedTableProxy of the join</p></li>
+<li><p><strong>on</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
+i.e. “col_a = col_b” for different column names; default is None</p></li>
+<li><p><strong>joins</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column(s) to be added from the right table to the result
+table, can be renaming expressions, i.e. “new_col = col”; default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.last_by">
+<span class="sig-name descname"><span class="pre">last_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.last_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.last_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.last_by" title="deephaven.table.Table.last_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">last_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.max_by">
+<span class="sig-name descname"><span class="pre">max_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.max_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.max_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.max_by" title="deephaven.table.Table.max_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">max_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.median_by">
+<span class="sig-name descname"><span class="pre">median_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.median_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.median_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.median_by" title="deephaven.table.Table.median_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">median_by()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table, and produces a new PartitionedTableProxy with the result tables as the constituents of its
+underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.min_by">
+<span class="sig-name descname"><span class="pre">min_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.min_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.min_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.min_by" title="deephaven.table.Table.min_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">min_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.natural_join">
+<span class="sig-name descname"><span class="pre">natural_join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.natural_join"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.natural_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.natural_join" title="deephaven.table.Table.natural_join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">natural_join()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table with the provided right table or PartitionedTableProxy, and produces a new
+PartitionedTableProxy with the result tables as the constituents of its underlying partitioned table.</p>
+<p>In the case of the right table being another PartitionedTableProxy, the <a class="reference internal" href="#deephaven.table.Table.natural_join" title="deephaven.table.Table.natural_join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">natural_join()</span></code></a> table
+operation is applied to the matching pairs of the constituent tables from both underlying partitioned tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><em>PartitionedTableProxy</em></a><em>]</em>) – the right table or PartitionedTableProxy of the join</p></li>
+<li><p><strong>on</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
+i.e. “col_a = col_b” for different column names</p></li>
+<li><p><strong>joins</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column(s) to be added from the right table to the result
+table, can be renaming expressions, i.e. “new_col = col”; default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.raj">
+<span class="sig-name descname"><span class="pre">raj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_rule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AsOfMatchRule.GREATER_THAN_EQUAL</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.raj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.raj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.raj" title="deephaven.table.Table.raj"><code class="xref py py-meth docutils literal notranslate"><span class="pre">raj()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table with the provided right table or PartitionedTableProxy, and produces a new PartitionedTableProxy with
+the result tables as the constituents of its underlying partitioned table.</p>
+<p>In the case of the right table being another PartitionedTableProxy, the <a class="reference internal" href="#deephaven.table.Table.raj" title="deephaven.table.Table.raj"><code class="xref py py-meth docutils literal notranslate"><span class="pre">raj()</span></code></a> table operation
+is applied to the matching pairs of the constituent tables from both underlying partitioned tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><em>PartitionedTableProxy</em></a><em>]</em>) – the right table or PartitionedTableProxy of the join</p></li>
+<li><p><strong>on</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
+i.e. “col_a = col_b” for different column names</p></li>
+<li><p><strong>joins</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column(s) to be added from the right table to the result
+table, can be renaming expressions, i.e. “new_col = col”; default is None</p></li>
+<li><p><strong>match_rule</strong> (<a class="reference internal" href="#deephaven.table.AsOfMatchRule" title="deephaven.table.AsOfMatchRule"><em>AsOfMatchRule</em></a>) – the inexact matching rule on the last column to match specified in ‘on’,
+default is AsOfMatchRule.GREATER_THAN_EQUAL. The other valid value is AsOfMatchRule.GREATER_THAN.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.reverse">
+<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.reverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.reverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.reverse" title="deephaven.table.Table.reverse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reverse()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.select">
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formulas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.select" title="deephaven.table.Table.select"><code class="xref py py-meth docutils literal notranslate"><span class="pre">select()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>formulas</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column formula(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.select_distinct">
+<span class="sig-name descname"><span class="pre">select_distinct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formulas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.select_distinct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.select_distinct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.select_distinct" title="deephaven.table.Table.select_distinct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">select_distinct()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table, and produces a new PartitionedTableProxy with the result tables as the constituents of its
+underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>formulas</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column formula(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.snapshot">
+<span class="sig-name descname"><span class="pre">snapshot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.snapshot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.snapshot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.snapshot" title="deephaven.table.Table.snapshot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">snapshot()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table with the provided source table or PartitionedTableProxy, and produces a new
+PartitionedTableProxy with the result tables as the constituents of its underlying partitioned table.</p>
+<p>In the case of source table being another PartitionedTableProxy, the <a class="reference internal" href="#deephaven.table.Table.snapshot" title="deephaven.table.Table.snapshot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">snapshot()</span></code></a> table operation
+is applied to the matching pairs of the constituent tables from both underlying partitioned tables.</p>
+<p>Note, the constituent tables are often time tables that add new rows at a regular, user-defined interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_table</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a><em>, </em><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><em>PartitionedTableProxy</em></a><em>]</em>) – the table or PartitionedTableProxy to be snapshot</p></li>
+<li><p><strong>do_init</strong> (<em>bool</em>) – whether to snapshot when this method is initially called, default is False</p></li>
+<li><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – names of the columns of the constituent table to be included in the snapshot,
+default is None, meaning all the columns</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.sort" title="deephaven.table.Table.sort"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sort()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>order_by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be sorted on</p></li>
+<li><p><strong>order</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#deephaven.table.SortDirection" title="deephaven.table.SortDirection"><em>SortDirection</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference internal" href="#deephaven.table.SortDirection" title="deephaven.table.SortDirection"><em>SortDirection</em></a><em>]</em><em>, </em><em>optional</em>) – the corresponding sort directions for
+each sort column, default is None, meaning ascending order for all the sort columns.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.sort_descending">
+<span class="sig-name descname"><span class="pre">sort_descending</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_by</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.sort_descending"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.sort_descending" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.sort_descending" title="deephaven.table.Table.sort_descending"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sort_descending()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table, and produces a new PartitionedTableProxy with the result tables as the constituents of its
+underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>order_by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be sorted on</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.std_by">
+<span class="sig-name descname"><span class="pre">std_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.std_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.std_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.std_by" title="deephaven.table.Table.std_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">std_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.sum_by">
+<span class="sig-name descname"><span class="pre">sum_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.sum_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.sum_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.sum_by" title="deephaven.table.Table.sum_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sum_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.tail">
+<span class="sig-name descname"><span class="pre">tail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_rows</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.tail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.tail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.tail" title="deephaven.table.Table.tail"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tail()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_rows</strong> (<em>int</em>) – the number of rows at the end of the constituent tables</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formulas</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.update" title="deephaven.table.Table.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>formulas</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column formula(s)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.update_by">
+<span class="sig-name descname"><span class="pre">update_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.update_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.update_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.update_by" title="deephaven.table.Table.update_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ops</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.updateby.html#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><em>UpdateByOperation</em></a><em>, </em><em>List</em><em>[</em><a class="reference internal" href="deephaven.updateby.html#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><em>UpdateByOperation</em></a><em>]</em><em>]</em>) – the update-by operation definition(s)</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the key column name(s) to group the rows of the table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.update_view">
+<span class="sig-name descname"><span class="pre">update_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formulas</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.update_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.update_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.update_view" title="deephaven.table.Table.update_view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update_view()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table, and produces a new PartitionedTableProxy with the result tables as the constituents of its
+underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>formulas</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column formula(s)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.var_by">
+<span class="sig-name descname"><span class="pre">var_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.var_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.var_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.var_by" title="deephaven.table.Table.var_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">var_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.view">
+<span class="sig-name descname"><span class="pre">view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formulas</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.view" title="deephaven.table.Table.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>formulas</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column formula(s)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.weighted_avg_by">
+<span class="sig-name descname"><span class="pre">weighted_avg_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wcol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.weighted_avg_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.weighted_avg_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.weighted_avg_by" title="deephaven.table.Table.weighted_avg_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">weighted_avg_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wcol</strong> (<em>str</em>) – the name of the weight column</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.weighted_sum_by">
+<span class="sig-name descname"><span class="pre">weighted_sum_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wcol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.weighted_sum_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.weighted_sum_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.weighted_sum_by" title="deephaven.table.Table.weighted_sum_by"><code class="xref py py-meth docutils literal notranslate"><span class="pre">weighted_sum_by()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wcol</strong> (<em>str</em>) – the name of the weight column</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.where">
+<span class="sig-name descname"><span class="pre">where</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.where"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.where" title="deephaven.table.Table.where"><code class="xref py py-meth docutils literal notranslate"><span class="pre">where()</span></code></a> table operation to all constituent tables of the underlying partitioned
+table, and produces a new PartitionedTableProxy with the result tables as the constituents of its underlying
+partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filters</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="deephaven.filters.html#deephaven.filters.Filter" title="deephaven.filters.Filter"><em>Filter</em></a><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference internal" href="deephaven.filters.html#deephaven.filters.Filter" title="deephaven.filters.Filter"><em>Filter</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – the filter condition
+expression(s) or Filter object(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.where_in">
+<span class="sig-name descname"><span class="pre">where_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.where_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.where_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.where_in" title="deephaven.table.Table.where_in"><code class="xref py py-meth docutils literal notranslate"><span class="pre">where_in()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table with the provided filter table, and produces a new PartitionedTableProxy with the result
+tables as the constituents of its underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_table</strong> (<a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – the table containing the set of values to filter on</p></li>
+<li><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column name(s)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.where_not_in">
+<span class="sig-name descname"><span class="pre">where_not_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTableProxy.where_not_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.where_not_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the <a class="reference internal" href="#deephaven.table.Table.where_not_in" title="deephaven.table.Table.where_not_in"><code class="xref py py-meth docutils literal notranslate"><span class="pre">where_not_in()</span></code></a> table operation to all constituent tables of the underlying
+partitioned table with the provided filter table, and produces a new PartitionedTableProxy with the result
+tables as the constituents of its underlying partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_table</strong> (<a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – the table containing the set of values to filter on</p></li>
+<li><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column name(s)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTableProxy" title="deephaven.table.PartitionedTableProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTableProxy</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new PartitionedTableProxy</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
 <dt class="sig sig-object py" id="deephaven.table.SortDirection">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">SortDirection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#SortDirection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.SortDirection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
@@ -630,6 +1546,25 @@ produce equivalent tables.</p>
 <p>A Table represents a Deephaven table. It allows applications to perform powerful Deephaven table operations.</p>
 <p>Note: It should not be instantiated directly by user code. Tables are mostly created by factory methods,
 data ingestion operations, queries, aggregations, joins, etc.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.Table.abs_sum_by">
+<span class="sig-name descname"><span class="pre">abs_sum_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.abs_sum_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.abs_sum_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>The abs_sum_by method creates a new table containing the absolute sum for each group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new table</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.Table.agg_all_by">
 <span class="sig-name descname"><span class="pre">agg_all_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.agg_all_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.agg_all_by" title="Permalink to this definition">¶</a></dt>
@@ -1048,16 +1983,22 @@ table, can be renaming expressions, i.e. “new_col = col”; default is None</p
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.Table.layout_hints">
-<span class="sig-name descname"><span class="pre">layout_hints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">front</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freeze</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.layout_hints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.layout_hints" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">layout_hints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">front</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freeze</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.layout_hints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.layout_hints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets layout hints on the Table</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>front</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the columns to show at the front</p></li>
-<li><p><strong>back</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the columns to show at the back</p></li>
+<li><p><strong>front</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the columns to show at the front.</p></li>
+<li><p><strong>back</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the columns to show at the back.</p></li>
 <li><p><strong>freeze</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the columns to freeze to the front.
 These will not be affected by horizontal scrolling.</p></li>
-<li><p><strong>hide</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the columns to hide</p></li>
+<li><p><strong>hide</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the columns to hide.</p></li>
+<li><p><strong>column_groups</strong> (<em>List</em><em>[</em><em>Dict</em><em>]</em>) – <p>A list of dicts specifying which columns should be grouped in the UI
+The dicts can specify the following:</p>
+<p>name (str): The group name
+children (List[str]): The
+color (Optional[str]): The hex color string or Deephaven color name</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1654,6 +2595,31 @@ will be ungrouped, default is None</p>
 </dl>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.Table.update_by">
+<span class="sig-name descname"><span class="pre">update_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.update_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.update_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a table with additional columns calculated from window-based aggregations of columns in this table.
+The aggregations are defined by the provided operations, which support incremental aggregations over the
+corresponding rows in the this table. The aggregations will apply position or time-based windowing and
+compute the results over the entire table or each row group as identified by the provided key columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ops</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.updateby.html#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><em>UpdateByOperation</em></a><em>, </em><em>List</em><em>[</em><a class="reference internal" href="deephaven.updateby.html#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><em>UpdateByOperation</em></a><em>]</em><em>]</em>) – the update-by operation definition(s)</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the key column name(s) to group the rows of the table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new Table</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.Table.update_view">
 <span class="sig-name descname"><span class="pre">update_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formulas</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.update_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.update_view" title="Permalink to this definition">¶</a></dt>
 <dd><p>The update_view method creates a new table containing a new, formula column for each formula.</p>
@@ -1698,6 +2664,50 @@ will be ungrouped, default is None</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>formulas</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column formula(s)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new table</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.Table.weighted_avg_by">
+<span class="sig-name descname"><span class="pre">weighted_avg_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wcol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.weighted_avg_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.weighted_avg_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weighted_avg_by method creates a new table containing the weighted average for each group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wcol</strong> (<em>str</em>) – the name of the weight column</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a new table</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.Table.weighted_sum_by">
+<span class="sig-name descname"><span class="pre">weighted_sum_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wcol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.weighted_sum_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.weighted_sum_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weighted_sum_by method creates a new table containing the weighted sum for each group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wcol</strong> (<em>str</em>) – the name of the weight column</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the group-by column name(s), default is None</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>

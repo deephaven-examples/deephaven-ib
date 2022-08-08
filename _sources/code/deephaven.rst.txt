@@ -33,6 +33,7 @@ deephaven
     table_listener <deephaven.table_listener>
     time <deephaven.time>
     ugp <deephaven.ugp>
+    updateby <deephaven.updateby>
     uri <deephaven.uri>
 
 .. automodule:: deephaven

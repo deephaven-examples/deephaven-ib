@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.uri" href="deephaven.uri.html" /><link rel="prev" title="deephaven.time" href="deephaven.time.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.updateby" href="deephaven.updateby.html" /><link rel="prev" title="deephaven.time" href="deephaven.time.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>deephaven.ugp - deephaven_ib documentation</title>
@@ -237,6 +237,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.time.html">time</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -286,11 +287,18 @@ table when the current thread doesn’t own either the UGP shared or the UGP exc
 be released after the table operation finishes.</p>
 </dd></dl>
 <dl class="py function">
+<dt class="sig sig-object py" id="deephaven.ugp.auto_locking_ctx">
+<span class="sig-name descname"><span class="pre">auto_locking_ctx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/ugp.html#auto_locking_ctx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.ugp.auto_locking_ctx" title="Permalink to this definition">¶</a></dt>
+<dd><p>An auto-locking aware context manager. It ensures that the enclosed code block runs under the UGP shared lock if
+ugp.auto_locking is True, the target table-like object or any table-like arguments are refreshing, and the current
+thread doesn’t own any UGP locks.</p>
+</dd></dl>
+<dl class="py function">
 <dt class="sig sig-object py" id="deephaven.ugp.auto_locking_op">
 <span class="sig-name descname"><span class="pre">auto_locking_op</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/ugp.html#auto_locking_op"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.ugp.auto_locking_op" title="Permalink to this definition">¶</a></dt>
-<dd><p>A decorator for annotating unsafe Table operations. It ensures that the decorated Table operation runs under
-the UGP shared lock when ugp.auto_locking is True, the target table is refreshing, and the current thread doesn’t
-own any UGP locks.</p>
+<dd><p>A decorator for annotating unsafe Table operations. It ensures that the decorated function runs under the UGP
+shared lock if ugp.auto_locking is True, the target table-like object or any table-like arguments are refreshing,
+and the current thread doesn’t own any UGP locks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></p>
@@ -356,12 +364,12 @@ The lock is released after the function returns regardless of what happens insid
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="deephaven.uri.html">
+          <a class="next-page" href="deephaven.updateby.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">deephaven.uri</div>
+                <div class="title">deephaven.updateby</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>

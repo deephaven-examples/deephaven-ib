@@ -1,0 +1,589 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>deephaven.updateby - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_server.server.html">server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_server.start_jvm.html">start_jvm</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.agg.html">agg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.appmode.html">appmode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.calendar.html">calendar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.column.html">column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.config.html">config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.constants.html">constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dherror.html">dherror</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.experimental.ema.html">ema</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.html.html">html</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.jcompat.html">jcompat</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.liveness_scope.html">liveness_scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.numpy.html">numpy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.pandas.html">pandas</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.parquet.html">parquet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.perfmon.html">perfmon</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.axisformat.html">axisformat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.axistransform.html">axistransform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.color.html">color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.font.html">font</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.linestyle.html">linestyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.plotstyle.html">plotstyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.selectable_dataset.html">selectable_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plot.shape.html">shape</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.plugin.object.html">object</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.query_library.html">query_library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.replay.html">replay</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../code/deephaven.server.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.server.plugin.object.html">object</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.server.plugin.register.html">register</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.server.script_session.html">script_session</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../code/deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.stream.kafka.cdc.html">cdc</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.stream.kafka.consumer.html">consumer</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../code/deephaven.stream.kafka.producer.html">producer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table.html">table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_factory.html">table_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.updateby.html">updateby</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for deephaven.updateby</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1">#     Copyright (c) 2016-2022 Deephaven Data Labs and Patent Pending</span>
+<span class="c1">#</span>
+<span class="sd">"""This module supports building various operations for use with the update-by Table operation."""</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">jpy</span>
+
+<span class="kn">from</span> <span class="nn">deephaven</span> <span class="k">import</span> <span class="n">DHError</span>
+<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="k">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="k">import</span> <span class="n">to_sequence</span>
+
+<span class="n">_JUpdateByOperation</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.api.updateby.UpdateByOperation"</span><span class="p">)</span>
+<span class="n">_JBadDataBehavior</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.api.updateby.BadDataBehavior"</span><span class="p">)</span>
+<span class="n">_JOperationControl</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.api.updateby.OperationControl"</span><span class="p">)</span>
+<span class="n">_JMathContext</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"java.math.MathContext"</span><span class="p">)</span>
+<span class="n">_JDateTimeUtils</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.time.DateTimeUtils"</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MathContext"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.MathContext">[docs]</a><span class="k">class</span> <span class="nc">MathContext</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">"""An Enum for predefined precision and rounding settings in numeric calculation."""</span>
+    <span class="n">UNLIMITED</span> <span class="o">=</span> <span class="n">_JMathContext</span><span class="o">.</span><span class="n">UNLIMITED</span>
+    <span class="sd">"""unlimited precision arithmetic, rounding is half-up"""</span>
+
+    <span class="n">DECIMAL32</span> <span class="o">=</span> <span class="n">_JMathContext</span><span class="o">.</span><span class="n">DECIMAL32</span>
+    <span class="sd">"""a precision setting matching the IEEE 754R Decimal32 format, 7 digits, rounding is half-even"""</span>
+
+    <span class="n">DECIMAL64</span> <span class="o">=</span> <span class="n">_JMathContext</span><span class="o">.</span><span class="n">DECIMAL64</span>
+    <span class="sd">"""a precision setting matching the IEEE 754R Decimal64 format, 16 digits, rounding is half-even"""</span>
+
+    <span class="n">DECIMAL128</span> <span class="o">=</span> <span class="n">_JMathContext</span><span class="o">.</span><span class="n">DECIMAL128</span>
+    <span class="sd">"""a precision setting matching the IEEE 754R Decimal128 format, 34 digits, rounding is half-even"""</span></div>
+
+
+<div class="viewcode-block" id="BadDataBehavior"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.BadDataBehavior">[docs]</a><span class="k">class</span> <span class="nc">BadDataBehavior</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">"""An Enum defining ways to handle invalid data during update-by operations."""</span>
+
+    <span class="n">RESET</span> <span class="o">=</span> <span class="n">_JBadDataBehavior</span><span class="o">.</span><span class="n">RESET</span>
+    <span class="sd">"""Reset the state for the bucket to None when invalid data is encountered"""</span>
+
+    <span class="n">SKIP</span> <span class="o">=</span> <span class="n">_JBadDataBehavior</span><span class="o">.</span><span class="n">SKIP</span>
+    <span class="sd">"""Skip and do not process the invalid data without changing state"""</span>
+
+    <span class="n">THROW</span> <span class="o">=</span> <span class="n">_JBadDataBehavior</span><span class="o">.</span><span class="n">THROW</span>
+    <span class="sd">"""Throw an exception and abort processing when bad data is encountered"""</span>
+
+    <span class="n">POISON</span> <span class="o">=</span> <span class="n">_JBadDataBehavior</span><span class="o">.</span><span class="n">POISON</span>
+    <span class="sd">"""Allow the bad data to poison the result. This is only valid for use with NaN"""</span></div>
+
+
+<div class="viewcode-block" id="OperationControl"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.OperationControl">[docs]</a><span class="k">class</span> <span class="nc">OperationControl</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+    <span class="sd">"""A OperationControl represents control parameters for performing operations with the table</span>
+<span class="sd">    UpdateByOperation. """</span>
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JOperationControl</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_op_control</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on_null</span><span class="p">:</span> <span class="n">BadDataBehavior</span> <span class="o">=</span> <span class="n">BadDataBehavior</span><span class="o">.</span><span class="n">SKIP</span><span class="p">,</span>
+                 <span class="n">on_nan</span><span class="p">:</span> <span class="n">BadDataBehavior</span> <span class="o">=</span> <span class="n">BadDataBehavior</span><span class="o">.</span><span class="n">SKIP</span><span class="p">,</span>
+                 <span class="n">on_null_time</span><span class="p">:</span> <span class="n">BadDataBehavior</span> <span class="o">=</span> <span class="n">BadDataBehavior</span><span class="o">.</span><span class="n">SKIP</span><span class="p">,</span>
+                 <span class="n">on_negative_deltatime</span><span class="p">:</span> <span class="n">BadDataBehavior</span> <span class="o">=</span> <span class="n">BadDataBehavior</span><span class="o">.</span><span class="n">THROW</span><span class="p">,</span>
+                 <span class="n">on_zero_deltatime</span><span class="p">:</span> <span class="n">BadDataBehavior</span> <span class="o">=</span> <span class="n">BadDataBehavior</span><span class="o">.</span><span class="n">SKIP</span><span class="p">,</span>
+                 <span class="n">big_value_context</span><span class="p">:</span> <span class="n">MathContext</span> <span class="o">=</span> <span class="n">MathContext</span><span class="o">.</span><span class="n">DECIMAL128</span><span class="p">):</span>
+        <span class="sd">"""Initializes an OperationControl for use with certain UpdateByOperation, such as EMAs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            on_null (BadDataBehavior): the behavior for when null values are encountered, default is SKIP</span>
+<span class="sd">            on_nan (BadDataBehavior): the behavior for when NaN values are encountered, default is SKIP</span>
+<span class="sd">            on_null_time (BadDataBehavior): the behavior for when null timestamps are encountered, default is SKIP</span>
+<span class="sd">            on_negative_deltatime (BadDataBehavior): the behavior for when negative sample-to-sample time differences</span>
+<span class="sd">                are encountered, default is THROW</span>
+<span class="sd">            on_zero_deltatime (BadDataBehavior): the behavior for when zero sample-to-sample-time differences are</span>
+<span class="sd">                encountered, default is SKIP</span>
+<span class="sd">            big_value_context (MathContext): the context to use when processing arbitrary precision numeric values</span>
+<span class="sd">                (Java BigDecimal/BigInteger), default is DECIMAL128.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DHError</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">j_builder</span> <span class="o">=</span> <span class="n">_JOperationControl</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">j_op_control</span> <span class="o">=</span> <span class="p">(</span><span class="n">j_builder</span><span class="o">.</span><span class="n">onNullValue</span><span class="p">(</span><span class="n">on_null</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                                 <span class="o">.</span><span class="n">onNanValue</span><span class="p">(</span><span class="n">on_nan</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                                 <span class="o">.</span><span class="n">onNullTime</span><span class="p">(</span><span class="n">on_null_time</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                                 <span class="o">.</span><span class="n">onNegativeDeltaTime</span><span class="p">(</span><span class="n">on_negative_deltatime</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                                 <span class="o">.</span><span class="n">onZeroDeltaTime</span><span class="p">(</span><span class="n">on_zero_deltatime</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                                 <span class="o">.</span><span class="n">bigValueContext</span><span class="p">(</span><span class="n">big_value_context</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to build an OperationControl object."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="UpdateByOperation"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.UpdateByOperation">[docs]</a><span class="k">class</span> <span class="nc">UpdateByOperation</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+    <span class="sd">"""A UpdateByOperation represents an operator for the Table update-by operation."""</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JUpdateByOperation</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_updateby_op</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j_updateby_op</span> <span class="o">=</span> <span class="n">j_updateby_op</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_updateby_op</span></div>
+
+
+<div class="viewcode-block" id="ema_tick_decay"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.ema_tick_decay">[docs]</a><span class="k">def</span> <span class="nf">ema_tick_decay</span><span class="p">(</span><span class="n">time_scale_ticks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+                   <span class="n">op_control</span><span class="p">:</span> <span class="n">OperationControl</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UpdateByOperation</span><span class="p">:</span>
+    <span class="sd">"""Creates an EMA (exponential moving average) UpdateByOperation for the supplied column names, using ticks as</span>
+<span class="sd">    the decay unit.</span>
+
+<span class="sd">    The formula used is</span>
+<span class="sd">        a = e^(-1 / time_scale_ticks)</span>
+<span class="sd">        ema_next = a * ema_last + (1 - a) * value</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        time_scale_ticks (int): the decay rate in ticks</span>
+<span class="sd">        cols (Union[str, List[str]]): the column(s) to be operated on, can be renaming expressions, i.e. "new_col = col"</span>
+<span class="sd">        op_control (OperationControl): defines how special cases should behave, when None, the default OperationControl</span>
+<span class="sd">            settings as specified in :meth:`~OperationControl.__init__` will be used</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an UpdateByOperation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">op_control</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span><span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">Ema</span><span class="p">(</span><span class="n">time_scale_ticks</span><span class="p">,</span> <span class="o">*</span><span class="n">cols</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span>
+                <span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">Ema</span><span class="p">(</span><span class="n">op_control</span><span class="o">.</span><span class="n">j_op_control</span><span class="p">,</span> <span class="n">time_scale_ticks</span><span class="p">,</span> <span class="o">*</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a tick-decay EMA UpdateByOperation."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="ema_time_decay"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.ema_time_decay">[docs]</a><span class="k">def</span> <span class="nf">ema_time_decay</span><span class="p">(</span><span class="n">ts_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time_scale</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+                   <span class="n">op_control</span><span class="p">:</span> <span class="n">OperationControl</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UpdateByOperation</span><span class="p">:</span>
+    <span class="sd">"""Creates an EMA(exponential moving average) UpdateByOperation for the supplied column names, using time as the</span>
+<span class="sd">    decay unit.</span>
+
+<span class="sd">    The formula used is</span>
+<span class="sd">        a = e^(-dt / time_scale_nanos)</span>
+<span class="sd">        ema_next = a * ema_last + (1 - a) * value</span>
+
+<span class="sd">     Args:</span>
+<span class="sd">        ts_col (str): the column in the source table to use for timestamps</span>
+
+<span class="sd">        time_scale (Union[int, str]): the decay rate, can be expressed as an integer in nanoseconds or a time</span>
+<span class="sd">            interval string, e.g. "00:00:00.001"</span>
+<span class="sd">        cols (Union[str, List[str]]): the column(s) to be operated on, can be renaming expressions, i.e. "new_col = col"</span>
+<span class="sd">        op_control (OperationControl): defines how special cases should behave,  when None, the default OperationControl</span>
+<span class="sd">            settings as specified in :meth:`~OperationControl.__init__` will be used</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an UpdateByOperation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">     """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_scale</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">time_scale</span> <span class="o">=</span> <span class="n">_JDateTimeUtils</span><span class="o">.</span><span class="n">expressionToNanos</span><span class="p">(</span><span class="n">time_scale</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">op_control</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span><span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">Ema</span><span class="p">(</span><span class="n">ts_col</span><span class="p">,</span> <span class="n">time_scale</span><span class="p">,</span> <span class="o">*</span><span class="n">cols</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span>
+                <span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">Ema</span><span class="p">(</span><span class="n">op_control</span><span class="o">.</span><span class="n">j_op_control</span><span class="p">,</span> <span class="n">ts_col</span><span class="p">,</span> <span class="n">time_scale</span><span class="p">,</span> <span class="o">*</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a time-decay EMA UpdateByOperation."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="cum_sum"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.cum_sum">[docs]</a><span class="k">def</span> <span class="nf">cum_sum</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">UpdateByOperation</span><span class="p">:</span>
+    <span class="sd">"""Creates a cumulative sum UpdateByOperation for the supplied column names.</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">        cols (Union[str, List[str]]): the column(s) to be operated on, can include expressions to rename the output,</span>
+<span class="sd">            i.e. "new_col = col"; when empty, update_by performs the cumulative sum operation on all the applicable</span>
+<span class="sd">            columns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an UpdateByOperation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span><span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">CumSum</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a cumulative sum UpdateByOperation."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="cum_prod"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.cum_prod">[docs]</a><span class="k">def</span> <span class="nf">cum_prod</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">UpdateByOperation</span><span class="p">:</span>
+    <span class="sd">"""Creates a cumulative product UpdateByOperation for the supplied column names.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cols (Union[str, List[str]]): the column(s) to be operated on, can include expressions to rename the output,</span>
+<span class="sd">            i.e. "new_col = col"; when empty, update_by performing the cumulative product operation on all the</span>
+<span class="sd">            applicable columns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an UpdateByOperation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span><span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">CumProd</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a cumulative product UpdateByOperation."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="cum_min"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.cum_min">[docs]</a><span class="k">def</span> <span class="nf">cum_min</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">UpdateByOperation</span><span class="p">:</span>
+    <span class="sd">"""Creates a cumulative minimum UpdateByOperation for the supplied column names.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cols (Union[str, List[str]]): the column(s) to be operated on, can include expressions to rename the output,</span>
+<span class="sd">            i.e. "new_col = col"; when empty, update_by perform the cumulative minimum operation on all the applicable</span>
+<span class="sd">            columns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an UpdateByOperation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span><span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">CumMin</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a cumulative minimum UpdateByOperation."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="cum_max"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.cum_max">[docs]</a><span class="k">def</span> <span class="nf">cum_max</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">UpdateByOperation</span><span class="p">:</span>
+    <span class="sd">"""Creates a cumulative maximum UpdateByOperation for the supplied column names.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cols (Union[str, List[str]]): the column(s) to be operated on, can include expressions to rename the output,</span>
+<span class="sd">            i.e. "new_col = col"; when empty, update_by performs the cumulative maximum operation on all the applicable</span>
+<span class="sd">            columns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an UpdateByOperation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span><span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">CumMax</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a cumulative maximum UpdateByOperation."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="forward_fill"><a class="viewcode-back" href="../../code/deephaven.updateby.html#deephaven.updateby.forward_fill">[docs]</a><span class="k">def</span> <span class="nf">forward_fill</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">UpdateByOperation</span><span class="p">:</span>
+    <span class="sd">"""Creates a forward fill UpdateByOperation for the supplied column names. Null values in the columns are</span>
+<span class="sd">    replaced by the last known non-null values. This operation is forward only.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cols (Union[str, List[str]]): the column(s) to be operated on, can include expressions to rename the output,</span>
+<span class="sd">            i.e. "new_col = col"; when empty, update_by perform the forward fill operation on all columns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        an UpdateByOperation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">UpdateByOperation</span><span class="p">(</span><span class="n">j_updateby_op</span><span class="o">=</span><span class="n">_JUpdateByOperation</span><span class="o">.</span><span class="n">Fill</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a forward fill UpdateByOperation."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Deephaven Data Labs |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/main.js"></script>
+    </body>
+</html>

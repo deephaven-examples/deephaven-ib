@@ -236,6 +236,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -293,6 +294,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">getPort</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">jvm_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dh_args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="sd">"""</span>

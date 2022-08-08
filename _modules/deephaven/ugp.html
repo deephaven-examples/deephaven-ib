@@ -236,6 +236,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -381,9 +382,9 @@
 
 
 <div class="viewcode-block" id="auto_locking_op"><a class="viewcode-back" href="../../code/deephaven.ugp.html#deephaven.ugp.auto_locking_op">[docs]</a><span class="k">def</span> <span class="nf">auto_locking_op</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-    <span class="sd">"""A decorator for annotating unsafe Table operations. It ensures that the decorated Table operation runs under</span>
-<span class="sd">    the UGP shared lock when ugp.auto_locking is True, the target table is refreshing, and the current thread doesn't</span>
-<span class="sd">    own any UGP locks."""</span>
+    <span class="sd">"""A decorator for annotating unsafe Table operations. It ensures that the decorated function runs under the UGP</span>
+<span class="sd">    shared lock if ugp.auto_locking is True, the target table-like object or any table-like arguments are refreshing,</span>
+<span class="sd">    and the current thread doesn't own any UGP locks."""</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">do_locked</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -397,6 +398,21 @@
             <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">do_locked</span></div>
+
+
+<div class="viewcode-block" id="auto_locking_ctx"><a class="viewcode-back" href="../../code/deephaven.ugp.html#deephaven.ugp.auto_locking_ctx">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">auto_locking_ctx</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">"""An auto-locking aware context manager. It ensures that the enclosed code block runs under the UGP shared lock if</span>
+<span class="sd">    ugp.auto_locking is True, the target table-like object or any table-like arguments are refreshing, and the current</span>
+<span class="sd">    thread doesn't own any UGP locks."""</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">_has_refreshing_tables</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="n">auto_locking</span>
+            <span class="ow">or</span> <span class="n">has_shared_lock</span><span class="p">()</span>
+            <span class="ow">or</span> <span class="n">has_exclusive_lock</span><span class="p">()):</span>
+        <span class="k">yield</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">shared_lock</span><span class="p">():</span>
+            <span class="k">yield</span></div>
 </pre></div>
         </article>
       </div>

@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.plot" href="deephaven.plot.html" /><link rel="prev" title="deephaven.parquet" href="deephaven.parquet.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.uri" href="deephaven.uri.html" /><link rel="prev" title="deephaven.ugp" href="deephaven.ugp.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>deephaven.perfmon - deephaven_ib documentation</title>
+        <title>deephaven.updateby - deephaven_ib documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -195,7 +195,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.parquet.html">parquet</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">perfmon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.perfmon.html">perfmon</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axisformat.html">axisformat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axistransform.html">axistransform</a></li>
@@ -237,7 +237,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.ugp.html">ugp</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deephaven.updateby.html">updateby</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -274,50 +274,192 @@
           </label>
         </div>
         <article role="main">
-          <section id="module-deephaven.perfmon">
-<span id="deephaven-perfmon"></span><h1>deephaven.perfmon<a class="headerlink" href="#module-deephaven.perfmon" title="Permalink to this headline">¶</a></h1>
-<p>Tools to obtain internal, Deephaven logs as tables, and tools to analyze the performance of the Deephaven
-system and Deephaven queries.</p>
+          <section id="module-deephaven.updateby">
+<span id="deephaven-updateby"></span><h1>deephaven.updateby<a class="headerlink" href="#module-deephaven.updateby" title="Permalink to this headline">¶</a></h1>
+<p>This module supports building various operations for use with the update-by Table operation.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">BadDataBehavior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#BadDataBehavior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.BadDataBehavior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An Enum defining ways to handle invalid data during update-by operations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.POISON">
+<span class="sig-name descname"><span class="pre">POISON</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x385ca28)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.POISON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow the bad data to poison the result. This is only valid for use with NaN</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.RESET">
+<span class="sig-name descname"><span class="pre">RESET</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x385ca10)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.RESET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the state for the bucket to None when invalid data is encountered</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.SKIP">
+<span class="sig-name descname"><span class="pre">SKIP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x385ca18)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.SKIP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skip and do not process the invalid data without changing state</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.THROW">
+<span class="sig-name descname"><span class="pre">THROW</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x385ca20)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.THROW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Throw an exception and abort processing when bad data is encountered</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven.updateby.MathContext">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">MathContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#MathContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.MathContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An Enum for predefined precision and rounding settings in numeric calculation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.MathContext.DECIMAL128">
+<span class="sig-name descname"><span class="pre">DECIMAL128</span></span><em class="property"> <span class="pre">=</span> <span class="pre">java.math.MathContext(objectRef=0x385ca68)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL128" title="Permalink to this definition">¶</a></dt>
+<dd><p>a precision setting matching the IEEE 754R Decimal128 format, 34 digits, rounding is half-even</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.MathContext.DECIMAL32">
+<span class="sig-name descname"><span class="pre">DECIMAL32</span></span><em class="property"> <span class="pre">=</span> <span class="pre">java.math.MathContext(objectRef=0x385ca58)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL32" title="Permalink to this definition">¶</a></dt>
+<dd><p>a precision setting matching the IEEE 754R Decimal32 format, 7 digits, rounding is half-even</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.MathContext.DECIMAL64">
+<span class="sig-name descname"><span class="pre">DECIMAL64</span></span><em class="property"> <span class="pre">=</span> <span class="pre">java.math.MathContext(objectRef=0x385ca60)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL64" title="Permalink to this definition">¶</a></dt>
+<dd><p>a precision setting matching the IEEE 754R Decimal64 format, 16 digits, rounding is half-even</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.MathContext.UNLIMITED">
+<span class="sig-name descname"><span class="pre">UNLIMITED</span></span><em class="property"> <span class="pre">=</span> <span class="pre">java.math.MathContext(objectRef=0x385ca50)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.UNLIMITED" title="Permalink to this definition">¶</a></dt>
+<dd><p>unlimited precision arithmetic, rounding is half-up</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven.updateby.OperationControl">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">OperationControl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">on_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">BadDataBehavior.SKIP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">BadDataBehavior.SKIP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_null_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">BadDataBehavior.SKIP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_negative_deltatime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">BadDataBehavior.THROW</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_zero_deltatime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">BadDataBehavior.SKIP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">big_value_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MathContext.DECIMAL128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#OperationControl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.OperationControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven._wrapper.JObjectWrapper</span></code></p>
+<p>A OperationControl represents control parameters for performing operations with the table
+UpdateByOperation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.OperationControl.j_object_type">
+<span class="sig-name descname"><span class="pre">j_object_type</span></span><a class="headerlink" href="#deephaven.updateby.OperationControl.j_object_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">io.deephaven.api.updateby.OperationControl</span></code></p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="deephaven.updateby.UpdateByOperation">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">UpdateByOperation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j_updateby_op</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#UpdateByOperation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.UpdateByOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven._wrapper.JObjectWrapper</span></code></p>
+<p>A UpdateByOperation represents an operator for the Table update-by operation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="deephaven.updateby.UpdateByOperation.j_object_type">
+<span class="sig-name descname"><span class="pre">j_object_type</span></span><a class="headerlink" href="#deephaven.updateby.UpdateByOperation.j_object_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">io.deephaven.api.updateby.UpdateByOperation</span></code></p>
+</dd></dl>
+</dd></dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.metrics_get_counters">
-<span class="sig-name descname"><span class="pre">metrics_get_counters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#metrics_get_counters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.metrics_get_counters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets Deephaven performance counter metrics.</p>
+<dt class="sig sig-object py" id="deephaven.updateby.cum_max">
+<span class="sig-name descname"><span class="pre">cum_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#cum_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.cum_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a cumulative maximum UpdateByOperation for the supplied column names.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be operated on, can include expressions to rename the output,
+i.e. “new_col = col”; when empty, update_by performs the cumulative maximum operation on all the applicable
+columns.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a string of the Deephaven performance counter metrics.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateByOperation</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an UpdateByOperation</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.metrics_reset_counters">
-<span class="sig-name descname"><span class="pre">metrics_reset_counters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#metrics_reset_counters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.metrics_reset_counters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Resets Deephaven performance counter metrics.</p>
+<dt class="sig sig-object py" id="deephaven.updateby.cum_min">
+<span class="sig-name descname"><span class="pre">cum_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#cum_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.cum_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a cumulative minimum UpdateByOperation for the supplied column names.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be operated on, can include expressions to rename the output,
+i.e. “new_col = col”; when empty, update_by perform the cumulative minimum operation on all the applicable
+columns.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateByOperation</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an UpdateByOperation</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.process_info">
-<span class="sig-name descname"><span class="pre">process_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proc_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#process_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.process_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the information for a process.</p>
+<dt class="sig sig-object py" id="deephaven.updateby.cum_prod">
+<span class="sig-name descname"><span class="pre">cum_prod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#cum_prod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.cum_prod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a cumulative product UpdateByOperation for the supplied column names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be operated on, can include expressions to rename the output,
+i.e. “new_col = col”; when empty, update_by performing the cumulative product operation on all the
+applicable columns.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateByOperation</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an UpdateByOperation</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.updateby.cum_sum">
+<span class="sig-name descname"><span class="pre">cum_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#cum_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.cum_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a cumulative sum UpdateByOperation for the supplied column names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be operated on, can include expressions to rename the output,
+i.e. “new_col = col”; when empty, update_by performs the cumulative sum operation on all the applicable
+columns.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateByOperation</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an UpdateByOperation</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.updateby.ema_tick_decay">
+<span class="sig-name descname"><span class="pre">ema_tick_decay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_scale_ticks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#ema_tick_decay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.ema_tick_decay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an EMA (exponential moving average) UpdateByOperation for the supplied column names, using ticks as
+the decay unit.</p>
+<dl class="simple">
+<dt>The formula used is</dt><dd><p>a = e^(-1 / time_scale_ticks)
+ema_next = a * ema_last + (1 - a) * value</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>proc_id</strong> (<em>str</em>) – the process id</p></li>
-<li><p><strong>proc_type</strong> (<em>str</em>) – the process type</p></li>
-<li><p><strong>key</strong> (<em>str</em>) – the key of the process property</p></li>
+<li><p><strong>time_scale_ticks</strong> (<em>int</em>) – the decay rate in ticks</p></li>
+<li><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be operated on, can be renaming expressions, i.e. “new_col = col”</p></li>
+<li><p><strong>op_control</strong> (<a class="reference internal" href="#deephaven.updateby.OperationControl" title="deephaven.updateby.OperationControl"><em>OperationControl</em></a>) – defines how special cases should behave, when None, the default OperationControl
+settings as specified in <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code> will be used</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateByOperation</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a string of process information</p>
+<dd class="field-odd"><p>an UpdateByOperation</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
@@ -325,220 +467,60 @@ system and Deephaven queries.</p>
 </dl>
 </dd></dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.process_info_log">
-<span class="sig-name descname"><span class="pre">process_info_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#process_info_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.process_info_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a static table with process information for the current Deephaven engine process.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a Table</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.process_metrics_log">
-<span class="sig-name descname"><span class="pre">process_metrics_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#process_metrics_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.process_metrics_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a table with metrics collected for the current Deephaven engine process.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a Table</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.query_operation_performance">
-<span class="sig-name descname"><span class="pre">query_operation_performance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#query_operation_performance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.query_operation_performance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes in a query evaluation number and returns a view for that query’s individual operation’s performance data.</p>
-<p>You can obtain query evaluation numbers, which uniquely identify a query and its subqueries, via the performance
-data tables obtained from calling query_performance_log() or query_operation_performance_log()</p>
-<p>The query operation performance log contains data on how long each individual operation of a query (where(),
-update(), naturalJoin(), etc., as well as internal functions) takes to execute, and the change in resource
-consumption while each was executing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>eval_number</strong> (<em>int</em>) – the evaluation number</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a table of query operation performance data</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.query_operation_performance_log">
-<span class="sig-name descname"><span class="pre">query_operation_performance_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#query_operation_performance_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.query_operation_performance_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a table with Deephaven performance data for individual subqueries. Performance data for the entire query
-is available from calling ‘query_performance_log’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a Table</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.query_performance">
-<span class="sig-name descname"><span class="pre">query_performance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#query_performance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.query_performance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes in a query evaluation number and returns a view for that query’s performance data.</p>
-<p>You can obtain query evaluation numbers, which uniquely identify a query and its subqueries, via the performance
-data tables obtained from calling query_performance_log() or query_operation_performance_log()</p>
-<blockquote>
-<div><p>The query performance log contains data on how long each query takes to run. Examples of what constitutes one
-individual query, for performance logging purposes, include:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>A new command in the console (i.e. type something, then press the return key)</p></li>
-<li><p>A sort, filter, or custom column generated by a UI</p></li>
-<li><p>A call from a client API external application</p></li>
-</ul>
+<dt class="sig sig-object py" id="deephaven.updateby.ema_time_decay">
+<span class="sig-name descname"><span class="pre">ema_time_decay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ts_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#ema_time_decay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.ema_time_decay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an EMA(exponential moving average) UpdateByOperation for the supplied column names, using time as the
+decay unit.</p>
+<dl>
+<dt>The formula used is</dt><dd><blockquote>
+<div><p>a = e^(-dt / time_scale_nanos)
+ema_next = a * ema_last + (1 - a) * value</p>
 </div></blockquote>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>eval_number</strong> (<em>int</em>) – the evaluation number</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a Table of query performance data</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.query_performance_log">
-<span class="sig-name descname"><span class="pre">query_performance_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#query_performance_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.query_performance_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a table with Deephaven query performance data. Performance data for individual sub-operations is
-available from calling <cite>query_operation_performance_log</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a Table</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.query_update_performance">
-<span class="sig-name descname"><span class="pre">query_update_performance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#query_update_performance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.query_update_performance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes in a query evaluation number and returns a view for that query’s update performance data.</p>
-<p>You can obtain query evaluation numbers, which uniquely identify a query and its subqueries, via the performance
-data tables obtained from calling query_performance_log() or query_operation_performance_log()</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>eval_number</strong> (<em>int</em>) – the evaluation number</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a Table of query update performance data</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.query_update_performance_map">
-<span class="sig-name descname"><span class="pre">query_update_performance_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#query_update_performance_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.query_update_performance_map" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Creates multiple tables with performance data for a given query identified by an evaluation number. The tables</dt><dd><p>are returned in a map with the following String keys: ‘QueryUpdatePerformance’, ‘UpdateWorst’, ‘WorstInterval’,
-‘UpdateMostRecent’, ‘UpdateAggregate’, ‘UpdateSummaryStats’.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>eval_number</strong> (<em>int</em>) – the evaluation number</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a>]</p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a dict</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.server_state">
-<span class="sig-name descname"><span class="pre">server_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#server_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.server_state" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Returns a table of basic memory, update graph processor, and GC stats for the current engine process,</dt><dd><p>sampled on a periodic basis.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a table</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.server_state_log">
-<span class="sig-name descname"><span class="pre">server_state_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#server_state_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.server_state_log" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Returns a table with memory utilization, update graph processor and garbage collection stats</dt><dd><p>sampled on a periodic basis.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a Table</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.perfmon.update_performance_log">
-<span class="sig-name descname"><span class="pre">update_performance_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/perfmon.html#update_performance_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.perfmon.update_performance_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a table with Deephaven update performance data.</p>
+<dl>
+<dt>Args:</dt><dd><p>ts_col (str): the column in the source table to use for timestamps</p>
 <dl class="simple">
-<dt>Returns</dt><dd><p>a Table</p>
+<dt>time_scale (Union[int, str]): the decay rate, can be expressed as an integer in nanoseconds or a time</dt><dd><p>interval string, e.g. “00:00:00.001”</p>
+</dd>
+</dl>
+<p>cols (Union[str, List[str]]): the column(s) to be operated on, can be renaming expressions, i.e. “new_col = col”
+op_control (OperationControl): defines how special cases should behave,  when None, the default OperationControl</p>
+<blockquote>
+<div><p>settings as specified in <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code> will be used</p>
+</div></blockquote>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateByOperation</span></code></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an UpdateByOperation</p>
+</dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
 </dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.updateby.forward_fill">
+<span class="sig-name descname"><span class="pre">forward_fill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/updateby.html#forward_fill"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.updateby.forward_fill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a forward fill UpdateByOperation for the supplied column names. Null values in the columns are
+replaced by the last known non-null values. This operation is forward only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cols</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to be operated on, can include expressions to rename the output,
+i.e. “new_col = col”; when empty, update_by perform the forward fill operation on all columns.</p>
+</dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.updateby.UpdateByOperation" title="deephaven.updateby.UpdateByOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateByOperation</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an UpdateByOperation</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -549,23 +531,23 @@ data tables obtained from calling query_performance_log() or query_operation_per
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="deephaven.plot.html">
+          <a class="next-page" href="deephaven.uri.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">deephaven.plot</div>
+                <div class="title">deephaven.uri</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="deephaven.parquet.html">
+          <a class="prev-page" href="deephaven.ugp.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">deephaven.parquet</div>
+                <div class="title">deephaven.ugp</div>
                 
               </div>
             </a>
@@ -577,7 +559,7 @@ data tables obtained from calling query_performance_log() or query_operation_per
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/code/deephaven.perfmon.rst.txt"
+            <a class="muted-link" href="../_sources/code/deephaven.updateby.rst.txt"
                rel="nofollow">
               Show Source
             </a>

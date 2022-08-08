@@ -236,6 +236,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -319,7 +320,6 @@
             <span class="n">longs</span> <span class="o">=</span> <span class="n">_JPrimitiveArrayConversionUtility</span><span class="o">.</span><span class="n">translateArrayDateTimeToLong</span><span class="p">(</span><span class="n">j_array</span><span class="p">)</span>
             <span class="n">np_long_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">longs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
             <span class="n">np_array</span> <span class="o">=</span> <span class="n">np_long_array</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">col_def</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">np_type</span><span class="p">)</span>
-            <span class="n">np_array</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np_long_array</span>
         <span class="k">elif</span> <span class="n">col_def</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">dtypes</span><span class="o">.</span><span class="n">bool_</span><span class="p">:</span>
             <span class="n">bytes_</span> <span class="o">=</span> <span class="n">_JPrimitiveArrayConversionUtility</span><span class="o">.</span><span class="n">translateArrayBooleanToByte</span><span class="p">(</span><span class="n">j_array</span><span class="p">)</span>
             <span class="n">np_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">bytes_</span><span class="p">,</span> <span class="n">col_def</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">np_type</span><span class="p">)</span>

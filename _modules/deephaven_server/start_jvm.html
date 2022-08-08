@@ -236,6 +236,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -279,9 +280,10 @@
 
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">jpyutil</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="kn">from</span> <span class="nn">deephaven_internal</span> <span class="k">import</span> <span class="n">jvm</span>
 
 <span class="c1"># TODO(deephaven-core#2592): Generalize start_jvm to work with importlib.resources</span>
 
@@ -365,7 +367,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">jvm_args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">required_jvm_args</span><span class="p">)</span>
 
-    <span class="n">jpyutil</span><span class="o">.</span><span class="n">init_jvm</span><span class="p">(</span>
+    <span class="n">jvm</span><span class="o">.</span><span class="n">init_jvm</span><span class="p">(</span>
         <span class="n">java_home</span><span class="o">=</span><span class="n">java_home</span><span class="p">,</span>
         <span class="c1"># jvm_dll=jvm_dll,</span>
         <span class="n">jvm_classpath</span><span class="o">=</span><span class="n">jvm_classpath</span><span class="p">,</span>
@@ -373,6 +375,7 @@
         <span class="n">jvm_options</span><span class="o">=</span><span class="n">jvm_args</span><span class="p">,</span>
         <span class="c1"># config_file=config_file,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
     <span class="kn">import</span> <span class="nn">jpy</span>
     <span class="n">jpy</span><span class="o">.</span><span class="n">VerboseExceptions</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span></div>
 </pre></div>

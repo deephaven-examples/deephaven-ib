@@ -236,6 +236,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.time.html">time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.uri.html">uri</a></li>
 </ul>
 </li>
@@ -286,12 +287,13 @@
 
 <span class="kn">from</span> <span class="nn">deephaven</span> <span class="k">import</span> <span class="n">DHError</span>
 <span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="k">import</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="k">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">_JTableDefinition</span>
+<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="k">import</span> <span class="n">Table</span>
 
 <span class="n">_JParquetTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.parquet.table.ParquetTools"</span><span class="p">)</span>
 <span class="n">_JFile</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"java.io.File"</span><span class="p">)</span>
 <span class="n">_JCompressionCodecName</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"org.apache.parquet.hadoop.metadata.CompressionCodecName"</span><span class="p">)</span>
 <span class="n">_JParquetInstructions</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.parquet.table.ParquetInstructions"</span><span class="p">)</span>
+<span class="n">_JTableDefinition</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.table.TableDefinition"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ColumnInstruction"><a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.ColumnInstruction">[docs]</a><span class="nd">@dataclass</span>
