@@ -196,6 +196,7 @@ jobs:
         uses: docker/metadata-action@v4.0.1
         with:
           images: ghcr.io/${{ github.repository }}-dhserver
+          labels: deephaven_version=${{ env.DH_VERSION }}
           tags: |
             type=schedule
             type=ref,event=branch
