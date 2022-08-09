@@ -2,7 +2,7 @@
 
 This directory contains the ingredients to build Docker images from the current, checked-out deephaven-ib repository.
 
-This is useful when doing local development or when offical images are not available for your platform.
+This is useful when doing local development or when official images are not available for your platform.
 
 ## Build Image
 
