@@ -169,11 +169,39 @@ upper right corner.  ![](https://github.com/deephaven-examples/deephaven-ib/blob
 
 
 ## Launch
-To launch the system:
 
-### Launch with Docker
+There are multiple ways to launch [Deephaven](https://deephaven.io) with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) 
+installed.  The launch can either happen via a local installation or via Docker images.
 
-This is the most tested way to launch.
+Lightweight installations use pip-installed Deephaven.  These systems have less overhead, but they lack
+a few Deephaven IDE features.  Heavyweight installations launch the entire [Deephaven](https://deephaven.io) system.
+These systems launch multiple Docker containers and have more overhead, but they provide all Deephaven IDE features.
+
+If you are running scripts that do not need human interaction, consider using a pip-installed option.
+
+### Launch the full Deephaven system
+
+The full Deephaven system contains the most full-featured IDE.  Running the full Deephaven system launches multiple Docker
+containers, so it has the most overhead.
+
+See [./docker/full](./docker/full) for more details.
+
+1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+2) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
+![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/allow-connections.png)
+3) Launch the system:
+    ```bash
+    cd ./docker/full/
+    ./run_system.sh
+    ```
+4) Copy your data and scripts into `./data/`
+5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+
+
+### Launch pip-installed Deephaven with Docker
+
+The pip-installed Deephaven uses a light-weight Deephaven installation that is installed using pip.  In this case,
+the pip-installed Deephaven system is installed in a Docker container.
 
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 2) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
@@ -214,9 +242,12 @@ This is the most tested way to launch.
     ```
 7) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
 
-### Launch with a local installation (No Docker)
+### Launch pip-installed Deephaven with a local installation (No Docker)
 
 > **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64) and Windows WSL.  It is not yet supported on Windows without WSL or Mac.  For these architectures, you should use the Docker installation.  As soon as Deephaven supports these architectures for pip, [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) will work.
+
+The pip-installed Deephaven uses a light-weight Deephaven installation that is installed using pip.  In this case,
+the pip-installed Deephaven system is installed directly on your local system, without Docker.
 
 It is possible to use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) without docker, but this is a 
 new feature and has not been well tested.  To do this:
