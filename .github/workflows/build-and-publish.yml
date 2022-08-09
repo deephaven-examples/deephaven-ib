@@ -120,8 +120,8 @@ jobs:
         branch: gh-pages
         folder: html/
 
-  docker:
-    name: Build and Publish Docker
+  docker-pip:
+    name: Build and Publish Docker (pip-installed Deephaven)
     runs-on: ubuntu-20.04
     needs: [build-whl]
     permissions:
@@ -155,7 +155,7 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
-      - name: Build and push Docker image (pip-installed Deephaven)
+      - name: Build and push Docker image
         uses: docker/build-push-action@v2.7.0
         with:
           context: .
@@ -166,7 +166,43 @@ jobs:
           build-args: IB_VERSION=${{ env.IB_VERSION }}
         env:
           IMAGE_NAME: ${{ github.repository }}
-      - name: Build and push Docker image (Deephaven server image)
+
+  docker-dhserver:
+    name: Build and Publish Docker (Deephaven server image)
+    runs-on: ubuntu-20.04
+    needs: [build-whl]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
+      - name: Download wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: wheels
+          path: wheels/
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-base
+        uses: docker/metadata-action@v4.0.1
+        with:
+          images: ghcr.io/${{ github.repository }}-dhserver
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Build and push Docker image
         uses: docker/build-push-action@v2.7.0
         with:
           context: .
