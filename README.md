@@ -1,6 +1,6 @@
 # deephaven-ib
 
-![Deephaven Data Labs Logo](docs/assets/Deephaven-Logo-Wordmark-Community-OnLight.png)
+![Deephaven Data Labs Logo](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/Deephaven-Logo-Wordmark-Community-OnLight.png)
 
 ![Build CI](https://github.com/deephaven-examples/deephaven-ib/actions/workflows/build-and-publish.yml/badge.svg?branch=main)
 
@@ -38,7 +38,7 @@ exchange traded products.  These include:
 * Warrants
 * Commodities
 
-![Overview Image](docs/assets/overview.png)
+![Overview Image](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/overview.png)
 
 **WARNING: Automated trading can go horribly wrong very quickly.  Verify your code on a paper trading account before 
 unleashing trading on an account where money can be lost.  If you think this can not happen to you, read
@@ -155,7 +155,7 @@ To setup and configure the system:
 1) Follow the [TWS Installation Instructions](https://www.interactivebrokers.com/en/trading/tws.php) to get [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) running.
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 1) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
-upper right corner.  ![](docs/assets/config-gear.png)  
+upper right corner.  ![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/config-gear.png)  
   In `API->Settings`, make sure:
 
     * "Enable ActiveX and Socket Clients" is selected.
@@ -163,7 +163,7 @@ upper right corner.  ![](docs/assets/config-gear.png)
     * "Read-Only API" is selected if you want to prevent trade submission from [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).  
         
     Also, note the "Socket port" value.  It is needed when connecting [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
-    ![](docs/assets/config-api.png)
+    ![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/config-api.png)
 1) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
 1) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
 
@@ -177,7 +177,7 @@ This is the most tested way to launch.
 
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 2) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
-![](docs/assets/allow-connections.png)
+![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/allow-connections.png)
 3) Create a directory for your data and scripts
     ```bash
     mkdir data
@@ -222,7 +222,7 @@ It is possible to use [deephaven-ib](https://github.com/deephaven-examples/deeph
 new feature and has not been well tested.  To do this:
 1) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 2) Accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
-![](docs/assets/allow-connections.png)
+![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/allow-connections.png)
 3) Install `ibapi`:
     ```bash
     # pip installed version of ibapi is too old.  You must download and install a more recent version.
@@ -307,7 +307,7 @@ client.connect()
 ```
 
 After `client.connect()` is called, TWS requires that the connection be accepted.
-![](docs/assets/accept-connection.png)
+![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/accept-connection.png)
 
 ## Get data
 
@@ -554,7 +554,7 @@ bars_joined = bars_dia.view(["Timestamp", "TimestampEnd", "Dia=Close"]) \
     .update("Ratio = Dia/Spy")
 ```
 
-![DIA SPY Ratio](docs/assets/dia_spy_ratio.png)
+![DIA SPY Ratio](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/dia_spy_ratio.png)
 
 ## Plotting
 
@@ -589,7 +589,7 @@ plot_aapl = Figure().plot_xy("Bid",  t=ticks_bid_ask, x="ReceiveTime", y="BidPri
     .show()
 ```
 
-![AAPL Bid Ask](docs/assets/aapl_bid_ask.png)
+![AAPL Bid Ask](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/aapl_bid_ask.png)
 
 ## Help!
 
