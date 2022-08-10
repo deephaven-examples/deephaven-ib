@@ -23,13 +23,16 @@ fi
 
 echo "DH_IB_VERSION=${DH_IB_VERSION}"
 
-
 # pull images
 
 docker pull ghcr.io/deephaven-examples/deephaven-ib-dhserver:${DH_IB_VERSION}
 export DH_VERSION=$(docker inspect --format '{{ index .Config.Labels "deephaven_version" }}' ghcr.io/deephaven-examples/deephaven-ib-dhserver:${DH_IB_VERSION})
 echo "DH_VERSION=${DH_VERSION}"
 docker-compose pull
+
+# print images being used
+
+docker compose images
 
 # launch
 
