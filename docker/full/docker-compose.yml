@@ -22,7 +22,7 @@ services:
   grpc-proxy:
     image: ghcr.io/deephaven/grpc-proxy:${DH_VERSION?DH_VERSION not set}
     environment:
-      - BACKEND_ADDR=grpc-api:8080
+      - BACKEND_ADDR=server:8080
     depends_on:
       - server
     expose:
@@ -35,8 +35,9 @@ services:
       - grpc-proxy
       - server
     ports:
-      - "${PORT:-10000}:10000"
+      - "${DEEPHAVEN_PORT:-10000}:10000"
 
 volumes:
     web-tmp:
     api-cache:
+
