@@ -179,7 +179,8 @@ Lightweight installations use pip-installed Deephaven.  These systems have less 
 a few Deephaven IDE features.  Heavyweight installations launch the entire [Deephaven](https://deephaven.io) system.
 These systems launch multiple Docker containers and have more overhead, but they provide all Deephaven IDE features.
 
-If you are running scripts that do not need human interaction, consider using a pip-installed option.
+If you are running scripts that do not need human interaction, consider using a pip-installed option.  
+If you are interactively working with data, consider the full deephaven system.
 
 ### Launch the full Deephaven system -- interactive
 
