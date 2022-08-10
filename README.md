@@ -181,6 +181,9 @@ If you are running scripts that do not need human interaction, consider using a 
 
 ### Launch the full Deephaven system
 
+> **_NOTE:_**  Deephaven does not yet have published Docker images for all architectures.  This launch should work on Linux (AMD64 and ARM64), Mac (Intel), and Windows WSL.  It is not yet supported on Windows without WSL or Mac (M1 and M2). In these cases, the `full_web_1` Docker image will exit.  This can be seen using `docker ps` or `docker compose ps`.  For these architectures, you will need to build Deephaven Docker images locally.  See [Build and launch from source](https://deephaven.io/core/docs/how-to-guides/launch-build/).
+
+
 The full Deephaven system contains the most full-featured IDE.  Running the full Deephaven system launches multiple Docker
 containers, so it has the most overhead.
 
