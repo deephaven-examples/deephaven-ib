@@ -2,7 +2,7 @@
 
 This directory contains the ingredients to build Docker images from the current, checked-out deephaven-ib repository.
 
-This is useful when doing local development or when offical images are not available for your platform.
+This is useful when doing local development or when official images are not available for your platform.
 
 ## Build Image
 
@@ -14,6 +14,6 @@ This is useful when doing local development or when offical images are not avail
 
 ```bash
 # Set jvm_args to the desired JVM memory for Deephaven
-docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=["-4g"]); _server.start()"
+docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
 ```
 

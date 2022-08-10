@@ -1,17 +1,12 @@
-#
-# A docker image from released python packages
-#
+ARG DH_VERSION
 
-FROM ubuntu:22.04
+FROM ghcr.io/deephaven/server:${DH_VERSION}
 
 ARG IB_VERSION
 
 RUN apt update && \
-    apt install -y openjdk-11-jdk python3-pip curl unzip && \
-    ln -s /usr/lib/jvm/java-11-openjdk-*/ /usr/lib/jvm/java-11-openjdk && \
+    apt install -y python3-pip python3-venv curl zip && \
     pip3 install --upgrade pip setuptools wheel
-
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
 
 RUN mkdir /build && \
     cd /build && \
@@ -22,6 +17,7 @@ RUN mkdir /build && \
     cd / && \
     rm -rf /build
 
-RUN pip3 install deephaven-ib
+COPY ./wheels /wheels
 
-CMD python3
+RUN pip3 install /wheels/*.whl && \
+    rm -rf /wheels/

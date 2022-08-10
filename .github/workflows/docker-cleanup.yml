@@ -12,15 +12,15 @@ jobs:
     name: Delete images from ghcr.io
     runs-on: ubuntu-20.04
     steps:
-      - name: Delete image (Base)
+      - name: Delete image (pip-installed Deephaven)
         uses: chipkent/action-cleanup-package@v1.0.2
         with:
-          package-name: ${{ github.event.repository.name }}-base
+          package-name: ${{ github.event.repository.name }}
           tag: pr-${{ github.event.pull_request.number }}
           github-token: ${{ secrets.CI_ACTION_TOKEN }}
-      - name: Delete image (Downloader)
+      - name: Delete image (Deephaven server image)
         uses: chipkent/action-cleanup-package@v1.0.2
         with:
-          package-name: ${{ github.event.repository.name }}-downloader
+          package-name: ${{ github.event.repository.name }}-dhserver
           tag: pr-${{ github.event.pull_request.number }}
           github-token: ${{ secrets.CI_ACTION_TOKEN }}

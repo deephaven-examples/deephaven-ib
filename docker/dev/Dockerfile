@@ -5,16 +5,28 @@
 FROM ubuntu:22.04
 
 ARG DH_IB_VERSION=dev
+ARG IB_VERSION
 
 # Install requirements
 
 RUN apt update && \
     apt install -y openjdk-11-jdk && \
     ln -s /usr/lib/jvm/java-11-openjdk-*/ /usr/lib/jvm/java-11-openjdk && \
-    apt install --yes git python3-venv python3-pip && \
-    pip3 install --upgrade pip setuptools wheel build twine
+    apt install --yes git python3-venv python3-pip curl unzip && \
+    pip3 install --upgrade pip setuptools wheel build
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+
+# Build and install ibapi
+
+RUN mkdir /build && \
+    cd /build && \
+    curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip" && \
+    unzip api.zip && \
+    cd ./IBJts/source/pythonclient && \
+    python3 setup.py install && \
+    cd / && \
+    rm -rf /build
 
 # Build and install deephaven-ib
 
