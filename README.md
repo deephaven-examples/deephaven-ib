@@ -166,7 +166,7 @@ upper right corner.  ![](https://github.com/deephaven-examples/deephaven-ib/blob
     ![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/config-api.png)
 5) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
 6) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
-7) Once [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) is launched (below), accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
+7) Once [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) is launched (see [below](#launch)), accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
 ![](https://github.com/deephaven-examples/deephaven-ib/blob/main/docs/assets/allow-connections.png)
 
 
