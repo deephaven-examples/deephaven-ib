@@ -79,7 +79,17 @@ class TableWriter:
             if values[i] == "":
                 values[i] = None
 
-        self._dtw.write_row(values)
+        try:
+            self._dtw.write_row(*values)
+        except Exception as e:
+            msg = f"Problem logging row:\n"
+
+            for i, v in enumerate(values):
+                msg += f"\t{i} {type(v)} {v}\n"
+
+            logging.error(msg)
+
+            raise e
 
 
 ArrayStringSet = jpy.get_type("io.deephaven.stringset.ArrayStringSet")
