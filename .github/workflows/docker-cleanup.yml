@@ -17,10 +17,10 @@ jobs:
         with:
           package-name: ${{ github.event.repository.name }}
           tag: pr-${{ github.event.pull_request.number }}
-          github-token: ${{ secrets.CI_ACTION_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Delete image (Deephaven server image)
         uses: chipkent/action-cleanup-package@v1.0.2
         with:
           package-name: ${{ github.event.repository.name }}-dhserver
           tag: pr-${{ github.event.pull_request.number }}
-          github-token: ${{ secrets.CI_ACTION_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
