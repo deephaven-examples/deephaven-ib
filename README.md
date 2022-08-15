@@ -292,7 +292,7 @@ new feature and has not been well tested.  To do this:
     python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
 5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
-6) Use `host=localhost` for the hostname in the examples
+6) Use `host="localhost"` for the hostname in the examples (Windows WSL uses `host="host.docker.internal"`, since WSL is built on Docker.)
 
 ### (Option 5) Launch pip-installed Deephaven with a local installation (No Docker) -- run a script
 
