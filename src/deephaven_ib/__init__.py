@@ -3,10 +3,10 @@ from typing import Dict, List, Callable
 
 from deephaven.table import Table
 from deephaven.dtypes import DateTime
+from deephaven.constants import NULL_DOUBLE
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
-from ._query_inputs import *
 from ._tws import IbTwsClient
 from ._tws.order_id_queue import OrderIdStrategy
 from .time import dh_to_ib_datetime
@@ -546,6 +546,23 @@ class IbSessionTws:
 
             return rst
 
+        def deephaven_ib_float_value(s: str) -> Union[float, None]:
+            if not s:
+                return NULL_DOUBLE
+
+            try:
+                return float(s)
+            except ValueError:
+                return NULL_DOUBLE
+
+        def deephaven_ib_parse_note(note:str, key:str) -> Union[str,None]:
+            dict = json.loads(note)
+
+            if key in dict:
+                return dict[key]
+
+            return None
+
         return {
             "requests": tables_raw["raw_requests"] \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
@@ -570,27 +587,27 @@ class IbSessionTws:
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_overview": tables_raw["raw_accounts_overview"] \
                 .last_by(["RequestId", "Account", "Currency", "Key"]) \
-                .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
+                .update("DoubleValue = (double)deephaven_ib_float_value(Value)") \
                 .move_columns_up(["RequestId", "ReceiveTime"]),
             "accounts_summary": tables_raw["raw_accounts_summary"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
-                .update("GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})") \
+                .update("GroupName=(String)deephaven_ib_parse_note(Note,`groupName`)") \
                 .drop_columns("Note") \
-                .update("DoubleValue = (double)__deephaven_ib_float_value.apply(Value)") \
+                .update("DoubleValue = (double)deephaven_ib_float_value(Value)") \
                 .last_by(["RequestId", "GroupName", "Account", "Tag"]) \
                 .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
             "accounts_pnl": tables_raw["raw_accounts_pnl"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
                 .update([
-                    "Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})",
-                    "ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})"]) \
+                    "Account=(String)deephaven_ib_parse_note(Note,`account`)",
+                    "ModelCode=(String)deephaven_ib_parse_note(Note,`model_code`)"]) \
                 .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
                 .drop_columns("Note") \
                 .last_by("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note") \
                 .move_columns_up(["RequestId", "ReceiveTime", "Pattern"]) \
-                .update("Pattern=(String)__deephaven_ib_parse_note.apply(new String[]{Pattern,`pattern`})"),
+                .update("Pattern=(String)deephaven_ib_parse_note(Pattern,`pattern`)"),
             "market_rules": tables_raw["raw_market_rules"].select_distinct(["MarketRuleId", "LowEdge", "Increment"]),
             "news_bulletins": tables_raw["raw_news_bulletins"],
             "news_providers": tables_raw["raw_news_providers"] \
