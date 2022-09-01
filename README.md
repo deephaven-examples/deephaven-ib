@@ -142,10 +142,6 @@ See [Access your file system with Docker data volumes](https://deephaven.io/core
 
 Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
 
-`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g., `0.11.0`).  A list of available versions 
-can be found on the [Deephaven Releases GitHub page](https://github.com/deephaven/deephaven-core/releases).  
-Version `0.11.0` or higher must be used.
-
 **Windows users need to run the commands in WSL.**
 
 ## Setup
