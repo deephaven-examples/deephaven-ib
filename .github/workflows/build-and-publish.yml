@@ -101,6 +101,13 @@ jobs:
       with:
         name: documentation-html
         path: sphinx/build/html/
+    - name: Upload JVM Error Logs
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: check-ci-jvm-err
+        path: '**/*_pid*.log'
+        if-no-files-found: ignore
 
   publish-sphinx:
     name: Publish Sphinx
