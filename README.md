@@ -142,10 +142,6 @@ See [Access your file system with Docker data volumes](https://deephaven.io/core
 
 Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
 
-`<deephaven_version>` is the version of [Deephaven](https://deephaven.io) to run (e.g., `0.11.0`).  A list of available versions 
-can be found on the [Deephaven Releases GitHub page](https://github.com/deephaven/deephaven-core/releases).  
-Version `0.11.0` or higher must be used.
-
 **Windows users need to run the commands in WSL.**
 
 ## Setup
@@ -264,7 +260,7 @@ This is a good option for production scenarios where scripts need to be run and 
 
 ### (Option 4) Launch pip-installed Deephaven with a local installation (No Docker) -- interactive
 
-> **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64) and Windows WSL.  It is not yet supported on Windows without WSL or Mac.  For these architectures, you should use the Docker installation.  As soon as Deephaven supports these architectures for pip, [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) will work.
+> **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64), Mac (M1 and Intel), and Windows WSL.  It is not yet supported on Windows without WSL.  For Windows, use WSL.
 
 The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
 the pip-installed Deephaven system is installed directly on your local system, without Docker.
@@ -296,7 +292,7 @@ new feature and has not been well tested.  To do this:
 
 ### (Option 5) Launch pip-installed Deephaven with a local installation (No Docker) -- run a script
 
-> **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64) and Windows WSL.  It is not yet supported on Windows without WSL or Mac.  For these architectures, you should use the Docker installation.  As soon as Deephaven supports these architectures for pip, [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) will work.
+> **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64), Mac (M1 and Intel), and Windows WSL.  It is not yet supported on Windows without WSL.  For Windows, use WSL.
 
 The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
 the pip-installed Deephaven system is installed directly on your local system, without Docker.  
