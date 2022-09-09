@@ -1,7 +1,7 @@
 """Functionality for logging IB types to Deephaven tables."""
 
 import sys
-from typing import Any, List, Tuple, Dict, Callable, Union
+from typing import Any, List, Tuple, Dict, Callable, Optional
 
 from deephaven import dtypes
 
@@ -73,7 +73,7 @@ logger_family_code = IbComplexTypeLogger("FamilyCode", _details_family_code())
 def _details_contract() -> List[Tuple]:
     """ Details for logging Contract. """
 
-    def map_right(right: str) -> Union[str, None]:
+    def map_right(right: str) -> Optional[str]:
         if right == "?":
             return None
 
@@ -110,7 +110,7 @@ logger_contract = IbComplexTypeLogger("Contract", _details_contract())
 def _details_contract_details() -> List[Tuple]:
     """Details for logging ContractDetails."""
 
-    def map_null_int(value: int) -> Union[int, None]:
+    def map_null_int(value: int) -> Optional[int]:
 
         if value == 2147483647:
             return None
@@ -445,9 +445,6 @@ def _details_order() -> List[Tuple]:
 
         # SMART routing only
         ("DiscretionaryAmt", dtypes.float64, lambda o: o.discretionaryAmt),
-        ("ETradeOnly", dtypes.bool_, lambda o: o.eTradeOnly),
-        ("FirmQuoteOnly", dtypes.bool_, lambda o: o.firmQuoteOnly),
-        ("NbboPriceCap", dtypes.float64, lambda o: o.nbboPriceCap),
         ("OptOutSmarRouting", dtypes.bool_, lambda o: o.optOutSmartRouting),
 
         # BOX exchange orders only
@@ -650,7 +647,7 @@ logger_execution = IbComplexTypeLogger("Execution", _details_execution())
 def _details_commission_report() -> List[Tuple]:
     """ Details for logging CommissionReport. """
 
-    def format_yield_redemption_date(date: int) -> Union[str, None]:
+    def format_yield_redemption_date(date: int) -> Optional[str]:
         if date == 0:
             return None
 
@@ -660,7 +657,7 @@ def _details_commission_report() -> List[Tuple]:
         y = int(date / 10000)
         return f"{y:04}-{m:02}-{d:02}"
 
-    def map_null_value(value: float) -> Union[float, None]:
+    def map_null_value(value: float) -> Optional[float]:
 
         if value == sys.float_info.max:
             return None

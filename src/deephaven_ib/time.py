@@ -5,6 +5,7 @@ import deephaven.time as dtime
 from deephaven.dtypes import DateTime
 
 _SimpleDateFormat = jpy.get_type("java.text.SimpleDateFormat")
+_TimeZone = jpy.get_type("java.util.TimeZone")
 
 _ib_date_time_pattern_sec = "yyyyMMdd HH:mm:ss"
 _ib_date_time_pattern_subsec = "yyyyMMdd HH:mm:ss.S"
@@ -15,9 +16,13 @@ _ib_date_time_patterns = [
     "yyyy-MM-dd HH:mm:ss",
 ]
 _ib_date_time_formatter_sec = _SimpleDateFormat(_ib_date_time_pattern_sec)
+_ib_date_time_formatter_sec.setTimeZone(_TimeZone.getTimeZone("US/Eastern"))
 _ib_date_time_formatter_subsec = _SimpleDateFormat(_ib_date_time_pattern_subsec)
+_ib_date_time_formatter_subsec.setTimeZone(_TimeZone.getTimeZone("US/Eastern"))
 _ib_date_time_formatters = [_SimpleDateFormat(pattern) for pattern in _ib_date_time_patterns]
 
+for _f in _ib_date_time_formatters:
+    _f.setTimeZone(_TimeZone.getTimeZone("US/Eastern"))
 
 def dh_to_ib_datetime(time: DateTime, sub_sec: bool = True) -> str:
     """Convert a DH DateTime to an IB timestamp string.
@@ -31,9 +36,9 @@ def dh_to_ib_datetime(time: DateTime, sub_sec: bool = True) -> str:
         return ""
 
     if sub_sec:
-        return _ib_date_time_formatter_subsec.format(time.getDate())
+        return _ib_date_time_formatter_subsec.format(time.getDate()) + " US/Eastern"
     else:
-        return _ib_date_time_formatter_sec.format(time.getDate())
+        return _ib_date_time_formatter_sec.format(time.getDate()) + " US/Eastern"
 
 
 def ib_to_dh_datetime(time: str) -> DateTime:

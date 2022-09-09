@@ -1,7 +1,7 @@
 """Functionality for creating Deephaven tables."""
 
 import logging
-from typing import List, Any, Sequence, Union, Set
+from typing import List, Any, Sequence, Optional, Set
 import collections
 
 from deephaven.time import now
@@ -114,7 +114,7 @@ def map_values(value, map, default=lambda v: f"UNKNOWN({v})") -> Any:
         return default(value)
 
 
-def to_string_val(value) -> Union[str, None]:
+def to_string_val(value) -> Optional[str]:
     """ Converts a value to a string. """
 
     if value is None:
@@ -123,7 +123,7 @@ def to_string_val(value) -> Union[str, None]:
     return str(value)
 
 
-def to_string_set(value: Sequence) -> Union[ArrayStringSet, None]:
+def to_string_set(value: Sequence) -> Optional[ArrayStringSet]:
     """ Converts an iterable to a string set. """
 
     if value is None:

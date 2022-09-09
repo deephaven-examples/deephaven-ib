@@ -9,7 +9,7 @@ import types
 import xml.etree.ElementTree as ET
 from functools import wraps
 from threading import Thread
-from typing import Set
+from typing import Set, Optional
 
 import decimal
 from decimal import Decimal
@@ -392,8 +392,8 @@ class IbTwsClient(EWrapper, EClient):
     ####################################################################################################################
     ####################################################################################################################
 
-    def log_request(self, req_id: int, request_type: str, contract: Union[Contract, None],
-                    notes: Union[Dict[str, Any], None]):
+    def log_request(self, req_id: int, request_type: str, contract: Optional[Contract],
+                    notes: Optional[Dict[str, Any]]):
         """Log a data request."""
 
         if notes is None:

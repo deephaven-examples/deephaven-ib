@@ -1,5 +1,6 @@
 from enum import Enum
-from typing import Dict, List, Callable
+from typing import Dict, List, Callable, Optional
+import json
 
 from deephaven.table import Table
 from deephaven.dtypes import DateTime
@@ -546,7 +547,7 @@ class IbSessionTws:
 
             return rst
 
-        def deephaven_ib_float_value(s: str) -> Union[float, None]:
+        def deephaven_ib_float_value(s: str) -> Optional[float]:
             if not s:
                 return NULL_DOUBLE
 
@@ -555,7 +556,7 @@ class IbSessionTws:
             except ValueError:
                 return NULL_DOUBLE
 
-        def deephaven_ib_parse_note(note:str, key:str) -> Union[str,None]:
+        def deephaven_ib_parse_note(note:str, key:str) -> Optional[str]:
             dict = json.loads(note)
 
             if key in dict:
