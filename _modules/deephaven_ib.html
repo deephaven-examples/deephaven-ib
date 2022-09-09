@@ -275,14 +275,15 @@
         <article role="main">
           <h1>Source code for deephaven_ib</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="k">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="k">import</span> <span class="n">DateTime</span>
+<span class="kn">from</span> <span class="nn">deephaven.constants</span> <span class="k">import</span> <span class="n">NULL_DOUBLE</span>
 <span class="kn">from</span> <span class="nn">ibapi.contract</span> <span class="k">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractDetails</span>
 <span class="kn">from</span> <span class="nn">ibapi.order</span> <span class="k">import</span> <span class="n">Order</span>
 
-<span class="kn">from</span> <span class="nn">._query_inputs</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">._tws</span> <span class="k">import</span> <span class="n">IbTwsClient</span>
 <span class="kn">from</span> <span class="nn">._tws.order_id_queue</span> <span class="k">import</span> <span class="n">OrderIdStrategy</span>
 <span class="kn">from</span> <span class="nn">.time</span> <span class="k">import</span> <span class="n">dh_to_ib_datetime</span>
@@ -822,6 +823,23 @@
 
             <span class="k">return</span> <span class="n">rst</span>
 
+        <span class="k">def</span> <span class="nf">deephaven_ib_float_value</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">NULL_DOUBLE</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">NULL_DOUBLE</span>
+
+        <span class="k">def</span> <span class="nf">deephaven_ib_parse_note</span><span class="p">(</span><span class="n">note</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="nb">dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">note</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="kc">None</span>
+
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">"requests"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_requests"</span><span class="p">]</span> \
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"ReceiveTime"</span><span class="p">]),</span>
@@ -846,27 +864,27 @@
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"ReceiveTime"</span><span class="p">]),</span>
             <span class="s2">"accounts_overview"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_accounts_overview"</span><span class="p">]</span> \
                 <span class="o">.</span><span class="n">last_by</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"Account"</span><span class="p">,</span> <span class="s2">"Currency"</span><span class="p">,</span> <span class="s2">"Key"</span><span class="p">])</span> \
-                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"DoubleValue = (double)deephaven_ib_float_value(Value)"</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"ReceiveTime"</span><span class="p">]),</span>
             <span class="s2">"accounts_summary"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_accounts_summary"</span><span class="p">]</span> \
                 <span class="o">.</span><span class="n">natural_join</span><span class="p">(</span><span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_requests"</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="n">joins</span><span class="o">=</span><span class="s2">"Note"</span><span class="p">)</span> \
-                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"GroupName=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`groupName`})"</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"GroupName=(String)deephaven_ib_parse_note(Note,`groupName`)"</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">drop_columns</span><span class="p">(</span><span class="s2">"Note"</span><span class="p">)</span> \
-                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"DoubleValue = (double)__deephaven_ib_float_value.apply(Value)"</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"DoubleValue = (double)deephaven_ib_float_value(Value)"</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">last_by</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"GroupName"</span><span class="p">,</span> <span class="s2">"Account"</span><span class="p">,</span> <span class="s2">"Tag"</span><span class="p">])</span> \
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"ReceiveTime"</span><span class="p">,</span> <span class="s2">"GroupName"</span><span class="p">]),</span>
             <span class="s2">"accounts_pnl"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_accounts_pnl"</span><span class="p">]</span> \
                 <span class="o">.</span><span class="n">natural_join</span><span class="p">(</span><span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_requests"</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="n">joins</span><span class="o">=</span><span class="s2">"Note"</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">update</span><span class="p">([</span>
-                    <span class="s2">"Account=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`account`})"</span><span class="p">,</span>
-                    <span class="s2">"ModelCode=(String)__deephaven_ib_parse_note.apply(new String[]{Note,`model_code`})"</span><span class="p">])</span> \
+                    <span class="s2">"Account=(String)deephaven_ib_parse_note(Note,`account`)"</span><span class="p">,</span>
+                    <span class="s2">"ModelCode=(String)deephaven_ib_parse_note(Note,`model_code`)"</span><span class="p">])</span> \
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"ReceiveTime"</span><span class="p">,</span> <span class="s2">"Account"</span><span class="p">,</span> <span class="s2">"ModelCode"</span><span class="p">])</span> \
                 <span class="o">.</span><span class="n">drop_columns</span><span class="p">(</span><span class="s2">"Note"</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">last_by</span><span class="p">(</span><span class="s2">"RequestId"</span><span class="p">),</span>
             <span class="s2">"contracts_matching"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_contracts_matching"</span><span class="p">]</span> \
                 <span class="o">.</span><span class="n">natural_join</span><span class="p">(</span><span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_requests"</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="n">joins</span><span class="o">=</span><span class="s2">"Pattern=Note"</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">"RequestId"</span><span class="p">,</span> <span class="s2">"ReceiveTime"</span><span class="p">,</span> <span class="s2">"Pattern"</span><span class="p">])</span> \
-                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"Pattern=(String)__deephaven_ib_parse_note.apply(new String[]{Pattern,`pattern`})"</span><span class="p">),</span>
+                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"Pattern=(String)deephaven_ib_parse_note(Pattern,`pattern`)"</span><span class="p">),</span>
             <span class="s2">"market_rules"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_market_rules"</span><span class="p">]</span><span class="o">.</span><span class="n">select_distinct</span><span class="p">([</span><span class="s2">"MarketRuleId"</span><span class="p">,</span> <span class="s2">"LowEdge"</span><span class="p">,</span> <span class="s2">"Increment"</span><span class="p">]),</span>
             <span class="s2">"news_bulletins"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_news_bulletins"</span><span class="p">],</span>
             <span class="s2">"news_providers"</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">"raw_news_providers"</span><span class="p">]</span> \

@@ -283,6 +283,8 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span>
 
@@ -318,6 +320,42 @@
 <span class="n">_JAsOfJoinRule</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.api.AsOfJoinRule"</span><span class="p">)</span>
 <span class="n">_JReverseAsOfJoinRule</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.api.ReverseAsOfJoinRule"</span><span class="p">)</span>
 <span class="n">_JTableOperations</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.api.TableOperations"</span><span class="p">)</span>
+
+<span class="c1"># Dynamic Query Scope</span>
+<span class="n">_JExecutionContext</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.context.ExecutionContext"</span><span class="p">)</span>
+<span class="n">_JQueryScope</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.context.QueryScope"</span><span class="p">)</span>
+<span class="n">_JUnsynchronizedScriptSessionQueryScope</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span>
+    <span class="s2">"io.deephaven.engine.util.AbstractScriptSession$UnsynchronizedScriptSessionQueryScope"</span><span class="p">)</span>
+<span class="n">_JPythonScriptSession</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.python.PythonDeephavenSession"</span><span class="p">)</span>
+<span class="n">_j_script_session</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">getContext</span><span class="p">()</span><span class="o">.</span><span class="n">getQueryScope</span><span class="p">(),</span> <span class="n">_JUnsynchronizedScriptSessionQueryScope</span><span class="p">)</span><span class="o">.</span><span class="n">scriptSession</span><span class="p">()</span>
+<span class="n">_j_py_script_session</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">_j_script_session</span><span class="p">,</span> <span class="n">_JPythonScriptSession</span><span class="p">)</span>
+
+
+<span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">_query_scope_ctx</span><span class="p">():</span>
+    <span class="sd">"""A context manager to set/unset query scope based on the scope of the most immediate caller code that invokes</span>
+<span class="sd">    Table operations."""</span>
+
+    <span class="c1"># locate the innermost Deephaven frame (i.e. any of the table operation methods that use this context manager)</span>
+    <span class="n">outer_frames</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">())[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">outer_frames</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">and</span> <span class="n">filename</span> <span class="o">==</span> <span class="vm">__file__</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="c1"># combine the immediate caller's globals and locals into a single dict and use it as the query scope</span>
+    <span class="n">caller_frame</span> <span class="o">=</span> <span class="n">outer_frames</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">frame</span>
+    <span class="n">function</span> <span class="o">=</span> <span class="n">outer_frames</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">function</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outer_frames</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">function</span> <span class="o">!=</span> <span class="s2">"&lt;module&gt;"</span><span class="p">:</span>
+        <span class="n">scope_dict</span> <span class="o">=</span> <span class="n">caller_frame</span><span class="o">.</span><span class="n">f_globals</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">scope_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">caller_frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_j_py_script_session</span><span class="o">.</span><span class="n">pushScope</span><span class="p">(</span><span class="n">scope_dict</span><span class="p">)</span>
+            <span class="k">yield</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">_j_py_script_session</span><span class="o">.</span><span class="n">popScope</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># in the __main__ module, use the default main global scope</span>
+        <span class="k">yield</span>
 
 
 <div class="viewcode-block" id="SortDirection"><a class="viewcode-back" href="../../code/deephaven.table.html#deephaven.table.SortDirection">[docs]</a><span class="k">class</span> <span class="nc">SortDirection</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -368,7 +406,9 @@
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.table.Table"</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">j_table</span> <span class="o">=</span> <span class="n">j_table</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j_table</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">j_table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_object_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="s2">"j_table type is not io.deephaven.engine.table.Table"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">getDefinition</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_refreshing</span> <span class="o">=</span> <span class="kc">None</span>
@@ -606,7 +646,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table update operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
@@ -625,7 +665,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">lazyUpdate</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table lazy_update operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
@@ -644,7 +684,8 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table view operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
@@ -662,7 +703,8 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">updateView</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">updateView</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table update_view operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
@@ -680,7 +722,7 @@
 <span class="sd">            DHError</span>
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">formulas</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">select</span><span class="p">())</span>
                 <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
@@ -704,7 +746,8 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">selectDistinct</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">selectDistinct</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table select_distinct operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
@@ -731,7 +774,8 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">filters</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">*</span><span class="n">filters</span><span class="p">))</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">*</span><span class="n">filters</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table where operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
@@ -792,9 +836,10 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">filters</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
-                <span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">_JFilterOr</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">_JFilter</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="o">*</span><span class="n">filters</span><span class="p">)))</span>
-            <span class="p">)</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
+                    <span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">_JFilterOr</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">_JFilter</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="o">*</span><span class="n">filters</span><span class="p">)))</span>
+                <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table where_one_of operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
@@ -1210,7 +1255,7 @@
 <span class="sd">        separate rows.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            cols (Union[str, Sequence[str]], optional): the name(s) of the array column(s), if None, all array columns </span>
+<span class="sd">            cols (Union[str, Sequence[str]], optional): the name(s) of the array column(s), if None, all array columns</span>
 <span class="sd">                will be ungrouped, default is None</span>
 
 <span class="sd">        Returns:</span>
@@ -2053,9 +2098,9 @@
 <span class="sd">            require_matching_keys (bool): whether to ensure that both partitioned tables have all the same keys</span>
 <span class="sd">                present when an operation uses this PartitionedTable and another PartitionedTable as inputs for a</span>
 <span class="sd">                :meth:`~PartitionedTable.partitioned_transform`, default is True</span>
-<span class="sd">            sanity_check_joins (bool): whether to check that for proxied join operations, a given join key only occurs </span>
-<span class="sd">            in exactly one constituent table of the underlying partitioned table. If the other table argument is also a </span>
-<span class="sd">            PartitionedTableProxy, its constituents will also be subjected to this constraint. </span>
+<span class="sd">            sanity_check_joins (bool): whether to check that for proxied join operations, a given join key only occurs</span>
+<span class="sd">            in exactly one constituent table of the underlying partitioned table. If the other table argument is also a</span>
+<span class="sd">            PartitionedTableProxy, its constituents will also be subjected to this constraint.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">PartitionedTableProxy</span><span class="p">(</span>
             <span class="n">j_pt_proxy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_partitioned_table</span><span class="o">.</span><span class="n">proxy</span><span class="p">(</span><span class="n">require_matching_keys</span><span class="p">,</span> <span class="n">sanity_check_joins</span><span class="p">))</span></div></div>
@@ -2250,7 +2295,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">filters</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">PartitionedTableProxy</span><span class="p">(</span><span class="n">j_pt_proxy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_pt_proxy</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">*</span><span class="n">filters</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"where operation on the PartitionedTableProxy failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
@@ -2315,7 +2360,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">PartitionedTableProxy</span><span class="p">(</span><span class="n">j_pt_proxy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_pt_proxy</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"view operation on the PartitionedTableProxy failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
@@ -2336,7 +2381,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">PartitionedTableProxy</span><span class="p">(</span><span class="n">j_pt_proxy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_pt_proxy</span><span class="o">.</span><span class="n">updateView</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"update_view operation on the PartitionedTableProxy failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
@@ -2357,7 +2402,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">PartitionedTableProxy</span><span class="p">(</span><span class="n">j_pt_proxy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_pt_proxy</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"update operation on the PartitionedTableProxy failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
@@ -2378,7 +2423,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">PartitionedTableProxy</span><span class="p">(</span><span class="n">j_pt_proxy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_pt_proxy</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"select operation on the PartitionedTableProxy failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
@@ -2399,7 +2444,7 @@
 <span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">formulas</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">formulas</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">_query_scope_ctx</span><span class="p">(),</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">PartitionedTableProxy</span><span class="p">(</span><span class="n">j_pt_proxy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_pt_proxy</span><span class="o">.</span><span class="n">selectDistinct</span><span class="p">(</span><span class="o">*</span><span class="n">formulas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"select_distinct operation on the PartitionedTableProxy failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>

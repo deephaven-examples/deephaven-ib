@@ -281,6 +281,7 @@
 <span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="k">import</span> <span class="n">DateTime</span>
 
 <span class="n">_SimpleDateFormat</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"java.text.SimpleDateFormat"</span><span class="p">)</span>
+<span class="n">_TimeZone</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"java.util.TimeZone"</span><span class="p">)</span>
 
 <span class="n">_ib_date_time_pattern_sec</span> <span class="o">=</span> <span class="s2">"yyyyMMdd HH:mm:ss"</span>
 <span class="n">_ib_date_time_pattern_subsec</span> <span class="o">=</span> <span class="s2">"yyyyMMdd HH:mm:ss.S"</span>
@@ -291,9 +292,13 @@
     <span class="s2">"yyyy-MM-dd HH:mm:ss"</span><span class="p">,</span>
 <span class="p">]</span>
 <span class="n">_ib_date_time_formatter_sec</span> <span class="o">=</span> <span class="n">_SimpleDateFormat</span><span class="p">(</span><span class="n">_ib_date_time_pattern_sec</span><span class="p">)</span>
+<span class="n">_ib_date_time_formatter_sec</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">_TimeZone</span><span class="o">.</span><span class="n">getTimeZone</span><span class="p">(</span><span class="s2">"US/Eastern"</span><span class="p">))</span>
 <span class="n">_ib_date_time_formatter_subsec</span> <span class="o">=</span> <span class="n">_SimpleDateFormat</span><span class="p">(</span><span class="n">_ib_date_time_pattern_subsec</span><span class="p">)</span>
+<span class="n">_ib_date_time_formatter_subsec</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">_TimeZone</span><span class="o">.</span><span class="n">getTimeZone</span><span class="p">(</span><span class="s2">"US/Eastern"</span><span class="p">))</span>
 <span class="n">_ib_date_time_formatters</span> <span class="o">=</span> <span class="p">[</span><span class="n">_SimpleDateFormat</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">_ib_date_time_patterns</span><span class="p">]</span>
 
+<span class="k">for</span> <span class="n">_f</span> <span class="ow">in</span> <span class="n">_ib_date_time_formatters</span><span class="p">:</span>
+    <span class="n">_f</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">_TimeZone</span><span class="o">.</span><span class="n">getTimeZone</span><span class="p">(</span><span class="s2">"US/Eastern"</span><span class="p">))</span>
 
 <div class="viewcode-block" id="dh_to_ib_datetime"><a class="viewcode-back" href="../../code/deephaven_ib.time.html#deephaven_ib.time.dh_to_ib_datetime">[docs]</a><span class="k">def</span> <span class="nf">dh_to_ib_datetime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">sub_sec</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">"""Convert a DH DateTime to an IB timestamp string.</span>
@@ -307,9 +312,9 @@
         <span class="k">return</span> <span class="s2">""</span>
 
     <span class="k">if</span> <span class="n">sub_sec</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_ib_date_time_formatter_subsec</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">getDate</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">_ib_date_time_formatter_subsec</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">getDate</span><span class="p">())</span> <span class="o">+</span> <span class="s2">" US/Eastern"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_ib_date_time_formatter_sec</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">getDate</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">_ib_date_time_formatter_sec</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">getDate</span><span class="p">())</span> <span class="o">+</span> <span class="s2">" US/Eastern"</span></div>
 
 
 <div class="viewcode-block" id="ib_to_dh_datetime"><a class="viewcode-back" href="../../code/deephaven_ib.time.html#deephaven_ib.time.ib_to_dh_datetime">[docs]</a><span class="k">def</span> <span class="nf">ib_to_dh_datetime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DateTime</span><span class="p">:</span>

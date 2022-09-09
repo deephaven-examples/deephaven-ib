@@ -279,6 +279,7 @@
 <span class="c1">#</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">.start_jvm</span> <span class="k">import</span> <span class="n">start_jvm</span>
 
@@ -315,8 +316,14 @@
         <span class="c1"># it is now safe to import jpy</span>
         <span class="kn">import</span> <span class="nn">jpy</span>
 
-        <span class="c1"># Create a wrapped java server that we can reference to talk to the platform</span>
+        <span class="c1"># Create a python-wrapped java server that we can reference to talk to the platform</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s1">'io.deephaven.python.server.EmbeddedServer'</span><span class="p">)(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">dh_args</span><span class="p">)</span>
+
+        <span class="c1"># Obtain references to the deephaven logbuffer and redirect stdout/stderr to it. Note that we should not import</span>
+        <span class="c1"># this until after jpy has started.</span>
+        <span class="kn">from</span> <span class="nn">deephaven_internal.stream</span> <span class="k">import</span> <span class="n">TeeStream</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">TeeStream</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">getStdout</span><span class="p">())</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">TeeStream</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">getStderr</span><span class="p">())</span>
 
         <span class="c1"># Keep a reference to the server so we know it is running</span>
         <span class="n">Server</span><span class="o">.</span><span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span>
