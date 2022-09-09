@@ -256,8 +256,6 @@ order.action = hedge_side
 order.orderType = "LIMIT"
 order.totalQuantity = hedge_qty
 order.lmtPrice = hedge_limit_px
-order.eTradeOnly = False
-order.firmQuoteOnly = False
 
 print('Order: ' + str(order))
 

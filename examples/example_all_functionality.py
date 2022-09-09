@@ -341,13 +341,13 @@ contract.secType = "CRYPTO"
 contract.exchange = "PAXOS"
 contract.currency = "USD"
 
-rc = client.get_registered_contract(c2)
-client.request_bars_historical(rc2, duration=dhib.Duration.days(253), 
+rc = client.get_registered_contract(contract)
+client.request_bars_historical(rc, duration=dhib.Duration.days(253),
   bar_size=dhib.BarSize.DAY_1, 
   bar_type=dhib.BarDataType.AGGTRADES, 
   keep_up_to_date = False
 )
-client.request_bars_realtime(rc2, bar_type=dhib.BarDataType.TRADES)
+client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
 
 client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
                                bar_type=dhib.BarDataType.MIDPOINT)
@@ -483,8 +483,6 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 3000
-order.eTradeOnly = False
-order.firmQuoteOnly = False
 
 print("Placing order: START")
 client.order_place(rc, order)
@@ -496,8 +494,6 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 2600
-order.eTradeOnly = False
-order.firmQuoteOnly = False
 
 print("Placing order: START")
 client.order_place(rc, order)
@@ -509,8 +505,6 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 2700
-order.eTradeOnly = False
-order.firmQuoteOnly = False
 
 print("Placing order: START")
 req = client.order_place(rc, order)

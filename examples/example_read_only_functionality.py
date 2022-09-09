@@ -479,8 +479,6 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 3000
-order.eTradeOnly = False
-order.firmQuoteOnly = False
 
 print("Placing order -- confirm fail: START")
 try:
@@ -498,8 +496,6 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 2600
-order.eTradeOnly = False
-order.firmQuoteOnly = False
 
 print("Placing order -- confirm fail: START")
 try:
@@ -517,8 +513,6 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 2700
-order.eTradeOnly = False
-order.firmQuoteOnly = False
 
 print("Placing order -- confirm fail: START")
 try:
