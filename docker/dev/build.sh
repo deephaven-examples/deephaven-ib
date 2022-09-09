@@ -9,6 +9,7 @@ cd ${__dir}
 rm -rf build
 mkdir build
 rsync -av ../.. build --exclude docker
+rm -rf build/dist
 
 docker build --build-arg IB_VERSION=1016.01 -t deephaven-examples/deephaven-ib:dev -f Dockerfile .
 
