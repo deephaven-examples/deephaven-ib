@@ -90,14 +90,15 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202209"
+    contract.lastTradeDateOrContractMonth = "202212"
     rst["future_1"] = contract
 
+    # find more contracts at https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.quotes.html
     contract = Contract()
     contract.secType = "FUT"
     contract.exchange = "GLOBEX"
     contract.currency = "USD"
-    contract.localSymbol = "MESU2"
+    contract.localSymbol = "ESZ2"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -105,7 +106,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "EUREX"
     contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "202209"
+    contract.lastTradeDateOrContractMonth = "202212"
     contract.multiplier = "1"
     rst["future_3"] = contract
 
@@ -357,8 +358,8 @@ client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhi
                                bar_type=dhib.BarDataType.ASK)
 client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
                                bar_type=dhib.BarDataType.BID_ASK, keep_up_to_date=False)
-client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
-                               bar_type=dhib.BarDataType.AGGTRADES)
+# client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
+#                                bar_type=dhib.BarDataType.AGGTRADES)
 client.request_bars_historical(rc, duration=dhib.Duration.days(10), bar_size=dhib.BarSize.MIN_5,
                                bar_type=dhib.BarDataType.ADJUSTED_LAST, keep_up_to_date=False)
 
@@ -482,7 +483,7 @@ order.account = "DF4943843"
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
-order.lmtPrice = 3000
+order.lmtPrice = 100
 
 print("Placing order: START")
 client.order_place(rc, order)
@@ -493,7 +494,7 @@ order.account = "DF4943843"
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
-order.lmtPrice = 2600
+order.lmtPrice = 90
 
 print("Placing order: START")
 client.order_place(rc, order)
@@ -504,7 +505,7 @@ order.account = "DF4943843"
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
-order.lmtPrice = 2700
+order.lmtPrice = 91
 
 print("Placing order: START")
 req = client.order_place(rc, order)
