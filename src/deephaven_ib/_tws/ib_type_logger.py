@@ -362,8 +362,8 @@ def _details_historical_tick_bid_ask() -> List[Tuple]:
         ("Timestamp", dtypes.DateTime, lambda t: unix_sec_to_dh_datetime(t.time)),
         ("BidPrice", dtypes.float64, lambda t: t.priceBid),
         ("AskPrice", dtypes.float64, lambda t: t.priceAsk),
-        ("BidSize", dtypes.int64, lambda t: t.sizeBid),
-        ("AskSize", dtypes.int64, lambda t: t.sizeAsk),
+        ("BidSize", dtypes.float64, lambda t: t.sizeBid),
+        ("AskSize", dtypes.float64, lambda t: t.sizeAsk),
         *_include_details(_details_tick_attrib_bid_ask(), lambda t: t.tickAttribBidAsk),
     ]
 
