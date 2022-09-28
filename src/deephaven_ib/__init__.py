@@ -1166,7 +1166,7 @@ class IbSessionTws:
 
         self._assert_connected()
         self._assert_read_write()
-        self._client.cancelOrder(orderId=order_id, manualCancelOrderTime=None)
+        self._client.cancelOrder(orderId=order_id, manualCancelOrderTime="")
 
     def order_cancel_all(self) -> None:
         """Cancel all open orders.
