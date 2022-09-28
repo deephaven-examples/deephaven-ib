@@ -73,7 +73,7 @@ class OrderIdEventQueue:
     _last_value: int
     _request_thread: Thread
 
-    def __init__(self, client: 'IbTwsClient', strategy: OrderIdStrategy = OrderIdStrategy.RETRY):
+    def __init__(self, client: 'IbTwsClient', strategy: OrderIdStrategy):
         self._events = []
         self._values = []
         self._lock = LoggingLock("OrderIdEventQueue")

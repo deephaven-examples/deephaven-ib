@@ -426,7 +426,7 @@ class IbSessionTws:
     _tables_raw: Dict[str, Table]
     _tables: Dict[str, Table]
 
-    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.RETRY, read_only: bool = True, is_fa: bool = False):
+    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.INCREMENT, read_only: bool = True, is_fa: bool = False):
         self._host = host
         self._port = port
         self._client_id = client_id
