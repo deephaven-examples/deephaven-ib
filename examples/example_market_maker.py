@@ -40,7 +40,7 @@ print("=========================================================================
 registered_contracts_data = {}
 registred_contracts_orders = {}
 
-def add_contract(symbol):
+def add_contract(symbol, exchange="SMART"):
 
     contract = Contract()
     contract.symbol = symbol
@@ -54,13 +54,16 @@ def add_contract(symbol):
     client.request_tick_data_realtime(rc, dhib.TickDataType.BID_ASK)
     print(f"Registered contract: id={id} rc={rc}")
 
-    contract.exchange = "NYSE"
-    rc = client.get_registered_contract(contract)
+    if exchange != "SMART":
+        contract.exchange = "NYSE"
+        rc = client.get_registered_contract(contract)
+
     registred_contracts_orders[id] = rc
     print(f"Registered contract: id={id} rc={rc}")
 
 
 add_contract("GOOG")
+add_contract("AAPL", exchange="NYSE")
 
 print("==============================================================================================================")
 print("==== Compute predictions.")
