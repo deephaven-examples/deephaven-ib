@@ -34,14 +34,12 @@ jobs:
         unzip api.zip
         cd ./IBJts/source/pythonclient
         python -m build
-        #python -m build
-        find . -name "*.whl"
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: ib-wheels
         path: |
-          dist/*
+          ./IBJts/source/pythonclient/dist/*
 
 
   build-whl:
