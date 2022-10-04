@@ -16,6 +16,33 @@ env:
   DH_VERSION: 0.17.0
 
 jobs:
+  build-ib-whl:
+    name: Build IB WHL
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools wheel build twine
+    - name: Build
+      run: |
+        curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
+        unzip api.zip
+        cd ./IBJts/source/pythonclient
+        python3 setup.py build
+        find . --name "*.whl"
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ib-wheels
+        path: |
+          dist/*
+
+
   build-whl:
     name: Build WHL
     runs-on: ubuntu-20.04
@@ -69,32 +96,6 @@ jobs:
         user: __token__
         password: ${{ secrets.DEEPHAVENIB_PYPI_TOKEN }}
         packages_dir: wheel/
-
-
-  build-ib-whl:
-    name: Build IB WHL
-    runs-on: ubuntu-20.04
-    steps:
-    - name: Setup Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel build twine
-    - name: Build
-      run: |
-        curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
-        unzip api.zip
-        cd ./IBJts/source/pythonclient
-        python3 setup.py build
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: ib-wheels
-        path: |
-          dist/*
 
 
   build-sphinx:
@@ -162,7 +163,7 @@ jobs:
   docker-pip:
     name: Build and Publish Docker (pip-installed Deephaven)
     runs-on: ubuntu-20.04
-    needs: [build-whl]
+    needs: [build-ib-whl, build-whl]
     permissions:
       contents: read
       packages: write
@@ -214,7 +215,7 @@ jobs:
   docker-dhserver:
     name: Build and Publish Docker (Deephaven server image)
     runs-on: ubuntu-20.04
-    needs: [build-whl]
+    needs: [build-ib-whl, build-whl]
     permissions:
       contents: read
       packages: write
