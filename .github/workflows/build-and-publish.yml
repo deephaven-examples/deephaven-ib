@@ -201,6 +201,8 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -256,6 +258,8 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
