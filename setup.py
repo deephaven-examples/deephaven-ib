@@ -41,7 +41,7 @@ setuptools.setup(
     install_requires=[
         "deephaven-server==0.17.0",
         "pandas",
-        "ibapi",
+        "ibapi==10.16.1",
         "lxml",
         "ratelimit",
     ],
