@@ -201,6 +201,8 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image
@@ -258,6 +260,8 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image
