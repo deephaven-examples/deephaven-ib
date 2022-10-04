@@ -109,6 +109,12 @@ jobs:
         sudo apt install -y openjdk-11-jdk
     - name: Pip installs
       run:  pip3 install --upgrade sphinx==4.2.0 sphinx-autodoc-typehints furo==2021.10.9
+    - name: Download IB wheels
+      uses: actions/download-artifact@v3
+      with:
+        name: ib-wheels
+    - name: Install IB Whl
+      run: pip3 install *.whl
     - name: Download wheels
       uses: actions/download-artifact@v3
       with:
@@ -166,6 +172,11 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5.2
+      - name: Download IB wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: ib-wheels
+          path: ib-wheels/
       - name: Download wheels
         uses: actions/download-artifact@v3
         with:
@@ -213,6 +224,11 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5.2
+      - name: Download IB wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: ib-wheels
+          path: ib-wheels/
       - name: Download wheels
         uses: actions/download-artifact@v3
         with:
