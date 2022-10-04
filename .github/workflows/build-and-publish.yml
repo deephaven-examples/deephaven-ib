@@ -34,7 +34,7 @@ jobs:
         unzip api.zip
         cd ./IBJts/source/pythonclient
         python3 setup.py build
-        find . --name "*.whl"
+        find . -name "*.whl"
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
