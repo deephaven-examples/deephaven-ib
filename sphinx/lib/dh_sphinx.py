@@ -10,7 +10,6 @@ _server = None
 def setup_sphinx_environment():
     global _server
     _server = Server()
-    _server.start()
 
 
 def glob_package_names(packages):
