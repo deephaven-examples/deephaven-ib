@@ -2,22 +2,13 @@ ARG DH_VERSION
 
 FROM ghcr.io/deephaven/server:${DH_VERSION}
 
-ARG IB_VERSION
-
 RUN apt update && \
     apt install -y python3-pip python3-venv curl zip && \
     pip3 install --upgrade pip setuptools wheel
 
-RUN mkdir /build && \
-    cd /build && \
-    curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip" && \
-    unzip api.zip && \
-    cd ./IBJts/source/pythonclient && \
-    python3 setup.py install && \
-    cd / && \
-    rm -rf /build
-
 COPY ./wheels /wheels
+COPY ./ib-wheels /ib-wheels
 
-RUN pip3 install /wheels/*.whl && \
-    rm -rf /wheels/
+RUN pip3 install /ib-wheels/*.whl && \
+    pip3 install /wheels/*.whl && \
+    rm -rf /ib-wheels/ /wheels/

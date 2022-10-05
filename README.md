@@ -171,42 +171,10 @@ upper right corner.  ![](https://raw.githubusercontent.com/deephaven-examples/de
 There are multiple ways to launch [Deephaven](https://deephaven.io) with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) 
 installed.  The launch can either happen via a local installation or via Docker images.
 
-Lightweight installations use pip-installed Deephaven.  These systems have less overhead, but they lack
-a few Deephaven IDE features.  Heavyweight installations launch the entire [Deephaven](https://deephaven.io) system.
-These systems launch multiple Docker containers and have more overhead, but they provide all Deephaven IDE features.
-
-If you are running scripts that do not need human interaction, consider using a pip-installed option.  
-If you are interactively working with data, consider the full deephaven system.
-
-### (Option 1) Launch the full Deephaven system -- interactive
-
-> **_NOTE:_**  Deephaven does not yet have published Docker images for all architectures.  This launch should work on Linux (AMD64 and ARM64), Mac (Intel), and Windows WSL.  It is not yet supported on Windows without WSL or Mac (M1 and M2). In these cases, the `full_web_1` Docker image will exit.  This can be seen using `docker ps` or `docker compose ps`.  For these architectures, you will need to build Deephaven Docker images locally.  See [Build and launch from source](https://deephaven.io/core/docs/how-to-guides/launch-build/).
+For a Docker Compose example, see [docker/release/](docker/release/).
 
 
-The full Deephaven system contains the most full-featured IDE.  Running the full Deephaven system launches multiple Docker
-containers, so it has the most overhead.  This is a good option for interactively working with data.
-
-See [./docker/full](./docker/full) for more details.
-
-1) Clone the deephaven-ib repository:
-    * On Mac:
-    ```bash
-    git clone git@github.com:deephaven-examples/deephaven-ib.git
-    cd ./docker/full/
-    ```
-2) Create a directory for your data and scripts
-    ```bash
-    mkdir data
-    cp <your_data_and_scripts> data
-    ```
-3) Launch the system:
-    ```bash
-    ./run_system.sh
-    ```
-4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
-
-
-### (Option 2) Launch pip-installed Deephaven with Docker -- interactive
+### (Option 1) Launch pip-installed Deephaven with Docker -- interactive
 
 The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
 the pip-installed Deephaven system is installed in a Docker container.
@@ -215,23 +183,19 @@ the pip-installed Deephaven system is installed in a Docker container.
     ```bash
     mkdir data
     ```
-2) Launch the system:
-    * On Mac:
-    ```bash
-    git clone git@github.com:deephaven-examples/deephaven-ib.git
-    ./deephaven-ib/docker/dev/build.sh
-    # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
-    ```
-    * On other platforms:
+2) Create a directory for your Deephaven IDE configuration and notebooks
+   ```bash
+   mkdir `pwd`/.deephaven
+   ```
+3) Launch the system:
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    docker run -it -v data:/data -v `pwd`/.deephaven:/storage -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
     ```
-3) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
 
 
-### (Option 3) Launch pip-installed Deephaven with Docker -- run a script
+### (Option 2) Launch pip-installed Deephaven with Docker -- run a script
 
 The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
 the pip-installed Deephaven system is installed in a Docker container.  
@@ -244,23 +208,19 @@ This is a good option for production scenarios where scripts need to be run and 
     # Set jvm_args to the desired JVM memory for Deephaven
     cp path/to/your_script.py data/your_script.py
     ```
-2) Launch the system and execute a custom script:
-    * On Mac:
+2) Create a directory for your Deephaven IDE configuration and notebooks
+   ```bash
+   mkdir `pwd`/.deephaven
+   ```
+3) Launch the system:
     ```bash
-    git clone git@github.com:deephaven-examples/deephaven-ib.git
-    ./deephaven-ib/docker/dev/build.sh
-    docker run -it -v data:/data -p 10000:10000 deephaven-examples/deephaven-ib:dev python3 -i /data/your_script.py
+    # Set jvm_args to the desired JVM memory for Deephaven
+    docker run -it -v data:/data -v `pwd`/.deephaven:/storage -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
     ```
-    * On other platforms:
-    ```bash
-    docker run -it -v data:/data -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
-    ```
-3) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
 
 
-### (Option 4) Launch pip-installed Deephaven with a local installation (No Docker) -- interactive
-
-> **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64), Mac (M1 and Intel), and Windows WSL.  It is not yet supported on Windows without WSL.  For Windows, use WSL.
+### (Option 3) Launch pip-installed Deephaven with a local installation (No Docker) -- interactive
 
 The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
 the pip-installed Deephaven system is installed directly on your local system, without Docker.
@@ -285,14 +245,13 @@ new feature and has not been well tested.  To do this:
 4) Launch the system:
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
-    python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    # Deephaven IDE configuration and notebooks are stored to ~/.deephaven
+    python3 -i -c "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
     ```
 5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
 6) Use `host="localhost"` for the hostname in the examples (Windows WSL uses `host="host.docker.internal"`, since WSL is built on Docker.)
 
-### (Option 5) Launch pip-installed Deephaven with a local installation (No Docker) -- run a script
-
-> **_NOTE:_**  Deephaven pip install is not yet supported on all architectures.  This launch should work on Linux (AMD64 and ARM64), Mac (M1 and Intel), and Windows WSL.  It is not yet supported on Windows without WSL.  For Windows, use WSL.
+### (Option 4) Launch pip-installed Deephaven with a local installation (No Docker) -- run a script
 
 The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
 the pip-installed Deephaven system is installed directly on your local system, without Docker.  
@@ -317,7 +276,8 @@ new feature and has not been well tested.  To do this:
     ```
 4) Launch the system and execute a custom script:
     ```bash
-    # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    # your_script.py must begin with: "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
+    # Deephaven IDE configuration and notebooks are stored to ~/.deephaven
     # Set jvm_args to the desired JVM memory for Deephaven
     python3 -i your_script.py
     ```

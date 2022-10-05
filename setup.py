@@ -39,9 +39,9 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
     install_requires=[
-        "deephaven-server",
+        "deephaven-server==0.17.0",
         "pandas",
-        "ibapi",
+        "ibapi==10.16.1",
         "lxml",
         "ratelimit",
     ],
