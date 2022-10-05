@@ -13,9 +13,35 @@ on:
 
 env:
   IB_VERSION: 1016.01
-  DH_VERSION: 0.16.0
+  DH_VERSION: 0.17.0
 
 jobs:
+  build-ib-whl:
+    name: Build IB WHL
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools wheel build twine
+    - name: Build
+      run: |
+        curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
+        unzip api.zip
+        cd ./IBJts/source/pythonclient
+        python -m build
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ib-wheels
+        path: |
+          ./IBJts/source/pythonclient/dist/*
+
+
   build-whl:
     name: Build WHL
     runs-on: ubuntu-20.04
@@ -74,7 +100,7 @@ jobs:
   build-sphinx:
     name: Build Sphinx
     runs-on: ubuntu-20.04
-    needs: [build-whl]
+    needs: [build-ib-whl, build-whl]
     steps:
     - uses: actions/checkout@v1
     - name: Apt installs
@@ -83,6 +109,12 @@ jobs:
         sudo apt install -y openjdk-11-jdk
     - name: Pip installs
       run:  pip3 install --upgrade sphinx==4.2.0 sphinx-autodoc-typehints furo==2021.10.9
+    - name: Download IB wheels
+      uses: actions/download-artifact@v3
+      with:
+        name: ib-wheels
+    - name: Install IB Whl
+      run: pip3 install *.whl
     - name: Download wheels
       uses: actions/download-artifact@v3
       with:
@@ -109,6 +141,7 @@ jobs:
         path: '**/*_pid*.log'
         if-no-files-found: ignore
 
+
   publish-sphinx:
     name: Publish Sphinx
     runs-on: ubuntu-20.04
@@ -126,11 +159,19 @@ jobs:
       with:
         branch: gh-pages
         folder: html/
+    - name: Upload JVM Error Logs
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: sphinx-jvm-err
+        path: '**/*_pid*.log'
+        if-no-files-found: ignore
+
 
   docker-pip:
     name: Build and Publish Docker (pip-installed Deephaven)
     runs-on: ubuntu-20.04
-    needs: [build-whl]
+    needs: [build-ib-whl, build-whl]
     permissions:
       contents: read
       packages: write
@@ -140,6 +181,11 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5.2
+      - name: Download IB wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: ib-wheels
+          path: ib-wheels/
       - name: Download wheels
         uses: actions/download-artifact@v3
         with:
@@ -162,10 +208,15 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v3
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           file: ./.github/workflows/Dockerfile.pip
           push: true
           tags: ${{ steps.meta-base.outputs.tags }}
@@ -174,10 +225,11 @@ jobs:
         env:
           IMAGE_NAME: ${{ github.repository }}
 
+
   docker-dhserver:
     name: Build and Publish Docker (Deephaven server image)
     runs-on: ubuntu-20.04
-    needs: [build-whl]
+    needs: [build-ib-whl, build-whl]
     permissions:
       contents: read
       packages: write
@@ -187,6 +239,11 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5.2
+      - name: Download IB wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: ib-wheels
+          path: ib-wheels/
       - name: Download wheels
         uses: actions/download-artifact@v3
         with:
@@ -210,10 +267,15 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=raw,${{ steps.branch-name.outputs.current_branch }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v3
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           file: ./.github/workflows/Dockerfile.server
           push: true
           tags: ${{ steps.meta-base.outputs.tags }}
