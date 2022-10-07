@@ -98,7 +98,8 @@ preds = ticks_bid_ask \
         "PredHigh=PredPrice+PredSD",
     ])
 
-preds = preds.natural_join(preds.first_by("Symbol"), on="Symbol", joins="TimestampFirst=Timestamp")
+preds_start = preds.first_by("Symbol").view(["Symbol", "Timestamp"])
+preds = preds.natural_join(preds_start, on="Symbol", joins="TimestampFirst=Timestamp")
 
 preds_one_click = one_click(preds, by=["Symbol"], require_all_filters=True)
 
@@ -128,11 +129,10 @@ def update_orders(contract_id: int, pred_low: float, pred_high: float, buy_order
     :param sell_order: True to post a sell order; False to not post a sell order.
     :return: Number of orders submitted.
     """
-    print(f"START: update_orders: contract_id={contract_id}")
 
     if contract_id in open_orders:
         for order in open_orders[contract_id]:
-            print(f"Canceling order: contract_id={contract_id} order_id={order.request_id}")
+            # print(f"Canceling order: contract_id={contract_id} order_id={order.request_id}")
             order.cancel()
 
     new_orders = []
@@ -147,11 +147,8 @@ def update_orders(contract_id: int, pred_low: float, pred_high: float, buy_order
         order_sell.lmtPrice = round( pred_high, 2)
         order_sell.transmit = True
 
-        print(f"Placing sell order: {rc} {order_sell}")
         order = client.order_place(rc, order_sell)
         new_orders.append(order)
-    else:
-        print(f"Not placing sell order: {rc}")
 
     if buy_order:
         order_buy = Order()
@@ -162,14 +159,10 @@ def update_orders(contract_id: int, pred_low: float, pred_high: float, buy_order
         order_buy.lmtPrice = round( pred_low, 2)
         order_buy.transmit = True
 
-        print(f"Placing buy order: {rc} {order_buy}")
         order = client.order_place(rc, order_buy)
         new_orders.append(order)
-    else:
-        print(f"Not placing buy order: {rc}")
 
     open_orders[contract_id] = new_orders
-    print(f"END: update_orders: contract_id={contract_id}")
     return len(new_orders)
 
 
@@ -194,7 +187,7 @@ print("=========================================================================
 
 
 trades = orders_exec_details \
-    .natural_join(preds.first_by("Symbol"), on="Symbol", joins="TimestampFirst=Timestamp") \
+    .natural_join(preds_start, on="Symbol", joins="TimestampFirst=Timestamp") \
     .where("ReceiveTime >= TimestampFirst") \
     .view(["Timestamp=ReceiveTime", "ContractId", "Symbol", "ExecutionExchange", "Side", "Shares", "Price"])
 
