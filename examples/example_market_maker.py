@@ -75,6 +75,7 @@ def add_contract(symbol: str, exchange: str="SMART") -> None:
 
 
 add_contract("GOOG")
+add_contract("BAC")
 add_contract("AAPL", exchange="NYSE")
 
 print("==============================================================================================================")
