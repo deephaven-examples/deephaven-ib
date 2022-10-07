@@ -107,7 +107,9 @@ class ContractRegistry:
 
             contract, event = self._requests_by_id[req_id]
             self._update_error(contract, req_id, error_string)
-            event.set()
+
+            if event:
+                event.set()
 
     def request_end(self, req_id: int) -> None:
         """Indicate that the request is over and all data has been received."""
