@@ -623,7 +623,8 @@ class IbSessionTws:
                 .move_columns_up(["ReceiveTime", "OrderId", "ClientId", "PermId", "ParentId"]),
             "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
             "orders_exec_details": tables_raw["raw_orders_exec_details"] \
-                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"]),
+                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"]) \
+                .rename_columns("Account=AcctNumber"),
             # The status on raw_orders_submitted is buggy, so using the status from raw_orders_status
             "orders_submitted": tables_raw["raw_orders_submitted"] \
                 .last_by("PermId") \
