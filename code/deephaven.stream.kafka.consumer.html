@@ -176,6 +176,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -380,7 +381,7 @@ unmapped fields will be ignored and will not be present in the resulting table. 
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.stream.kafka.consumer.consume">
-<span class="sig-name descname"><span class="pre">consume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">kafka_config</span></em>, <em class="sig-param"><span class="pre">topic</span></em>, <em class="sig-param"><span class="pre">partitions=None</span></em>, <em class="sig-param"><span class="pre">offsets=None</span></em>, <em class="sig-param"><span class="pre">key_spec=None</span></em>, <em class="sig-param"><span class="pre">value_spec=None</span></em>, <em class="sig-param"><span class="pre">table_type=deephaven.stream.kafka.consumer.TableType(io.deephaven.kafka.KafkaTools$TableType$Stream(objectRef=0x36f2860))</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/stream/kafka/consumer.html#consume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.stream.kafka.consumer.consume" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">consume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">kafka_config</span></em>, <em class="sig-param"><span class="pre">topic</span></em>, <em class="sig-param"><span class="pre">partitions=None</span></em>, <em class="sig-param"><span class="pre">offsets=None</span></em>, <em class="sig-param"><span class="pre">key_spec=None</span></em>, <em class="sig-param"><span class="pre">value_spec=None</span></em>, <em class="sig-param"><span class="pre">table_type=deephaven.stream.kafka.consumer.TableType(io.deephaven.kafka.KafkaTools$TableType$Stream(objectRef=0x3e33dd0))</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/stream/kafka/consumer.html#consume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.stream.kafka.consumer.consume" title="Permalink to this definition">¶</a></dt>
 <dd><p>Consume from Kafka to a Deephaven table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -414,6 +415,51 @@ column name and type</p></li>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a Deephaven live table that will update based on Kafka messages consumed for the given topic</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.stream.kafka.consumer.consume_to_partitioned_table">
+<span class="sig-name descname"><span class="pre">consume_to_partitioned_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">kafka_config</span></em>, <em class="sig-param"><span class="pre">topic</span></em>, <em class="sig-param"><span class="pre">partitions=None</span></em>, <em class="sig-param"><span class="pre">offsets=None</span></em>, <em class="sig-param"><span class="pre">key_spec=None</span></em>, <em class="sig-param"><span class="pre">value_spec=None</span></em>, <em class="sig-param"><span class="pre">table_type=deephaven.stream.kafka.consumer.TableType(io.deephaven.kafka.KafkaTools$TableType$Stream(objectRef=0x3e33dd8))</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/stream/kafka/consumer.html#consume_to_partitioned_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.stream.kafka.consumer.consume_to_partitioned_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consume from Kafka to a Deephaven partitioned table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kafka_config</strong> (<em>Dict</em>) – configuration for the associated Kafka consumer and also the resulting table.
+Once the table-specific properties are stripped, the remaining one is used to call the constructor of
+org.apache.kafka.clients.consumer.KafkaConsumer; pass any KafkaConsumer specific desired configuration here</p></li>
+<li><p><strong>topic</strong> (<em>str</em>) – the Kafka topic name</p></li>
+<li><p><strong>partitions</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – a list of integer partition numbers, default is None which means all partitions</p></li>
+<li><p><strong>offsets</strong> (<em>Dict</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – a mapping between partition numbers and offset numbers, and can be one of the
+predefined ALL_PARTITIONS_SEEK_TO_BEGINNING, ALL_PARTITIONS_SEEK_TO_END or ALL_PARTITIONS_DONT_SEEK.
+The default is None which works the same as  ALL_PARTITIONS_DONT_SEEK. The offset numbers may be one
+of the predefined SEEK_TO_BEGINNING, SEEK_TO_END, or DONT_SEEK.</p></li>
+<li><p><strong>key_spec</strong> (<a class="reference internal" href="#deephaven.stream.kafka.consumer.KeyValueSpec" title="deephaven.stream.kafka.consumer.KeyValueSpec"><em>KeyValueSpec</em></a>) – specifies how to map the Key field in Kafka messages to Deephaven column(s).
+It can be the result of calling one of the functions: simple_spec(),avro_spec() or json_spec() in this
+module, or the predefined KeyValueSpec.IGNORE or KeyValueSpec.FROM_PROPERTIES. The default is None which
+works the same as KeyValueSpec.FROM_PROPERTIES, in which case, the kafka_config param should include values
+for dictionary keys ‘deephaven.key.column.name’ and ‘deephaven.key.column.type’, for the single resulting
+column name and type</p></li>
+<li><p><strong>value_spec</strong> (<a class="reference internal" href="#deephaven.stream.kafka.consumer.KeyValueSpec" title="deephaven.stream.kafka.consumer.KeyValueSpec"><em>KeyValueSpec</em></a>) – specifies how to map the Value field in Kafka messages to Deephaven column(s).
+It can be the result of calling one of the functions: simple_spec(),avro_spec() or json_spec() in this
+module, or the predefined KeyValueSpec.IGNORE or KeyValueSpec.FROM_PROPERTIES. The default is None which
+works the same as KeyValueSpec.FROM_PROPERTIES, in which case, the kafka_config param should include values
+for dictionary keys ‘deephaven.key.column.name’ and ‘deephaven.key.column.type’, for the single resulting
+column name and type</p></li>
+<li><p><strong>table_type</strong> (<a class="reference internal" href="#deephaven.stream.kafka.consumer.TableType" title="deephaven.stream.kafka.consumer.TableType"><em>TableType</em></a>) – a TableType enum, specifying the type of the expected result’s constituent tables,
+default is TableType.stream()</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.table.html#deephaven.table.PartitionedTable" title="deephaven.table.PartitionedTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTable</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a Deephaven live partitioned table that will update based on Kafka messages consumed for the given topic,
+the keys of this partitioned table are the partition numbers of the topic, and its constituents are tables per
+topic partition.</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>

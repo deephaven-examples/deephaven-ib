@@ -11,6 +11,7 @@ deephaven
     csv <deephaven.csv>
     dherror <deephaven.dherror>
     dtypes <deephaven.dtypes>
+    execution_context <deephaven.execution_context>
     experimental <deephaven.experimental>
     filters <deephaven.filters>
     html <deephaven.html>

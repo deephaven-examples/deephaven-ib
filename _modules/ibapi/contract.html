@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -287,8 +288,11 @@
 <span class="sd">	UNKNOWN_POS = unknown</span>
 <span class="sd">"""</span>
 
-
 <span class="kn">from</span> <span class="nn">ibapi.object_implem</span> <span class="k">import</span> <span class="n">Object</span>
+<span class="kn">from</span> <span class="nn">ibapi.common</span> <span class="k">import</span> <span class="n">UNSET_DECIMAL</span>
+<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="k">import</span> <span class="n">intMaxString</span>
+<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="k">import</span> <span class="n">floatMaxString</span>
+<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="k">import</span> <span class="n">decimalMaxString</span>
 
 
 <span class="p">(</span><span class="n">SAME_POS</span><span class="p">,</span> <span class="n">OPEN_POS</span><span class="p">,</span> <span class="n">CLOSE_POS</span><span class="p">,</span> <span class="n">UNKNOWN_POS</span><span class="p">)</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -309,14 +313,14 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conId</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conId</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">openClose</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortSaleSlot</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">openClose</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortSaleSlot</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">designatedLocation</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exemptCode</span><span class="p">)))</span></div>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exemptCode</span><span class="p">)))</span></div>
 
 
 <div class="viewcode-block" id="DeltaNeutralContract"><a class="viewcode-back" href="../../code/ibapi.contract.html#ibapi.contract.DeltaNeutralContract">[docs]</a><span class="k">class</span> <span class="nc">DeltaNeutralContract</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
@@ -328,8 +332,8 @@
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conId</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="p">)))</span></div>
+            <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">),</span>
+            <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="p">)))</span></div>
 
 
 <div class="viewcode-block" id="Contract"><a class="viewcode-back" href="../../code/ibapi.contract.html#ibapi.contract.Contract">[docs]</a><span class="k">class</span> <span class="nc">Contract</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
@@ -362,7 +366,7 @@
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">secType</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastTradeDateOrContractMonth</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strike</span><span class="p">),</span>
+            <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strike</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multiplier</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange</span><span class="p">),</span>
@@ -404,7 +408,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">liquidHours</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">evRule</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">evMultiplier</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mdSizeMultiplier</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">aggGroup</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">underSymbol</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">underSecType</span> <span class="o">=</span> <span class="s2">""</span>
@@ -413,6 +416,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">realExpirationDate</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastTradeTime</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stockType</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minSize</span> <span class="o">=</span> <span class="n">UNSET_DECIMAL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizeIncrement</span> <span class="o">=</span> <span class="n">UNSET_DECIMAL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suggestedSizeIncrement</span> <span class="o">=</span> <span class="n">UNSET_DECIMAL</span>
         <span class="c1"># BOND values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cusip</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ratings</span> <span class="o">=</span> <span class="s2">""</span>
@@ -434,11 +440,11 @@
         <span class="n">s</span> <span class="o">=</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">marketName</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minTick</span><span class="p">),</span>
+            <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minTick</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orderTypes</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validExchanges</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">priceMagnifier</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">underConId</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">priceMagnifier</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">underConId</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">longName</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contractMonth</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">industry</span><span class="p">),</span>
@@ -448,12 +454,11 @@
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tradingHours</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">liquidHours</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evRule</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evMultiplier</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mdSizeMultiplier</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evMultiplier</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">underSymbol</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">underSecType</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">marketRuleIds</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aggGroup</span><span class="p">),</span>
+            <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aggGroup</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">secIdList</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">realExpirationDate</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stockType</span><span class="p">),</span>
@@ -471,7 +476,11 @@
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nextOptionDate</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nextOptionType</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nextOptionPartial</span><span class="p">),</span>
-            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notes</span><span class="p">)))</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notes</span><span class="p">),</span>
+            <span class="n">decimalMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minSize</span><span class="p">),</span>
+            <span class="n">decimalMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeIncrement</span><span class="p">),</span>
+            <span class="n">decimalMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">suggestedSizeIncrement</span><span class="p">)))</span>
+            
         <span class="k">return</span> <span class="n">s</span></div>
 
 

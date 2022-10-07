@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -280,7 +281,7 @@
 
 <span class="sd">""" The kafka.consumer module supports consuming a Kakfa topic as a Deephaven live table. """</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">jpy</span>
 
@@ -290,7 +291,7 @@
 <span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="k">import</span> <span class="n">Column</span>
 <span class="kn">from</span> <span class="nn">deephaven.dherror</span> <span class="k">import</span> <span class="n">DHError</span>
 <span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="k">import</span> <span class="n">DType</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="k">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="k">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span>
 
 <span class="n">_JKafkaTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.kafka.KafkaTools"</span><span class="p">)</span>
 <span class="n">_JKafkaTools_Consume</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.kafka.KafkaTools$Consume"</span><span class="p">)</span>
@@ -335,6 +336,7 @@
 <span class="sd">in the properties as "key.column.name" or "value.column.name" in the config, and otherwise default to "key" or "value".</span>
 <span class="sd">"""</span>
 
+
 <div class="viewcode-block" id="TableType"><a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.TableType">[docs]</a><span class="k">class</span> <span class="nc">TableType</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
     <span class="sd">"""An Enum that defines the supported Table Type for consuming Kafka."""</span>
 
@@ -352,7 +354,7 @@
         <span class="k">return</span> <span class="n">TableType</span><span class="p">(</span><span class="n">TableType</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">append</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="TableType.ring"><a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.TableType.ring">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">ring</span><span class="p">(</span><span class="n">capacity</span> <span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">ring</span><span class="p">(</span><span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">""" Consume all partitions into a single in-memory ring table."""</span>
         <span class="k">return</span> <span class="n">TableType</span><span class="p">(</span><span class="n">TableType</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="n">capacity</span><span class="p">))</span></div>
 
@@ -370,6 +372,7 @@
 
 <span class="n">TableType</span><span class="o">.</span><span class="n">Append</span> <span class="o">=</span> <span class="n">TableType</span><span class="o">.</span><span class="n">append</span><span class="p">()</span>
 <span class="sd">""" Deprecated, prefer TableType.append(). Consume all partitions into a single interleaved in-memory append-only table."""</span>
+
 
 <span class="k">def</span> <span class="nf">j_partitions</span><span class="p">(</span><span class="n">partitions</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">partitions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -437,6 +440,67 @@
 <span class="sd">        DHError</span>
 <span class="sd">    """</span>
 
+    <span class="k">return</span> <span class="n">_consume</span><span class="p">(</span><span class="n">kafka_config</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">partitions</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">key_spec</span><span class="p">,</span> <span class="n">value_spec</span><span class="p">,</span> <span class="n">table_type</span><span class="p">,</span> <span class="n">to_partitioned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="consume_to_partitioned_table"><a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.consume_to_partitioned_table">[docs]</a><span class="k">def</span> <span class="nf">consume_to_partitioned_table</span><span class="p">(</span>
+        <span class="n">kafka_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">partitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">offsets</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">key_spec</span><span class="p">:</span> <span class="n">KeyValueSpec</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">value_spec</span><span class="p">:</span> <span class="n">KeyValueSpec</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">table_type</span><span class="p">:</span> <span class="n">TableType</span> <span class="o">=</span> <span class="n">TableType</span><span class="o">.</span><span class="n">stream</span><span class="p">(),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartitionedTable</span><span class="p">:</span>
+    <span class="sd">"""Consume from Kafka to a Deephaven partitioned table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        kafka_config (Dict): configuration for the associated Kafka consumer and also the resulting table.</span>
+<span class="sd">            Once the table-specific properties are stripped, the remaining one is used to call the constructor of</span>
+<span class="sd">            org.apache.kafka.clients.consumer.KafkaConsumer; pass any KafkaConsumer specific desired configuration here</span>
+<span class="sd">        topic (str): the Kafka topic name</span>
+<span class="sd">        partitions (List[int]) : a list of integer partition numbers, default is None which means all partitions</span>
+<span class="sd">        offsets (Dict[int, int]) : a mapping between partition numbers and offset numbers, and can be one of the</span>
+<span class="sd">            predefined ALL_PARTITIONS_SEEK_TO_BEGINNING, ALL_PARTITIONS_SEEK_TO_END or ALL_PARTITIONS_DONT_SEEK.</span>
+<span class="sd">            The default is None which works the same as  ALL_PARTITIONS_DONT_SEEK. The offset numbers may be one</span>
+<span class="sd">            of the predefined SEEK_TO_BEGINNING, SEEK_TO_END, or DONT_SEEK.</span>
+<span class="sd">        key_spec (KeyValueSpec): specifies how to map the Key field in Kafka messages to Deephaven column(s).</span>
+<span class="sd">            It can be the result of calling one of the functions: simple_spec(),avro_spec() or json_spec() in this</span>
+<span class="sd">            module, or the predefined KeyValueSpec.IGNORE or KeyValueSpec.FROM_PROPERTIES. The default is None which</span>
+<span class="sd">            works the same as KeyValueSpec.FROM_PROPERTIES, in which case, the kafka_config param should include values</span>
+<span class="sd">            for dictionary keys 'deephaven.key.column.name' and 'deephaven.key.column.type', for the single resulting</span>
+<span class="sd">            column name and type</span>
+<span class="sd">        value_spec (KeyValueSpec): specifies how to map the Value field in Kafka messages to Deephaven column(s).</span>
+<span class="sd">            It can be the result of calling one of the functions: simple_spec(),avro_spec() or json_spec() in this</span>
+<span class="sd">            module, or the predefined KeyValueSpec.IGNORE or KeyValueSpec.FROM_PROPERTIES. The default is None which</span>
+<span class="sd">            works the same as KeyValueSpec.FROM_PROPERTIES, in which case, the kafka_config param should include values</span>
+<span class="sd">            for dictionary keys 'deephaven.key.column.name' and 'deephaven.key.column.type', for the single resulting</span>
+<span class="sd">            column name and type</span>
+<span class="sd">        table_type (TableType): a TableType enum, specifying the type of the expected result's constituent tables,</span>
+<span class="sd">            default is TableType.stream()</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Deephaven live partitioned table that will update based on Kafka messages consumed for the given topic,</span>
+<span class="sd">        the keys of this partitioned table are the partition numbers of the topic, and its constituents are tables per</span>
+<span class="sd">        topic partition.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    """</span>
+
+    <span class="k">return</span> <span class="n">_consume</span><span class="p">(</span><span class="n">kafka_config</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">partitions</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">key_spec</span><span class="p">,</span> <span class="n">value_spec</span><span class="p">,</span> <span class="n">table_type</span><span class="p">,</span> <span class="n">to_partitioned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_consume</span><span class="p">(</span>
+        <span class="n">kafka_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">partitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">offsets</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">key_spec</span><span class="p">:</span> <span class="n">KeyValueSpec</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">value_spec</span><span class="p">:</span> <span class="n">KeyValueSpec</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">table_type</span><span class="p">:</span> <span class="n">TableType</span> <span class="o">=</span> <span class="n">TableType</span><span class="o">.</span><span class="n">stream</span><span class="p">(),</span>
+        <span class="n">to_partitioned</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span><span class="p">]:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">partitions</span> <span class="o">=</span> <span class="n">j_partitions</span><span class="p">(</span><span class="n">partitions</span><span class="p">)</span>
 
@@ -460,8 +524,20 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"at least one argument for 'key' or 'value' must be different from KeyValueSpec.IGNORE"</span><span class="p">)</span>
 
         <span class="n">kafka_config</span> <span class="o">=</span> <span class="n">j_properties</span><span class="p">(</span><span class="n">kafka_config</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
-            <span class="n">j_table</span><span class="o">=</span><span class="n">_JKafkaTools</span><span class="o">.</span><span class="n">consumeToTable</span><span class="p">(</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">to_partitioned</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
+                <span class="n">j_table</span><span class="o">=</span><span class="n">_JKafkaTools</span><span class="o">.</span><span class="n">consumeToTable</span><span class="p">(</span>
+                    <span class="n">kafka_config</span><span class="p">,</span>
+                    <span class="n">topic</span><span class="p">,</span>
+                    <span class="n">partitions</span><span class="p">,</span>
+                    <span class="n">offsets</span><span class="p">,</span>
+                    <span class="n">key_spec</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
+                    <span class="n">value_spec</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
+                    <span class="n">table_type</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">PartitionedTable</span><span class="p">(</span><span class="n">j_partitioned_table</span><span class="o">=</span><span class="n">_JKafkaTools</span><span class="o">.</span><span class="n">consumeToPartitionedTable</span><span class="p">(</span>
                 <span class="n">kafka_config</span><span class="p">,</span>
                 <span class="n">topic</span><span class="p">,</span>
                 <span class="n">partitions</span><span class="p">,</span>
@@ -469,10 +545,9 @@
                 <span class="n">key_spec</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
                 <span class="n">value_spec</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
                 <span class="n">table_type</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
+            <span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to consume a Kafka stream."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to consume a Kafka stream."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
 
 <div class="viewcode-block" id="avro_spec"><a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.avro_spec">[docs]</a><span class="k">def</span> <span class="nf">avro_spec</span><span class="p">(</span>

@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -294,6 +295,7 @@
 
 <span class="n">_JQstType</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.qst.type.Type"</span><span class="p">)</span>
 <span class="n">_JTableTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.util.TableTools"</span><span class="p">)</span>
+<span class="n">_JPrimitiveArrayConversionUtility</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.common.PrimitiveArrayConversionUtility"</span><span class="p">)</span>
 
 <span class="n">_j_name_type_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -439,6 +441,15 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">char</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">array</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">seq</span><span class="p">,</span> <span class="n">remap</span><span class="o">=</span><span class="nb">ord</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">bool_</span><span class="p">:</span>
+                <span class="n">bytes_</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+                <span class="n">j_bytes</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">byte</span><span class="p">,</span> <span class="n">bytes_</span><span class="p">)</span>
+                <span class="n">seq</span> <span class="o">=</span> <span class="n">_JPrimitiveArrayConversionUtility</span><span class="o">.</span><span class="n">translateArrayByteToBoolean</span><span class="p">(</span><span class="n">j_bytes</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">DateTime</span><span class="p">:</span>
+                <span class="n">longs</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">'long'</span><span class="p">,</span> <span class="n">seq</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'datetime64[ns]'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'int64'</span><span class="p">))</span>
+                <span class="n">seq</span> <span class="o">=</span> <span class="n">_JPrimitiveArrayConversionUtility</span><span class="o">.</span><span class="n">translateArrayLongToDateTime</span><span class="p">(</span><span class="n">longs</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">jpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">j_type</span><span class="p">,</span> <span class="n">seq</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>

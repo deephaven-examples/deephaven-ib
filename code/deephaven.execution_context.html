@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.numpy" href="deephaven.numpy.html" /><link rel="prev" title="deephaven.learn.gather" href="deephaven.learn.gather.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.experimental" href="deephaven.experimental.html" /><link rel="prev" title="deephaven.dtypes" href="deephaven.dtypes.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>deephaven.liveness_scope - deephaven_ib documentation</title>
+        <title>deephaven.execution_context - deephaven_ib documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -176,7 +176,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dtypes.html">dtypes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deephaven.execution_context.html">execution_context</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -188,7 +188,7 @@
 <li class="toctree-l4"><a class="reference internal" href="deephaven.learn.gather.html">gather</a></li>
 </ul>
 </li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">liveness_scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.liveness_scope.html">liveness_scope</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.numpy.html">numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.pandas.html">pandas</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -275,43 +275,61 @@
           </label>
         </div>
         <article role="main">
-          <section id="module-deephaven.liveness_scope">
-<span id="deephaven-liveness-scope"></span><h1>deephaven.liveness_scope<a class="headerlink" href="#module-deephaven.liveness_scope" title="Permalink to this headline">¶</a></h1>
-<p>This module gives the users a finer degree of control over when to clean up unreferenced nodes in the query update
-graph instead of solely relying on garbage collection.</p>
+          <section id="module-deephaven.execution_context">
+<span id="deephaven-execution-context"></span><h1>deephaven.execution_context<a class="headerlink" href="#module-deephaven.execution_context" title="Permalink to this headline">¶</a></h1>
+<p>This module gives users the ability to directly manage the Deephaven query execution context on threads, which is
+critical for applications to correctly launch deferred query evaluations, such as table update operations in threads.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="deephaven.liveness_scope.LivenessScope">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">LivenessScope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j_scope</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/liveness_scope.html#LivenessScope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.liveness_scope.LivenessScope" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven._wrapper.JObjectWrapper</span></code></p>
-<p>A LivenessScope automatically manages reference counting of tables and other query resources that are
-created in it. It should not be instantiated directly but rather through the ‘liveness_scope’ context manager.</p>
+<dt class="sig sig-object py" id="deephaven.execution_context.ExecutionContext">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">ExecutionContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j_exec_ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/execution_context.html#ExecutionContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.execution_context.ExecutionContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven._wrapper.JObjectWrapper</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">contextlib.ContextDecorator</span></code></p>
+<p>An ExecutionContext represents a specific combination of query library, query compiler, and query scope under
+which a query is evaluated.</p>
+<p>A default, systemic ExecutionContext is created when a Deephaven script session is initialized, and it is used to
+evaluate queries submitted through this script session. However, to be able to evaluate a query in a deferred
+manner, such as in a different thread from the script session thread, an application must explicitly obtain or
+build a ExecutionContext and use it as a context manager to enclose the query in the body of the with statement.</p>
+<p>Note that, a ExecutionContext can be shared among many threads. The most typical use pattern would be to obtain
+the script session’s systemic ExecutionContext and use it to wrap a query run in a thread created by the user.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.liveness_scope.LivenessScope.j_object_type">
-<span class="sig-name descname"><span class="pre">j_object_type</span></span><a class="headerlink" href="#deephaven.liveness_scope.LivenessScope.j_object_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">io.deephaven.engine.liveness.LivenessScope</span></code></p>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="deephaven.liveness_scope.LivenessScope.preserve">
-<span class="sig-name descname"><span class="pre">preserve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapper</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/liveness_scope.html#LivenessScope.preserve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.liveness_scope.LivenessScope.preserve" title="Permalink to this definition">¶</a></dt>
-<dd><p>Preserves a query graph node (usually a Table) to keep it live for the outer scope.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="deephaven.execution_context.ExecutionContext.j_object_type">
+<span class="sig-name descname"><span class="pre">j_object_type</span></span><a class="headerlink" href="#deephaven.execution_context.ExecutionContext.j_object_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">io.deephaven.engine.context.ExecutionContext</span></code></p>
 </dd></dl>
 </dd></dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.liveness_scope.liveness_scope">
-<span class="sig-name descname"><span class="pre">liveness_scope</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/liveness_scope.html#liveness_scope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.liveness_scope.liveness_scope" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a LivenessScope for running a block of code and releases all the query graph resources upon exit. It
-can be used in a nested way.</p>
+<dt class="sig sig-object py" id="deephaven.execution_context.get_exec_ctx">
+<span class="sig-name descname"><span class="pre">get_exec_ctx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/execution_context.html#get_exec_ctx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.execution_context.get_exec_ctx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current thread’s ExecutionContext.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#deephaven.liveness_scope.LivenessScope" title="deephaven.liveness_scope.LivenessScope"><code class="xref py py-class docutils literal notranslate"><span class="pre">LivenessScope</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#deephaven.execution_context.ExecutionContext" title="deephaven.execution_context.ExecutionContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionContext</span></code></a></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a LivenessScope</p>
+<dd class="field-even"><p>a ExecutionContext</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.execution_context.make_user_exec_ctx">
+<span class="sig-name descname"><span class="pre">make_user_exec_ctx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freeze_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/execution_context.html#make_user_exec_ctx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.execution_context.make_user_exec_ctx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a new ExecutionContext based off the current thread’s ExecutionContext. The optional parameter
+freeze_vars should be a list of names in the current query scope. If it is provided, the resulting ExecutionContext
+will include a new query scope that is made up of only these names together with their current values. Future
+changes to the values of these names will not be visible in the new ExecutionContext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>freeze_vars</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the names of the vars in the current query scope to be frozen in
+the new one</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.execution_context.ExecutionContext" title="deephaven.execution_context.ExecutionContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionContext</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a ExecutionContext</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -322,23 +340,23 @@ can be used in a nested way.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="deephaven.numpy.html">
+          <a class="next-page" href="deephaven.experimental.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">deephaven.numpy</div>
+                <div class="title">deephaven.experimental</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="deephaven.learn.gather.html">
+          <a class="prev-page" href="deephaven.dtypes.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">deephaven.learn.gather</div>
+                <div class="title">deephaven.dtypes</div>
                 
               </div>
             </a>
@@ -350,7 +368,7 @@ can be used in a nested way.</p>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/code/deephaven.liveness_scope.rst.txt"
+            <a class="muted-link" href="../_sources/code/deephaven.execution_context.rst.txt"
                rel="nofollow">
               Show Source
             </a>

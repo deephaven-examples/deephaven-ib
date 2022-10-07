@@ -176,6 +176,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -1592,14 +1593,25 @@ any column names specified for the aggregation.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.Table.agg_by">
-<span class="sig-name descname"><span class="pre">agg_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aggs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.agg_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.agg_by" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">agg_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aggs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.agg_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.agg_by" title="Permalink to this definition">¶</a></dt>
 <dd><p>The agg_by method creates a new table containing grouping columns and grouped data. The resulting
 grouped data is defined by the aggregations specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>aggs</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.agg.html#deephaven.agg.Aggregation" title="deephaven.agg.Aggregation"><em>Aggregation</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference internal" href="deephaven.agg.html#deephaven.agg.Aggregation" title="deephaven.agg.Aggregation"><em>Aggregation</em></a><em>]</em><em>]</em>) – the aggregation(s)</p></li>
-<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the group-by column name(s), default is None</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the group-by column name(s), if not provided, all rows from this table are
+grouped into a single group of rows before the aggregations are applied to the result, default is None.</p></li>
+<li><p><strong>preserve_empty</strong> (<em>bool</em>) – whether to keep result rows for groups that are initially empty or become empty as
+a result of updates. Each aggregation operator defines its own value for empty groups. Default is False.</p></li>
+<li><p><strong>initial_groups</strong> (<a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – a table whose distinct combinations of values for the group-by column(s)
+should be used to create an initial set of aggregation groups. All other columns are ignored. This is
+useful in combination with preserve_empty=True to ensure that particular groups appear in the result
+table, or with preserve_empty=False to control the encounter order for a collection of groups and
+thus their relative order in the result. Changes to this table are not expected or handled; if this
+table is a refreshing table, only its contents at instantiation time will be used. Default is None,
+the result will be the same as if a table is provided but no rows were supplied. When it is provided,
+the ‘by’ argument must be provided to explicitly specify the grouping columns.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -2204,6 +2216,41 @@ table, can be renaming expressions, i.e. “new_col = col”; default is None</p
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A PartitionedTable containing a sub-table for each group</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.table.Table.partitioned_agg_by">
+<span class="sig-name descname"><span class="pre">partitioned_agg_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aggs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#Table.partitioned_agg_by"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.Table.partitioned_agg_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>The partitioned_agg_by method is a convenience method that performs an agg_by operation on this table and
+wraps the result in a PartitionedTable. If the argument ‘aggs’ does not include a partition aggregation
+created by calling <code class="xref py py-func docutils literal notranslate"><span class="pre">agg.partition()</span></code>, one will be added automatically with the default constituent column
+name __CONSTITUENT__.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aggs</strong> (<em>Union</em><em>[</em><a class="reference internal" href="deephaven.agg.html#deephaven.agg.Aggregation" title="deephaven.agg.Aggregation"><em>Aggregation</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference internal" href="deephaven.agg.html#deephaven.agg.Aggregation" title="deephaven.agg.Aggregation"><em>Aggregation</em></a><em>]</em><em>]</em>) – the aggregation(s)</p></li>
+<li><p><strong>by</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the group-by column name(s), default is None</p></li>
+<li><p><strong>preserve_empty</strong> (<em>bool</em>) – whether to keep result rows for groups that are initially empty or become empty as
+a result of updates. Each aggregation operator defines its own value for empty groups. Default is False.</p></li>
+<li><p><strong>initial_groups</strong> (<a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – a table whose distinct combinations of values for the group-by column(s)
+should be used to create an initial set of aggregation groups. All other columns are ignored. This is
+useful in combination with preserve_empty=True to ensure that particular groups appear in the result
+table, or with preserve_empty=False to control the encounter order for a collection of groups and
+thus their relative order in the result. Changes to this table are not expected or handled; if this
+table is a refreshing table, only its contents at instantiation time will be used. Default is None,
+the result will be the same as if a table is provided but no rows were supplied. When it is provided,
+the ‘by’ argument must be provided to explicitly specify the grouping columns.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#deephaven.table.PartitionedTable" title="deephaven.table.PartitionedTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTable</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a PartitionedTable</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>

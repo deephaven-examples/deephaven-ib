@@ -174,6 +174,7 @@
 <li class="toctree-l3"><a class="reference internal" href="code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -537,6 +538,8 @@
         </ul></li>
         <li><a href="code/deephaven.stream.kafka.cdc.html#deephaven.stream.kafka.cdc.consume_raw">consume_raw() (in module deephaven.stream.kafka.cdc)</a>
 </li>
+        <li><a href="code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.consume_to_partitioned_table">consume_to_partitioned_table() (in module deephaven.stream.kafka.consumer)</a>
+</li>
         <li><a href="code/ibapi.contract.html#ibapi.contract.Contract">Contract (class in ibapi.contract)</a>
 </li>
         <li><a href="code/ibapi.contract.html#ibapi.contract.ContractDescription">ContractDescription (class in ibapi.contract)</a>
@@ -691,6 +694,13 @@
 
         <ul>
           <li><a href="code/deephaven.dtypes.html#module-deephaven.dtypes">module</a>
+</li>
+        </ul></li>
+        <li>
+    deephaven.execution_context
+
+        <ul>
+          <li><a href="code/deephaven.execution_context.html#module-deephaven.execution_context">module</a>
 </li>
         </ul></li>
         <li>
@@ -1111,10 +1121,10 @@
 </li>
         <li><a href="code/deephaven.calendar.html#deephaven.calendar.BusinessPeriod.end_time">end_time (BusinessPeriod property)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="code/deephaven.plot.plotstyle.html#deephaven.plot.plotstyle.PlotStyle.ERROR_BAR">ERROR_BAR (PlotStyle attribute)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="code/deephaven.time.html#deephaven.time.TimeZone.ET">ET (TimeZone attribute)</a>
 </li>
         <li><a href="code/deephaven.table.html#deephaven.table.PartitionedTableProxy.exact_join">exact_join() (PartitionedTableProxy method)</a>
@@ -1126,6 +1136,8 @@
         <li><a href="code/deephaven.ugp.html#deephaven.ugp.exclusive_lock">exclusive_lock() (in module deephaven.ugp)</a>
 </li>
         <li><a href="code/deephaven.ugp.html#deephaven.ugp.exclusive_locked">exclusive_locked() (in module deephaven.ugp)</a>
+</li>
+        <li><a href="code/deephaven.execution_context.html#deephaven.execution_context.ExecutionContext">ExecutionContext (class in deephaven.execution_context)</a>
 </li>
         <li><a href="code/deephaven.experimental.ema.html#deephaven.experimental.ema.ExponentiallyDecayedSum">ExponentiallyDecayedSum() (in module deephaven.experimental.ema)</a>
 </li>
@@ -1234,6 +1246,8 @@
         <li><a href="code/deephaven.table.html#deephaven.table.PartitionedTable.get_constituent">get_constituent() (PartitionedTable method)</a>
 </li>
         <li><a href="code/deephaven.time.html#deephaven.time.TimeZone.get_default_timezone">get_default_timezone() (TimeZone static method)</a>
+</li>
+        <li><a href="code/deephaven.execution_context.html#deephaven.execution_context.get_exec_ctx">get_exec_ctx() (in module deephaven.execution_context)</a>
 </li>
         <li><a href="code/deephaven.config.html#deephaven.config.get_log_dir">get_log_dir() (in module deephaven.config)</a>
 </li>
@@ -1473,6 +1487,8 @@
 </li>
           <li><a href="code/deephaven.table_factory.html#deephaven.table_factory.DynamicTableWriter.j_object_type">(DynamicTableWriter attribute)</a>
 </li>
+          <li><a href="code/deephaven.execution_context.html#deephaven.execution_context.ExecutionContext.j_object_type">(ExecutionContext attribute)</a>
+</li>
           <li><a href="code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.j_object_type">(Figure attribute)</a>
 </li>
           <li><a href="code/deephaven.filters.html#deephaven.filters.Filter.j_object_type">(Filter attribute)</a>
@@ -1639,6 +1655,8 @@
   <h2>M</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="code/deephaven.execution_context.html#deephaven.execution_context.make_user_exec_ctx">make_user_exec_ctx() (in module deephaven.execution_context)</a>
+</li>
         <li><a href="code/deephaven_ib.html#deephaven_ib.MarketDataType">MarketDataType (class in deephaven_ib)</a>
 </li>
         <li><a href="code/deephaven.updateby.html#deephaven.updateby.MathContext">MathContext (class in deephaven.updateby)</a>
@@ -1806,6 +1824,8 @@
           <li><a href="code/deephaven.dherror.html#module-deephaven.dherror">deephaven.dherror</a>
 </li>
           <li><a href="code/deephaven.dtypes.html#module-deephaven.dtypes">deephaven.dtypes</a>
+</li>
+          <li><a href="code/deephaven.execution_context.html#module-deephaven.execution_context">deephaven.execution_context</a>
 </li>
           <li><a href="code/deephaven.experimental.html#module-deephaven.experimental">deephaven.experimental</a>
 </li>
@@ -2101,6 +2121,8 @@
         <li><a href="code/deephaven.agg.html#deephaven.agg.partition">partition() (in module deephaven.agg)</a>
 </li>
         <li><a href="code/deephaven.table.html#deephaven.table.Table.partition_by">partition_by() (Table method)</a>
+</li>
+        <li><a href="code/deephaven.table.html#deephaven.table.Table.partitioned_agg_by">partitioned_agg_by() (Table method)</a>
 </li>
         <li><a href="code/deephaven.table.html#deephaven.table.PartitionedTable.partitioned_transform">partitioned_transform() (PartitionedTable method)</a>
 </li>

@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -291,7 +292,8 @@
 <span class="kn">import</span> <span class="nn">jpy</span>
 
 <span class="kn">from</span> <span class="nn">deephaven</span> <span class="k">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">dtypes</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="k">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span> <span class="nn">deephaven._jpy</span> <span class="k">import</span> <span class="n">strict_cast</span>
+<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="k">import</span> <span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">unwrap</span>
 <span class="kn">from</span> <span class="nn">deephaven.agg</span> <span class="k">import</span> <span class="n">Aggregation</span>
 <span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="k">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">ColumnType</span>
 <span class="kn">from</span> <span class="nn">deephaven.filters</span> <span class="k">import</span> <span class="n">Filter</span>
@@ -323,12 +325,18 @@
 
 <span class="c1"># Dynamic Query Scope</span>
 <span class="n">_JExecutionContext</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.context.ExecutionContext"</span><span class="p">)</span>
-<span class="n">_JQueryScope</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.context.QueryScope"</span><span class="p">)</span>
-<span class="n">_JUnsynchronizedScriptSessionQueryScope</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span>
-    <span class="s2">"io.deephaven.engine.util.AbstractScriptSession$UnsynchronizedScriptSessionQueryScope"</span><span class="p">)</span>
+<span class="n">_JScriptSessionQueryScope</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.util.AbstractScriptSession$ScriptSessionQueryScope"</span><span class="p">)</span>
 <span class="n">_JPythonScriptSession</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.integrations.python.PythonDeephavenSession"</span><span class="p">)</span>
-<span class="n">_j_script_session</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">getContext</span><span class="p">()</span><span class="o">.</span><span class="n">getQueryScope</span><span class="p">(),</span> <span class="n">_JUnsynchronizedScriptSessionQueryScope</span><span class="p">)</span><span class="o">.</span><span class="n">scriptSession</span><span class="p">()</span>
-<span class="n">_j_py_script_session</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">_j_script_session</span><span class="p">,</span> <span class="n">_JPythonScriptSession</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_j_py_script_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">_JPythonScriptSession</span><span class="p">:</span>
+    <span class="n">j_execution_context</span> <span class="o">=</span> <span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">getContext</span><span class="p">()</span>
+    <span class="n">j_query_scope</span> <span class="o">=</span> <span class="n">j_execution_context</span><span class="o">.</span><span class="n">getQueryScope</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">j_script_session_query_scope</span> <span class="o">=</span> <span class="n">strict_cast</span><span class="p">(</span><span class="n">j_query_scope</span><span class="p">,</span> <span class="n">_JScriptSessionQueryScope</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">strict_cast</span><span class="p">(</span><span class="n">j_script_session_query_scope</span><span class="o">.</span><span class="n">scriptSession</span><span class="p">(),</span> <span class="n">_JPythonScriptSession</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
@@ -345,14 +353,15 @@
     <span class="c1"># combine the immediate caller's globals and locals into a single dict and use it as the query scope</span>
     <span class="n">caller_frame</span> <span class="o">=</span> <span class="n">outer_frames</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">frame</span>
     <span class="n">function</span> <span class="o">=</span> <span class="n">outer_frames</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">function</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outer_frames</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">function</span> <span class="o">!=</span> <span class="s2">"&lt;module&gt;"</span><span class="p">:</span>
+    <span class="n">j_py_script_session</span> <span class="o">=</span> <span class="n">_j_py_script_session</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">j_py_script_session</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">outer_frames</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">function</span> <span class="o">!=</span> <span class="s2">"&lt;module&gt;"</span><span class="p">):</span>
         <span class="n">scope_dict</span> <span class="o">=</span> <span class="n">caller_frame</span><span class="o">.</span><span class="n">f_globals</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">scope_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">caller_frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">_j_py_script_session</span><span class="o">.</span><span class="n">pushScope</span><span class="p">(</span><span class="n">scope_dict</span><span class="p">)</span>
+            <span class="n">j_py_script_session</span><span class="o">.</span><span class="n">pushScope</span><span class="p">(</span><span class="n">scope_dict</span><span class="p">)</span>
             <span class="k">yield</span>
         <span class="k">finally</span><span class="p">:</span>
-            <span class="n">_j_py_script_session</span><span class="o">.</span><span class="n">popScope</span><span class="p">()</span>
+            <span class="n">j_py_script_session</span><span class="o">.</span><span class="n">popScope</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># in the __main__ module, use the default main global scope</span>
         <span class="k">yield</span>
@@ -1550,14 +1559,25 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table count_by operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
-<div class="viewcode-block" id="Table.agg_by"><a class="viewcode-back" href="../../code/deephaven.table.html#deephaven.table.Table.agg_by">[docs]</a>    <span class="k">def</span> <span class="nf">agg_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Aggregation</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Aggregation</span><span class="p">]],</span> <span class="n">by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<div class="viewcode-block" id="Table.agg_by"><a class="viewcode-back" href="../../code/deephaven.table.html#deephaven.table.Table.agg_by">[docs]</a>    <span class="k">def</span> <span class="nf">agg_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Aggregation</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Aggregation</span><span class="p">]],</span> <span class="n">by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">preserve_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">initial_groups</span><span class="p">:</span> <span class="n">Table</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
         <span class="sd">"""The agg_by method creates a new table containing grouping columns and grouped data. The resulting</span>
 <span class="sd">        grouped data is defined by the aggregations specified.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            aggs (Union[Aggregation, Sequence[Aggregation]]): the aggregation(s)</span>
-<span class="sd">            by (Union[str, Sequence[str]]): the group-by column name(s), default is None</span>
-
+<span class="sd">            by (Union[str, Sequence[str]]): the group-by column name(s), if not provided, all rows from this table are</span>
+<span class="sd">                grouped into a single group of rows before the aggregations are applied to the result, default is None.</span>
+<span class="sd">            preserve_empty (bool): whether to keep result rows for groups that are initially empty or become empty as</span>
+<span class="sd">                a result of updates. Each aggregation operator defines its own value for empty groups. Default is False.</span>
+<span class="sd">            initial_groups (Table): a table whose distinct combinations of values for the group-by column(s)</span>
+<span class="sd">                should be used to create an initial set of aggregation groups. All other columns are ignored. This is</span>
+<span class="sd">                useful in combination with preserve_empty=True to ensure that particular groups appear in the result</span>
+<span class="sd">                table, or with preserve_empty=False to control the encounter order for a collection of groups and</span>
+<span class="sd">                thus their relative order in the result. Changes to this table are not expected or handled; if this</span>
+<span class="sd">                table is a refreshing table, only its contents at instantiation time will be used. Default is None,</span>
+<span class="sd">                the result will be the same as if a table is provided but no rows were supplied. When it is provided,</span>
+<span class="sd">                the 'by' argument must be provided to explicitly specify the grouping columns.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            a new table</span>
 
@@ -1567,10 +1587,56 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">aggs</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">aggs</span><span class="p">)</span>
             <span class="n">by</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">by</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">by</span> <span class="ow">and</span> <span class="n">initial_groups</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"missing group-by column names when initial_groups is provided."</span><span class="p">)</span>
             <span class="n">j_agg_list</span> <span class="o">=</span> <span class="n">j_array_list</span><span class="p">([</span><span class="n">agg</span><span class="o">.</span><span class="n">j_aggregation</span> <span class="k">for</span> <span class="n">agg</span> <span class="ow">in</span> <span class="n">aggs</span><span class="p">])</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">aggBy</span><span class="p">(</span><span class="n">j_agg_list</span><span class="p">,</span> <span class="o">*</span><span class="n">by</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">by</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">aggBy</span><span class="p">(</span><span class="n">j_agg_list</span><span class="p">,</span> <span class="n">preserve_empty</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">j_column_name_list</span> <span class="o">=</span> <span class="n">j_array_list</span><span class="p">([</span><span class="n">_JColumnName</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">by</span><span class="p">])</span>
+                <span class="n">initial_groups</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">initial_groups</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
+                    <span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">aggBy</span><span class="p">(</span><span class="n">j_agg_list</span><span class="p">,</span> <span class="n">preserve_empty</span><span class="p">,</span> <span class="n">initial_groups</span><span class="p">,</span> <span class="n">j_column_name_list</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table agg_by operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+<div class="viewcode-block" id="Table.partitioned_agg_by"><a class="viewcode-back" href="../../code/deephaven.table.html#deephaven.table.Table.partitioned_agg_by">[docs]</a>    <span class="k">def</span> <span class="nf">partitioned_agg_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Aggregation</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Aggregation</span><span class="p">]],</span>
+                           <span class="n">by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">preserve_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                           <span class="n">initial_groups</span><span class="p">:</span> <span class="n">Table</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartitionedTable</span><span class="p">:</span>
+        <span class="sd">"""The partitioned_agg_by method is a convenience method that performs an agg_by operation on this table and</span>
+<span class="sd">        wraps the result in a PartitionedTable. If the argument 'aggs' does not include a partition aggregation</span>
+<span class="sd">        created by calling :py:func:`agg.partition`, one will be added automatically with the default constituent column</span>
+<span class="sd">        name __CONSTITUENT__.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            aggs (Union[Aggregation, Sequence[Aggregation]]): the aggregation(s)</span>
+<span class="sd">            by (Union[str, Sequence[str]]): the group-by column name(s), default is None</span>
+<span class="sd">            preserve_empty (bool): whether to keep result rows for groups that are initially empty or become empty as</span>
+<span class="sd">                a result of updates. Each aggregation operator defines its own value for empty groups. Default is False.</span>
+<span class="sd">            initial_groups (Table): a table whose distinct combinations of values for the group-by column(s)</span>
+<span class="sd">                should be used to create an initial set of aggregation groups. All other columns are ignored. This is</span>
+<span class="sd">                useful in combination with preserve_empty=True to ensure that particular groups appear in the result</span>
+<span class="sd">                table, or with preserve_empty=False to control the encounter order for a collection of groups and</span>
+<span class="sd">                thus their relative order in the result. Changes to this table are not expected or handled; if this</span>
+<span class="sd">                table is a refreshing table, only its contents at instantiation time will be used. Default is None,</span>
+<span class="sd">                the result will be the same as if a table is provided but no rows were supplied. When it is provided,</span>
+<span class="sd">                the 'by' argument must be provided to explicitly specify the grouping columns.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a PartitionedTable</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DHError</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">aggs</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">aggs</span><span class="p">)</span>
+            <span class="n">by</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">by</span><span class="p">)</span>
+            <span class="n">j_agg_list</span> <span class="o">=</span> <span class="n">j_array_list</span><span class="p">([</span><span class="n">agg</span><span class="o">.</span><span class="n">j_aggregation</span> <span class="k">for</span> <span class="n">agg</span> <span class="ow">in</span> <span class="n">aggs</span><span class="p">])</span>
+            <span class="n">initial_groups</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">initial_groups</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">PartitionedTable</span><span class="p">(</span>
+                <span class="n">j_partitioned_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">partitionedAggBy</span><span class="p">(</span><span class="n">j_agg_list</span><span class="p">,</span> <span class="n">preserve_empty</span><span class="p">,</span> <span class="n">initial_groups</span><span class="p">,</span> <span class="o">*</span><span class="n">by</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"table partitioned_agg_by operation failed."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
 <div class="viewcode-block" id="Table.agg_all_by"><a class="viewcode-back" href="../../code/deephaven.table.html#deephaven.table.Table.agg_all_by">[docs]</a>    <span class="k">def</span> <span class="nf">agg_all_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agg</span><span class="p">:</span> <span class="n">Aggregation</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
         <span class="sd">"""The agg_all_by method creates a new table containing grouping columns and grouped data. The resulting</span>

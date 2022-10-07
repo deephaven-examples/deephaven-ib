@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -282,16 +283,13 @@
 <span class="sd">""" Package implementing the Python API for the TWS/IB Gateway """</span>
 
 <span class="n">VERSION</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'major'</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-    <span class="s1">'minor'</span><span class="p">:</span> <span class="mi">81</span><span class="p">,</span>
-    <span class="s1">'patch'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s1">'extra'</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="s1">'major'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">'minor'</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="s1">'micro'</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 
 
 <div class="viewcode-block" id="get_version_string"><a class="viewcode-back" href="../code/ibapi.html#ibapi.get_version_string">[docs]</a><span class="k">def</span> <span class="nf">get_version_string</span><span class="p">():</span>
-    <span class="n">version</span> <span class="o">=</span> <span class="s1">'</span><span class="si">{major}</span><span class="s1">.</span><span class="si">{minor}</span><span class="s1">.</span><span class="si">{patch}</span><span class="s1">-</span><span class="si">{extra}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">VERSION</span><span class="p">)</span>
-    <span class="k">if</span><span class="p">(</span> <span class="n">VERSION</span><span class="p">[</span><span class="s1">'extra'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">version</span> <span class="o">=</span> <span class="s1">'</span><span class="si">{major}</span><span class="s1">.</span><span class="si">{minor}</span><span class="s1">.</span><span class="si">{patch}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">VERSION</span><span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s1">'</span><span class="si">{major}</span><span class="s1">.</span><span class="si">{minor}</span><span class="s1">.</span><span class="si">{micro}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">VERSION</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">version</span></div>
 
 <span class="n">__version__</span> <span class="o">=</span> <span class="n">get_version_string</span><span class="p">()</span>

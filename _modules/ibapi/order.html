@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -279,10 +280,12 @@
 <span class="sd"> and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.</span>
 <span class="sd">"""</span>
 
-
-<span class="kn">from</span> <span class="nn">ibapi.common</span> <span class="k">import</span> <span class="n">UNSET_INTEGER</span><span class="p">,</span> <span class="n">UNSET_DOUBLE</span>
+<span class="kn">from</span> <span class="nn">ibapi.common</span> <span class="k">import</span> <span class="n">UNSET_INTEGER</span><span class="p">,</span> <span class="n">UNSET_DOUBLE</span><span class="p">,</span> <span class="n">UNSET_DECIMAL</span><span class="p">,</span> <span class="n">DOUBLE_INFINITY</span>
 <span class="kn">from</span> <span class="nn">ibapi.object_implem</span> <span class="k">import</span> <span class="n">Object</span>
 <span class="kn">from</span> <span class="nn">ibapi.softdollartier</span> <span class="k">import</span> <span class="n">SoftDollarTier</span>
+<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="k">import</span> <span class="n">decimalMaxString</span>
+<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="k">import</span> <span class="n">intMaxString</span>
+<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="k">import</span> <span class="n">floatMaxString</span>
 
 <span class="c1"># enum Origin</span>
 <span class="p">(</span><span class="n">CUSTOMER</span><span class="p">,</span> <span class="n">FIRM</span><span class="p">,</span> <span class="n">UNKNOWN</span><span class="p">)</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -291,13 +294,14 @@
 <span class="p">(</span><span class="n">AUCTION_UNSET</span><span class="p">,</span> <span class="n">AUCTION_MATCH</span><span class="p">,</span>
  <span class="n">AUCTION_IMPROVEMENT</span><span class="p">,</span> <span class="n">AUCTION_TRANSPARENT</span><span class="p">)</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
+<span class="n">COMPETE_AGAINST_BEST_OFFSET_UP_TO_MID</span> <span class="o">=</span> <span class="n">DOUBLE_INFINITY</span>
 
 <div class="viewcode-block" id="OrderComboLeg"><a class="viewcode-back" href="../../code/ibapi.order.html#ibapi.order.OrderComboLeg">[docs]</a><span class="k">class</span> <span class="nc">OrderComboLeg</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>  <span class="c1"># type: float</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">"</span><span class="si">%f</span><span class="s2">"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">price</span></div>
+        <span class="k">return</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Order"><a class="viewcode-back" href="../../code/ibapi.order.html#ibapi.order.Order">[docs]</a><span class="k">class</span> <span class="nc">Order</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
@@ -310,7 +314,7 @@
 
         <span class="c1"># main order fields</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="s2">""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">totalQuantity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">totalQuantity</span> <span class="o">=</span> <span class="n">UNSET_DECIMAL</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">orderType</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lmtPrice</span>      <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auxPrice</span>      <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
@@ -355,9 +359,6 @@
 
         <span class="c1"># SMART routing only</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">discretionaryAmt</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">eTradeOnly</span>       <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">firmQuoteOnly</span>    <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nbboPriceCap</span>     <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>  <span class="c1"># type: float</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optOutSmartRouting</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="c1"># BOX exchange orders only</span>
@@ -477,7 +478,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">discretionaryUpToLimitPrice</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">autoCancelDate</span> <span class="o">=</span> <span class="s2">""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">filledQuantity</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filledQuantity</span> <span class="o">=</span> <span class="n">UNSET_DECIMAL</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refFuturesConId</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">autoCancelParent</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shareholder</span> <span class="o">=</span> <span class="s2">""</span>
@@ -486,15 +487,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parentPermId</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">usePriceMgmtAlgo</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">UNSET_INTEGER</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postToAts</span> <span class="o">=</span> <span class="n">UNSET_INTEGER</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advancedErrorOverride</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manualOrderTime</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minTradeQty</span> <span class="o">=</span> <span class="n">UNSET_INTEGER</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minCompeteSize</span> <span class="o">=</span> <span class="n">UNSET_INTEGER</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">competeAgainstBestOffset</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">midOffsetAtWhole</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">midOffsetAtHalf</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%s</span><span class="s2">:"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orderId</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clientId</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">permId</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">:"</span> <span class="o">%</span> <span class="p">(</span><span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orderId</span><span class="p">),</span> <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clientId</span><span class="p">),</span> <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permId</span><span class="p">))</span>
 
-        <span class="n">s</span> <span class="o">+=</span> <span class="s2">" </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%d</span><span class="s2">@</span><span class="si">%f</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">" </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">@</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">orderType</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">totalQuantity</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lmtPrice</span><span class="p">)</span>
+            <span class="n">decimalMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totalQuantity</span><span class="p">),</span>
+            <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lmtPrice</span><span class="p">))</span>
 
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">" </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">tif</span>
 

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>deephaven.uri - deephaven_ib documentation</title>
+        <title>deephaven.execution_context - deephaven_ib documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -274,45 +274,96 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for deephaven.uri</h1><div class="highlight"><pre>
+          <h1>Source code for deephaven.execution_context</h1><div class="highlight"><pre>
 <span></span><span class="c1">#</span>
-<span class="c1"># Copyright (c) 2016-2022 Deephaven Data Labs and Patent Pending</span>
+<span class="c1">#     Copyright (c) 2016-2022 Deephaven Data Labs and Patent Pending</span>
 <span class="c1">#</span>
+<span class="sd">"""This module gives users the ability to directly manage the Deephaven query execution context on threads, which is</span>
+<span class="sd">critical for applications to correctly launch deferred query evaluations, such as table update operations in threads.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
 
-<span class="sd">""" Tools for resolving Uniform Resource Identifiers (URIs) into objects. """</span>
-
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="k">import</span> <span class="n">ContextDecorator</span>
 
 <span class="kn">import</span> <span class="nn">jpy</span>
 
 <span class="kn">from</span> <span class="nn">deephaven</span> <span class="k">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="k">import</span> <span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">wrap_j_object</span>
+<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="k">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="k">import</span> <span class="n">to_sequence</span>
 
-<span class="n">_JResolveTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.uri.ResolveTools"</span><span class="p">)</span>
+<span class="n">_JExecutionContext</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.engine.context.ExecutionContext"</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="resolve"><a class="viewcode-back" href="../../code/deephaven.uri.html#deephaven.uri.resolve">[docs]</a><span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-    <span class="sd">"""Resolves a Uniform Resource Identifier (URI) string into an object. Objects with custom Python wrappers,</span>
-<span class="sd">    like Table, return an instance of the wrapper class; otherwise, the Java or Python object is returned.</span>
+<div class="viewcode-block" id="ExecutionContext"><a class="viewcode-back" href="../../code/deephaven.execution_context.html#deephaven.execution_context.ExecutionContext">[docs]</a><span class="k">class</span> <span class="nc">ExecutionContext</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">ContextDecorator</span><span class="p">):</span>
+    <span class="sd">"""An ExecutionContext represents a specific combination of query library, query compiler, and query scope under</span>
+<span class="sd">    which a query is evaluated.</span>
 
+<span class="sd">    A default, systemic ExecutionContext is created when a Deephaven script session is initialized, and it is used to</span>
+<span class="sd">    evaluate queries submitted through this script session. However, to be able to evaluate a query in a deferred</span>
+<span class="sd">    manner, such as in a different thread from the script session thread, an application must explicitly obtain or</span>
+<span class="sd">    build a ExecutionContext and use it as a context manager to enclose the query in the body of the with statement.</span>
+
+<span class="sd">    Note that, a ExecutionContext can be shared among many threads. The most typical use pattern would be to obtain</span>
+<span class="sd">    the script session's systemic ExecutionContext and use it to wrap a query run in a thread created by the user.</span>
+<span class="sd">    """</span>
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JExecutionContext</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_exec_ctx</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_exec_ctx</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j_exec_ctx</span> <span class="o">=</span> <span class="n">j_exec_ctx</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_j_safe_closable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_exec_ctx</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_j_safe_closable</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="make_user_exec_ctx"><a class="viewcode-back" href="../../code/deephaven.execution_context.html#deephaven.execution_context.make_user_exec_ctx">[docs]</a><span class="k">def</span> <span class="nf">make_user_exec_ctx</span><span class="p">(</span><span class="n">freeze_vars</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExecutionContext</span><span class="p">:</span>
+    <span class="sd">"""Makes a new ExecutionContext based off the current thread's ExecutionContext. The optional parameter</span>
+<span class="sd">    freeze_vars should be a list of names in the current query scope. If it is provided, the resulting ExecutionContext</span>
+<span class="sd">    will include a new query scope that is made up of only these names together with their current values. Future</span>
+<span class="sd">    changes to the values of these names will not be visible in the new ExecutionContext.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        uri (str): a URI string</span>
+<span class="sd">        freeze_vars(Union[str, Sequence[str]]): the names of the vars in the current query scope to be frozen in</span>
+<span class="sd">            the new one</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        an object</span>
+<span class="sd">        a ExecutionContext</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        DHError</span>
 <span class="sd">    """</span>
+    <span class="n">freeze_vars</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">freeze_vars</span><span class="p">)</span>
 
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># When grabbing something out of the query scope, it may already be presented as a PyObject; in which case,</span>
-        <span class="c1"># when the value gets back into python, it's a native python type - in which case, we don't need to wrap it.</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">_JResolveTools</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">wrap_j_object</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">)</span> <span class="k">else</span> <span class="n">item</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to resolve the URI."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">freeze_vars</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ExecutionContext</span><span class="p">(</span><span class="n">j_exec_ctx</span><span class="o">=</span><span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">makeExecutionContext</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">j_exec_ctx</span> <span class="o">=</span> <span class="p">(</span><span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">newBuilder</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">captureQueryCompiler</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">captureQueryLibrary</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">captureQueryScopeVars</span><span class="p">(</span><span class="o">*</span><span class="n">freeze_vars</span><span class="p">)</span>
+                          <span class="o">.</span><span class="n">build</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">ExecutionContext</span><span class="p">(</span><span class="n">j_exec_ctx</span><span class="o">=</span><span class="n">j_exec_ctx</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">"failed to make a new ExecutionContext"</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="get_exec_ctx"><a class="viewcode-back" href="../../code/deephaven.execution_context.html#deephaven.execution_context.get_exec_ctx">[docs]</a><span class="k">def</span> <span class="nf">get_exec_ctx</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ExecutionContext</span><span class="p">:</span>
+    <span class="sd">"""Returns the current thread's ExecutionContext.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a ExecutionContext</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">ExecutionContext</span><span class="p">(</span><span class="n">j_exec_ctx</span><span class="o">=</span><span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">getContext</span><span class="p">())</span></div>
+
 </pre></div>
         </article>
       </div>

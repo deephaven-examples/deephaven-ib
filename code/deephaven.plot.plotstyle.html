@@ -176,6 +176,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -284,57 +285,57 @@
 <p>An enum defining the styles of a plot (e.g. line, bar, etc.).</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.AREA">
-<span class="sig-name descname"><span class="pre">AREA</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d4290)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.AREA" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">AREA</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a330)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.AREA" title="Permalink to this definition">¶</a></dt>
 <dd><p>An area chart (does not display shapes at data points by default).</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.BAR">
-<span class="sig-name descname"><span class="pre">BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x3886578)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.BAR" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a318)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.BAR" title="Permalink to this definition">¶</a></dt>
 <dd><p>A bar chart.</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.ERROR_BAR">
-<span class="sig-name descname"><span class="pre">ERROR_BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d42c8)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.ERROR_BAR" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ERROR_BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a368)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.ERROR_BAR" title="Permalink to this definition">¶</a></dt>
 <dd><p>An error bar plot (points are not displayed by default).</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.HISTOGRAM">
-<span class="sig-name descname"><span class="pre">HISTOGRAM</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d42a8)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.HISTOGRAM" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">HISTOGRAM</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a348)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.HISTOGRAM" title="Permalink to this definition">¶</a></dt>
 <dd><p>A histogram chart.</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.LINE">
-<span class="sig-name descname"><span class="pre">LINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d4288)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.LINE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">LINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a328)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.LINE" title="Permalink to this definition">¶</a></dt>
 <dd><p>A line chart (does not display shapes at data points by default).</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.OHLC">
-<span class="sig-name descname"><span class="pre">OHLC</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d42b0)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.OHLC" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">OHLC</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a350)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.OHLC" title="Permalink to this definition">¶</a></dt>
 <dd><p>An open-high-low-close chart.</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.PIE">
-<span class="sig-name descname"><span class="pre">PIE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d42a0)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.PIE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PIE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a340)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.PIE" title="Permalink to this definition">¶</a></dt>
 <dd><p>A pie chart.</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.SCATTER">
-<span class="sig-name descname"><span class="pre">SCATTER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d42b8)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.SCATTER" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">SCATTER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a358)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.SCATTER" title="Permalink to this definition">¶</a></dt>
 <dd><p>A scatter plot (lines are not displayed by default).</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.STACKED_AREA">
-<span class="sig-name descname"><span class="pre">STACKED_AREA</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d4298)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STACKED_AREA" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">STACKED_AREA</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a338)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STACKED_AREA" title="Permalink to this definition">¶</a></dt>
 <dd><p>A stacked area chart (does not display shapes at data points by default).</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.STACKED_BAR">
-<span class="sig-name descname"><span class="pre">STACKED_BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d4280)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STACKED_BAR" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">STACKED_BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a320)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STACKED_BAR" title="Permalink to this definition">¶</a></dt>
 <dd><p>A stacked bar chart.</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.STEP">
-<span class="sig-name descname"><span class="pre">STEP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x37d42c0)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STEP" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">STEP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x443a360)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STEP" title="Permalink to this definition">¶</a></dt>
 <dd><p>A step plot.</p>
 </dd></dl>
 </dd></dl>

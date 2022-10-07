@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.csv.html">csv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../code/deephaven.execution_context.html">execution_context</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../code/deephaven.experimental.ema.html">ema</a></li>
 </ul>
@@ -360,15 +361,6 @@
 
 <span class="k">def</span> <span class="nf">_make_input_column</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
     <span class="sd">""" Creates a InputColumn with the given column name and the numpy array. """</span>
-    <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">dtypes</span><span class="o">.</span><span class="n">bool_</span><span class="p">:</span>
-        <span class="n">bytes_</span> <span class="o">=</span> <span class="n">np_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
-        <span class="n">j_bytes</span> <span class="o">=</span> <span class="n">dtypes</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dtypes</span><span class="o">.</span><span class="n">byte</span><span class="p">,</span> <span class="n">bytes_</span><span class="p">)</span>
-        <span class="n">np_array</span> <span class="o">=</span> <span class="n">_JPrimitiveArrayConversionUtility</span><span class="o">.</span><span class="n">translateArrayByteToBoolean</span><span class="p">(</span><span class="n">j_bytes</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">dtypes</span><span class="o">.</span><span class="n">DateTime</span><span class="p">:</span>
-        <span class="n">longs</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">'long'</span><span class="p">,</span> <span class="n">np_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'datetime64[ns]'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'int64'</span><span class="p">))</span>
-        <span class="n">np_array</span> <span class="o">=</span> <span class="n">_JPrimitiveArrayConversionUtility</span><span class="o">.</span><span class="n">translateArrayLongToDateTime</span><span class="p">(</span><span class="n">longs</span><span class="p">)</span>
-
     <span class="k">return</span> <span class="n">InputColumn</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">_to_column_name</span><span class="p">(</span><span class="n">col</span><span class="p">),</span> <span class="n">data_type</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">input_data</span><span class="o">=</span><span class="n">np_array</span><span class="p">)</span>
 
 
