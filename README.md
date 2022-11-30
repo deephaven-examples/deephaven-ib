@@ -665,6 +665,27 @@ If you can not solve your problems through either the `errors` table or through 
 * [Gitter: A relaxed chat room about all things Deephaven](https://gitter.im/deephaven/deephaven)
 * [Deephaven Community Slack](https://deephaven.io/slack)
 
+### `Takes N positional arguments but M were given`
+
+You may encounter an error that looks like: `Takes N positional arguments but M were given`.  If you see a problem like this, your `ibapi` version does not match the version needed by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).  The [`ibapi` version in PyPI](https://pypi.org/project/ibapi/) is ancient and appears to have been abandoned by [Interactive Brokers](https://www.interactivebrokers.com/).  Currently [Interactive Brokers](https://www.interactivebrokers.com/) is delivering `ibapi` either via the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) download or via git. 
+
+To check your `ibapi` version:
+```python
+import ibapi
+print(ibapi.__version__)
+```
+
+If your version is `9.x`, it is the old version from [PyPI](https://pypi.org/project/ibapi/).  To install the required `ibapi` version:
+```bash
+# pip installed version of ibapi is too old.  You must download and install a more recent version.
+export IB_VERSION=1016.01
+curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
+unzip api.zip
+cd ./IBJts/source/pythonclient
+python3 setup.py install
+```
+
+Note that the `ibapi` API is very unstable.  You likely need the exact version mentioned here for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) to function.  If you want a better installation experience and more flexability with the `ibapi` version, reach out to [Interactive Brokers](https://www.interactivebrokers.com/) and let them know that you want them to start publishing the latest `ibapi` versions to [PyPI](https://pypi.org).
 
 # Examples
 
