@@ -41,6 +41,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
         10187: "Failed to request historical ticks",
         10189: "Failed to request tick-by-tick data",
         10190: "Maxnumber of tick-by-tick requests has been reached.",
+        10311: "This order will be directly routed to NYSE. Direct routed orders may result in higher trade fees. Restriction is specified in Precautionary Settings of Global Configuration/API.",
     }
 
     for k, v in overrides.items():
