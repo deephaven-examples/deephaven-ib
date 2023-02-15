@@ -210,6 +210,7 @@
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.js.html">js</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object.html">object</a></li>
 </ul>
 </li>
@@ -281,6 +282,18 @@
 <dt class="sig sig-object py" id="deephaven.server.plugin.object.ExporterAdapter">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">ExporterAdapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exporter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/server/plugin/object.html#ExporterAdapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.server.plugin.object.ExporterAdapter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="deephaven.plugin.object.html#deephaven.plugin.object.Exporter" title="deephaven.plugin.object.Exporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven.plugin.object.Exporter</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.server.plugin.object.ExporterAdapter.reference">
+<span class="sig-name descname"><span class="pre">reference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_unknown_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_new</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/server/plugin/object.html#ExporterAdapter.reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.server.plugin.object.ExporterAdapter.reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the reference for object if it has already been created and force_new is False,
+otherwise creates a new one. If allow_unknown_type is False, and no type can be found, no
+reference will be created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.plugin.object.html#deephaven.plugin.object.Reference" title="deephaven.plugin.object.Reference"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reference</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
 </dd></dl>
 </section>
 

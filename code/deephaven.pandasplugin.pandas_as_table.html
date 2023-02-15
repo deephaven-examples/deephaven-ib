@@ -210,6 +210,7 @@
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.js.html">js</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object.html">object</a></li>
 </ul>
 </li>
@@ -281,6 +282,26 @@
 <dt class="sig sig-object py" id="deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">PandasDataFrameSerializer</span></span><a class="reference internal" href="../_modules/deephaven/pandasplugin/pandas_as_table.html#PandasDataFrameSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="deephaven.plugin.object.html#deephaven.plugin.object.ObjectType" title="deephaven.plugin.object.ObjectType"><code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven.plugin.object.ObjectType</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer.is_type">
+<span class="sig-name descname"><span class="pre">is_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/pandasplugin/pandas_as_table.html#PandasDataFrameSerializer.is_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer.is_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if, and only if, the object is compatible with this object type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer.name">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the object type.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer.to_bytes">
+<span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exporter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/pandasplugin/pandas_as_table.html#PandasDataFrameSerializer.to_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.pandasplugin.pandas_as_table.PandasDataFrameSerializer.to_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes object into bytes. Must only be called with a compatible object.</p>
+</dd></dl>
 </dd></dl>
 </section>
 

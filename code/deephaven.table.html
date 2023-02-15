@@ -210,6 +210,7 @@
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.js.html">js</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object.html">object</a></li>
 </ul>
 </li>
@@ -311,42 +312,22 @@ constituent column change?</p>
 <p>Note, it is possible for constituent changes to not be permitted even if constituent tables are refreshing or
 if the underlying partitioned table is refreshing. Also note that the underlying partitioned table must be
 refreshing if it contains any refreshing constituents.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.constituent_column">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">constituent_column</span></span><a class="headerlink" href="#deephaven.table.PartitionedTable.constituent_column" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the column containing constituent tables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.constituent_table_columns">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">constituent_table_columns</span></span><a class="headerlink" href="#deephaven.table.PartitionedTable.constituent_table_columns" title="Permalink to this definition">¶</a></dt>
 <dd><p>The column definitions for constituent tables.  All constituent tables in a partitioned table have the
 same column definitions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="deephaven.column.html#deephaven.column.Column" title="deephaven.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a>]</p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.constituent_tables">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">constituent_tables</span></span><a class="headerlink" href="#deephaven.table.PartitionedTable.constituent_tables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all the current constituent tables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a>]</p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.filter">
@@ -459,11 +440,6 @@ If there are no matching rows, the result is None. If there are multiple matchin
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.is_refreshing">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_refreshing</span></span><a class="headerlink" href="#deephaven.table.PartitionedTable.is_refreshing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether the underlying partitioned table is refreshing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.j_object_type">
@@ -474,11 +450,6 @@ If there are no matching rows, the result is None. If there are multiple matchin
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.key_columns">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">key_columns</span></span><a class="headerlink" href="#deephaven.table.PartitionedTable.key_columns" title="Permalink to this definition">¶</a></dt>
 <dd><p>The partition key column names.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.keys">
@@ -566,8 +537,10 @@ present when an operation uses this PartitionedTable and another PartitionedTabl
 <span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/table.html#PartitionedTable.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.table.PartitionedTable.sort" title="Permalink to this definition">¶</a></dt>
 <dd><p>The sort method creates a new partitioned table where the rows are ordered based on values in a specified
 set of columns. Sort can not use the constituent column.</p>
-<blockquote>
-<div><dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><p><a class="reference internal" href="#deephaven.table.PartitionedTable" title="deephaven.table.PartitionedTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTable</span></code></a></p>
+<dl>
 <dt>Args:</dt><dd><p>order_by (Union[str, Sequence[str]]): the column(s) to be sorted on.  Can’t include the constituent column.
 order (Union[SortDirection, Sequence[SortDirection], optional): the corresponding sort directions for</p>
 <blockquote>
@@ -579,10 +552,7 @@ order (Union[SortDirection, Sequence[SortDirection], optional): the correspondin
 <dt>Raises:</dt><dd><p>DHError</p>
 </dd>
 </dl>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#deephaven.table.PartitionedTable" title="deephaven.table.PartitionedTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionedTable</span></code></a></p>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -590,11 +560,6 @@ order (Union[SortDirection, Sequence[SortDirection], optional): the correspondin
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.table">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">table</span></span><a class="headerlink" href="#deephaven.table.PartitionedTable.table" title="Permalink to this definition">¶</a></dt>
 <dd><p>The underlying partitioned table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTable.transform">
@@ -626,11 +591,6 @@ if the Table underlying this PartitionedTable changes, a corresponding change wi
 <dd><p>Whether the keys in the underlying table must always be unique. If keys must be unique, one can expect
 that self.table.select_distinct(self.key_columns) and self.table.view(self.key_columns) operations always
 produce equivalent tables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
@@ -917,11 +877,6 @@ partitioned table.</p>
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.is_refreshing">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_refreshing</span></span><a class="headerlink" href="#deephaven.table.PartitionedTableProxy.is_refreshing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether this proxy represents a refreshing partitioned table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.PartitionedTableProxy.j_object_type">
@@ -1689,11 +1644,6 @@ default is AsOfMatchRule.LESS_THAN_EQUAL. The other valid value is AsOfMatchRule
 <dt class="sig sig-object py" id="deephaven.table.Table.columns">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">columns</span></span><a class="headerlink" href="#deephaven.table.Table.columns" title="Permalink to this definition">¶</a></dt>
 <dd><p>The column definitions of the table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="deephaven.column.html#deephaven.column.Column" title="deephaven.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a>]</p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.Table.count_by">
@@ -1935,11 +1885,6 @@ grouped into arrays.</p>
 <dt class="sig sig-object py" id="deephaven.table.Table.is_refreshing">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_refreshing</span></span><a class="headerlink" href="#deephaven.table.Table.is_refreshing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether this table is refreshing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.Table.j_object_type">
@@ -2085,11 +2030,6 @@ color (Optional[str]): The hex color string or Deephaven color name</p>
 <dt class="sig sig-object py" id="deephaven.table.Table.meta_table">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">meta_table</span></span><a class="headerlink" href="#deephaven.table.Table.meta_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>The column definitions of the table in a Table form.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#deephaven.table.Table" title="deephaven.table.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.Table.min_by">
@@ -2382,11 +2322,6 @@ the selected columns.</p>
 <dt class="sig sig-object py" id="deephaven.table.Table.size">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#deephaven.table.Table.size" title="Permalink to this definition">¶</a></dt>
 <dd><p>The current number of rows in the table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="deephaven.table.Table.snapshot">

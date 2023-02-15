@@ -1,0 +1,10 @@
+deephaven.plugin.js
+===================
+
+
+.. automodule:: deephaven.plugin.js
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

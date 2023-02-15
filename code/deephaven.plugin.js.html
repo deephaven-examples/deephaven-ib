@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.plot.selectable_dataset" href="deephaven.plot.selectable_dataset.html" /><link rel="prev" title="deephaven.plot.linestyle" href="deephaven.plot.linestyle.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.plugin.object" href="deephaven.plugin.object.html" /><link rel="prev" title="deephaven.plugin" href="deephaven.plugin.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>deephaven.plot.plotstyle - deephaven_ib documentation</title>
+        <title>deephaven.plugin.js - deephaven_ib documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -197,20 +197,20 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.parquet.html">parquet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.perfmon.html">perfmon</a></li>
-<li class="toctree-l3 current has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axisformat.html">axisformat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axistransform.html">axistransform</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.color.html">color</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.figure.html">figure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.font.html">font</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.linestyle.html">linestyle</a></li>
-<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">plotstyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plot.plotstyle.html">plotstyle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.selectable_dataset.html">selectable_dataset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.shape.html">shape</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.js.html">js</a></li>
+<li class="toctree-l3 current has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">js</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object.html">object</a></li>
 </ul>
 </li>
@@ -276,68 +276,37 @@
           </label>
         </div>
         <article role="main">
-          <section id="module-deephaven.plot.plotstyle">
-<span id="deephaven-plot-plotstyle"></span><h1>deephaven.plot.plotstyle<a class="headerlink" href="#module-deephaven.plot.plotstyle" title="Permalink to this headline">¶</a></h1>
-<p>This module provides support for different plot styles (e.g. line, bar, area, etc.).</p>
+          <section id="module-deephaven.plugin.js">
+<span id="deephaven-plugin-js"></span><h1>deephaven.plugin.js<a class="headerlink" href="#module-deephaven.plugin.js" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">PlotStyle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plot/plotstyle.html#PlotStyle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enum defining the styles of a plot (e.g. line, bar, etc.).</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.AREA">
-<span class="sig-name descname"><span class="pre">AREA</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d30)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.AREA" title="Permalink to this definition">¶</a></dt>
-<dd><p>An area chart (does not display shapes at data points by default).</p>
+<dt class="sig sig-object py" id="deephaven.plugin.js.JsPlugin">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">JsPlugin</span></span><a class="reference internal" href="../_modules/deephaven/plugin/js.html#JsPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plugin.js.JsPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="deephaven.plugin.html#deephaven.plugin.Plugin" title="deephaven.plugin.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">deephaven.plugin.Plugin</span></code></a></p>
+<p>A js plugin. Useful for adding custom JS code to the server that can be passed to the web client.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="deephaven.plugin.js.JsPlugin.distribution_path">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">distribution_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/plugin/js.html#JsPlugin.distribution_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.plugin.js.JsPlugin.distribution_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>A generator that yields the distribution path directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
 </dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.BAR">
-<span class="sig-name descname"><span class="pre">BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d18)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.BAR" title="Permalink to this definition">¶</a></dt>
-<dd><p>A bar chart.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven.plugin.js.JsPlugin.main">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">main</span></span><a class="headerlink" href="#deephaven.plugin.js.JsPlugin.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main js file, the relative path with respect to distribution_path.</p>
 </dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.ERROR_BAR">
-<span class="sig-name descname"><span class="pre">ERROR_BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d68)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.ERROR_BAR" title="Permalink to this definition">¶</a></dt>
-<dd><p>An error bar plot (points are not displayed by default).</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven.plugin.js.JsPlugin.name">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#deephaven.plugin.js.JsPlugin.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The plugin name</p>
 </dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.HISTOGRAM">
-<span class="sig-name descname"><span class="pre">HISTOGRAM</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d48)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.HISTOGRAM" title="Permalink to this definition">¶</a></dt>
-<dd><p>A histogram chart.</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.LINE">
-<span class="sig-name descname"><span class="pre">LINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d28)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.LINE" title="Permalink to this definition">¶</a></dt>
-<dd><p>A line chart (does not display shapes at data points by default).</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.OHLC">
-<span class="sig-name descname"><span class="pre">OHLC</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d50)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.OHLC" title="Permalink to this definition">¶</a></dt>
-<dd><p>An open-high-low-close chart.</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.PIE">
-<span class="sig-name descname"><span class="pre">PIE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d40)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.PIE" title="Permalink to this definition">¶</a></dt>
-<dd><p>A pie chart.</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.SCATTER">
-<span class="sig-name descname"><span class="pre">SCATTER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d58)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.SCATTER" title="Permalink to this definition">¶</a></dt>
-<dd><p>A scatter plot (lines are not displayed by default).</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.STACKED_AREA">
-<span class="sig-name descname"><span class="pre">STACKED_AREA</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d38)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STACKED_AREA" title="Permalink to this definition">¶</a></dt>
-<dd><p>A stacked area chart (does not display shapes at data points by default).</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.STACKED_BAR">
-<span class="sig-name descname"><span class="pre">STACKED_BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d20)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STACKED_BAR" title="Permalink to this definition">¶</a></dt>
-<dd><p>A stacked bar chart.</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.plot.plotstyle.PlotStyle.STEP">
-<span class="sig-name descname"><span class="pre">STEP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.plot.PlotStyle(objectRef=0x4d12d60)</span></em><a class="headerlink" href="#deephaven.plot.plotstyle.PlotStyle.STEP" title="Permalink to this definition">¶</a></dt>
-<dd><p>A step plot.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="deephaven.plugin.js.JsPlugin.version">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#deephaven.plugin.js.JsPlugin.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>The plugin version</p>
 </dd></dl>
 </dd></dl>
 </section>
@@ -347,23 +316,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="deephaven.plot.selectable_dataset.html">
+          <a class="next-page" href="deephaven.plugin.object.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">deephaven.plot.selectable_dataset</div>
+                <div class="title">deephaven.plugin.object</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="deephaven.plot.linestyle.html">
+          <a class="prev-page" href="deephaven.plugin.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">deephaven.plot.linestyle</div>
+                <div class="title">deephaven.plugin</div>
                 
               </div>
             </a>
@@ -375,7 +344,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/code/deephaven.plot.plotstyle.rst.txt"
+            <a class="muted-link" href="../_sources/code/deephaven.plugin.js.rst.txt"
                rel="nofollow">
               Show Source
             </a>
