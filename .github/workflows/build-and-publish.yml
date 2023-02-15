@@ -61,8 +61,13 @@ jobs:
         TAG_NAME=${{ github.event.release.tag_name }}
         if [ -z "${TAG_NAME}" ]
         then
-            PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-            echo "::set-output name=version::0.0.0.dev${PR_NUMBER}"
+            if [ "$GITHUB_REF" = "refs/heads/main" ]
+            then
+              echo "::set-output name=version::0.0.0.rc"
+            else
+              PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+              echo "::set-output name=version::0.0.0.dev${PR_NUMBER}"
+            fi
         else
             echo "::set-output name=version::${{ github.event.release.tag_name }}"
         fi
