@@ -77,7 +77,7 @@ def get_contracts() -> Dict[str, Contract]:
     # CFD
 
     contract = Contract()
-    contract.symbol = "IBDE30"
+    contract.symbol = "IBDE40"
     contract.secType = "CFD"
     contract.currency = "EUR"
     contract.exchange = "SMART"
@@ -88,17 +88,17 @@ def get_contracts() -> Dict[str, Contract]:
     contract = Contract()
     contract.symbol = "ES"
     contract.secType = "FUT"
-    contract.exchange = "GLOBEX"
+    contract.exchange = "CME"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202212"
+    contract.lastTradeDateOrContractMonth = "06"
     rst["future_1"] = contract
 
     # find more contracts at https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.quotes.html
     contract = Contract()
     contract.secType = "FUT"
-    contract.exchange = "GLOBEX"
+    contract.exchange = "CME"
     contract.currency = "USD"
-    contract.localSymbol = "ESZ2"
+    contract.localSymbol = "ESM3"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -106,20 +106,20 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "EUREX"
     contract.currency = "EUR"
-    contract.lastTradeDateOrContractMonth = "202212"
+    contract.lastTradeDateOrContractMonth = "06"
     contract.multiplier = "1"
     rst["future_3"] = contract
 
     contract = Contract()
     contract.symbol = "ES"
     contract.secType = "CONTFUT"
-    contract.exchange = "GLOBEX"
+    contract.exchange = "CME"
     rst["future_4"] = contract
 
     contract = Contract()
     contract.symbol = "ES"
     contract.secType = "FUT+CONTFUT"
-    contract.exchange = "GLOBEX"
+    contract.exchange = "CME"
     rst["future_5"] = contract
 
     # Options
@@ -129,7 +129,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "OPT"
     contract.exchange = "BOX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "20230120"
+    contract.lastTradeDateOrContractMonth = "20240119"
     contract.strike = 110
     contract.right = "C"
     contract.multiplier = "100"
@@ -157,12 +157,13 @@ def get_contracts() -> Dict[str, Contract]:
 
     # Futures Options
 
+    # find more contracts at https://www.cmegroup.com/tools-information/quikstrike/options-calendar-equity-index.html
     contract = Contract()
     contract.symbol = "ES"
     contract.secType = "FOP"
-    contract.exchange = "GLOBEX"
+    contract.exchange = "CME"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202209"
+    contract.lastTradeDateOrContractMonth = "202303"
     contract.strike = 4700
     contract.right = "C"
     contract.multiplier = "50"
@@ -344,8 +345,8 @@ contract.currency = "USD"
 
 rc = client.get_registered_contract(contract)
 client.request_bars_historical(rc, duration=dhib.Duration.days(253),
-  bar_size=dhib.BarSize.DAY_1, 
-  bar_type=dhib.BarDataType.AGGTRADES, 
+  bar_size=dhib.BarSize.DAY_1,
+  bar_type=dhib.BarDataType.AGGTRADES,
   keep_up_to_date = False
 )
 client.request_bars_realtime(rc, bar_type=dhib.BarDataType.TRADES)
