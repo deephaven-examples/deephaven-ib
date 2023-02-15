@@ -79,6 +79,12 @@ def _details_contract() -> List[Tuple]:
 
         return right
 
+    def map_multiplier(multiplier: str) -> float:
+        if multiplier is None or multiplier == "":
+            return 1.0
+
+        return float(multiplier)
+
     return [
         ("ContractId", dtypes.int64, lambda contract: contract.conId),
         ("SecId", dtypes.string, lambda contract: contract.secId),
@@ -93,7 +99,7 @@ def _details_contract() -> List[Tuple]:
         ("LastTradeDateOrContractMonth", dtypes.string, lambda contract: contract.lastTradeDateOrContractMonth),
         ("Strike", dtypes.float64, lambda contract: float(contract.strike)),
         ("Right", dtypes.string, lambda contract: map_right(contract.right)),
-        ("Multiplier", dtypes.string, lambda contract: contract.multiplier),
+        ("Multiplier", dtypes.float64, lambda contract: map_multiplier(contract.multiplier)),
 
         # combos
         ("ComboLegsDescrip", dtypes.string, lambda contract: contract.comboLegsDescrip),
