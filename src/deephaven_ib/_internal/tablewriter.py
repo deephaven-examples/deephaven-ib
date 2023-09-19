@@ -34,7 +34,7 @@ class TableWriter:
 
         if receive_time:
             self.names.insert(0, "ReceiveTime")
-            self.types.insert(0, dtypes.DateTime)
+            self.types.insert(0, dtypes.Instant)
 
         col_defs = {name: type for name, type in zip(names, types)}
         self._dtw = DynamicTableWriter(col_defs)

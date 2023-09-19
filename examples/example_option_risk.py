@@ -3,7 +3,6 @@
 import math
 from ibapi.contract import Contract
 from deephaven.constants import NULL_DOUBLE
-from deephaven.time import to_datetime
 from deephaven.plot import Figure
 import deephaven_ib as dhib
 
@@ -151,12 +150,12 @@ def expiry_datetime(expiry):
         return expiry
 
     s = f"{expiry[0:4]}-{expiry[4:6]}-{expiry[6:8]}T14:00:00 NY"
-    return to_datetime(s)
+    return to_j_instant(s)
 
 scenarios = pos \
     .natural_join(last_vols, on="ContractId", joins="Vol") \
     .join(last_uprices, on="Symbol", joins="UPrice=MidPrice") \
-    .lazy_update("ExpiryTime = (DateTime) expiry_datetime(Expiry)") \
+    .lazy_update("ExpiryTime = (Instant) expiry_datetime(Expiry)") \
     .update([
         "T = yearDiff(currentTime(), ExpiryTime)", 
         "IsCall = Right == `C`", 

@@ -1,16 +1,18 @@
 from enum import Enum
 from typing import Dict, List, Callable, Optional
 import json
+import datetime
+import numpy
+import pandas
 
 from deephaven.table import Table
-from deephaven.dtypes import DateTime
 from deephaven.constants import NULL_DOUBLE
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
 from ._tws import IbTwsClient
 from ._tws.order_id_queue import OrderIdStrategy
-from .time import dh_to_ib_datetime
+from .time import to_ib_datetime
 
 __all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "OrderIdStrategy",
            "Request", "RegisteredContract", "IbSessionTws"]
@@ -776,7 +778,9 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_news_historical(self, contract: RegisteredContract, start: DateTime, end: DateTime,
+    def request_news_historical(self, contract: RegisteredContract,
+                                start: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp],
+                                end: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp],
                                 provider_codes: List[str] = None, total_results: int = 100) -> List[Request]:
         """ Request historical news for a contract.  Results are returned in the ``news_historical`` table.
 
@@ -785,8 +789,8 @@ class IbSessionTws:
         Args:
             contract (RegisteredContract): contract data is requested for
             provider_codes (List[str]): a list of provider codes.  By default, all subscribed codes are used.
-            start (DateTime): marks the (exclusive) start of the date range.
-            end (DateTime): marks the (inclusive) end of the date range.
+            start (Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp]): marks the (exclusive) start of the date range.  See https://deephaven.io/core/pydoc/code/deephaven.time.html#deephaven.time.to_j_instant for supported inputs.
+            end (Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp]): marks the (inclusive) end of the date range.  See https://deephaven.io/core/pydoc/code/deephaven.time.html#deephaven.time.to_j_instant for supported inputs.
             total_results (int): the maximum number of headlines to fetch (1 - 300)
 
         Returns:
@@ -810,8 +814,8 @@ class IbSessionTws:
                                      {"provider_codes": provider_codes, "start": start, "end": end,
                                       "total_results": total_results})
             self._client.reqHistoricalNews(reqId=req_id, conId=cd.contract.conId, providerCodes=pc,
-                                           startDateTime=dh_to_ib_datetime(start, sub_sec=False),
-                                           endDateTime=dh_to_ib_datetime(end, sub_sec=False),
+                                           startDateTime=to_ib_datetime(start, sub_sec=False),
+                                           endDateTime=to_ib_datetime(end, sub_sec=False),
                                            totalResults=total_results, historicalNewsOptions=[])
             requests.append(Request(request_id=req_id))
 
@@ -918,7 +922,7 @@ class IbSessionTws:
 
     def request_bars_historical(self, contract: RegisteredContract,
                                 duration: Duration, bar_size: BarSize, bar_type: BarDataType,
-                                end: DateTime = None,
+                                end: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp] = None,
                                 market_data_type: MarketDataType = MarketDataType.FROZEN,
                                 keep_up_to_date: bool = True) -> List[Request]:
         """Requests historical bars for a contract.  Results are returned in the ``bars_historical`` table.
@@ -927,7 +931,7 @@ class IbSessionTws:
 
         Args:
             contract (RegisteredContract): contract data is requested for
-            end (DateTime): Ending timestamp of the requested data.
+            end (Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp]): Ending timestamp of the requested data.  See https://deephaven.io/core/pydoc/code/deephaven.time.html#deephaven.time.to_j_instant for supported inputs.
             duration (Duration): Duration of data being requested by the query.
             bar_size (BarSize): Size of the bars that will be returned.
             bar_type (BarDataType): Type of bars that will be returned.
@@ -956,7 +960,7 @@ class IbSessionTws:
                                          "keep_up_to_date": keep_up_to_date,
                                      })
             self._client.reqHistoricalData(reqId=req_id, contract=cd.contract,
-                                           endDateTime=dh_to_ib_datetime(end, sub_sec=False),
+                                           endDateTime=to_ib_datetime(end, sub_sec=False),
                                            durationStr=duration.value, barSizeSetting=bar_size.value,
                                            whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
                                            formatDate=2, keepUpToDate=keep_up_to_date, chartOptions=[])
@@ -1069,7 +1073,8 @@ class IbSessionTws:
 
     def request_tick_data_historical(self, contract: RegisteredContract,
                                      tick_type: TickDataType, number_of_ticks: int,
-                                     start: DateTime = None, end: DateTime = None,
+                                     start: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp] = None,
+                                     end: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp] = None,
                                      market_data_type: MarketDataType = MarketDataType.FROZEN,
                                      ignore_size: bool = False) -> List[Request]:
         """Requests historical tick-by-tick data. Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,
@@ -1079,8 +1084,8 @@ class IbSessionTws:
 
         Args:
             contract (RegisteredContract): contract data is requested for
-            start (DateTime): marks the (exclusive) start of the date range.
-            end (DateTime): marks the (inclusive) end of the date range.
+            start (Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp]): marks the (exclusive) start of the date range.  See https://deephaven.io/core/pydoc/code/deephaven.time.html#deephaven.time.to_j_instant for supported inputs.
+            end (Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp]): marks the (inclusive) end of the date range.  See https://deephaven.io/core/pydoc/code/deephaven.time.html#deephaven.time.to_j_instant for supported inputs.
             tick_type (TickDataType): Type of market data to return.
             number_of_ticks (int): Number of historical ticks to request.
             market_data_type (MarketDataType): Type of market data to return after the close.
@@ -1111,8 +1116,8 @@ class IbSessionTws:
                                       "ignore_size": ignore_size,
                                       })
             self._client.reqHistoricalTicks(reqId=req_id, contract=cd.contract,
-                                            startDateTime=dh_to_ib_datetime(start, sub_sec=False),
-                                            endDateTime=dh_to_ib_datetime(end, sub_sec=False),
+                                            startDateTime=to_ib_datetime(start, sub_sec=False),
+                                            endDateTime=to_ib_datetime(end, sub_sec=False),
                                             numberOfTicks=number_of_ticks, whatToShow=what_to_show,
                                             useRth=market_data_type.value,
                                             ignoreSize=ignore_size, miscOptions=[])
