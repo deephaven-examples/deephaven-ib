@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict, List, Callable, Optional
+from typing import Union, Dict, List, Callable, Optional
 import json
 import datetime
 import numpy
