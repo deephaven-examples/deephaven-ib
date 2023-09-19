@@ -5,14 +5,19 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-version = os.getenv("DH_IB_VERSION")
+dh_ib_version = os.getenv("DH_IB_VERSION")
 
-if not version:
-    raise Exception("Version must be set via the DH_IB_VERSION environment varialble.")
+if not dh_ib_version:
+    raise Exception("deephaven-ib version must be set via the DH_IB_VERSION environment varialble.")
+
+dh_version = os.getenv("DH_VERSION")
+
+if not dh_version:
+    raise Exception("deephaven version must be set via the DH_VERSION environment varialble.")
 
 setuptools.setup(
     name="deephaven_ib",
-    version=version,
+    version=dh_ib_version,
     author="David R. (Chip) Kent IV",
     author_email="chipkent@deephaven.io",
     description="An Interactive Brokers integration for Deephaven",
@@ -39,7 +44,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
     install_requires=[
-        "deephaven-server==0.17.0",
+        f"deephaven-server=={dh_version}",
         "pandas",
         "ibapi==10.16.1",
         "lxml",

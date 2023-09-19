@@ -11,6 +11,11 @@ mkdir build
 rsync -av ../.. build --exclude docker
 rm -rf build/dist
 
-docker build --build-arg IB_VERSION=1016.01 -t deephaven-examples/deephaven-ib:dev -f Dockerfile .
+if [ -z "$DH_VERSION" ]; then
+  echo "DH_VERSION must be set"
+  exit 1
+fi
+
+docker build --build-arg DH_VERSION=${DH_VERSION} --build-arg IB_VERSION=1016.01 -t deephaven-examples/deephaven-ib:dev -f Dockerfile .
 
 rm -rf build

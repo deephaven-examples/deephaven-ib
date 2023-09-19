@@ -4,8 +4,9 @@
 
 FROM ubuntu:22.04
 
-ARG DH_IB_VERSION=dev
+ARG DH_IB_VERSION=0.0.0dev
 ARG IB_VERSION
+ARG DH_VERSION
 
 # Install requirements
 
