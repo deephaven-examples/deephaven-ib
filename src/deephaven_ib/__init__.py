@@ -7,6 +7,7 @@ import pandas
 
 from deephaven.table import Table
 from deephaven.constants import NULL_DOUBLE
+from deephaven.dtypes import Instant
 from ibapi.contract import Contract, ContractDetails
 from ibapi.order import Order
 
