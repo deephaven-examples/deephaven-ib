@@ -190,9 +190,9 @@ the pip-installed Deephaven system is installed in a Docker container.
 3) Launch the system:
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data -v `pwd`/.deephaven:/storage -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    docker run -it -v data:/data -v `pwd`/.deephaven:/storage -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!']); _server.start()"
     ```
-4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and logging in with the password `DeephavenRocks!`.
 
 
 ### (Option 2) Launch pip-installed Deephaven with Docker -- run a script
@@ -204,7 +204,7 @@ This is a good option for production scenarios where scripts need to be run and 
 1) Create a directory for your data and scripts
     ```bash
     mkdir data
-    # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!']); _server.start()"
     # Set jvm_args to the desired JVM memory for Deephaven
     cp path/to/your_script.py data/your_script.py
     ```
@@ -217,7 +217,7 @@ This is a good option for production scenarios where scripts need to be run and 
     # Set jvm_args to the desired JVM memory for Deephaven
     docker run -it -v data:/data -v `pwd`/.deephaven:/storage -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
     ```
-4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and logging in with the password `DeephavenRocks!`.
 
 
 ### (Option 3) Launch pip-installed Deephaven with a local installation (No Docker) -- interactive
@@ -230,7 +230,7 @@ new feature and has not been well tested.  To do this:
 1) Install `ibapi`:
     ```bash
     # pip installed version of ibapi is too old.  You must download and install a more recent version.
-    export IB_VERSION=1016.01
+    export IB_VERSION=1019.01
     curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
     unzip api.zip
     cd ./IBJts/source/pythonclient
@@ -246,9 +246,9 @@ new feature and has not been well tested.  To do this:
     ```bash
     # Set jvm_args to the desired JVM memory for Deephaven
     # Deephaven IDE configuration and notebooks are stored to ~/.deephaven
-    python3 -i -c "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
+    python3 -i -c "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
     ```
-5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and log in with the password `DeephavenRocks!`.
 6) Use `host="localhost"` for the hostname in the examples (Windows WSL uses `host="host.docker.internal"`, since WSL is built on Docker.)
 
 ### (Option 4) Launch pip-installed Deephaven with a local installation (No Docker) -- run a script
@@ -276,20 +276,32 @@ new feature and has not been well tested.  To do this:
     ```
 4) Launch the system and execute a custom script:
     ```bash
-    # your_script.py must begin with: "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
+    # your_script.py must begin with: "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
     # Deephaven IDE configuration and notebooks are stored to ~/.deephaven
     # Set jvm_args to the desired JVM memory for Deephaven
     python3 -i your_script.py
     ```
-5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser.
+5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and log in with the password `DeephavenRocks!`.
 6) Use `host=localhost` for the hostname in the examples
 
+# Authentication
+
+The documentation and examples here illustrate using Deephaven's [Pre-Shared Key (PSK) authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-psk/)
+with the password `DeephavenRocks!`.  Other types of Deephaven authentication can also work.  
+See the [Deephaven Documentation](https://deephaven.io/core/docs/) for details.
+
+Common ways to authenticate are:
+* [Anonymous Authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-anon/)
+* [Pre-Shared Key (PSK) Authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-psk/)
+* [Username / Password Authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-uname-pw/)
 
 # Use deephaven-ib
 
 To use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), you will need to open the [Deephaven Web IDE](http://localhost:10000/ide/) 
-by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.  The following commands
-can be executed in the console.
+by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.  How you authenticate
+will depend upon how authentication is configured.  In the examples here, you will use the password `DeephavenRocks!`.
+
+The following commands can be executed in the console.
 
 ## Connect to TWS
 
@@ -480,8 +492,8 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-start = to_datetime("2021-01-01T00:00:00 NY")
-end = to_datetime("2021-01-10T00:00:00 NY")
+start = "2021-01-01T00:00:00 ET"
+end = "2021-01-10T00:00:00 ET"
 client.request_news_historical(rc, start=start, end=end)
 
 client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
@@ -678,7 +690,7 @@ print(ibapi.__version__)
 If your version is `9.x`, it is the old version from [PyPI](https://pypi.org/project/ibapi/).  To install the required `ibapi` version:
 ```bash
 # pip installed version of ibapi is too old.  You must download and install a more recent version.
-export IB_VERSION=1016.01
+export IB_VERSION=1019.01
 curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
 unzip api.zip
 cd ./IBJts/source/pythonclient
