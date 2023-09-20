@@ -14,7 +14,7 @@ print("==== Create a client and connect.")
 print("==== ** Accept the connection in TWS **")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=False, read_only=False)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=True, read_only=False)
 print(f"IsConnected: {client.is_connected()}")
 
 client.connect()

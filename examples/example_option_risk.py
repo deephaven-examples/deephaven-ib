@@ -157,7 +157,7 @@ scenarios = pos \
     .join(last_uprices, on="Symbol", joins="UPrice=MidPrice") \
     .lazy_update("ExpiryTime = (Instant) expiry_datetime(Expiry)") \
     .update([
-        "T = yearDiff(currentTime(), ExpiryTime)", 
+        "T = diffYears365(now(), ExpiryTime)",
         "IsCall = Right == `C`", 
         "IsStock = SecType == `STK`",
         "Rate = 0.04",

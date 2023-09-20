@@ -10,7 +10,7 @@ print("==== Create a client and connect.")
 print("==== ** Accept the connection in TWS **")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=False, read_only=True)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=True, read_only=True)
 print(f"IsConnected: {client.is_connected()}")
 
 client.connect()
@@ -93,7 +93,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.localSymbol = "ESM3"
+    contract.localSymbol = "ESM4"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -119,13 +119,14 @@ def get_contracts() -> Dict[str, Contract]:
 
     # Options
 
+    # find more contracts at  https://finance.yahoo.com/quote/GOOG/options/
     contract = Contract()
     contract.symbol = "GOOG"
     contract.secType = "OPT"
     contract.exchange = "BOX"
     contract.currency = "USD"
     contract.lastTradeDateOrContractMonth = "20240119"
-    contract.strike = 110
+    contract.strike = 138.5
     contract.right = "C"
     contract.multiplier = "100"
     rst["option_1"] = contract
@@ -158,7 +159,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202303"
+    contract.lastTradeDateOrContractMonth = "202312"
     contract.strike = 4700
     contract.right = "C"
     contract.multiplier = "50"
@@ -452,7 +453,7 @@ contract.secType = "OPT"
 contract.exchange = "BOX"
 contract.currency = "USD"
 contract.lastTradeDateOrContractMonth = "20240119"
-contract.strike = 110
+contract.strike = 138.5
 contract.right = "C"
 contract.multiplier = "100"
 
