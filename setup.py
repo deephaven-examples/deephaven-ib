@@ -15,6 +15,11 @@ dh_version = os.getenv("DH_VERSION")
 if not dh_version:
     raise Exception("deephaven version must be set via the DH_VERSION environment varialble.")
 
+ib_version = os.getenv("IB_VERSION")
+
+if not ib_version:
+    raise Exception("ibapi version must be set via the IB_VERSION environment varialble.")
+
 setuptools.setup(
     name="deephaven_ib",
     version=dh_ib_version,
@@ -46,7 +51,7 @@ setuptools.setup(
     install_requires=[
         f"deephaven-server=={dh_version}",
         "pandas",
-        "ibapi==10.16.1",
+        f"ibapi=={ib_version}",
         "lxml",
         "ratelimit",
     ],

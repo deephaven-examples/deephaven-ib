@@ -16,6 +16,13 @@ if [ -z "$DH_VERSION" ]; then
   exit 1
 fi
 
-docker build --build-arg DH_VERSION=${DH_VERSION} --build-arg IB_VERSION=1016.01 -t deephaven-examples/deephaven-ib:dev -f Dockerfile .
+IB_VERSION_DEFAULT=10.19.01
+
+if [ -z "$IB_VERSION" ]; then
+  echo "Using default IB_VERSION=${IB_VERSION_DEFAULT}"
+  IB_VERSION=${IB_VERSION_DEFAULT}
+fi
+
+docker build --build-arg DH_VERSION=${DH_VERSION} --build-arg IB_VERSION=${IB_VERSION} -t deephaven-examples/deephaven-ib:dev -f Dockerfile .
 
 rm -rf build

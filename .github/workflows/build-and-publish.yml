@@ -12,7 +12,7 @@ on:
       - released
 
 env:
-  IB_VERSION: 1019.01
+  IB_VERSION: 10.19.1
   DH_VERSION: 0.28
 
 jobs:
@@ -30,7 +30,9 @@ jobs:
         python -m pip install --upgrade setuptools wheel build twine
     - name: Build
       run: |
-        curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
+        IB_VERSION_DOWNLOAD=$(echo ${IB_VERSION} | sed 's/[.]//')
+        echo "Downloading IB API version ${IB_VERSION_DOWNLOAD}"
+        curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION_DOWNLOAD}.zip"
         unzip api.zip
         cd ./IBJts/source/pythonclient
         python -m build
