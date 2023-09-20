@@ -470,7 +470,10 @@ class IbTwsClient(EWrapper, EClient):
         for cd in contractDescriptions:
             self._table_writers["contracts_matching"].write_row([reqId, *logger_contract.vals(cd.contract),
                                                                  to_string_set(cd.derivativeSecTypes)])
-            self.contract_registry.request_contract_details_nonblocking(cd.contract)
+
+            # Negative contract IDs seem to be for malformed contracts that yield errors when requesting details
+            if cd.contract.conId >= 0:
+                self.contract_registry.request_contract_details_nonblocking(cd.contract)
 
     ####
     # reqMarketRule

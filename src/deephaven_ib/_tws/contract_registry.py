@@ -201,6 +201,9 @@ class ContractRegistry:
 
         with self._lock:
             if key not in self._contracts:
+                if contract.conId < 0:
+                    raise Exception("Requesting contract details for a contract with a negative conId.  This is almost certainly a bug.  Please submit a bug report with this stack trace: {contract}")
+
                 req_id = self._client.request_id_manager.next_id()
                 req = (contract, event)
                 self._requests_by_id[req_id] = req

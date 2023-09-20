@@ -12,6 +12,7 @@ from deephaven.dtypes import Instant
 
 _SimpleDateFormat = jpy.get_type("java.text.SimpleDateFormat")
 _TimeZone = jpy.get_type("java.util.TimeZone")
+_DateTimeUtils = jpy.get_type("io.deephaven.time.DateTimeUtils")
 
 _ib_date_time_pattern_sec = "yyyyMMdd HH:mm:ss"
 _ib_date_time_pattern_subsec = "yyyyMMdd HH:mm:ss.S"
@@ -45,10 +46,12 @@ def to_ib_datetime(time: Union[None, Instant, int, str, datetime.datetime, numpy
     if time is None:
         return ""
 
+    date = _DateTimeUtils.toDate(time)
+
     if sub_sec:
-        return _ib_date_time_formatter_subsec.format(time.getDate()) + " US/Eastern"
+        return _ib_date_time_formatter_subsec.format(date) + " US/Eastern"
     else:
-        return _ib_date_time_formatter_sec.format(time.getDate()) + " US/Eastern"
+        return _ib_date_time_formatter_sec.format(date) + " US/Eastern"
 
 
 def ib_to_j_instant(time: str) -> Instant:
@@ -61,7 +64,7 @@ def ib_to_j_instant(time: str) -> Instant:
 
     for formatter in _ib_date_time_formatters:
         try:
-            return Instant.j_type.of(formatter.parse(time).toInstant())
+            return formatter.parse(time).toInstant()
         except Exception as e:
             exceptions.append(e)
             pass
