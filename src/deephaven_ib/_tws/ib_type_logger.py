@@ -6,7 +6,7 @@ from typing import Any, List, Tuple, Dict, Callable, Optional
 from deephaven import dtypes
 
 from .._internal.tablewriter import map_values, to_string_val, to_string_set
-from ..time import unix_sec_to_dh_datetime, ib_to_dh_datetime
+from ..time import unix_sec_to_j_instant, ib_to_j_instant
 
 
 class IbComplexTypeLogger:
@@ -163,7 +163,7 @@ def _details_contract_details() -> List[Tuple]:
         ("CouponType", dtypes.string, lambda cd: cd.couponType),
         ("Callable", dtypes.bool_, lambda cd: cd.callable),
         ("Putable", dtypes.bool_, lambda cd: cd.putable),
-        ("Coupon", dtypes.int64, lambda cd: cd.coupon),
+        ("Coupon", dtypes.double, lambda cd: float(cd.coupon)),
         ("Convertible", dtypes.bool_, lambda cd: cd.convertible),
         ("Maturity", dtypes.string, lambda cd: cd.maturity),
         # TODO: convert date time?  Values are not provided in TWS, and the format is not documented. (https://github.com/deephaven-examples/deephaven-ib/issues/10)
@@ -212,13 +212,13 @@ def _details_bar_data() -> List[Tuple]:
             month = bd.date[4:6]
             day = bd.date[6:]
             time_string = f"{year}{month}{day} 23:59:59"
-            return ib_to_dh_datetime(time_string)
+            return ib_to_j_instant(time_string)
         else:
             # bd.date is unix sec
-            return unix_sec_to_dh_datetime(int(bd.date))
+            return unix_sec_to_j_instant(int(bd.date))
 
     return [
-        ("Timestamp", dtypes.DateTime, parse_timestamp),
+        ("Timestamp", dtypes.Instant, parse_timestamp),
         ("Open", dtypes.float64, lambda bd: bd.open),
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
@@ -244,8 +244,8 @@ def _details_real_time_bar_data() -> List[Tuple]:
         return val
 
     return [
-        ("Timestamp", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(bd.time)),
-        ("TimestampEnd", dtypes.DateTime, lambda bd: unix_sec_to_dh_datetime(bd.endTime)),
+        ("Timestamp", dtypes.Instant, lambda bd: unix_sec_to_j_instant(bd.time)),
+        ("TimestampEnd", dtypes.Instant, lambda bd: unix_sec_to_j_instant(bd.endTime)),
         ("Open", dtypes.float64, lambda bd: bd.open_),
         ("High", dtypes.float64, lambda bd: bd.high),
         ("Low", dtypes.float64, lambda bd: bd.low),
@@ -333,7 +333,7 @@ def _details_historical_tick_last() -> List[Tuple]:
 
 
     return [
-        ("Timestamp", dtypes.DateTime, lambda t: unix_sec_to_dh_datetime(t.time)),
+        ("Timestamp", dtypes.Instant, lambda t: unix_sec_to_j_instant(t.time)),
         ("Price", dtypes.float64, lambda t: t.price),
         ("Size", dtypes.float64, lambda t: t.size),
         *_include_details(_details_tick_attrib_last(), lambda t: t.tickAttribLast),
@@ -365,7 +365,7 @@ def _details_historical_tick_bid_ask() -> List[Tuple]:
     """Details for logging HistoricalTickBidAsk."""
 
     return [
-        ("Timestamp", dtypes.DateTime, lambda t: unix_sec_to_dh_datetime(t.time)),
+        ("Timestamp", dtypes.Instant, lambda t: unix_sec_to_j_instant(t.time)),
         ("BidPrice", dtypes.float64, lambda t: t.priceBid),
         ("AskPrice", dtypes.float64, lambda t: t.priceAsk),
         ("BidSize", dtypes.float64, lambda t: t.sizeBid),
@@ -626,7 +626,7 @@ def _details_execution() -> List[Tuple]:
 
     return [
         ("ExecId", dtypes.string, lambda e: e.execId),
-        ("Timestamp", dtypes.DateTime, lambda e: ib_to_dh_datetime(e.time)),
+        ("Timestamp", dtypes.Instant, lambda e: ib_to_j_instant(e.time)),
         ("AcctNumber", dtypes.string, lambda e: e.acctNumber),
         ("Exchange", dtypes.string, lambda e: e.exchange),
         ("Side", dtypes.string, lambda e: e.side),

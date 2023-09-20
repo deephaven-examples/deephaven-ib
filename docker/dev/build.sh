@@ -11,6 +11,18 @@ mkdir build
 rsync -av ../.. build --exclude docker
 rm -rf build/dist
 
-docker build --build-arg IB_VERSION=1016.01 -t deephaven-examples/deephaven-ib:dev -f Dockerfile .
+if [ -z "$DH_VERSION" ]; then
+  echo "DH_VERSION must be set"
+  exit 1
+fi
+
+IB_VERSION_DEFAULT=10.19.01
+
+if [ -z "$IB_VERSION" ]; then
+  echo "Using default IB_VERSION=${IB_VERSION_DEFAULT}"
+  IB_VERSION=${IB_VERSION_DEFAULT}
+fi
+
+docker build --build-arg DH_VERSION=${DH_VERSION} --build-arg IB_VERSION=${IB_VERSION} -t deephaven-examples/deephaven-ib:dev -f Dockerfile .
 
 rm -rf build

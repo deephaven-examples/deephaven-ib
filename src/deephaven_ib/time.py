@@ -1,11 +1,18 @@
 """Functionality for working with time in Deephaven and IB."""
 
+from typing import Union
+
 import jpy
+import datetime
+import numpy
+import pandas
+
 import deephaven.time as dtime
-from deephaven.dtypes import DateTime
+from deephaven.dtypes import Instant
 
 _SimpleDateFormat = jpy.get_type("java.text.SimpleDateFormat")
 _TimeZone = jpy.get_type("java.util.TimeZone")
+_DateTimeUtils = jpy.get_type("io.deephaven.time.DateTimeUtils")
 
 _ib_date_time_pattern_sec = "yyyyMMdd HH:mm:ss"
 _ib_date_time_pattern_subsec = "yyyyMMdd HH:mm:ss.S"
@@ -24,25 +31,31 @@ _ib_date_time_formatters = [_SimpleDateFormat(pattern) for pattern in _ib_date_t
 for _f in _ib_date_time_formatters:
     _f.setTimeZone(_TimeZone.getTimeZone("US/Eastern"))
 
-def dh_to_ib_datetime(time: DateTime, sub_sec: bool = True) -> str:
-    """Convert a DH DateTime to an IB timestamp string.
+
+def to_ib_datetime(time: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp],
+                   sub_sec: bool = True) -> str:
+    """Convert a time to an IB timestamp string.
 
     Args:
-        time (DateTime): time
+        time (Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp]): time.  See https://deephaven.io/core/pydoc/code/deephaven.time.html#deephaven.time.to_j_instant for supported inputs.
         sub_sec (bool): true to return subsecond resolution and false otherwise.
     """
+
+    time = dtime.to_j_instant(time)
 
     if time is None:
         return ""
 
+    date = _DateTimeUtils.toDate(time)
+
     if sub_sec:
-        return _ib_date_time_formatter_subsec.format(time.getDate()) + " US/Eastern"
+        return _ib_date_time_formatter_subsec.format(date) + " US/Eastern"
     else:
-        return _ib_date_time_formatter_sec.format(time.getDate()) + " US/Eastern"
+        return _ib_date_time_formatter_sec.format(date) + " US/Eastern"
 
 
-def ib_to_dh_datetime(time: str) -> DateTime:
-    """Convert an IB timestamp to a DH DateTime."""
+def ib_to_j_instant(time: str) -> Instant:
+    """Convert an IB timestamp to a Java Instant."""
 
     if time is None:
         return None
@@ -51,7 +64,7 @@ def ib_to_dh_datetime(time: str) -> DateTime:
 
     for formatter in _ib_date_time_formatters:
         try:
-            return DateTime.j_type.of(formatter.parse(time).toInstant())
+            return formatter.parse(time).toInstant()
         except Exception as e:
             exceptions.append(e)
             pass
@@ -59,10 +72,10 @@ def ib_to_dh_datetime(time: str) -> DateTime:
     raise Exception(f"Unable to parse time '{time}'", exceptions)
 
 
-def unix_sec_to_dh_datetime(time: int) -> DateTime:
-    """Convert Unix seconds since the epoch to a DH DateTime."""
+def unix_sec_to_j_instant(time: int) -> Instant:
+    """Convert Unix seconds since the epoch to a Java Instant."""
 
     if time is None:
         return None
 
-    return DateTime(int(time) * dtime.SECOND)
+    return dtime.to_j_instant(int(time) * 1000000000)

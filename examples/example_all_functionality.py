@@ -1,6 +1,5 @@
 from typing import Dict
 
-from deephaven.time import to_datetime
 from ibapi.contract import Contract
 from ibapi.order import Order
 
@@ -15,7 +14,7 @@ print("==== Create a client and connect.")
 print("==== ** Accept the connection in TWS **")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=False, read_only=False)
+client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=True, read_only=False)
 print(f"IsConnected: {client.is_connected()}")
 
 client.connect()
@@ -98,7 +97,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.localSymbol = "ESM3"
+    contract.localSymbol = "ESM4"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -124,13 +123,14 @@ def get_contracts() -> Dict[str, Contract]:
 
     # Options
 
+    # find more contracts at  https://finance.yahoo.com/quote/GOOG/options/
     contract = Contract()
     contract.symbol = "GOOG"
     contract.secType = "OPT"
     contract.exchange = "BOX"
     contract.currency = "USD"
     contract.lastTradeDateOrContractMonth = "20240119"
-    contract.strike = 110
+    contract.strike = 138.5
     contract.right = "C"
     contract.multiplier = "100"
     rst["option_1"] = contract
@@ -163,7 +163,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202303"
+    contract.lastTradeDateOrContractMonth = "202312"
     contract.strike = 4700
     contract.right = "C"
     contract.multiplier = "50"
@@ -261,8 +261,8 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-start = to_datetime("2021-01-01T00:00:00 NY")
-end = to_datetime("2021-01-10T00:00:00 NY")
+start = "2021-01-01T00:00:00 ET"
+end = "2021-01-10T00:00:00 ET"
 client.request_news_historical(rc, start=start, end=end)
 
 client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
@@ -382,7 +382,7 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-now = to_datetime("2021-01-01T00:00:00 NY")
+now = "2021-01-01T00:00:00 ET"
 
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, start=now)
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, end=now)
@@ -457,7 +457,7 @@ contract.secType = "OPT"
 contract.exchange = "BOX"
 contract.currency = "USD"
 contract.lastTradeDateOrContractMonth = "20240119"
-contract.strike = 110
+contract.strike = 138.5
 contract.right = "C"
 contract.multiplier = "100"
 

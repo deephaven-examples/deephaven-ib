@@ -4,7 +4,7 @@ import logging
 from typing import List, Any, Sequence, Optional, Set
 import collections
 
-from deephaven.time import now
+from deephaven.time import dh_now
 import jpy
 from deephaven import DynamicTableWriter
 from deephaven.table import Table
@@ -34,7 +34,7 @@ class TableWriter:
 
         if receive_time:
             self.names.insert(0, "ReceiveTime")
-            self.types.insert(0, dtypes.DateTime)
+            self.types.insert(0, dtypes.Instant)
 
         col_defs = {name: type for name, type in zip(names, types)}
         self._dtw = DynamicTableWriter(col_defs)
@@ -67,7 +67,7 @@ class TableWriter:
         """Writes a row of data.  The input values may be modified."""
 
         if self._receive_time:
-            values.insert(0, now())
+            values.insert(0, dh_now())
 
         for i in range(len(values)):
             if  isinstance(values[i], decimal.Decimal): 

@@ -3,7 +3,10 @@ version: "3.4"
 services:
   server:
     image: deephaven-examples/deephaven-ib:dev
-    command: python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g']); _server.start()"
+    environment:
+      # Deephaven PSK password:  See https://deephaven.io/core/docs/how-to-guides/authentication/auth-psk/#setting-your-own-key
+      DH_PASSWORD: ${DH_PASSWORD:?DH_PASSWORD not set}
+    command: python3 -i -c "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g',f'-Dauthentication.psk={os.getenv(\"DH_PASSWORD\")}']); _server.start()"
     stdin_open: true
     tty: true
     ports:

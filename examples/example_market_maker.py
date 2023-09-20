@@ -3,7 +3,7 @@ from ibapi.contract import Contract
 from ibapi.order import Order
 
 import deephaven_ib as dhib
-from deephaven.updateby import ema_time_decay
+from deephaven.updateby import ema_time, emstd_time
 from deephaven import time_table
 from deephaven.plot import Figure
 from deephaven.plot.selectable_dataset import one_click
@@ -29,7 +29,7 @@ print(f"IsConnected: {client.is_connected()}")
 
 account = "DU4943848"
 max_position_dollars = 10000.0
-ema_time = "00:02:00"
+em_time = "PT00:02:00"
 
 errors = client.tables["errors"]
 requests = client.tables["requests"]
@@ -83,8 +83,11 @@ print("==== Compute predictions.")
 print("==============================================================================================================")
 
 preds = ticks_bid_ask \
-    .update_view(["MidPrice=0.5*(BidPrice+AskPrice)", "MidPrice2=MidPrice*MidPrice"]) \
-    .update_by([ema_time_decay("Timestamp", ema_time, ["PredPrice=MidPrice","MidPrice2Bar=MidPrice2"])], by="Symbol") \
+    .update_view(["MidPrice=0.5*(BidPrice+AskPrice)"]) \
+    .update_by([
+        ema_time("Timestamp", em_time, ["PredPrice=MidPrice"]),
+        emstd_time("Timestamp", em_time, ["PredSD=MidPrice"]),
+    ], by="Symbol") \
     .view([
         "ReceiveTime",
         "Timestamp",
@@ -94,7 +97,7 @@ preds = ticks_bid_ask \
         "AskPrice",
         "MidPrice",
         "PredPrice",
-        "PredSD = sqrt(MidPrice2Bar-PredPrice*PredPrice)",
+        "PredSD",
         "PredLow=PredPrice-PredSD",
         "PredHigh=PredPrice+PredSD",
     ])
@@ -166,11 +169,9 @@ def update_orders(contract_id: int, pred_low: float, pred_high: float, buy_order
     open_orders[contract_id] = new_orders
     return len(new_orders)
 
-
-orders = time_table("00:01:00") \
-    .rename_columns("SnapTime=Timestamp") \
-    .snapshot(preds.last_by(["Symbol"])) \
-    .where(f"Timestamp > TimestampFirst + '{ema_time}'") \
+orders = preds.last_by(["Symbol"]) \
+    .snapshot_when(time_table("PT00:01:00"), stamp_cols="SnapTime=Timestamp") \
+    .where(f"Timestamp > TimestampFirst + '{em_time}'") \
     .natural_join(positions, on="ContractId", joins="Position") \
     .update_view([
         "Position = replaceIfNull(Position, 0.0)",

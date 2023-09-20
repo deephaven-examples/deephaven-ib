@@ -36,7 +36,7 @@ from .requests import RequestIdManager
 from .._internal.error_codes import load_error_codes
 from .._internal.short_rates import load_short_rates
 from .._internal.tablewriter import TableWriter
-from ..time import unix_sec_to_dh_datetime
+from ..time import unix_sec_to_j_instant
 
 _error_code_message_map, _error_code_note_map = load_error_codes()
 _news_msgtype_map: Dict[int, str] = {news.NEWS_MSG: "NEWS", news.EXCHANGE_AVAIL_MSG: "EXCHANGE_AVAILABLE",
@@ -199,7 +199,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["news_historical"] = TableWriter(
             ["RequestId", "Timestamp", "ProviderCode", "ArticleId", "Headline"],
-            [dtypes.int64, dtypes.DateTime, dtypes.string, dtypes.string, dtypes.string])
+            [dtypes.int64, dtypes.Instant, dtypes.string, dtypes.string, dtypes.string])
 
         ####
         # Market Data
@@ -244,7 +244,7 @@ class IbTwsClient(EWrapper, EClient):
 
         table_writers["ticks_mid_point"] = TableWriter(
             ["RequestId", "Timestamp", "MidPoint"],
-            [dtypes.int64, dtypes.DateTime, dtypes.float64])
+            [dtypes.int64, dtypes.Instant, dtypes.float64])
 
         table_writers["bars_historical"] = TableWriter(
             ["RequestId", *logger_bar_data.names()],
@@ -470,7 +470,10 @@ class IbTwsClient(EWrapper, EClient):
         for cd in contractDescriptions:
             self._table_writers["contracts_matching"].write_row([reqId, *logger_contract.vals(cd.contract),
                                                                  to_string_set(cd.derivativeSecTypes)])
-            self.contract_registry.request_contract_details_nonblocking(cd.contract)
+
+            # Negative contract IDs seem to be for malformed contracts that yield errors when requesting details
+            if cd.contract.conId >= 0:
+                self.contract_registry.request_contract_details_nonblocking(cd.contract)
 
     ####
     # reqMarketRule
@@ -781,7 +784,7 @@ class IbTwsClient(EWrapper, EClient):
             headline_clean = h[1]
 
         self._table_writers["news_historical"].write_row(
-            [requestId, ib_to_dh_datetime(timestamp), providerCode, articleId,
+            [requestId, ib_to_j_instant(timestamp), providerCode, articleId,
              headline_clean])
 
     def historicalNewsEnd(self, requestId: int, hasMore: bool):
@@ -892,13 +895,13 @@ class IbTwsClient(EWrapper, EClient):
 
     def tickByTickMidPoint(self, reqId: int, timestamp: int, midPoint: float):
         EWrapper.tickByTickMidPoint(self, reqId, timestamp, midPoint)
-        self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_dh_datetime(timestamp), midPoint])
+        self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_j_instant(timestamp), midPoint])
 
     def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTick, done: bool):
         EWrapper.historicalTicks(self, reqId, ticks, done)
 
         for t in ticks:
-            self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_dh_datetime(t.time), t.price])
+            self._table_writers["ticks_mid_point"].write_row([reqId, unix_sec_to_j_instant(t.time), t.price])
 
     ####
     # reqHistoricalData
