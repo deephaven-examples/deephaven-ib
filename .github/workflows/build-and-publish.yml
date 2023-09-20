@@ -12,7 +12,7 @@ on:
       - released
 
 env:
-  IB_VERSION: 10.19.1
+  IB_VERSION: 10.19.01
   DH_VERSION: 0.28
 
 jobs:
