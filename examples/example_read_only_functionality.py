@@ -256,8 +256,8 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-start = "2021-01-01T00:00:00 NY"
-end = "2021-01-10T00:00:00 NY"
+start = "2021-01-01T00:00:00 ET"
+end = "2021-01-10T00:00:00 ET"
 client.request_news_historical(rc, start=start, end=end)
 
 client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
@@ -377,7 +377,7 @@ contract.exchange = "SMART"
 rc = client.get_registered_contract(contract)
 print(contract)
 
-now = "2021-01-01T00:00:00 NY"
+now = "2021-01-01T00:00:00 ET"
 
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, start=now)
 client.request_tick_data_historical(rc, dhib.TickDataType.MIDPOINT, 100, end=now)

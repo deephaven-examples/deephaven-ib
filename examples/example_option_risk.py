@@ -149,7 +149,7 @@ def expiry_datetime(expiry):
     if expiry is None:
         return expiry
 
-    s = f"{expiry[0:4]}-{expiry[4:6]}-{expiry[6:8]}T14:00:00 NY"
+    s = f"{expiry[0:4]}-{expiry[4:6]}-{expiry[6:8]}T14:00:00 ET"
     return to_j_instant(s)
 
 scenarios = pos \

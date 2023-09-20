@@ -163,7 +163,7 @@ def _details_contract_details() -> List[Tuple]:
         ("CouponType", dtypes.string, lambda cd: cd.couponType),
         ("Callable", dtypes.bool_, lambda cd: cd.callable),
         ("Putable", dtypes.bool_, lambda cd: cd.putable),
-        ("Coupon", dtypes.int64, lambda cd: cd.coupon),
+        ("Coupon", dtypes.double, lambda cd: float(cd.coupon)),
         ("Convertible", dtypes.bool_, lambda cd: cd.convertible),
         ("Maturity", dtypes.string, lambda cd: cd.maturity),
         # TODO: convert date time?  Values are not provided in TWS, and the format is not documented. (https://github.com/deephaven-examples/deephaven-ib/issues/10)
