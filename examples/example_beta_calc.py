@@ -113,7 +113,7 @@ hist_data_with_spy = hist_data_with_return.natural_join(spy, ['Timestamp'], ['SP
 print("Installing sklearn...")
 import os
 
-os.system("pip install sklearn")
+os.system("pip install scikit-learn")
 from sklearn.linear_model import LinearRegression
 
 ## Use a DynamicTableWriter to store regression results in a Deephaven table
@@ -243,9 +243,9 @@ rc = client.get_registered_contract(c)
 print(c)
 
 # Extract the hedge information from the hedge_shares table:
-hedge_info = hedge_shares.j_table.getRecord(0, 'HedgeShares', 'SPY_Price')
-hedge_qty = hedge_info[0]
-hedge_last_px = hedge_info[1]
+hedge_info = to_pandas(hedge_shares, cols=['HedgeShares', 'SPY_Price'])
+hedge_qty = hedge_info['HedgeShares'].values[0]
+hedge_last_px = hedge_info['SPY_Price'].values[0]
 hedge_side = "BUY" if hedge_qty > 0 else "SELL"
 hedge_limit_px = hedge_last_px + 0.05 * (1 if hedge_side == "BUY" else -1)
 
