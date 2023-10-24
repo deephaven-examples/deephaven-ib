@@ -918,7 +918,7 @@ class IbTwsClient(EWrapper, EClient):
     def historicalDataUpdate(self, reqId: int, bar: BarData):
         EWrapper.historicalDataUpdate(self, reqId, bar)
 
-        if bd.volume >= 0 or bd.barCount >= 0:
+        if bd.volume > 0 or bd.barCount > 0:
             self._table_writers["bars_historical"].write_row([reqId, *logger_bar_data.vals(bar)])
 
     ####
