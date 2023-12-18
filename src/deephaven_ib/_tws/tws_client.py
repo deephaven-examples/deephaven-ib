@@ -915,6 +915,10 @@ class IbTwsClient(EWrapper, EClient):
         # do not ned to implement
         EWrapper.historicalDataEnd(self, reqId, start, end)
 
+    def historicalDataUpdate(self, reqId: int, bar: BarData):
+        EWrapper.historicalDataUpdate(self, reqId, bar)
+        self._table_writers["bars_historical"].write_row([reqId, *logger_bar_data.vals(bar)])
+
     ####
     # reqRealTimeBars
     ####

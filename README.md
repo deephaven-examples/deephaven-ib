@@ -116,7 +116,7 @@ These tables include:
     * `ticks_trade`: real-time tick market data of trade prices requested via `request_tick_data_historical` or `request_tick_data_realtime`.
     * `ticks_bid_ask`: real-time tick market data of bid and ask prices requested via `request_tick_data_historical` or `request_tick_data_realtime`.
     * `ticks_mid_point`: real-time tick market data of mid-point prices requested via `request_tick_data_historical` or `request_tick_data_realtime`.
-    * `bars_historical`: historical price bars requested via `request_bars_historical`.
+    * `bars_historical`: historical price bars requested via `request_bars_historical`.  Real-time bars change as new data arrives.
     * `bars_realtime`: real-time price bars requested via `request_bars_realtime`.
 * Order Management System (OMS)
     * `orders_submitted`: submitted orders **FOR THE THE CLIENT'S ID**.  A client ID of 0 contains manually entered orders.  Automatically populated.

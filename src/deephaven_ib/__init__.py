@@ -407,7 +407,7 @@ class IbSessionTws:
         * **ticks_trade**: real-time tick market data of trade prices requested via ``request_tick_data_historical`` or ``request_tick_data_realtime``.
         * **ticks_bid_ask**: real-time tick market data of bid and ask prices requested via ``request_tick_data_historical`` or ``request_tick_data_realtime``.
         * **ticks_mid_point**: real-time tick market data of mid-point prices requested via ``request_tick_data_historical`` or ``request_tick_data_realtime``.
-        * **bars_historical**: historical price bars requested via ``request_bars_historical``.
+        * **bars_historical**: historical price bars requested via ``request_bars_historical``.  Real-time bars change as new data arrives.
         * **bars_realtime**: real-time price bars requested via ``request_bars_realtime``.
 
         ####
@@ -638,7 +638,7 @@ class IbSessionTws:
             "orders_status": tables_raw["raw_orders_status"] \
                 .last_by("PermId") \
                 .move_columns_up(["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]),
-            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]),
+            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]).last_by(["Request", "Timestamp", "ContractId"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
             "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
             "ticks_generic": annotate_ticks(tables_raw["raw_ticks_generic"]),
