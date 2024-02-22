@@ -550,7 +550,7 @@ class IbSessionTws:
 
             return rst
 
-        def deephaven_ib_float_value(s: str) -> Optional[float]:
+        def deephaven_ib_float_value(s: Optional[str]) -> Optional[float]:
             if not s:
                 return NULL_DOUBLE
 
