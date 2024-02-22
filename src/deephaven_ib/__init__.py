@@ -638,7 +638,7 @@ class IbSessionTws:
             "orders_status": tables_raw["raw_orders_status"] \
                 .last_by("PermId") \
                 .move_columns_up(["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]),
-            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]).last_by(["Request", "Timestamp", "ContractId"]),
+            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]).last_by(["RequestId", "Timestamp", "ContractId"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
             "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
             "ticks_generic": annotate_ticks(tables_raw["raw_ticks_generic"]),
