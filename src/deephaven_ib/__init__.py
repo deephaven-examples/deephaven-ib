@@ -15,8 +15,17 @@ from ._tws import IbTwsClient
 from ._tws.order_id_queue import OrderIdStrategy
 from .time import to_ib_datetime
 
-__all__ = ["MarketDataType", "TickDataType", "BarDataType", "BarSize", "Duration", "OrderIdStrategy",
-           "Request", "RegisteredContract", "IbSessionTws"]
+__all__ = [
+    "MarketDataType",
+    "TickDataType",
+    "BarDataType",
+    "BarSize",
+    "Duration",
+    "OrderIdStrategy",
+    "Request",
+    "RegisteredContract",
+    "IbSessionTws",
+]
 
 
 class MarketDataType(Enum):
@@ -157,6 +166,7 @@ class BarDataType(Enum):
     AGGTRADES = 15
     """Aggregate trade prices."""
 
+
 class BarSize(Enum):
     """Bar data sizes."""
 
@@ -277,7 +287,7 @@ class Duration:
 
 
 class Request:
-    """ IB session request. """
+    """IB session request."""
 
     request_id: int
     _cancel_func: Callable
@@ -311,7 +321,7 @@ class Request:
 
 
 class RegisteredContract:
-    """ Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc.
+    """Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc.
 
     When some contracts are registered, details on multiple contracts are returned.
     """
@@ -319,7 +329,9 @@ class RegisteredContract:
     query_contract: Contract
     contract_details: List[ContractDetails]
 
-    def __init__(self, query_contract: Contract, contract_details: List[ContractDetails]):
+    def __init__(
+        self, query_contract: Contract, contract_details: List[ContractDetails]
+    ):
         self.query_contract = query_contract
         self.contract_details = contract_details
 
@@ -336,11 +348,11 @@ class RegisteredContract:
 
 
 class IbSessionTws:
-    """ IB TWS session.
+    """IB TWS session.
 
     **NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes
     data manually entered into the TWS session.  For example, orders entered by hand.**
-    
+
     Args:
         host (str): The host name or IP address of the machine where TWS is running. Leave blank to connect to the local host.
             When run inside docker, you probably want ``host.docker.internal``.
@@ -429,12 +441,26 @@ class IbSessionTws:
     _tables_raw: Dict[str, Table]
     _tables: Dict[str, Table]
 
-    def __init__(self, host: str = "", port: int = 7497, client_id: int = 0, download_short_rates: bool = True, order_id_strategy: OrderIdStrategy = OrderIdStrategy.INCREMENT, read_only: bool = True, is_fa: bool = False):
+    def __init__(
+        self,
+        host: str = "",
+        port: int = 7497,
+        client_id: int = 0,
+        download_short_rates: bool = True,
+        order_id_strategy: OrderIdStrategy = OrderIdStrategy.INCREMENT,
+        read_only: bool = True,
+        is_fa: bool = False,
+    ):
         self._host = host
         self._port = port
         self._client_id = client_id
         self._read_only = read_only
-        self._client = IbTwsClient(download_short_rates=download_short_rates, order_id_strategy=order_id_strategy, read_only=read_only, is_fa=is_fa)
+        self._client = IbTwsClient(
+            download_short_rates=download_short_rates,
+            order_id_strategy=order_id_strategy,
+            read_only=read_only,
+            is_fa=is_fa,
+        )
         self._tables_raw = {f"raw_{k}": v for k, v in self._client.tables.items()}
         self._tables = dict(sorted(IbSessionTws._make_tables(self._tables_raw).items()))
 
@@ -522,7 +548,9 @@ class IbSessionTws:
         """Assert that the IbSessionTws is read-write."""
 
         if self._read_only:
-            raise Exception("IbSessionTws is read-only.  Set 'read_only=False' to enable read-write operations, such as trading.")
+            raise Exception(
+                "IbSessionTws is read-only.  Set 'read_only=False' to enable read-write operations, such as trading."
+            )
 
     ####################################################################################################################
     ####################################################################################################################
@@ -533,16 +561,28 @@ class IbSessionTws:
     @staticmethod
     def _make_tables(tables_raw: Dict[str, Table]) -> Dict[str, Table]:
         def annotate_ticks(t):
-            requests = tables_raw["raw_requests"] \
-                .drop_columns(["ReceiveTime", "RequestType", "SecId", "SecIdType", "DeltaNeutralContract", "Note"])
+            requests = tables_raw["raw_requests"].drop_columns(
+                [
+                    "ReceiveTime",
+                    "RequestType",
+                    "SecId",
+                    "SecIdType",
+                    "DeltaNeutralContract",
+                    "Note",
+                ]
+            )
 
-            requests_col_names = [ c.name for c in requests.columns ]
+            requests_col_names = [c.name for c in requests.columns]
 
-            rst = t.natural_join(requests, on="RequestId").move_columns_up(requests_col_names)
+            rst = t.natural_join(requests, on="RequestId").move_columns_up(
+                requests_col_names
+            )
 
-            if "Timestamp" in [ c.name for c in rst.columns ]:
-                if "TimestampEnd" in [ c.name for c in rst.columns ]:
-                    rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "TimestampEnd"])
+            if "Timestamp" in [c.name for c in rst.columns]:
+                if "TimestampEnd" in [c.name for c in rst.columns]:
+                    rst = rst.move_columns_up(
+                        ["RequestId", "ReceiveTime", "Timestamp", "TimestampEnd"]
+                    )
                 else:
                     rst = rst.move_columns_up(["RequestId", "ReceiveTime", "Timestamp"])
             else:
@@ -550,7 +590,7 @@ class IbSessionTws:
 
             return rst
 
-        def deephaven_ib_float_value(s) -> Optional[float]:
+        def deephaven_ib_float_value(s: Optional[str]) -> Optional[float]:
             if not s:
                 return NULL_DOUBLE
 
@@ -559,7 +599,7 @@ class IbSessionTws:
             except ValueError:
                 return NULL_DOUBLE
 
-        def deephaven_ib_parse_note(note:str, key:str) -> Optional[str]:
+        def deephaven_ib_parse_note(note: str, key: str) -> Optional[str]:
             dict = json.loads(note)
 
             if key in dict:
@@ -568,90 +608,148 @@ class IbSessionTws:
             return None
 
         return {
-            "requests": tables_raw["raw_requests"] \
-                .move_columns_up(["RequestId", "ReceiveTime"]),
-            "errors": tables_raw["raw_errors"] \
-                .natural_join(tables_raw["raw_requests"] \
-                             .drop_columns("Note").rename_columns("RequestTime=ReceiveTime"), on="RequestId") \
-                .move_columns_up(["RequestId", "ReceiveTime"]),
-            "contracts_details": tables_raw["raw_contracts_details"] \
-                .move_columns_up(["RequestId", "ReceiveTime"]),
-            "accounts_family_codes": tables_raw["raw_accounts_family_codes"] \
-                .drop_columns("ReceiveTime"),
-            "accounts_groups": tables_raw["raw_accounts_groups"] \
-                .drop_columns("ReceiveTime"),
-            "accounts_allocation_profiles": tables_raw["raw_accounts_allocation_profiles"] \
-                .drop_columns("ReceiveTime"),
-            "accounts_aliases": tables_raw["raw_accounts_aliases"] \
-                .drop_columns("ReceiveTime"),
-            "accounts_managed": tables_raw["raw_accounts_managed"] \
-                .select_distinct("Account"),
-            "accounts_positions": tables_raw["raw_accounts_positions"] \
-                .last_by(["RequestId", "Account", "ModelCode", "ContractId"]) \
-                .move_columns_up(["RequestId", "ReceiveTime"]),
-            "accounts_overview": tables_raw["raw_accounts_overview"] \
-                .last_by(["RequestId", "Account", "Currency", "Key"]) \
-                .update("DoubleValue = (double)deephaven_ib_float_value(Value)") \
-                .move_columns_up(["RequestId", "ReceiveTime"]),
-            "accounts_summary": tables_raw["raw_accounts_summary"] \
-                .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
-                .update("GroupName=(String)deephaven_ib_parse_note(Note,`groupName`)") \
-                .drop_columns("Note") \
-                .update("DoubleValue = (double)deephaven_ib_float_value(Value)") \
-                .last_by(["RequestId", "GroupName", "Account", "Tag"]) \
-                .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
-            "accounts_pnl": tables_raw["raw_accounts_pnl"] \
-                .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
-                .update([
+            "requests": tables_raw["raw_requests"].move_columns_up(
+                ["RequestId", "ReceiveTime"]
+            ),
+            "errors": tables_raw["raw_errors"]
+            .natural_join(
+                tables_raw["raw_requests"]
+                .drop_columns("Note")
+                .rename_columns("RequestTime=ReceiveTime"),
+                on="RequestId",
+            )
+            .move_columns_up(["RequestId", "ReceiveTime"]),
+            "contracts_details": tables_raw["raw_contracts_details"].move_columns_up(
+                ["RequestId", "ReceiveTime"]
+            ),
+            "accounts_family_codes": tables_raw[
+                "raw_accounts_family_codes"
+            ].drop_columns("ReceiveTime"),
+            "accounts_groups": tables_raw["raw_accounts_groups"].drop_columns(
+                "ReceiveTime"
+            ),
+            "accounts_allocation_profiles": tables_raw[
+                "raw_accounts_allocation_profiles"
+            ].drop_columns("ReceiveTime"),
+            "accounts_aliases": tables_raw["raw_accounts_aliases"].drop_columns(
+                "ReceiveTime"
+            ),
+            "accounts_managed": tables_raw["raw_accounts_managed"].select_distinct(
+                "Account"
+            ),
+            "accounts_positions": tables_raw["raw_accounts_positions"]
+            .last_by(["RequestId", "Account", "ModelCode", "ContractId"])
+            .move_columns_up(["RequestId", "ReceiveTime"]),
+            "accounts_overview": tables_raw["raw_accounts_overview"]
+            .last_by(["RequestId", "Account", "Currency", "Key"])
+            .update("DoubleValue = (double)deephaven_ib_float_value(Value)")
+            .move_columns_up(["RequestId", "ReceiveTime"]),
+            "accounts_summary": tables_raw["raw_accounts_summary"]
+            .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note")
+            .update("GroupName=(String)deephaven_ib_parse_note(Note,`groupName`)")
+            .drop_columns("Note")
+            .update("DoubleValue = (double)deephaven_ib_float_value(Value)")
+            .last_by(["RequestId", "GroupName", "Account", "Tag"])
+            .move_columns_up(["RequestId", "ReceiveTime", "GroupName"]),
+            "accounts_pnl": tables_raw["raw_accounts_pnl"]
+            .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note")
+            .update(
+                [
                     "Account=(String)deephaven_ib_parse_note(Note,`account`)",
-                    "ModelCode=(String)deephaven_ib_parse_note(Note,`model_code`)"]) \
-                .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
-                .drop_columns("Note") \
-                .last_by("RequestId"),
-            "contracts_matching": tables_raw["raw_contracts_matching"] \
-                .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note") \
-                .move_columns_up(["RequestId", "ReceiveTime", "Pattern"]) \
-                .update("Pattern=(String)deephaven_ib_parse_note(Pattern,`pattern`)"),
-            "market_rules": tables_raw["raw_market_rules"].select_distinct(["MarketRuleId", "LowEdge", "Increment"]),
+                    "ModelCode=(String)deephaven_ib_parse_note(Note,`model_code`)",
+                ]
+            )
+            .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"])
+            .drop_columns("Note")
+            .last_by("RequestId"),
+            "contracts_matching": tables_raw["raw_contracts_matching"]
+            .natural_join(
+                tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note"
+            )
+            .move_columns_up(["RequestId", "ReceiveTime", "Pattern"])
+            .update("Pattern=(String)deephaven_ib_parse_note(Pattern,`pattern`)"),
+            "market_rules": tables_raw["raw_market_rules"].select_distinct(
+                ["MarketRuleId", "LowEdge", "Increment"]
+            ),
             "news_bulletins": tables_raw["raw_news_bulletins"],
-            "news_providers": tables_raw["raw_news_providers"] \
-                .drop_columns("ReceiveTime"),
-            "news_articles": tables_raw["raw_news_articles"] \
-                .move_columns_up(["RequestId", "ReceiveTime"]),
-            "news_historical": tables_raw["raw_news_historical"] \
-                .natural_join(tables_raw["raw_requests"], on="RequestId", joins=["ContractId","SecType","Symbol","LocalSymbol"]) \
-                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ContractId", "SecType", "Symbol",
-                               "LocalSymbol"]),
-            "orders_completed": tables_raw["raw_orders_completed"] \
-                .move_columns_up(["ReceiveTime", "OrderId", "ClientId", "PermId", "ParentId"]),
-            "orders_exec_commission_report": tables_raw["raw_orders_exec_commission_report"],
-            "orders_exec_details": tables_raw["raw_orders_exec_details"] \
-                .move_columns_up(["RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"]) \
-                .rename_columns("Account=AcctNumber"),
+            "news_providers": tables_raw["raw_news_providers"].drop_columns(
+                "ReceiveTime"
+            ),
+            "news_articles": tables_raw["raw_news_articles"].move_columns_up(
+                ["RequestId", "ReceiveTime"]
+            ),
+            "news_historical": tables_raw["raw_news_historical"]
+            .natural_join(
+                tables_raw["raw_requests"],
+                on="RequestId",
+                joins=["ContractId", "SecType", "Symbol", "LocalSymbol"],
+            )
+            .move_columns_up(
+                [
+                    "RequestId",
+                    "ReceiveTime",
+                    "Timestamp",
+                    "ContractId",
+                    "SecType",
+                    "Symbol",
+                    "LocalSymbol",
+                ]
+            ),
+            "orders_completed": tables_raw["raw_orders_completed"].move_columns_up(
+                ["ReceiveTime", "OrderId", "ClientId", "PermId", "ParentId"]
+            ),
+            "orders_exec_commission_report": tables_raw[
+                "raw_orders_exec_commission_report"
+            ],
+            "orders_exec_details": tables_raw["raw_orders_exec_details"]
+            .move_columns_up(
+                ["RequestId", "ReceiveTime", "Timestamp", "ExecId", "AcctNumber"]
+            )
+            .rename_columns("Account=AcctNumber"),
             # The status on raw_orders_submitted is buggy, so using the status from raw_orders_status
-            "orders_submitted": tables_raw["raw_orders_submitted"] \
-                .last_by("PermId") \
-                .drop_columns("Status") \
-                .natural_join(tables_raw["raw_orders_status"].last_by("PermId"), on="PermId", joins="Status")
-                .move_columns_up(["ReceiveTime", "Account", "ModelCode", "PermId", "ClientId", "OrderId", "ParentId",
-                               "Status"]),
-            "orders_status": tables_raw["raw_orders_status"] \
-                .last_by("PermId") \
-                .move_columns_up(["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]),
-            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]).last_by(["RequestId", "Timestamp", "ContractId"]),
+            "orders_submitted": tables_raw["raw_orders_submitted"]
+            .last_by("PermId")
+            .drop_columns("Status")
+            .natural_join(
+                tables_raw["raw_orders_status"].last_by("PermId"),
+                on="PermId",
+                joins="Status",
+            )
+            .move_columns_up(
+                [
+                    "ReceiveTime",
+                    "Account",
+                    "ModelCode",
+                    "PermId",
+                    "ClientId",
+                    "OrderId",
+                    "ParentId",
+                    "Status",
+                ]
+            ),
+            "orders_status": tables_raw["raw_orders_status"]
+            .last_by("PermId")
+            .move_columns_up(
+                ["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]
+            ),
+            "bars_historical": annotate_ticks(
+                tables_raw["raw_bars_historical"]
+            ).last_by(["RequestId", "Timestamp", "ContractId"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
             "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
             "ticks_generic": annotate_ticks(tables_raw["raw_ticks_generic"]),
             "ticks_mid_point": annotate_ticks(tables_raw["raw_ticks_mid_point"]),
-            "ticks_option_computation": annotate_ticks(tables_raw["raw_ticks_option_computation"]),
+            "ticks_option_computation": annotate_ticks(
+                tables_raw["raw_ticks_option_computation"]
+            ),
             "ticks_price": annotate_ticks(tables_raw["raw_ticks_price"]),
             "ticks_size": annotate_ticks(tables_raw["raw_ticks_size"]),
             "ticks_string": annotate_ticks(tables_raw["raw_ticks_string"]),
-            "ticks_trade": annotate_ticks(tables_raw["raw_ticks_trade"] \
-                                          .rename_columns("TradeExchange=Exchange")),
+            "ticks_trade": annotate_ticks(
+                tables_raw["raw_ticks_trade"].rename_columns("TradeExchange=Exchange")
+            ),
             "ticks_bid_ask": annotate_ticks(tables_raw["raw_ticks_bid_ask"]),
         }
-
 
     @property
     def tables(self) -> Dict[str, Table]:
@@ -720,7 +818,9 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
+    def request_account_pnl(
+        self, account: str = "All", model_code: str = ""
+    ) -> Request:
         """Request PNL updates.  Results are returned in the ``accounts_pnl`` table.
 
         Args:
@@ -772,18 +872,37 @@ class IbSessionTws:
         req_id = self._client.request_account_positions(account, model_code)
         return Request(request_id=req_id)
 
-
     ####################################################################################################################
     ####################################################################################################################
     ## News
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_news_historical(self, contract: RegisteredContract,
-                                start: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp],
-                                end: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp],
-                                provider_codes: List[str] = None, total_results: int = 100) -> List[Request]:
-        """ Request historical news for a contract.  Results are returned in the ``news_historical`` table.
+    def request_news_historical(
+        self,
+        contract: RegisteredContract,
+        start: Union[
+            None,
+            Instant,
+            int,
+            str,
+            datetime.datetime,
+            numpy.datetime64,
+            pandas.Timestamp,
+        ],
+        end: Union[
+            None,
+            Instant,
+            int,
+            str,
+            datetime.datetime,
+            numpy.datetime64,
+            pandas.Timestamp,
+        ],
+        provider_codes: List[str] = None,
+        total_results: int = 100,
+    ) -> List[Request]:
+        """Request historical news for a contract.  Results are returned in the ``news_historical`` table.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
 
@@ -811,19 +930,32 @@ class IbSessionTws:
 
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
-            self._client.log_request(req_id, "HistoricalNews", cd.contract,
-                                     {"provider_codes": provider_codes, "start": start, "end": end,
-                                      "total_results": total_results})
-            self._client.reqHistoricalNews(reqId=req_id, conId=cd.contract.conId, providerCodes=pc,
-                                           startDateTime=to_ib_datetime(start, sub_sec=False),
-                                           endDateTime=to_ib_datetime(end, sub_sec=False),
-                                           totalResults=total_results, historicalNewsOptions=[])
+            self._client.log_request(
+                req_id,
+                "HistoricalNews",
+                cd.contract,
+                {
+                    "provider_codes": provider_codes,
+                    "start": start,
+                    "end": end,
+                    "total_results": total_results,
+                },
+            )
+            self._client.reqHistoricalNews(
+                reqId=req_id,
+                conId=cd.contract.conId,
+                providerCodes=pc,
+                startDateTime=to_ib_datetime(start, sub_sec=False),
+                endDateTime=to_ib_datetime(end, sub_sec=False),
+                totalResults=total_results,
+                historicalNewsOptions=[],
+            )
             requests.append(Request(request_id=req_id))
 
         return requests
 
     def request_news_article(self, provider_code: str, article_id: str) -> Request:
-        """ Request the text of a news article.  Results are returned in the ``news_articles`` table.
+        """Request the text of a news article.  Results are returned in the ``news_articles`` table.
 
         Args:
             provider_code (str): short code indicating news provider, e.g. FLY
@@ -838,10 +970,18 @@ class IbSessionTws:
 
         self._assert_connected()
         req_id = self._client.request_id_manager.next_id()
-        self._client.log_request(req_id, "NewsArticle", None,
-                                 {f"provider_code": provider_code, "article_id": article_id})
-        self._client.reqNewsArticle(reqId=req_id, providerCode=provider_code, articleId=article_id,
-                                    newsArticleOptions=[])
+        self._client.log_request(
+            req_id,
+            "NewsArticle",
+            None,
+            {f"provider_code": provider_code, "article_id": article_id},
+        )
+        self._client.reqNewsArticle(
+            reqId=req_id,
+            providerCode=provider_code,
+            articleId=article_id,
+            newsArticleOptions=[],
+        )
         return Request(request_id=req_id)
 
     ####################################################################################################################
@@ -867,9 +1007,14 @@ class IbSessionTws:
         self._client.reqMarketDataType(marketDataType=market_data_type.value)
 
     # noinspection PyDefaultArgument
-    def request_market_data(self, contract: RegisteredContract, generic_tick_types: List[GenericTickType] = [],
-                            snapshot: bool = False, regulatory_snapshot: bool = False) -> List[Request]:
-        """ Request market data for a contract.  Results are returned in the ``ticks_price``, ``ticks_size``,
+    def request_market_data(
+        self,
+        contract: RegisteredContract,
+        generic_tick_types: List[GenericTickType] = [],
+        snapshot: bool = False,
+        regulatory_snapshot: bool = False,
+    ) -> List[Request]:
+        """Request market data for a contract.  Results are returned in the ``ticks_price``, ``ticks_size``,
         ``ticks_string``, ``ticks_efp``, ``ticks_generic``, and ``ticks_option_computation`` tables.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
@@ -895,13 +1040,27 @@ class IbSessionTws:
 
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
-            self._client.log_request(req_id, "MarketData", cd.contract,
-                                     {"generic_tick_types": generic_tick_types, "snapshot": snapshot,
-                                      "regulatory_snapshot": regulatory_snapshot})
-            self._client.reqMktData(reqId=req_id, contract=cd.contract,
-                                    genericTickList=generic_tick_list, snapshot=snapshot,
-                                    regulatorySnapshot=regulatory_snapshot, mktDataOptions=[])
-            requests.append(Request(request_id=req_id, cancel_func=self._cancel_market_data))
+            self._client.log_request(
+                req_id,
+                "MarketData",
+                cd.contract,
+                {
+                    "generic_tick_types": generic_tick_types,
+                    "snapshot": snapshot,
+                    "regulatory_snapshot": regulatory_snapshot,
+                },
+            )
+            self._client.reqMktData(
+                reqId=req_id,
+                contract=cd.contract,
+                genericTickList=generic_tick_list,
+                snapshot=snapshot,
+                regulatorySnapshot=regulatory_snapshot,
+                mktDataOptions=[],
+            )
+            requests.append(
+                Request(request_id=req_id, cancel_func=self._cancel_market_data)
+            )
 
         return requests
 
@@ -921,11 +1080,24 @@ class IbSessionTws:
         self._assert_connected()
         self._client.cancelMktData(reqId=req_id)
 
-    def request_bars_historical(self, contract: RegisteredContract,
-                                duration: Duration, bar_size: BarSize, bar_type: BarDataType,
-                                end: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp] = None,
-                                market_data_type: MarketDataType = MarketDataType.FROZEN,
-                                keep_up_to_date: bool = True) -> List[Request]:
+    def request_bars_historical(
+        self,
+        contract: RegisteredContract,
+        duration: Duration,
+        bar_size: BarSize,
+        bar_type: BarDataType,
+        end: Union[
+            None,
+            Instant,
+            int,
+            str,
+            datetime.datetime,
+            numpy.datetime64,
+            pandas.Timestamp,
+        ] = None,
+        market_data_type: MarketDataType = MarketDataType.FROZEN,
+        keep_up_to_date: bool = True,
+    ) -> List[Request]:
         """Requests historical bars for a contract.  Results are returned in the ``bars_historical`` table.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
@@ -951,26 +1123,42 @@ class IbSessionTws:
 
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
-            self._client.log_request(req_id, "HistoricalData", cd.contract,
-                                     {
-                                         "end": end,
-                                         "duration": duration,
-                                         "bar_size": bar_size,
-                                         "bar_type": bar_type,
-                                         "market_data_type": market_data_type,
-                                         "keep_up_to_date": keep_up_to_date,
-                                     })
-            self._client.reqHistoricalData(reqId=req_id, contract=cd.contract,
-                                           endDateTime=to_ib_datetime(end, sub_sec=False),
-                                           durationStr=duration.value, barSizeSetting=bar_size.value,
-                                           whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
-                                           formatDate=2, keepUpToDate=keep_up_to_date, chartOptions=[])
+            self._client.log_request(
+                req_id,
+                "HistoricalData",
+                cd.contract,
+                {
+                    "end": end,
+                    "duration": duration,
+                    "bar_size": bar_size,
+                    "bar_type": bar_type,
+                    "market_data_type": market_data_type,
+                    "keep_up_to_date": keep_up_to_date,
+                },
+            )
+            self._client.reqHistoricalData(
+                reqId=req_id,
+                contract=cd.contract,
+                endDateTime=to_ib_datetime(end, sub_sec=False),
+                durationStr=duration.value,
+                barSizeSetting=bar_size.value,
+                whatToShow=bar_type.name,
+                useRTH=(market_data_type == MarketDataType.FROZEN),
+                formatDate=2,
+                keepUpToDate=keep_up_to_date,
+                chartOptions=[],
+            )
             requests.append(Request(request_id=req_id))
 
         return requests
 
-    def request_bars_realtime(self, contract: RegisteredContract, bar_type: BarDataType, bar_size: int = 5,
-                              market_data_type: MarketDataType = MarketDataType.FROZEN) -> List[Request]:
+    def request_bars_realtime(
+        self,
+        contract: RegisteredContract,
+        bar_type: BarDataType,
+        bar_size: int = 5,
+        market_data_type: MarketDataType = MarketDataType.FROZEN,
+    ) -> List[Request]:
         """Requests real time bars for a contract.  Results are returned in the ``bars_realtime`` table.
 
         Registered contracts that are associated with multiple contract details produce multiple requests.
@@ -991,17 +1179,38 @@ class IbSessionTws:
         self._assert_connected()
         requests = []
 
-        if bar_type not in [BarDataType.TRADES, BarDataType.AGGTRADES, BarDataType.MIDPOINT, BarDataType.BID, BarDataType.ASK]:
+        if bar_type not in [
+            BarDataType.TRADES,
+            BarDataType.AGGTRADES,
+            BarDataType.MIDPOINT,
+            BarDataType.BID,
+            BarDataType.ASK,
+        ]:
             raise Exception(f"Unsupported bar type: {bar_type}")
 
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
-            self._client.log_request(req_id, "RealTimeBars", cd.contract,
-                                     {"bar_type": bar_type, "bar_size": bar_size, "market_data_type": market_data_type})
-            self._client.reqRealTimeBars(reqId=req_id, contract=cd.contract, barSize=bar_size,
-                                         whatToShow=bar_type.name, useRTH=(market_data_type == MarketDataType.FROZEN),
-                                         realTimeBarsOptions=[])
-            requests.append(Request(request_id=req_id, cancel_func=self._cancel_bars_realtime))
+            self._client.log_request(
+                req_id,
+                "RealTimeBars",
+                cd.contract,
+                {
+                    "bar_type": bar_type,
+                    "bar_size": bar_size,
+                    "market_data_type": market_data_type,
+                },
+            )
+            self._client.reqRealTimeBars(
+                reqId=req_id,
+                contract=cd.contract,
+                barSize=bar_size,
+                whatToShow=bar_type.name,
+                useRTH=(market_data_type == MarketDataType.FROZEN),
+                realTimeBarsOptions=[],
+            )
+            requests.append(
+                Request(request_id=req_id, cancel_func=self._cancel_bars_realtime)
+            )
 
         return requests
 
@@ -1021,8 +1230,13 @@ class IbSessionTws:
         self._assert_connected()
         self._client.cancelRealTimeBars(reqId=req_id)
 
-    def request_tick_data_realtime(self, contract: RegisteredContract, tick_type: TickDataType,
-                                   number_of_ticks: int = 0, ignore_size: bool = False) -> List[Request]:
+    def request_tick_data_realtime(
+        self,
+        contract: RegisteredContract,
+        tick_type: TickDataType,
+        number_of_ticks: int = 0,
+        ignore_size: bool = False,
+    ) -> List[Request]:
         """Requests real-time tick-by-tick data.  Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,
         and ``ticks_mid_point`` tables.
 
@@ -1046,13 +1260,26 @@ class IbSessionTws:
 
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
-            self._client.log_request(req_id, "TickByTickData", cd.contract,
-                                     {"tick_type": tick_type, "number_of_ticks": number_of_ticks,
-                                      "ignore_size": ignore_size})
-            self._client.reqTickByTickData(reqId=req_id, contract=cd.contract,
-                                           tickType=tick_type.value,
-                                           numberOfTicks=number_of_ticks, ignoreSize=ignore_size)
-            requests.append(Request(request_id=req_id, cancel_func=self._cancel_tick_data_realtime))
+            self._client.log_request(
+                req_id,
+                "TickByTickData",
+                cd.contract,
+                {
+                    "tick_type": tick_type,
+                    "number_of_ticks": number_of_ticks,
+                    "ignore_size": ignore_size,
+                },
+            )
+            self._client.reqTickByTickData(
+                reqId=req_id,
+                contract=cd.contract,
+                tickType=tick_type.value,
+                numberOfTicks=number_of_ticks,
+                ignoreSize=ignore_size,
+            )
+            requests.append(
+                Request(request_id=req_id, cancel_func=self._cancel_tick_data_realtime)
+            )
 
         return requests
 
@@ -1072,12 +1299,32 @@ class IbSessionTws:
         self._assert_connected()
         self._client.cancelTickByTickData(reqId=req_id)
 
-    def request_tick_data_historical(self, contract: RegisteredContract,
-                                     tick_type: TickDataType, number_of_ticks: int,
-                                     start: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp] = None,
-                                     end: Union[None, Instant, int, str, datetime.datetime, numpy.datetime64, pandas.Timestamp] = None,
-                                     market_data_type: MarketDataType = MarketDataType.FROZEN,
-                                     ignore_size: bool = False) -> List[Request]:
+    def request_tick_data_historical(
+        self,
+        contract: RegisteredContract,
+        tick_type: TickDataType,
+        number_of_ticks: int,
+        start: Union[
+            None,
+            Instant,
+            int,
+            str,
+            datetime.datetime,
+            numpy.datetime64,
+            pandas.Timestamp,
+        ] = None,
+        end: Union[
+            None,
+            Instant,
+            int,
+            str,
+            datetime.datetime,
+            numpy.datetime64,
+            pandas.Timestamp,
+        ] = None,
+        market_data_type: MarketDataType = MarketDataType.FROZEN,
+        ignore_size: bool = False,
+    ) -> List[Request]:
         """Requests historical tick-by-tick data. Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,
         and ``ticks_mid_point`` tables.
 
@@ -1108,20 +1355,30 @@ class IbSessionTws:
 
         for cd in contract.contract_details:
             req_id = self._client.request_id_manager.next_id()
-            self._client.log_request(req_id, "HistoricalTicks", cd.contract,
-                                     {"start": start,
-                                      "end": end,
-                                      "tick_type": tick_type,
-                                      "number_of_ticks": number_of_ticks,
-                                      "market_data_type": market_data_type,
-                                      "ignore_size": ignore_size,
-                                      })
-            self._client.reqHistoricalTicks(reqId=req_id, contract=cd.contract,
-                                            startDateTime=to_ib_datetime(start, sub_sec=False),
-                                            endDateTime=to_ib_datetime(end, sub_sec=False),
-                                            numberOfTicks=number_of_ticks, whatToShow=what_to_show,
-                                            useRth=market_data_type.value,
-                                            ignoreSize=ignore_size, miscOptions=[])
+            self._client.log_request(
+                req_id,
+                "HistoricalTicks",
+                cd.contract,
+                {
+                    "start": start,
+                    "end": end,
+                    "tick_type": tick_type,
+                    "number_of_ticks": number_of_ticks,
+                    "market_data_type": market_data_type,
+                    "ignore_size": ignore_size,
+                },
+            )
+            self._client.reqHistoricalTicks(
+                reqId=req_id,
+                contract=cd.contract,
+                startDateTime=to_ib_datetime(start, sub_sec=False),
+                endDateTime=to_ib_datetime(end, sub_sec=False),
+                numberOfTicks=number_of_ticks,
+                whatToShow=what_to_show,
+                useRth=market_data_type.value,
+                ignoreSize=ignore_size,
+                miscOptions=[],
+            )
             requests.append(Request(request_id=req_id))
 
         return requests
@@ -1150,11 +1407,14 @@ class IbSessionTws:
 
         if contract.is_multi():
             raise Exception(
-                f"RegisteredContracts with multiple contract details are not supported for orders: {contract}")
+                f"RegisteredContracts with multiple contract details are not supported for orders: {contract}"
+            )
 
         req_id = self._client.next_order_id()
         cd = contract.contract_details[0]
-        self._client.log_request(req_id, "PlaceOrder", cd.contract, {"order": f"Order({order})"})
+        self._client.log_request(
+            req_id, "PlaceOrder", cd.contract, {"order": f"Order({order})"}
+        )
         self._client.placeOrder(req_id, cd.contract, order)
         return Request(request_id=req_id, cancel_func=self.order_cancel)
 
@@ -1188,4 +1448,3 @@ class IbSessionTws:
         self._assert_connected()
         self._assert_read_write()
         self._client.reqGlobalCancel()
-
