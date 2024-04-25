@@ -230,7 +230,7 @@ new feature and has not been well tested.  To do this:
 1) Install `ibapi`:
     ```bash
     # pip installed version of ibapi is too old.  You must download and install a more recent version.
-    export IB_VERSION=1019.01
+    export IB_VERSION=1019.04
     curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
     unzip api.zip
     cd ./IBJts/source/pythonclient
@@ -690,7 +690,7 @@ print(ibapi.__version__)
 If your version is `9.x`, it is the old version from [PyPI](https://pypi.org/project/ibapi/).  To install the required `ibapi` version:
 ```bash
 # pip installed version of ibapi is too old.  You must download and install a more recent version.
-export IB_VERSION=1019.01
+export IB_VERSION=1019.04
 curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
 unzip api.zip
 cd ./IBJts/source/pythonclient

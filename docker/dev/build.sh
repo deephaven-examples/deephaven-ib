@@ -16,7 +16,7 @@ if [ -z "$DH_VERSION" ]; then
   exit 1
 fi
 
-IB_VERSION_DEFAULT=10.19.01
+IB_VERSION_DEFAULT=10.19.04
 
 if [ -z "$IB_VERSION" ]; then
   echo "Using default IB_VERSION=${IB_VERSION_DEFAULT}"
