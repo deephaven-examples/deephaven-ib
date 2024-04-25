@@ -13,7 +13,7 @@ on:
 
 env:
   IB_VERSION: 10.19.01
-  DH_VERSION: 0.28.1
+  DH_VERSION: 0.33.3
 
 jobs:
   build-ib-whl:
@@ -114,7 +114,7 @@ jobs:
     - name: Apt installs
       run: |
         sudo apt update
-        sudo apt install -y openjdk-11-jdk
+        sudo apt install -y openjdk-17-jdk
     - name: Pip installs
       run:  pip3 install --upgrade sphinx==4.2.0 sphinx-autodoc-typehints furo==2021.10.9
     - name: Download IB wheels
@@ -132,7 +132,7 @@ jobs:
     - name: Run Sphinx
       working-directory: ./sphinx
       env:
-        JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+        JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
       run: |
         make html
         touch build/html/.nojekyll

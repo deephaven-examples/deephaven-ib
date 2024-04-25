@@ -11,12 +11,12 @@ ARG DH_VERSION
 # Install requirements
 
 RUN apt update && \
-    apt install -y openjdk-11-jdk && \
-    ln -s /usr/lib/jvm/java-11-openjdk-*/ /usr/lib/jvm/java-11-openjdk && \
+    apt install -y openjdk-17-jdk && \
+    ln -s /usr/lib/jvm/java-17-openjdk-*/ /usr/lib/jvm/java-17-openjdk && \
     apt install --yes git python3-venv python3-pip curl unzip && \
     pip3 install --upgrade pip setuptools wheel build
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 
 # Build and install ibapi
 
