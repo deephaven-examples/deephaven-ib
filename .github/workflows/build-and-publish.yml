@@ -20,28 +20,16 @@ jobs:
     name: Build IB WHL
     runs-on: ubuntu-20.04
     steps:
-    - name: Setup Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel build twine
+    - name: Checkout
+      uses: actions/checkout@v1
     - name: Build
-      run: |
-        IB_VERSION_DOWNLOAD=$(echo ${IB_VERSION} | sed 's/[.]//')
-        echo "Downloading IB API version ${IB_VERSION_DOWNLOAD}"
-        curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION_DOWNLOAD}.zip"
-        unzip api.zip
-        cd ./IBJts/source/pythonclient
-        python -m build
+      run: cd ibwhl && docker-compose -f "docker-compose.yml" up -d --build
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: ib-wheels
         path: |
-          ./IBJts/source/pythonclient/dist/*
+          ibwhl/dist/*
 
 
   build-whl:
