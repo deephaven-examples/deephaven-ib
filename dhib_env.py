@@ -13,6 +13,9 @@ import click
 import pkginfo
 import requests
 
+IB_VERSION_DEFAULT="10.19.04"
+DH_VERSION_DEFAULT="0.33.3"
+
 ########################################################################################################################
 # Shell
 ########################################################################################################################
@@ -265,8 +268,8 @@ def cli():
 
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
-@click.option('--dh_version', default="0.33.3", help='The version of Deephaven.')
-@click.option('--ib_version', default="10.19.04", help='The version of ibapi.')
+@click.option('--dh_version', default=DH_VERSION_DEFAULT, help='The version of Deephaven.')
+@click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
 def dev(python: str, dh_version: str, ib_version: str, dh_ib_version: Optional[str], delete_venv: bool):

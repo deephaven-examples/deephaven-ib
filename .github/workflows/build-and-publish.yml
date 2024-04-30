@@ -22,17 +22,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-    # TODO: remove
-    - name: DEBUG
-      run: pwd
     - name: Build
       run: |
         cd ibwhl
         docker-compose -f "docker-compose.yml" up --build
         find . -name \*.whl
-    # TODO: remove
-    - name: DEBUG
-      run: pwd && find . -name \*.whl
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
