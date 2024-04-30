@@ -2,6 +2,8 @@
 
 # This script is used to build Python wheels for the Interactive Brokers' API.
 
+# Exit script on first error
+set -e
 
 # check that IB_VERSION is set
 if [ -z "$IB_VERSION" ]; then
@@ -12,11 +14,16 @@ fi
 # IB has a funky versioning scheme, so we need to strip out the periods in some places before download
 IB_VERSION_DOWNLOAD=$(echo ${IB_VERSION} | sed 's/[.]//')
 
-rm -rf ./build
-rm -rf ./dist
+if [ ! -d "./build" ]; then
+  mkdir ./build
+fi
 
-mkdir ./build
-mkdir ./dist
+if [ ! -d "./dist" ]; then
+  mkdir ./dist
+fi
+
+rm -rf ./build/*
+rm -rf ./dist/*
 
 pushd ./build
 
