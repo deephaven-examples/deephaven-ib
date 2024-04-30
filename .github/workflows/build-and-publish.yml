@@ -26,7 +26,10 @@ jobs:
     - name: DEBUG
       run: pwd
     - name: Build
-      run: cd ibwhl && docker-compose -f "docker-compose.yml" up -d --build
+      run: |
+        cd ibwhl
+        docker-compose -f "docker-compose.yml" up --build
+        find . -name \*.whl
     # TODO: remove
     - name: DEBUG
       run: pwd && find . -name \*.whl
