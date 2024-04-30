@@ -29,7 +29,7 @@ jobs:
       run: cd ibwhl && docker-compose -f "docker-compose.yml" up -d --build
     # TODO: remove
     - name: DEBUG
-      run: pwd && ls -la ibwhl/dist
+      run: pwd && find . -name \*.whl
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
