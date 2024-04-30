@@ -169,7 +169,8 @@ upper right corner.  ![](https://raw.githubusercontent.com/deephaven-examples/de
 
 Interactive Brokers does not make their Python wheels available via PyPI, and the wheels are not redistributable.
 As a result, installing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) requires a script to build the wheels locally before installation.
-Also, to keep your development environment clean, the script creates a virtual environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+
+To keep your development environment clean, the script creates a virtual environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
 
 ### Build the Virtual Environment
 
@@ -184,13 +185,13 @@ Also, to keep your development environment clean, the script creates a virtual e
     ```
 4) Build a [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) virtual environment:
 
-    To install the latest production version:
+    To install the latest production version from PyPi:
     ```bash
     python3 -m pip install -r requirements_dhib_env.txt
     python3 ./dhib_env.py release
     ```
    
-   To build the latest development version:
+   To build the latest development version from source:
     ```bash
     python3 -m pip install -r requirements_dhib_env.txt
     python3 ./dhib_env.py dev
@@ -200,7 +201,7 @@ Also, to keep your development environment clean, the script creates a virtual e
     ```bash
     python3 ./dhib_env.py --help
     ```
-5) Take note of where the virtual environment was created.  It will be in a directory like `./venv-<versiondetails>`.
+5) In the logs, take note of where the virtual environment was created.  It will be in a directory like `./venv-<versiondetails>`.
    
 ### Activate the Virtual Environment
 
@@ -225,11 +226,13 @@ Once the virtual environment is deactivated, `python` and `pip` will use the sys
 
 # Use deephaven-ib
 
-To use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), you will need to open the [Deephaven Web IDE](http://localhost:10000/ide/) 
-by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.  How you authenticate
-will depend upon how authentication is configured.  In the examples here, you will use the password `DeephavenRocks!`.
+## Start Python
 
-The following commands can be executed in the console.
+To start Python with the virtual environment, run:
+```bash
+source ./venv-<versiondetails>/bin/activate
+python
+```
 
 ## Start Deephaven
 
