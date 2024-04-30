@@ -1,3 +1,9 @@
+
+import os
+from deephaven_server import Server
+_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
+_server.start()
+
 ## Set the API port. Default port numbers are:
 # 7496 - Trader Workstation, real trading
 # 4001 - IB Gateway, real trading

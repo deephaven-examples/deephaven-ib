@@ -1,5 +1,10 @@
 # Compute real-time risk scenarios for a portfolio of options
 
+import os
+from deephaven_server import Server
+_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
+_server.start()
+
 import math
 from ibapi.contract import Contract
 from deephaven.constants import NULL_DOUBLE

@@ -1,4 +1,9 @@
 
+import os
+from deephaven_server import Server
+_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
+_server.start()
+
 from ibapi.contract import Contract
 from ibapi.order import Order
 

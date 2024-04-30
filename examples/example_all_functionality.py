@@ -1,3 +1,9 @@
+
+import os
+from deephaven_server import Server
+_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
+_server.start()
+
 from typing import Dict
 
 from ibapi.contract import Contract
