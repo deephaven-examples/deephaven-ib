@@ -550,7 +550,7 @@ class IbSessionTws:
 
             return rst
 
-        def deephaven_ib_float_value(s: str) -> Optional[float]:
+        def deephaven_ib_float_value(s: Optional[str]) -> Optional[float]:
             if not s:
                 return NULL_DOUBLE
 
@@ -638,7 +638,7 @@ class IbSessionTws:
             "orders_status": tables_raw["raw_orders_status"] \
                 .last_by("PermId") \
                 .move_columns_up(["ReceiveTime", "PermId", "ClientId", "OrderId", "ParentId"]),
-            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]).last_by(["Request", "Timestamp", "ContractId"]),
+            "bars_historical": annotate_ticks(tables_raw["raw_bars_historical"]).last_by(["RequestId", "Timestamp", "ContractId"]),
             "bars_realtime": annotate_ticks(tables_raw["raw_bars_realtime"]),
             "ticks_efp": annotate_ticks(tables_raw["raw_ticks_efp"]),
             "ticks_generic": annotate_ticks(tables_raw["raw_ticks_generic"]),
@@ -692,8 +692,12 @@ class IbSessionTws:
         """
 
         self._assert_connected()
-        cd = self._client.contract_registry.request_contract_details_blocking(contract)
-        return RegisteredContract(query_contract=contract, contract_details=cd)
+
+        try:
+            cd = self._client.contract_registry.request_contract_details_blocking(contract)
+            return RegisteredContract(query_contract=contract, contract_details=cd)
+        except Exception as e:
+            raise Exception(f"Error getting registered contract: contract={contract} {e}")
 
     def request_contracts_matching(self, pattern: str) -> Request:
         """Request contracts matching a pattern.  Results are returned in the ``contracts_matching`` table.
