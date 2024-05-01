@@ -71,7 +71,8 @@ class IBFtpWriter:
 def load_short_rates() -> Table:
     """Downloads the short rates from the IB FTP site and returns them as a table."""
 
-    host: str = "ftp3.interactivebrokers.com"
+    # See: https://www.ibkrguides.com/kb/article-2024.htm
+    host: str = "ftp2.interactivebrokers.com"
     user: str = "shortstock"
 
     with ftplib.FTP(host=host, user=user) as ftp, IBFtpWriter() as p:
