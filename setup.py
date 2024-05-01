@@ -8,17 +8,25 @@ with open("README.md", "r", encoding="utf-8") as fh:
 dh_ib_version = os.getenv("DH_IB_VERSION")
 
 if not dh_ib_version:
-    raise Exception("deephaven-ib version must be set via the DH_IB_VERSION environment varialble.")
+    raise Exception("deephaven-ib version must be set via the DH_IB_VERSION environment variable.")
 
 dh_version = os.getenv("DH_VERSION")
 
 if not dh_version:
-    raise Exception("deephaven version must be set via the DH_VERSION environment varialble.")
+    raise Exception("deephaven version must be set via the DH_VERSION environment variable.")
 
 ib_version = os.getenv("IB_VERSION")
 
 if not ib_version:
-    raise Exception("ibapi version must be set via the IB_VERSION environment varialble.")
+    raise Exception("ibapi version must be set via the IB_VERSION environment variable.")
+
+
+def add_version_constraint(package_name, version):
+    if len(dh_version.split(".")) < 3:
+        return f"deephaven-server~={dh_version}"
+    else:
+        return f"{package_name}=={version}"
+
 
 setuptools.setup(
     name="deephaven_ib",
@@ -49,9 +57,9 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
     install_requires=[
-        f"deephaven-server=={dh_version}",
+        add_version_constraint("deephaven-server", dh_version),
         "pandas",
-        f"ibapi=={ib_version}",
+        add_version_constraint("ibapi", ib_version),
         "lxml",
         "ratelimit",
     ],

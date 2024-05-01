@@ -13,7 +13,7 @@ on:
 
 env:
   IB_VERSION: 10.19.04
-  DH_VERSION: 0.33.3
+  DH_VERSION: 0.33
 
 jobs:
   build-ib-whl:

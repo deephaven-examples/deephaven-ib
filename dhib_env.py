@@ -14,7 +14,7 @@ import pkginfo
 import requests
 
 IB_VERSION_DEFAULT="10.19.04"
-DH_VERSION_DEFAULT="0.33.3"
+DH_VERSION_DEFAULT="0.33"
 
 ########################################################################################################################
 # Version Numbers
@@ -230,7 +230,13 @@ class Venv:
         if isinstance(package, Path):
             package = package.absolute()
 
-        ver = f"=={version}" if version else ""
+        if not version:
+            ver = ""
+        elif len(version.split(".")) > 2:
+            ver = f"=={version}"
+        else:
+            ver = f"~={version}"
+
         cmd = f"""{self.python} -m pip install {package}{ver}"""
         shell_exec(cmd)
 
@@ -389,7 +395,7 @@ def release(python: str, dh_ib_version: Optional[str], delete_venv: bool):
     wheel = download_wheel(python, "deephaven_ib", dh_ib_version)
     deps = pkg_dependencies(wheel)
     ib_version = deps["ibapi"].replace("==", "")
-    dh_version = deps["deephaven-server"].replace("==", "")
+    dh_version = deps["deephaven-server"].replace("==", "").replace("~=", "")
 
     v = Venv(True, python, dh_version, ib_version, dh_ib_version, delete_venv)
 
