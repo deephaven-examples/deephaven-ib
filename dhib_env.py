@@ -5,6 +5,7 @@
 import atexit
 import logging
 import os
+import re
 import shutil
 from pathlib import Path
 from types import ModuleType
@@ -14,7 +15,7 @@ import pkginfo
 import requests
 
 IB_VERSION_DEFAULT="10.19.04"
-DH_VERSION_DEFAULT="0.33"
+DH_VERSION_DEFAULT="0.33.0"
 
 ########################################################################################################################
 # Version Numbers
@@ -47,6 +48,27 @@ def version_str(version: tuple[int, ...], wide: bool) -> str:
         return ".".join(f"{x:02d}" for x in version)
     else:
         return ".".join(map(str, version))
+
+
+def version_assert_format(version: str) -> None:
+    """Assert that a version string is formatted correctly.
+
+    Args:
+        version: The version string to check.
+
+    Raises:
+        ValueError: If the version string is not formatted correctly.
+    """
+    if not version:
+        raise ValueError("Version string is empty.")
+
+    # check if the version string is in semver format
+    pattern1 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)$")
+    pattern2 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)\.dev([0-9]\d*)$")
+    is_semver = bool(pattern1.match(version)) or bool(pattern2.match(version))
+
+    if not is_semver:
+        raise ValueError(f"Version string is not in semver format: {version}")
 
 
 ########################################################################################################################
@@ -218,26 +240,20 @@ class Venv:
         """The path to the Python executable in the virtual environment."""
         return os.path.join(self.path, "bin", "python")
 
-    def pip_install(self, package: Union[str, Path], version: Optional[str] = None) -> None:
+    def pip_install(self, package: Union[str, Path], version: str = "") -> None:
         """Install a package into the virtual environment.
 
         Args:
             package: The name of the package to install.
-            version: The version of the package to install. If None, the latest version will be installed.
+            version: The version constraint of the package to install. If None, the latest version will be installed.
+                For example, provide "==1.2.3" to install version 1.2.3.
         """
         logging.warning(f"Installing package in venv: {package}, version: {version}, venv: {self.path}")
 
         if isinstance(package, Path):
             package = package.absolute()
 
-        if not version:
-            ver = ""
-        elif len(version.split(".")) > 2:
-            ver = f"=={version}"
-        else:
-            ver = f"~={version}"
-
-        cmd = f"""{self.python} -m pip install {package}{ver}"""
+        cmd = f"""{self.python} -m pip install {package}{version}"""
         shell_exec(cmd)
 
 
@@ -351,17 +367,31 @@ def cli():
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
 @click.option('--dh_version', default=DH_VERSION_DEFAULT, help='The version of Deephaven.')
+@click.option('--dh_version_exact', default=None, help='The exact version of Deephaven.')
 @click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
-def dev(python: str, dh_version: str, ib_version: str, dh_ib_version: Optional[str], delete_venv: bool):
+def dev(python: str, dh_version: str, dh_version_exact: str, ib_version: str, dh_ib_version: Optional[str], delete_venv: bool):
     """Create a development environment."""
-    logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
+    logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, dh_version_exact={dh_version_exact}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
+
+    if dh_version_exact:
+        if dh_version != DH_VERSION_DEFAULT:
+            raise ValueError(f"Cannot specify both dh_version={dh_version} and dh_version_exact={dh_version_exact}")
+
+        dh_version = dh_version_exact
+        dh_version_pip = f"=={dh_version}"
+    else:
+        dh_version_pip = f"~={dh_version}"
 
     use_dev = dh_ib_version is None
 
     if dh_ib_version is None:
         dh_ib_version = "0.0.0.dev0"
+
+    version_assert_format(dh_version)
+    version_assert_format(ib_version)
+    version_assert_format(dh_ib_version)
 
     v = Venv(False, python, dh_version, ib_version, dh_ib_version, delete_venv)
 
@@ -369,7 +399,7 @@ def dev(python: str, dh_version: str, ib_version: str, dh_ib_version: Optional[s
     ib_wheel.build(v)
     ib_wheel.install(v)
 
-    v.pip_install("deephaven-server", dh_version)
+    v.pip_install("deephaven-server", dh_version_pip)
 
     if use_dev:
         logging.warning(f"Building deephaven-ib from source: {dh_ib_version}")
@@ -379,7 +409,7 @@ def dev(python: str, dh_version: str, ib_version: str, dh_ib_version: Optional[s
     else:
         logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
         logging.warning(f"*** INSTALLED deephaven-ib MAY BE INCONSISTENT WITH INSTALLED DEPENDENCIES ***")
-        v.pip_install("deephaven-ib", dh_ib_version)
+        v.pip_install("deephaven-ib", f"=={dh_ib_version}")
 
     success(v)
 
@@ -397,6 +427,15 @@ def release(python: str, dh_ib_version: Optional[str], delete_venv: bool):
     ib_version = deps["ibapi"].replace("==", "")
     dh_version = deps["deephaven-server"].replace("==", "").replace("~=", "")
 
+    version_assert_format(dh_version)
+    version_assert_format(ib_version)
+
+    if dh_ib_version:
+        version_assert_format(dh_ib_version)
+        dh_ib_version_pip = f"=={dh_ib_version}"
+    else:
+        dh_ib_version_pip = ""
+
     v = Venv(True, python, dh_version, ib_version, dh_ib_version, delete_venv)
 
     ib_wheel = IbWheel(ib_version)
@@ -404,7 +443,7 @@ def release(python: str, dh_ib_version: Optional[str], delete_venv: bool):
     ib_wheel.install(v)
 
     logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
-    v.pip_install("deephaven-ib", dh_ib_version)
+    v.pip_install("deephaven-ib", dh_ib_version_pip)
     success(v)
 
 

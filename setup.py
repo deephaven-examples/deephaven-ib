@@ -1,4 +1,5 @@
 import os
+import re
 
 import setuptools
 
@@ -21,12 +22,31 @@ if not ib_version:
     raise Exception("ibapi version must be set via the IB_VERSION environment variable.")
 
 
-def add_version_constraint(package_name, version):
-    if len(dh_version.split(".")) < 3:
-        return f"deephaven-server~={dh_version}"
-    else:
-        return f"{package_name}=={version}"
+def version_assert_format(version: str) -> None:
+    """Assert that a version string is formatted correctly.
 
+    Args:
+        version: The version string to check.
+
+    Raises:
+        ValueError: If the version string is not formatted correctly.
+    """
+    if not version:
+        raise ValueError("Version string is empty.")
+
+    # check if the version string is in semver format
+    # check if the version string is in semver format
+    pattern1 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)$")
+    pattern2 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)\.dev([0-9]\d*)$")
+    is_semver = bool(pattern1.match(version)) or bool(pattern2.match(version))
+
+    if not is_semver:
+        raise ValueError(f"Version string is not in semver format: {version}")
+
+
+version_assert_format(dh_ib_version)
+version_assert_format(dh_version)
+version_assert_format(ib_version)
 
 setuptools.setup(
     name="deephaven_ib",
@@ -57,9 +77,9 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.10",
     install_requires=[
-        add_version_constraint("deephaven-server", dh_version),
+        f"deephaven-server~={dh_version}",
         "pandas",
-        add_version_constraint("ibapi", ib_version),
+        f"ibapi=={ib_version}",
         "lxml",
         "ratelimit",
     ],
