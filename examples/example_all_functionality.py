@@ -1,8 +1,5 @@
 
-import os
-from deephaven_server import Server
-_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
-_server.start()
+# Run this example in the Deephaven IDE Console
 
 from typing import Dict
 
@@ -20,7 +17,7 @@ print("==== Create a client and connect.")
 print("==== ** Accept the connection in TWS **")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, client_id=0, download_short_rates=True, read_only=False)
+client = dhib.IbSessionTws(host="localhost", port=7497, client_id=0, download_short_rates=True, read_only=False)
 print(f"IsConnected: {client.is_connected()}")
 
 client.connect()
@@ -135,8 +132,8 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "OPT"
     contract.exchange = "BOX"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "20240119"
-    contract.strike = 138.5
+    contract.lastTradeDateOrContractMonth = "20260116"
+    contract.strike = 170.0
     contract.right = "C"
     contract.multiplier = "100"
     rst["option_1"] = contract
@@ -169,8 +166,8 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202312"
-    contract.strike = 4700
+    contract.lastTradeDateOrContractMonth = "202409"
+    contract.strike = 5000
     contract.right = "C"
     contract.multiplier = "50"
     rst["futureoption_1"] = contract
@@ -179,14 +176,14 @@ def get_contracts() -> Dict[str, Contract]:
 
     contract = Contract()
     # enter CUSIP as symbol
-    contract.symbol = "912828C57"
+    contract.symbol = "084664BL4"
     contract.secType = "BOND"
     contract.exchange = "SMART"
     contract.currency = "USD"
     rst["bond_1"] = contract
 
     contract = Contract()
-    contract.conId = 147554578
+    contract.conId = 577489715
     contract.exchange = "SMART"
     rst["bond_2"] = contract
 
@@ -322,7 +319,7 @@ print("=========================================================================
 
 # enter CUSIP as symbol
 contract = Contract()
-contract.symbol = "IBCID411964960"
+contract.conId = 505885457
 contract.secType = "BOND"
 contract.exchange = "SMART"
 contract.currency = "USD"
@@ -462,8 +459,8 @@ contract.symbol = "GOOG"
 contract.secType = "OPT"
 contract.exchange = "BOX"
 contract.currency = "USD"
-contract.lastTradeDateOrContractMonth = "20240119"
-contract.strike = 138.5
+contract.lastTradeDateOrContractMonth = "20260116"
+contract.strike = 170.0
 contract.right = "C"
 contract.multiplier = "100"
 

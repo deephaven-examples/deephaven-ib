@@ -233,14 +233,19 @@ python
 
 ## Start Deephaven
 
-To start Deephaven, run the following command in the console.  This command will start Deephaven with 4GB of memory and
-the password `DeephavenRocks!`.
+To start Deephaven, run the following python script.  It can be found at [./examples/run_deephaven.py](./examples/run_deephaven.py).  
+This command will start Deephaven with 4GB of memory and the password `DeephavenRocks!`.
 
 ```python
 import os
+from time import sleep
 from deephaven_server import Server
+
 _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
 _server.start()
+
+while True:
+    sleep(1)
 ```
 
 > :warning: These deephaven server commands **must** be run before importing `deephaven` or `deephaven_ib`.
@@ -250,6 +255,11 @@ with the password `DeephavenRocks!`.  Other types of Deephaven authentication ca
 See the [Deephaven Documentation](https://deephaven.io/core/docs/) for details.
 
 ## Launch the Deephaven IDE
+
+Once the Deephaven server is started, you can launch the Deephaven IDE.  
+The Deephaven IDE is a web-based interface for working with Deephaven.
+Once in the IDE, you can run queries, create notebooks, and visualize data.
+You can also run all of the example code below and the more complex examples in [./examples](./examples).
 
 To launch the Deephaven IDE, navigate to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.
 How you authenticate will depend upon how authentication is configured.  

@@ -1,8 +1,5 @@
 
-import os
-from deephaven_server import Server
-_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
-_server.start()
+# Run this example in the Deephaven IDE Console
 
 ## Set the API port. Default port numbers are:
 # 7496 - Trader Workstation, real trading
@@ -19,7 +16,7 @@ if API_PORT == 7497 or API_PORT == 4002:
 else:
     read_only_api = True
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=API_PORT, read_only=read_only_api)
+client = dhib.IbSessionTws(host="localhost", port=API_PORT, read_only=read_only_api)
 client.connect()
 
 if client.is_connected():

@@ -1,8 +1,5 @@
 
-import os
-from deephaven_server import Server
-_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
-_server.start()
+# Run this example in the Deephaven IDE Console
 
 from ibapi.contract import Contract
 
@@ -12,7 +9,7 @@ print("=========================================================================
 print("==== ** Accept the connection in TWS **")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, download_short_rates=False)
+client = dhib.IbSessionTws(host="localhost", port=7497, download_short_rates=False)
 client.connect()
 
 # Makes all tables global variables so that they are displayed in the user interface
