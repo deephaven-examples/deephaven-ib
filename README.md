@@ -182,22 +182,31 @@ To keep your development environment clean, the script creates a virtual environ
     ```
 4) Build a [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) virtual environment:
 
-    To install the latest production version from PyPi:
+   First, install the dependencies needed to run the script:
     ```bash
     python3 -m pip install -r requirements_dhib_env.txt
-    python3 ./dhib_env.py release
     ```
-   
-   To build the latest development version from source:
-    ```bash
-    python3 -m pip install -r requirements_dhib_env.txt
-    python3 ./dhib_env.py dev
-    ```
-   
+
    To see all options:
     ```bash
     python3 ./dhib_env.py --help
     ```
+
+   To install the latest production version from PyPi:
+    ```bash
+    python3 ./dhib_env.py release
+    ```
+   
+   To install the latest development version from source:
+    ```bash
+    python3 ./dhib_env.py dev
+    ```
+
+   To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install deephaven-ib.)
+    ```bash
+    python3 ./dhib_env.py dev --install_dhib false
+    ```
+   
 5) In the logs, take note of where the virtual environment was created.  It will be in a directory like `./venv-<versiondetails>`.
    
 ### Activate the Virtual Environment

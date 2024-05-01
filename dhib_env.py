@@ -371,7 +371,8 @@ def cli():
 @click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
-def dev(python: str, dh_version: str, dh_version_exact: str, ib_version: str, dh_ib_version: Optional[str], delete_venv: bool):
+@click.option('--install_dhib', default=True, help='Whether to install deephaven-ib.  If set to false, the resulting venv can be used to develop deephaven-ib in PyCharm or other development environments.')
+def dev(python: str, dh_version: str, dh_version_exact: str, ib_version: str, dh_ib_version: Optional[str], delete_venv: bool, install_dhib: bool):
     """Create a development environment."""
     logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, dh_version_exact={dh_version_exact}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
 
@@ -401,15 +402,16 @@ def dev(python: str, dh_version: str, dh_version_exact: str, ib_version: str, dh
 
     v.pip_install("deephaven-server", dh_version_pip)
 
-    if use_dev:
-        logging.warning(f"Building deephaven-ib from source: {dh_ib_version}")
-        dh_ib_wheel = DhIbWheel(dh_ib_version, dh_version, ib_version)
-        dh_ib_wheel.build(v)
-        dh_ib_wheel.install(v)
-    else:
-        logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
-        logging.warning(f"*** INSTALLED deephaven-ib MAY BE INCONSISTENT WITH INSTALLED DEPENDENCIES ***")
-        v.pip_install("deephaven-ib", f"=={dh_ib_version}")
+    if install_dhib:
+        if use_dev:
+            logging.warning(f"Building deephaven-ib from source: {dh_ib_version}")
+            dh_ib_wheel = DhIbWheel(dh_ib_version, dh_version, ib_version)
+            dh_ib_wheel.build(v)
+            dh_ib_wheel.install(v)
+        else:
+            logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
+            logging.warning(f"*** INSTALLED deephaven-ib MAY BE INCONSISTENT WITH INSTALLED DEPENDENCIES ***")
+            v.pip_install("deephaven-ib", f"=={dh_ib_version}")
 
     success(v)
 
