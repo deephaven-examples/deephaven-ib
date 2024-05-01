@@ -17,6 +17,39 @@ IB_VERSION_DEFAULT="10.19.04"
 DH_VERSION_DEFAULT="0.33.3"
 
 ########################################################################################################################
+# Version Numbers
+########################################################################################################################
+
+
+def version_tuple(version: str) -> tuple[int, ...]:
+    """Convert a version string to a tuple of integers.
+
+    Args:
+        version: The version string to convert.
+
+    Returns:
+        A tuple of integers representing the version.
+    """
+    return tuple(map(int, (version.split("."))))
+
+
+def version_str(version: tuple[int, ...], wide: bool) -> str:
+    """Convert a version tuple to a string.
+
+    Args:
+        version: The version tuple to convert.
+        wide: Whether to use a wide format that includes leading zeros.
+
+    Returns:
+        A string representing the version.
+    """
+    if wide:
+        return ".".join(f"{x:02d}" for x in version)
+    else:
+        return ".".join(map(str, version))
+
+
+########################################################################################################################
 # Shell
 ########################################################################################################################
 
@@ -198,7 +231,8 @@ class IbWheel:
     def build(self) -> None:
         """Build the IB wheel."""
         logging.warning(f"Building IB wheel: {self.version}")
-        shell_exec(f"cd ibwhl && IB_VERSION={self.version} docker-compose up --abort-on-container-exit")
+        ver_wide = version_str(version_tuple(self.version), True)
+        shell_exec(f"cd ibwhl && IB_VERSION={ver_wide} docker-compose up --abort-on-container-exit")
 
     def install(self, v: Venv) -> None:
         """Install the IB wheel into a virtual environment.
@@ -207,9 +241,8 @@ class IbWheel:
             v: The virtual environment to install the wheel into.
         """
         logging.warning(f"Installing IB wheel in venv: {self.version} {v.path}")
-        # Strip the 0 from the version number
-        mod_ver = self.version.replace(".0", ".")
-        v.pip_install(Path(f"ibwhl/dist/ibapi-{mod_ver}-py3-none-any.whl").absolute())
+        ver_narrow = version_str(version_tuple(self.version), False)
+        v.pip_install(Path(f"ibwhl/dist/ibapi-{ver_narrow}-py3-none-any.whl").absolute())
 
 
 ########################################################################################################################
@@ -310,10 +343,10 @@ def release(python: str, dh_ib_version: Optional[str], delete_venv: bool):
     """Create a release environment."""
     logging.warning(f"Creating release environment: python={python} dh_ib_version={dh_ib_version}")
 
-    wheel = download_wheel(python, "deephaven-ib", dh_ib_version)
+    wheel = download_wheel(python, "deephaven_ib", dh_ib_version)
     deps = pkg_dependencies(wheel)
-    ib_version = deps["ibapi"]
-    dh_version = deps["deephaven-server"]
+    ib_version = deps["ibapi"].replace("==", "")
+    dh_version = deps["deephaven-server"].replace("==", "")
 
     v = Venv(True, python, dh_version, ib_version, dh_ib_version, delete_venv)
 
