@@ -135,9 +135,6 @@ You may want to combine data from other sources with your IB data.  [Deephaven](
 * [Kafka](https://deephaven.io/core/docs/how-to-guides/kafka-topics/).  
 See the [Deephaven Documentation](https://deephaven.io/core/docs) for details.
 
-Files placed in the `./docker/data/` directory are visible in the Docker container at `/data/`.  
-See [Access your file system with Docker data volumes](https://deephaven.io/core/docs/conceptual/docker-data-volumes/) for details.
-
 # Run deephaven-ib
 
 Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
@@ -264,7 +261,8 @@ In the examples here, you will use the password `DeephavenRocks!`.
 All [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) sessions need to first create a client for interacting 
 with [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 
-`host` is the computer to connect to.  When using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) inside
+`host` is the computer to connect to.  When using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) locally, `host` is usually set to `localhost`.
+When using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) inside
 of Docker, `host` should be set to `host.docker.internal`.  
 
 `port` is the network port [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
@@ -288,7 +286,7 @@ For a read-write session that allows trading:
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=False)
+client = dhib.IbSessionTws(host="localhost", port=7497, read_only=False)
 client.connect()
 ```
 
@@ -296,7 +294,7 @@ For a read-only session that does not allow trading:
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=True)
+client = dhib.IbSessionTws(host="localhost", port=7497, read_only=True)
 client.connect()
 ```
 
@@ -304,7 +302,7 @@ For a read-only financial advisor (FA) session that does not allow trading:
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=True, is_fa=True)
+client = dhib.IbSessionTws(host="localhost", port=7497, read_only=True, is_fa=True)
 client.connect()
 ```
 

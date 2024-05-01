@@ -68,6 +68,26 @@ def shell_exec(cmd: str) -> None:
 
 
 ########################################################################################################################
+# URL
+########################################################################################################################
+
+
+def url_download(url: str, path: Union[str, Path]) -> None:
+    """Download a file from a URL.
+
+    Args:
+        url: The URL to download from.
+        path: The path to save the downloaded file to.
+    """
+    logging.warning(f"Downloading file: {url}, path: {path}")
+    response = requests.get(url)
+    response.raise_for_status()
+
+    with open(path, "wb") as f:
+        f.write(response.content)
+
+
+########################################################################################################################
 # Package Query Functions
 ########################################################################################################################
 
@@ -226,13 +246,36 @@ class IbWheel:
         Args:
             version: The version of the IB wheel.
         """
-        self.version = version
+        self.version = version_tuple(version)
 
-    def build(self) -> None:
-        """Build the IB wheel."""
+    def build(self, v: Venv) -> None:
+        """Build the IB wheel.
+
+        Interactive Brokers does not make their Python wheels available via PyPI,
+        and the wheels are not redistributable.
+        As a result, we need to build the IB wheel locally.
+
+        Args:
+            v: The virtual environment to build the wheel in.
+        """
         logging.warning(f"Building IB wheel: {self.version}")
-        ver_wide = version_str(version_tuple(self.version), True)
-        shell_exec(f"cd ibwhl && IB_VERSION={ver_wide} docker-compose up --abort-on-container-exit")
+
+        shutil.rmtree("build/ib", ignore_errors=True)
+        shutil.rmtree("dist/ib", ignore_errors=True)
+
+        os.makedirs("build/ib", exist_ok=True)
+        os.makedirs("dist/ib", exist_ok=True)
+
+        logging.warning(f"Downloading IB API version {self.version}")
+        ver_ib = f"{self.version[0]:02d}{self.version[1]:02d}.{self.version[2]:02d}"
+        url_download(f"https://interactivebrokers.github.io/downloads/twsapi_macunix.{ver_ib}.zip", "build/ib/api.zip")
+
+        logging.warning(f"Unzipping IB API")
+        shell_exec("cd build/ib && unzip api.zip")
+
+        logging.warning(f"Building IB Python API")
+        shell_exec(f"cd build/ib/IBJts/source/pythonclient && {v.python} -m build --wheel")
+        shell_exec("cp build/ib/IBJts/source/pythonclient/dist/* dist/ib/")
 
     def install(self, v: Venv) -> None:
         """Install the IB wheel into a virtual environment.
@@ -241,8 +284,8 @@ class IbWheel:
             v: The virtual environment to install the wheel into.
         """
         logging.warning(f"Installing IB wheel in venv: {self.version} {v.path}")
-        ver_narrow = version_str(version_tuple(self.version), False)
-        v.pip_install(Path(f"ibwhl/dist/ibapi-{ver_narrow}-py3-none-any.whl").absolute())
+        ver_narrow = version_str(self.version, False)
+        v.pip_install(Path(f"dist/ib/ibapi-{ver_narrow}-py3-none-any.whl").absolute())
 
 
 ########################################################################################################################
@@ -317,7 +360,7 @@ def dev(python: str, dh_version: str, ib_version: str, dh_ib_version: Optional[s
     v = Venv(False, python, dh_version, ib_version, dh_ib_version, delete_venv)
 
     ib_wheel = IbWheel(ib_version)
-    ib_wheel.build()
+    ib_wheel.build(v)
     ib_wheel.install(v)
 
     v.pip_install("deephaven-server", dh_version)
@@ -351,7 +394,7 @@ def release(python: str, dh_ib_version: Optional[str], delete_venv: bool):
     v = Venv(True, python, dh_version, ib_version, dh_ib_version, delete_venv)
 
     ib_wheel = IbWheel(ib_version)
-    ib_wheel.build()
+    ib_wheel.build(v)
     ib_wheel.install(v)
 
     logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
