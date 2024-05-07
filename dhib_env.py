@@ -406,6 +406,29 @@ def cli():
     """A script to build Deephaven-IB virtual environments."""
     pass
 
+@click.command()
+@click.option('--python', default="python3", help='The path to the Python executable to use.')
+@click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
+def ibwheel(
+        python: str,
+        ib_version: str,
+):
+    """Create a development environment."""
+    logging.warning(f"Creating an ib wheel: python={python}, ib_version={ib_version}")
+
+    version_assert_format(ib_version)
+
+    logging.warning(f"Using system python: {python}")
+    pyenv = Pyenv(python)
+
+    ib_wheel = IbWheel(ib_version)
+    ib_wheel.build(pyenv)
+
+    logging.warning(f"IB wheel created successfully.")
+    logging.warning(f"IB wheel path: {Path(f'dist/ib/ibapi-{ib_version}-py3-none-any.whl').absolute()}")
+
+    success(pyenv)
+
 
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
@@ -540,6 +563,7 @@ def release(
     success(pyenv)
 
 
+cli.add_command(ibwheel)
 cli.add_command(dev)
 cli.add_command(release)
 
