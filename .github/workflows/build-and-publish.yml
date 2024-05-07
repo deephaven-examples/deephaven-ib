@@ -18,7 +18,7 @@ env:
 jobs:
   build-ib-whl:
     name: Build IB WHL
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -39,7 +39,7 @@ jobs:
 
   build-whl:
     name: Build WHL
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@master
     - name: Setup Python
@@ -81,7 +81,7 @@ jobs:
 
   publish-whl:
     name: Publish WHL
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     needs: [build-whl]
     if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
     steps:
@@ -100,7 +100,7 @@ jobs:
 
   build-sphinx:
     name: Build Sphinx
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     needs: [build-ib-whl, build-whl]
     steps:
     - uses: actions/checkout@v1
@@ -145,7 +145,7 @@ jobs:
 
   publish-sphinx:
     name: Publish Sphinx
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     needs: [build-sphinx]
     if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
     steps:
@@ -171,7 +171,7 @@ jobs:
 
   docker-pip:
     name: Build and Publish Docker (pip-installed Deephaven)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     needs: [build-ib-whl, build-whl]
     permissions:
       contents: read
@@ -229,7 +229,7 @@ jobs:
 
   docker-dhserver:
     name: Build and Publish Docker (Deephaven server image)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     needs: [build-ib-whl, build-whl]
     permissions:
       contents: read
