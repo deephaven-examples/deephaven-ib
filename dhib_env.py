@@ -15,7 +15,7 @@ import pkginfo
 import requests
 
 IB_VERSION_DEFAULT="10.19.04"
-DH_VERSION_DEFAULT="0.33.0"
+DH_VERSION_DEFAULT="0.34.1"
 
 ########################################################################################################################
 # Version Numbers
