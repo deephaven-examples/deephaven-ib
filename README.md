@@ -137,17 +137,19 @@ See the [Deephaven Documentation](https://deephaven.io/core/docs) for details.
 
 # Run deephaven-ib
 
-Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
+Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system.
+
+These instructions produce a virtual environment with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), [Deephaven](https://deephaven.io), and `ibapi` installed.
+For more details on using pip-installed Deephaven, see [Deephaven's Installation Guide for pip](https://deephaven.io/core/docs/tutorials/pip-install/).
 
 **Windows users need to run the commands in WSL.**
 
-## Setup
+## Setup IB
 To setup and configure the system:
 
-1) Follow the [Deephaven Quick Start Guide](https://deephaven.io/core/docs/tutorials/quickstart/) to get [Deephaven](https://deephaven.io) running.  
-2) Follow the [TWS Installation Instructions](https://www.interactivebrokers.com/en/trading/tws.php) to get [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) running.
-3) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
-4) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
+1) Follow the [TWS Installation Instructions](https://www.interactivebrokers.com/en/trading/tws.php) to get [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) running.
+2) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+3) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
 upper right corner.  ![](https://raw.githubusercontent.com/deephaven-examples/deephaven-ib/main/docs/assets/config-gear.png)  
   In `API->Settings`, make sure:
 
@@ -157,17 +159,18 @@ upper right corner.  ![](https://raw.githubusercontent.com/deephaven-examples/de
         
     Also, note the "Socket port" value.  It is needed when connecting [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
     ![](https://raw.githubusercontent.com/deephaven-examples/deephaven-ib/main/docs/assets/config-api.png)
-5) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
-6) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
-7) Once [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) is launched (see [below](#launch)), accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
+4) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
+5) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
+6) Once [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) is launched (see [below](#launch)), accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
 ![](https://raw.githubusercontent.com/deephaven-examples/deephaven-ib/main/docs/assets/allow-connections.png)
 
 ## Virtual Environment
 
 Interactive Brokers does not make their Python wheels available via PyPI, and the wheels are not redistributable.
-As a result, installing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) requires a script to build the wheels locally before installation.
+As a result, installing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) requires a Python script to build the wheels locally before installation.
 
 To keep your development environment clean, the script creates a virtual environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+Follow the directions below to build and activate the virtual environment using the [./dhib_env.py](./dhib_env.py) script.
 
 ### Build the Virtual Environment
 
