@@ -417,6 +417,8 @@ def ibwheel(
     """Create a development environment."""
     logging.warning(f"Creating an ib wheel: python={python}, ib_version={ib_version}")
 
+    python = Path(python).absolute() if python.startswith("./") else python
+
     version_assert_format(ib_version)
 
     logging.warning(f"Using system python: {python}")
@@ -456,6 +458,8 @@ def dev(
 ):
     """Create a development environment."""
     logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, dh_version_exact={dh_version_exact}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
+
+    python = Path(python).absolute() if python.startswith("./") else python
 
     if dh_version_exact:
         if dh_version != DH_VERSION_DEFAULT:
@@ -526,6 +530,8 @@ def release(
 ):
     """Create a release environment."""
     logging.warning(f"Creating release environment: python={python} dh_ib_version={dh_ib_version}")
+
+    python = Path(python).absolute() if python.startswith("./") else python
 
     wheel = download_wheel(python, "deephaven_ib", dh_ib_version)
     deps = pkg_dependencies(wheel)
