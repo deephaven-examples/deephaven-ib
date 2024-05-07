@@ -27,7 +27,7 @@ jobs:
         python3 --version
         python3 -m pip install --upgrade pip
         python3 -m pip install -r requirements_dhib_env.txt
-        python3 dhib_env.py ibwhl --ib-version ${{ env.IB_VERSION }}
+        python3 dhib_env.py ibwheel --ib-version ${{ env.IB_VERSION }}
         find . -name \*.whl
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
