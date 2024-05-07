@@ -200,40 +200,13 @@ def pkg_dependencies(path_or_module: Union[str, Path, ModuleType]) -> Dict[str, 
 class Venv:
     """A virtual environment."""
 
-    def __init__(self, is_release: bool, python: str, dh_version: str, ib_version: str, dh_ib_version: str,
-                 delete_if_exists: bool):
+    def __init__(self, path: Path):
         """Create a virtual environment.
 
         Args:
-            is_release: Whether the virtual environment is for a release.
-            python: The path to the Python executable to use.
-            dh_version: The version of Deephaven.
-            ib_version: The version of ibapi.
-            dh_ib_version: The version of deephaven-ib.
-            delete_if_exists: Whether to delete the virtual environment if it already exists.
+            path: The path to the virtual environment.
         """
-        if is_release:
-            self.path = Path(f"venv-release-dhib={dh_version}").absolute()
-        else:
-            self.path = Path(f"venv-dev-dhib={dh_ib_version}-dh={dh_version}-ib={ib_version}").absolute()
-
-        logging.warning(f"Building new virtual environment: {self.path}")
-
-        if delete_if_exists and self.path.exists():
-            logging.warning(f"Deleting existing virtual environment: {self.path}")
-            shutil.rmtree(self.path)
-
-        if self.path.exists():
-            logging.error(f"Virtual environment already exists.  Please remove it before running this script. venv={self.path}")
-            raise FileExistsError(
-                f"Virtual environment already exists.  Please remove it before running this script. venv={self.path}")
-
-        logging.warning(f"Creating virtual environment: {self.path}")
-        shell_exec(f"{python} -m venv {self.path}")
-
-        logging.warning(f"Updating virtual environment: {self.path}")
-        shell_exec(f"{self.python} -m pip install --upgrade pip")
-        shell_exec(f"{self.python} -m pip install --upgrade build")
+        self.path = path
 
     @property
     def python(self) -> str:
@@ -255,6 +228,59 @@ class Venv:
 
         cmd = f"""{self.python} -m pip install {package}{version}"""
         shell_exec(cmd)
+
+
+def new_venv(path: Path, python: str, delete_if_exists: bool) -> Venv:
+    """Create a new virtual environment.
+
+    Args:
+        path: The path to the virtual environment.
+        python: The path to the Python executable to use.
+        delete_if_exists: Whether to delete the virtual environment if it already exists.
+
+    Returns:
+        The new virtual environment.
+    """
+
+    logging.warning(f"Building new virtual environment: {path}")
+
+    if delete_if_exists and path.exists():
+        logging.warning(f"Deleting existing virtual environment: {path}")
+        shutil.rmtree(path)
+
+    if path.exists():
+        logging.error(
+            f"Virtual environment already exists.  Please remove it before running this script. venv={path}")
+        raise FileExistsError(
+            f"Virtual environment already exists.  Please remove it before running this script. venv={path}")
+
+    logging.warning(f"Creating virtual environment: {path}")
+    shell_exec(f"{python} -m venv {path}")
+
+    v = Venv(path)
+
+    logging.warning(f"Updating virtual environment: {path}")
+    shell_exec(f"{v.python} -m pip install --upgrade pip")
+    shell_exec(f"{v.python} -m pip install --upgrade build")
+
+    return v
+
+
+def venv_path(is_release: bool, dh_version: str, dh_ib_version: str) -> Path:
+    """Get the standard path to a new virtual environment.
+
+    Args:
+        is_release: Whether the virtual environment is for a release.
+        dh_version: The version of Deephaven.
+        dh_ib_version: The version of deephaven-ib.
+
+    Returns:
+        The path to the new virtual environment.
+    """
+    if is_release:
+        return Path(f"venv-release-dhib={dh_version}").absolute()
+    else:
+        return Path(f"venv-dev-dhib={dh_ib_version}-dh={dh_version}").absolute()
 
 
 ########################################################################################################################
@@ -370,9 +396,21 @@ def cli():
 @click.option('--dh_version_exact', default=None, help='The exact version of Deephaven.')
 @click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
+@click.option('--path_venv', default=None, help='The path to the virtual environment.')
+@click.option('--create_venv', default=True, help='Whether to create the virtual environment if it does not already exist.')
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
 @click.option('--install_dhib', default=True, help='Whether to install deephaven-ib.  If set to false, the resulting venv can be used to develop deephaven-ib in PyCharm or other development environments.')
-def dev(python: str, dh_version: str, dh_version_exact: str, ib_version: str, dh_ib_version: Optional[str], delete_venv: bool, install_dhib: bool):
+def dev(
+        python: str,
+        dh_version: str,
+        dh_version_exact: str,
+        ib_version: str,
+        dh_ib_version: Optional[str],
+        path_venv: Optional[str],
+        create_venv: bool,
+        delete_venv: bool,
+        install_dhib: bool
+):
     """Create a development environment."""
     logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, dh_version_exact={dh_version_exact}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
 
@@ -394,7 +432,15 @@ def dev(python: str, dh_version: str, dh_version_exact: str, ib_version: str, dh
     version_assert_format(ib_version)
     version_assert_format(dh_ib_version)
 
-    v = Venv(False, python, dh_version, ib_version, dh_ib_version, delete_venv)
+    if path_venv:
+        v_path = Path(path_venv).absolute()
+    else:
+        v_path = venv_path(False, dh_version, dh_ib_version)
+
+    if create_venv:
+        v = new_venv(v_path, python, delete_venv)
+    else:
+        v = Venv(v_path)
 
     ib_wheel = IbWheel(ib_version)
     ib_wheel.build(v)
@@ -419,8 +465,16 @@ def dev(python: str, dh_version: str, dh_version_exact: str, ib_version: str, dh
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
+@click.option('--path_venv', default=None, help='The path to the virtual environment.')
+@click.option('--create_venv', default=True, help='Whether to create the virtual environment if it does not already exist.')
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
-def release(python: str, dh_ib_version: Optional[str], delete_venv: bool):
+def release(
+        python: str,
+        dh_ib_version: Optional[str],
+        path_venv: Optional[str],
+        create_venv: bool,
+        delete_venv: bool
+):
     """Create a release environment."""
     logging.warning(f"Creating release environment: python={python} dh_ib_version={dh_ib_version}")
 
@@ -438,7 +492,15 @@ def release(python: str, dh_ib_version: Optional[str], delete_venv: bool):
     else:
         dh_ib_version_pip = ""
 
-    v = Venv(True, python, dh_version, ib_version, dh_ib_version, delete_venv)
+    if path_venv:
+        v_path = Path(path_venv).absolute()
+    else:
+        v_path = venv_path(True, dh_version, dh_ib_version)
+
+    if create_venv:
+        v = new_venv(v_path, python, delete_venv)
+    else:
+        v = Venv(v_path)
 
     ib_wheel = IbWheel(ib_version)
     ib_wheel.build(v)
