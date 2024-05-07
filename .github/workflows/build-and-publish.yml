@@ -24,9 +24,9 @@ jobs:
       uses: actions/checkout@v1
     - name: Build
       run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install -r requirements_dhib_env.txt
-        python3 dhib_env.py ibwhl --ib-version ${{ env.IB_VERSION }}
+        python3.10 -m pip install --upgrade pip
+        python3.10 -m pip install -r requirements_dhib_env.txt
+        python3.10 dhib_env.py ibwhl --python python3.10 --ib-version ${{ env.IB_VERSION }}
         find . -name \*.whl
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
