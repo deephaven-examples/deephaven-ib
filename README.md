@@ -271,6 +271,7 @@ Once in the IDE, you can run queries, create notebooks, and visualize data.
 You can also run all of the example code below and the more complex examples in [./examples](./examples).
 
 To launch the Deephaven IDE, navigate to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.
+Chrome, Edge, Chrome-based, and Firefox browsers are supported.  Safari is not supported.
 How you authenticate will depend upon how authentication is configured.  
 In the examples here, you will use the password `DeephavenRocks!`.
 
