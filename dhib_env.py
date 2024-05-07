@@ -197,21 +197,21 @@ def pkg_dependencies(path_or_module: Union[str, Path, ModuleType]) -> Dict[str, 
 ########################################################################################################################
 
 
-class Venv:
-    """A virtual environment."""
+class Pyenv:
+    """A python environment."""
 
-    def __init__(self, path: Path):
-        """Create a virtual environment.
+    def __init__(self, python: str):
+        """Create a python environment.
 
         Args:
-            path: The path to the virtual environment.
+            python: The path to the Python executable.
         """
-        self.path = path
+        self._python = python
 
     @property
     def python(self) -> str:
         """The path to the Python executable in the virtual environment."""
-        return os.path.join(self.path, "bin", "python")
+        return self._python
 
     def pip_install(self, package: Union[str, Path], version: str = "") -> None:
         """Install a package into the virtual environment.
@@ -221,13 +221,26 @@ class Venv:
             version: The version constraint of the package to install. If None, the latest version will be installed.
                 For example, provide "==1.2.3" to install version 1.2.3.
         """
-        logging.warning(f"Installing package in venv: {package}, version: {version}, venv: {self.path}")
+        logging.warning(f"Installing package in environment: {package}, version: {version}, python: {self.python}")
 
         if isinstance(package, Path):
             package = package.absolute()
 
         cmd = f"""{self.python} -m pip install {package}{version}"""
         shell_exec(cmd)
+
+
+class Venv(Pyenv):
+    """A Python virtual environment."""
+
+    def __init__(self, path: Path):
+        """Create a virtual environment.
+
+        Args:
+            path: The path to the virtual environment.
+        """
+        super().__init__(os.path.join(path, "bin", "python"))
+        self.path = path
 
 
 def new_venv(path: Path, python: str, delete_if_exists: bool) -> Venv:
@@ -296,7 +309,7 @@ class IbWheel:
         """
         self.version = version_tuple(version)
 
-    def build(self, v: Venv) -> None:
+    def build(self, pyenv: Pyenv) -> None:
         """Build the IB wheel.
 
         Interactive Brokers does not make their Python wheels available via PyPI,
@@ -304,7 +317,7 @@ class IbWheel:
         As a result, we need to build the IB wheel locally.
 
         Args:
-            v: The virtual environment to build the wheel in.
+            pyenv: The python environment to build the wheel in.
         """
         logging.warning(f"Building IB wheel: {self.version}")
 
@@ -322,18 +335,18 @@ class IbWheel:
         shell_exec("cd build/ib && unzip api.zip")
 
         logging.warning(f"Building IB Python API")
-        shell_exec(f"cd build/ib/IBJts/source/pythonclient && {v.python} -m build --wheel")
+        shell_exec(f"cd build/ib/IBJts/source/pythonclient && {pyenv.python} -m build --wheel")
         shell_exec("cp build/ib/IBJts/source/pythonclient/dist/* dist/ib/")
 
-    def install(self, v: Venv) -> None:
+    def install(self, pyenv: Pyenv) -> None:
         """Install the IB wheel into a virtual environment.
 
         Args:
-            v: The virtual environment to install the wheel into.
+            pyenv: The python environment to install the wheel into.
         """
-        logging.warning(f"Installing IB wheel in venv: {self.version} {v.path}")
+        logging.warning(f"Installing IB wheel in python environment: {self.version} python: {pyenv.python}")
         ver_narrow = version_str(self.version, False)
-        v.pip_install(Path(f"dist/ib/ibapi-{ver_narrow}-py3-none-any.whl").absolute())
+        pyenv.pip_install(Path(f"dist/ib/ibapi-{ver_narrow}-py3-none-any.whl").absolute())
 
 
 ########################################################################################################################
@@ -353,30 +366,34 @@ class DhIbWheel:
         self.dh_version = dh_version
         self.ib_version = ib_version
 
-    def build(self, v: Venv) -> None:
+    def build(self, pyenv: Pyenv) -> None:
         """Build the deephaven-ib wheel."""
         logging.warning(f"Building deephaven-ib: {self.version}")
-        shell_exec(f"DH_IB_VERSION={self.version} DH_VERSION={self.dh_version} IB_VERSION={self.ib_version} {v.python} -m build --wheel")
+        shell_exec(f"DH_IB_VERSION={self.version} DH_VERSION={self.dh_version} IB_VERSION={self.ib_version} {pyenv.python} -m build --wheel")
 
-    def install(self, v: Venv) -> None:
+    def install(self, pyenv: Pyenv) -> None:
         """Install the deephaven-ib wheel into a virtual environment."""
-        logging.warning(f"Installing deephaven-ib in venv: {self.version} {v.path}")
-        v.pip_install(Path(f"dist/deephaven_ib-{self.version}-py3-none-any.whl").absolute())
+        logging.warning(f"Installing deephaven-ib in python environment: {self.version} python: {pyenv.python}")
+        pyenv.pip_install(Path(f"dist/deephaven_ib-{self.version}-py3-none-any.whl").absolute())
 
 
 ########################################################################################################################
 # Messages
 ########################################################################################################################
 
-def success(v: Venv) -> None:
+def success(pyenv: Pyenv) -> None:
     """Print a success message.
 
     Args:
-        v: The virtual environment.
+        pyenv: The python environment.
     """
-    logging.warning(f"Success!  Virtual environment created: {v.path}")
-    logging.warning(f"Activate the virtual environment with: source {v.path}/bin/activate")
-    logging.warning(f"Deactivate the virtual environment with: deactivate")
+    logging.warning("Deephaven-ib environment created successfully.")
+    logging.warning(f"Python environment: {pyenv.python}")
+
+    if isinstance(pyenv, Venv):
+        logging.warning(f"Success!  Virtual environment created: {pyenv.path}")
+        logging.warning(f"Activate the virtual environment with: source {pyenv.path}/bin/activate")
+        logging.warning(f"Deactivate the virtual environment with: deactivate")
 
 
 ########################################################################################################################
@@ -396,6 +413,7 @@ def cli():
 @click.option('--dh_version_exact', default=None, help='The exact version of Deephaven.')
 @click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
+@click.option('--use_venv', default=True, help='Whether to use a python virtual environment or system python.')
 @click.option('--path_venv', default=None, help='The path to the virtual environment.')
 @click.option('--create_venv', default=True, help='Whether to create the virtual environment if it does not already exist.')
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
@@ -406,6 +424,7 @@ def dev(
         dh_version_exact: str,
         ib_version: str,
         dh_ib_version: Optional[str],
+        use_venv: bool,
         path_venv: Optional[str],
         create_venv: bool,
         delete_venv: bool,
@@ -432,45 +451,51 @@ def dev(
     version_assert_format(ib_version)
     version_assert_format(dh_ib_version)
 
-    if path_venv:
-        v_path = Path(path_venv).absolute()
-    else:
-        v_path = venv_path(False, dh_version, dh_ib_version)
+    if use_venv:
+        if path_venv:
+            v_path = Path(path_venv).absolute()
+        else:
+            v_path = venv_path(False, dh_version, dh_ib_version)
 
-    if create_venv:
-        v = new_venv(v_path, python, delete_venv)
+        if create_venv:
+            pyenv = new_venv(v_path, python, delete_venv)
+        else:
+            pyenv = Venv(v_path)
     else:
-        v = Venv(v_path)
+        logging.warning(f"Using system python: {python}")
+        pyenv = Pyenv(python)
 
     ib_wheel = IbWheel(ib_version)
-    ib_wheel.build(v)
-    ib_wheel.install(v)
+    ib_wheel.build(pyenv)
+    ib_wheel.install(pyenv)
 
-    v.pip_install("deephaven-server", dh_version_pip)
+    pyenv.pip_install("deephaven-server", dh_version_pip)
 
     if install_dhib:
         if use_dev:
             logging.warning(f"Building deephaven-ib from source: {dh_ib_version}")
             dh_ib_wheel = DhIbWheel(dh_ib_version, dh_version, ib_version)
-            dh_ib_wheel.build(v)
-            dh_ib_wheel.install(v)
+            dh_ib_wheel.build(pyenv)
+            dh_ib_wheel.install(pyenv)
         else:
             logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
             logging.warning(f"*** INSTALLED deephaven-ib MAY BE INCONSISTENT WITH INSTALLED DEPENDENCIES ***")
-            v.pip_install("deephaven-ib", f"=={dh_ib_version}")
+            pyenv.pip_install("deephaven-ib", f"=={dh_ib_version}")
 
-    success(v)
+    success(pyenv)
 
 
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
+@click.option('--use_venv', default=True, help='Whether to use a python virtual environment or system python.')
 @click.option('--path_venv', default=None, help='The path to the virtual environment.')
 @click.option('--create_venv', default=True, help='Whether to create the virtual environment if it does not already exist.')
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
 def release(
         python: str,
         dh_ib_version: Optional[str],
+        use_venv: bool,
         path_venv: Optional[str],
         create_venv: bool,
         delete_venv: bool
@@ -492,23 +517,27 @@ def release(
     else:
         dh_ib_version_pip = ""
 
-    if path_venv:
-        v_path = Path(path_venv).absolute()
-    else:
-        v_path = venv_path(True, dh_version, dh_ib_version)
+    if use_venv:
+        if path_venv:
+            v_path = Path(path_venv).absolute()
+        else:
+            v_path = venv_path(True, dh_version, dh_ib_version)
 
-    if create_venv:
-        v = new_venv(v_path, python, delete_venv)
+        if create_venv:
+            pyenv = new_venv(v_path, python, delete_venv)
+        else:
+            pyenv = Venv(v_path)
     else:
-        v = Venv(v_path)
+        logging.warning(f"Using system python: {python}")
+        pyenv = Pyenv(python)
 
     ib_wheel = IbWheel(ib_version)
-    ib_wheel.build(v)
-    ib_wheel.install(v)
+    ib_wheel.build(pyenv)
+    ib_wheel.install(pyenv)
 
     logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
-    v.pip_install("deephaven-ib", dh_ib_version_pip)
-    success(v)
+    pyenv.pip_install("deephaven-ib", dh_ib_version_pip)
+    success(pyenv)
 
 
 cli.add_command(dev)

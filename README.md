@@ -172,6 +172,9 @@ As a result, installing [deephaven-ib](https://github.com/deephaven-examples/dee
 To keep your development environment clean, the script creates a virtual environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
 Follow the directions below to build and activate the virtual environment using the [./dhib_env.py](./dhib_env.py) script.
 
+If you prefer to install directly into your system Python without a virtual environment, 
+you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
+
 ### Build the Virtual Environment
 
 1) Install Java 17 and set the appropriate `JAVA_HOME` environment variable.    
