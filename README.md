@@ -242,7 +242,40 @@ Once the virtual environment is deactivated, `python` and `pip` will use the sys
 
 # Use deephaven-ib
 
-## Start Python
+To use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), you need to start a [Deephaven](https://deephaven.io) server and connect to 
+[IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+You can optionally use the Deephaven IDE to visualize data and run queries.
+
+## Start Deephaven
+
+First, start a [Deephaven](https://deephaven.io) server.  This server will be used to process data and run queries.
+
+The documentation and examples here illustrate using Deephaven's [Pre-Shared Key (PSK) authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-psk/)
+with the password `DeephavenRocks!`.  Other types of Deephaven authentication can also work.  
+See the [Deephaven Documentation](https://deephaven.io/core/docs/) for details.
+
+
+### Option 1: Use the `deephaven` command
+
+The easiest way to start a deephaven server is using `deephaven` on the command line.
+The `deephaven` command was added to the virtual environment when it was created.
+It is available in [Deephaven](https://deephaven.io) versions `>= 0.34.0`.
+
+This command will start a deephaven server with 4GB of memory and the password `DeephavenRocks!`.
+It will also automatically open the Deephaven IDE in a web browser.
+
+```bash
+source ./venv-<versiondetails>/bin/activate
+deephaven server --jvm-args "-Xmx4g -Dauthentication.psk=DeephavenRocks! -Dstorage.path=~/.deephaven"
+```
+
+
+### Option 2: Use a Python script
+
+An alternative way to launch a deephaven server is to use a Python script.  This works with all versions of 
+[Deephaven](https://deephaven.io) and can be used to populate the server with queries.  
+See [Deephaven's Installation Guide for pip](https://deephaven.io/core/docs/tutorials/pip-install/) for more details on 
+running [Deephaven](https://deephaven.io) this way.
 
 To start Python with the virtual environment, run:
 ```bash
@@ -250,11 +283,7 @@ source ./venv-<versiondetails>/bin/activate
 python
 ```
 
-## Start Deephaven
-
-To start Deephaven, run the following python script.  It can be found at [./examples/run_deephaven.py](./examples/run_deephaven.py).  
-This command will start Deephaven with 4GB of memory and the password `DeephavenRocks!`.
-
+Once Python is running, you can start a deephaven server with the following script:
 ```python
 import os
 from time import sleep
@@ -263,19 +292,24 @@ from deephaven_server import Server
 _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
 _server.start()
 
+# You can insert queries here
+
+# Keep the server running
 while True:
     sleep(1)
 ```
-
 > :warning: These deephaven server commands **must** be run before importing `deephaven` or `deephaven_ib`.
 
-The documentation and examples here illustrate using Deephaven's [Pre-Shared Key (PSK) authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-psk/)
-with the password `DeephavenRocks!`.  Other types of Deephaven authentication can also work.  
-See the [Deephaven Documentation](https://deephaven.io/core/docs/) for details.
+At the indicated place in the script, you can put queries that you want to run when the server starts.  
+This could be code to conenct to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), request data, analyze data, visualize data, or trade.  
+See the examples below for more details.
+
 
 ## Launch the Deephaven IDE
 
-Once the Deephaven server is started, you can launch the Deephaven IDE.  
+Once the Deephaven server is started, you can launch the Deephaven IDE.
+If you used the `deephaven` command to start the server, the Deephaven IDE will automatically open in your web browser.
+
 The Deephaven IDE is a web-based interface for working with Deephaven.
 Once in the IDE, you can run queries, create notebooks, and visualize data.
 You can also run all of the example code below and the more complex examples in [./examples](./examples).
