@@ -109,7 +109,7 @@ jobs:
         sudo apt update
         sudo apt install -y openjdk-17-jdk
     - name: Pip installs
-      run:  pip3 install --upgrade sphinx==4.2.0 sphinx-autodoc-typehints furo==2021.10.9
+      run:  pip3 install --upgrade sphinx~=5.0.0 sphinx-autodoc-typehints furo==2021.10.9
     - name: Download IB wheels
       uses: actions/download-artifact@v3
       with:
