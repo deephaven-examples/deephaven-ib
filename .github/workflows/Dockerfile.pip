@@ -2,10 +2,10 @@
 FROM ubuntu:22.04
 
 RUN apt update && \
-    apt install -y openjdk-11-jdk python3-pip python3-venv curl zip && \
+    apt install -y openjdk-17-jdk python3-pip python3-venv curl zip && \
     pip3 install --upgrade pip setuptools wheel
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
 
 COPY ./wheels /wheels
 COPY ./ib-wheels /ib-wheels

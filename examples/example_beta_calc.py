@@ -1,3 +1,6 @@
+
+# Run this example in the Deephaven IDE Console
+
 ## Set the API port. Default port numbers are:
 # 7496 - Trader Workstation, real trading
 # 4001 - IB Gateway, real trading
@@ -13,7 +16,7 @@ if API_PORT == 7497 or API_PORT == 4002:
 else:
     read_only_api = True
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=API_PORT, read_only=read_only_api)
+client = dhib.IbSessionTws(host="localhost", port=API_PORT, read_only=read_only_api)
 client.connect()
 
 if client.is_connected():

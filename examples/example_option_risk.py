@@ -1,5 +1,7 @@
 # Compute real-time risk scenarios for a portfolio of options
 
+# Run this example in the Deephaven IDE Console
+
 import math
 from ibapi.contract import Contract
 from deephaven.constants import NULL_DOUBLE
@@ -11,7 +13,7 @@ print("=========================================================================
 print("==== ** Accept the connection in TWS **")
 print("==============================================================================================================")
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, download_short_rates=False)
+client = dhib.IbSessionTws(host="localhost", port=7497, download_short_rates=False)
 client.connect()
 
 print("==============================================================================================================")

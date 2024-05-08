@@ -135,22 +135,21 @@ You may want to combine data from other sources with your IB data.  [Deephaven](
 * [Kafka](https://deephaven.io/core/docs/how-to-guides/kafka-topics/).  
 See the [Deephaven Documentation](https://deephaven.io/core/docs) for details.
 
-Files placed in the `./docker/data/` directory are visible in the Docker container at `/data/`.  
-See [Access your file system with Docker data volumes](https://deephaven.io/core/docs/conceptual/docker-data-volumes/) for details.
-
 # Run deephaven-ib
 
-Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system. 
+Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive Brokers](https://interactivebrokers.com) system.
+
+These instructions produce a virtual environment with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), [Deephaven](https://deephaven.io), and `ibapi` installed.
+For more details on using pip-installed Deephaven, see [Deephaven's Installation Guide for pip](https://deephaven.io/core/docs/tutorials/pip-install/).
 
 **Windows users need to run the commands in WSL.**
 
-## Setup
+## Setup IB
 To setup and configure the system:
 
-1) Follow the [Deephaven Quick Start Guide](https://deephaven.io/core/docs/tutorials/quickstart/) to get [Deephaven](https://deephaven.io) running.  
-2) Follow the [TWS Installation Instructions](https://www.interactivebrokers.com/en/trading/tws.php) to get [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) running.
-3) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
-4) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
+1) Follow the [TWS Installation Instructions](https://www.interactivebrokers.com/en/trading/tws.php) to get [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) running.
+2) Launch [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+3) In [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), click on the gear in the
 upper right corner.  ![](https://raw.githubusercontent.com/deephaven-examples/deephaven-ib/main/docs/assets/config-gear.png)  
   In `API->Settings`, make sure:
 
@@ -160,155 +159,174 @@ upper right corner.  ![](https://raw.githubusercontent.com/deephaven-examples/de
         
     Also, note the "Socket port" value.  It is needed when connecting [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
     ![](https://raw.githubusercontent.com/deephaven-examples/deephaven-ib/main/docs/assets/config-api.png)
-5) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
-6) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
-7) Once [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) is launched (see [below](#launch)), accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
+4) [For Paper Trading] Log into the [Interactive Brokers Web Interface](https://interactivebrokers.com/).
+5) [For Paper Trading] In the [Interactive Brokers Web Interface](https://interactivebrokers.com/), navigate to `Account->Settings->Paper Trading Account` and make sure that "Share real-time market data subscriptions with paper trading account?" is set to true.
+6) Once [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) is launched (see [below](#launch)), accept incoming connections to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).  (May not be required for all sessions.)
 ![](https://raw.githubusercontent.com/deephaven-examples/deephaven-ib/main/docs/assets/allow-connections.png)
 
+## Virtual Environment
 
-## Launch
+Interactive Brokers does not make their Python wheels available via PyPI, and the wheels are not redistributable.
+As a result, installing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) requires a Python script to build the wheels locally before installation.
+The script installs `deephaven-ib`, `ibapi`, and `deephaven` into the environment.
 
-There are multiple ways to launch [Deephaven](https://deephaven.io) with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) 
-installed.  The launch can either happen via a local installation or via Docker images.
+To keep your development environment clean, the script creates a virtual environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+Follow the directions below to build and activate the virtual environment using the [./dhib_env.py](./dhib_env.py) script.
 
-For a Docker Compose example, see [docker/release/](docker/release/).
+An existing virtual environment can be used with the `--create_venv false` and `--path_venv <path>` options.
+
+If you prefer to install directly into your system Python without a virtual environment, 
+you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
 
 
-### (Option 1) Launch pip-installed Deephaven with Docker -- interactive
+### Build the Virtual Environment
 
-The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
-the pip-installed Deephaven system is installed in a Docker container.
-
-1) Create a directory for your data and scripts
+1) Install Java 17 and set the appropriate `JAVA_HOME` environment variable.    
+2) Check out [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib)
     ```bash
-    mkdir data
+    git clone git@github.com:deephaven-examples/deephaven-ib.git
     ```
-2) Create a directory for your Deephaven IDE configuration and notebooks
-   ```bash
-   mkdir `pwd`/.deephaven
-   ```
-3) Launch the system:
+3) Change to the deephaven-ib directory:
     ```bash
-    # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data -v `pwd`/.deephaven:/storage -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i -c "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!']); _server.start()"
+    cd deephaven-ib
     ```
-4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and logging in with the password `DeephavenRocks!`.
+4) Build a [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) virtual environment:
 
-
-### (Option 2) Launch pip-installed Deephaven with Docker -- run a script
-
-The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
-the pip-installed Deephaven system is installed in a Docker container.  
-This is a good option for production scenarios where scripts need to be run and related data needs to be visualized.
-
-1) Create a directory for your data and scripts
+   First, install the dependencies needed to run the script:
     ```bash
-    mkdir data
-    # your_script.py must begin with: "from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!']); _server.start()"
-    # Set jvm_args to the desired JVM memory for Deephaven
-    cp path/to/your_script.py data/your_script.py
+    python3 -m pip install -r requirements_dhib_env.txt
     ```
-2) Create a directory for your Deephaven IDE configuration and notebooks
-   ```bash
-   mkdir `pwd`/.deephaven
-   ```
-3) Launch the system:
+
+   To see all options:
     ```bash
-    # Set jvm_args to the desired JVM memory for Deephaven
-    docker run -it -v data:/data -v `pwd`/.deephaven:/storage -p 10000:10000 ghcr.io/deephaven-examples/deephaven-ib python3 -i /data/your_script.py
+    python3 ./dhib_env.py --help
     ```
-4) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and logging in with the password `DeephavenRocks!`.
 
-
-### (Option 3) Launch pip-installed Deephaven with a local installation (No Docker) -- interactive
-
-The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
-the pip-installed Deephaven system is installed directly on your local system, without Docker.
-
-It is possible to use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) without docker, but this is a 
-new feature and has not been well tested.  To do this:
-1) Install `ibapi`:
+   To install the latest production release version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from PyPi plus the release-specified `ibapi` and `deephaven` versions: 
     ```bash
-    # pip installed version of ibapi is too old.  You must download and install a more recent version.
-    export IB_VERSION=1019.01
-    curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
-    unzip api.zip
-    cd ./IBJts/source/pythonclient
-    python3 setup.py install
+    python3 ./dhib_env.py release
     ```
-2) Install Java 11 and set the appropriate `JAVA_HOME` environment variable.    
-3) Install [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
+   
+   To install the latest development version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from source plus the default `ibapi` and `deephaven` versions:
     ```bash
-    pip3 install --upgrade pip setuptools wheel
-    pip3 install deephaven-ib
+    python3 ./dhib_env.py dev
     ```
-4) Launch the system:
-    ```bash
-    # Set jvm_args to the desired JVM memory for Deephaven
-    # Deephaven IDE configuration and notebooks are stored to ~/.deephaven
-    python3 -i -c "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
-    ```
-5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and log in with the password `DeephavenRocks!`.
-6) Use `host="localhost"` for the hostname in the examples (Windows WSL uses `host="host.docker.internal"`, since WSL is built on Docker.)
 
-### (Option 4) Launch pip-installed Deephaven with a local installation (No Docker) -- run a script
-
-The pip-installed Deephaven uses a lightweight Deephaven installation that is installed using pip.  In this case,
-the pip-installed Deephaven system is installed directly on your local system, without Docker.  
-This is a good option for production scenarios where scripts need to be run and related data needs to be visualized.
-
-It is possible to use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) without docker, but this is a 
-new feature and has not been well tested.  To do this:
-1) Install `ibapi`:
+   To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install `deephaven-ib`, but it will install the default `ibapi` and `deephaven` versions.)
     ```bash
-    # pip installed version of ibapi is too old.  You must download and install a more recent version.
-    export IB_VERSION=1016.01
-    curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
-    unzip api.zip
-    cd ./IBJts/source/pythonclient
-    python3 setup.py install
+    python3 ./dhib_env.py dev --install_dhib false
     ```
-2) Install Java 11 and set the appropriate `JAVA_HOME` environment variable.    
-3) Install [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib):
-    ```bash
-    pip3 install --upgrade pip setuptools wheel
-    pip3 install deephaven-ib
-    ```
-4) Launch the system and execute a custom script:
-    ```bash
-    # your_script.py must begin with: "import os; from deephaven_server import Server; _server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')]); _server.start()"
-    # Deephaven IDE configuration and notebooks are stored to ~/.deephaven
-    # Set jvm_args to the desired JVM memory for Deephaven
-    python3 -i your_script.py
-    ```
-5) Launch the [Deephaven IDE](https://github.com/deephaven/deephaven-core/blob/main/README.md#run-deephaven-ide) by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in a browser and log in with the password `DeephavenRocks!`.
-6) Use `host=localhost` for the hostname in the examples
+   
+5) In the logs, take note of where the virtual environment is located.  It will be in a directory like `./venv-<versiondetails>`.
+   
+### Activate the Virtual Environment
 
-# Authentication
+To activate the virtual environment:
+```bash
+source ./venv-<versiondetails>/bin/activate
+```
+
+Once the virtual environment is activated, `python` and `pip` will use the virtual environment's Python and packages --
+including everything needed to run [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+
+### Deactivate the Virtual Environment
+
+To deactivate the virtual environment:
+```bash
+deactivate
+```
+
+Once the virtual environment is deactivated, `python` and `pip` will use the system's Python and packages.
+[deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) will not be available.
+
+
+# Use deephaven-ib
+
+To use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), you need to start a [Deephaven](https://deephaven.io) server and connect to 
+[IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
+You can optionally use the Deephaven IDE to visualize data and run queries.
+
+## Start Deephaven
+
+First, start a [Deephaven](https://deephaven.io) server.  This server will be used to process data and run queries.
 
 The documentation and examples here illustrate using Deephaven's [Pre-Shared Key (PSK) authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-psk/)
 with the password `DeephavenRocks!`.  Other types of Deephaven authentication can also work.  
 See the [Deephaven Documentation](https://deephaven.io/core/docs/) for details.
 
-Common ways to authenticate are:
-* [Anonymous Authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-anon/)
-* [Pre-Shared Key (PSK) Authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-psk/)
-* [Username / Password Authentication](https://deephaven.io/core/docs/how-to-guides/authentication/auth-uname-pw/)
 
-# Use deephaven-ib
+### Option 1: Use the `deephaven` command
 
-To use [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), you will need to open the [Deephaven Web IDE](http://localhost:10000/ide/) 
-by navigating to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.  How you authenticate
-will depend upon how authentication is configured.  In the examples here, you will use the password `DeephavenRocks!`.
+The easiest way to start a deephaven server is using `deephaven` on the command line.
+The `deephaven` command was added to the virtual environment when it was created.
+It is available in [Deephaven](https://deephaven.io) versions `>= 0.34.0`.
 
-The following commands can be executed in the console.
+This command will start a deephaven server with 4GB of memory and the password `DeephavenRocks!`.
+It will also automatically open the Deephaven IDE in a web browser.
+
+```bash
+source ./venv-<versiondetails>/bin/activate
+deephaven server --jvm-args "-Xmx4g -Dauthentication.psk=DeephavenRocks! -Dstorage.path=~/.deephaven"
+```
+
+
+### Option 2: Use a Python script
+
+An alternative way to launch a deephaven server is to use a Python script.  This works with all versions of 
+[Deephaven](https://deephaven.io) and can be used to populate the server with queries.  
+See [Deephaven's Installation Guide for pip](https://deephaven.io/core/docs/tutorials/pip-install/) for more details on 
+running [Deephaven](https://deephaven.io) this way.
+
+To start Python with the virtual environment, run:
+```bash
+source ./venv-<versiondetails>/bin/activate
+python
+```
+
+Once Python is running, you can start a deephaven server with the following script:
+```python
+import os
+from time import sleep
+from deephaven_server import Server
+
+_server = Server(port=10000, jvm_args=['-Xmx4g','-Dauthentication.psk=DeephavenRocks!','-Dstorage.path=' + os.path.expanduser('~/.deephaven')])
+_server.start()
+
+# You can insert queries here
+
+# Keep the server running
+while True:
+    sleep(1)
+```
+> :warning: These deephaven server commands **must** be run before importing `deephaven` or `deephaven_ib`.
+
+At the indicated place in the script, you can put queries that you want to run when the server starts.  
+This could be code to conenct to [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php), request data, analyze data, visualize data, or trade.  
+See the examples below for more details.
+
+
+## Launch the Deephaven IDE
+
+Once the Deephaven server is started, you can launch the Deephaven IDE.
+If you used the `deephaven` command to start the server, the Deephaven IDE will automatically open in your web browser.
+
+The Deephaven IDE is a web-based interface for working with Deephaven.
+Once in the IDE, you can run queries, create notebooks, and visualize data.
+You can also run all of the example code below and the more complex examples in [./examples](./examples).
+
+To launch the Deephaven IDE, navigate to [http://localhost:10000/ide/](http://localhost:10000/ide/) in your web browser.
+Chrome, Edge, Chrome-based, and Firefox browsers are supported.  Safari is not supported.
+How you authenticate will depend upon how authentication is configured.  
+In the examples here, you will use the password `DeephavenRocks!`.
+
 
 ## Connect to TWS
 
 All [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) sessions need to first create a client for interacting 
 with [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php).
 
-`host` is the computer to connect to.  When using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) inside
+`host` is the computer to connect to.  When using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) locally, `host` is usually set to `localhost`.
+When using [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) inside
 of Docker, `host` should be set to `host.docker.internal`.  
 
 `port` is the network port [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
@@ -332,7 +350,7 @@ For a read-write session that allows trading:
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=False)
+client = dhib.IbSessionTws(host="localhost", port=7497, read_only=False)
 client.connect()
 ```
 
@@ -340,7 +358,7 @@ For a read-only session that does not allow trading:
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=True)
+client = dhib.IbSessionTws(host="localhost", port=7497, read_only=True)
 client.connect()
 ```
 
@@ -348,7 +366,7 @@ For a read-only financial advisor (FA) session that does not allow trading:
 ```python
 import deephaven_ib as dhib
 
-client = dhib.IbSessionTws(host="host.docker.internal", port=7497, read_only=True, is_fa=True)
+client = dhib.IbSessionTws(host="localhost", port=7497, read_only=True, is_fa=True)
 client.connect()
 ```
 
@@ -679,7 +697,11 @@ If you can not solve your problems through either the `errors` table or through 
 
 ### `Takes N positional arguments but M were given`
 
-You may encounter an error that looks like: `Takes N positional arguments but M were given`.  If you see a problem like this, your `ibapi` version does not match the version needed by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).  The [`ibapi` version in PyPI](https://pypi.org/project/ibapi/) is ancient and appears to have been abandoned by [Interactive Brokers](https://www.interactivebrokers.com/).  Currently [Interactive Brokers](https://www.interactivebrokers.com/) is delivering `ibapi` either via the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) download or via git. 
+You may encounter an error that looks like: `Takes N positional arguments but M were given`.  
+If you see a problem like this, your `ibapi` version does not match the version needed by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).  
+The [`ibapi` version in PyPI](https://pypi.org/project/ibapi/) is ancient and appears to have been abandoned by [Interactive Brokers](https://www.interactivebrokers.com/).  
+Currently [Interactive Brokers](https://www.interactivebrokers.com/) is delivering `ibapi` either via the [IB Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php) 
+download or via git. 
 
 To check your `ibapi` version:
 ```python
@@ -687,17 +709,8 @@ import ibapi
 print(ibapi.__version__)
 ```
 
-If your version is `9.x`, it is the old version from [PyPI](https://pypi.org/project/ibapi/).  To install the required `ibapi` version:
-```bash
-# pip installed version of ibapi is too old.  You must download and install a more recent version.
-export IB_VERSION=1019.01
-curl -o ./api.zip "https://interactivebrokers.github.io/downloads/twsapi_macunix.${IB_VERSION}.zip"
-unzip api.zip
-cd ./IBJts/source/pythonclient
-python3 setup.py install
-```
-
-Note that the `ibapi` API is very unstable.  You likely need the exact version mentioned here for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) to function.  If you want a better installation experience and more flexability with the `ibapi` version, reach out to [Interactive Brokers](https://www.interactivebrokers.com/) and let them know that you want them to start publishing the latest `ibapi` versions to [PyPI](https://pypi.org).
+The `ibapi` API is very unstable.  If your version does not exactly match the version needed by [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), 
+you will need to install the correct version.  Regenerate your virtual environment as described above.
 
 # Examples
 
