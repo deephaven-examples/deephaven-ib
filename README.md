@@ -168,12 +168,16 @@ upper right corner.  ![](https://raw.githubusercontent.com/deephaven-examples/de
 
 Interactive Brokers does not make their Python wheels available via PyPI, and the wheels are not redistributable.
 As a result, installing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) requires a Python script to build the wheels locally before installation.
+The script installs `deephaven-ib`, `ibapi`, and `deephaven` into the environment.
 
 To keep your development environment clean, the script creates a virtual environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
 Follow the directions below to build and activate the virtual environment using the [./dhib_env.py](./dhib_env.py) script.
 
+An existing virtual environment can be used with the `--create_venv false` and `--path_venv <path>` options.
+
 If you prefer to install directly into your system Python without a virtual environment, 
 you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
+
 
 ### Build the Virtual Environment
 
@@ -187,11 +191,6 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     cd deephaven-ib
     ```
 4) Build a [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) virtual environment:
-
-   [./dhib_env.py](./dhib_env.py) is a Python script that builds a Python environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
-   The script installs `deephaven-ib`, `ibapi`, and `deephaven` into the environment.
-   * By default, a virtual environment is created, but this can be disabled with the `--use_venv false` option.
-   * An existing virtual environment can be used with the `--create_venv false` option.
 
    First, install the dependencies needed to run the script:
     ```bash
