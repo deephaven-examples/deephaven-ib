@@ -338,6 +338,11 @@ class IbWheel:
         shell_exec(f"cd build/ib/IBJts/source/pythonclient && {pyenv.python} -m build --wheel")
         shell_exec("cp build/ib/IBJts/source/pythonclient/dist/* dist/ib/")
 
+    @property
+    def path(self) -> Path:
+        """The path to the IB wheel."""
+        return Path(f"dist/ib/ibapi-{version_str(self.version, False)}-py3-none-any.whl").absolute()
+
     def install(self, pyenv: Pyenv) -> None:
         """Install the IB wheel into a virtual environment.
 
@@ -346,7 +351,7 @@ class IbWheel:
         """
         logging.warning(f"Installing IB wheel in python environment: {self.version} python: {pyenv.python}")
         ver_narrow = version_str(self.version, False)
-        pyenv.pip_install(Path(f"dist/ib/ibapi-{ver_narrow}-py3-none-any.whl").absolute())
+        pyenv.pip_install(self.path)
 
 
 ########################################################################################################################
@@ -371,10 +376,15 @@ class DhIbWheel:
         logging.warning(f"Building deephaven-ib: {self.version}")
         shell_exec(f"DH_IB_VERSION={self.version} DH_VERSION={self.dh_version} IB_VERSION={self.ib_version} {pyenv.python} -m build --wheel")
 
+    @property
+    def path(self) -> Path:
+        """The path to the deephaven-ib wheel."""
+        return Path(f"dist/deephaven_ib-{self.version}-py3-none-any.whl").absolute()
+
     def install(self, pyenv: Pyenv) -> None:
         """Install the deephaven-ib wheel into a virtual environment."""
         logging.warning(f"Installing deephaven-ib in python environment: {self.version} python: {pyenv.python}")
-        pyenv.pip_install(Path(f"dist/deephaven_ib-{self.version}-py3-none-any.whl").absolute())
+        pyenv.pip_install(self.path)
 
 
 ########################################################################################################################
@@ -410,17 +420,16 @@ def cli():
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
 @click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
-def ibwheel(
+def ib_wheel(
         python: str,
         ib_version: str,
 ):
-    """Create a development environment."""
+    """Create an ibapi wheel."""
     logging.warning(f"Creating an ib wheel: python={python}, ib_version={ib_version}")
-
-    python = Path(python).absolute() if python.startswith("./") else python
 
     version_assert_format(ib_version)
 
+    python = Path(python).absolute() if python.startswith("./") else python
     logging.warning(f"Using system python: {python}")
     pyenv = Pyenv(python)
 
@@ -428,9 +437,40 @@ def ibwheel(
     ib_wheel.build(pyenv)
 
     logging.warning(f"IB wheel created successfully.")
-    logging.warning(f"IB wheel path: {Path(f'dist/ib/ibapi-{ib_version}-py3-none-any.whl').absolute()}")
+    logging.warning(f"IB wheel path: {ib_wheel.path}")
 
-    success(pyenv)
+
+@click.command()
+@click.option('--python', default="python3", help='The path to the Python executable to use.')
+@click.option('--dh_version', default=DH_VERSION_DEFAULT, help='The version of Deephaven.')
+@click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
+@click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
+def dhib_wheel(
+        python: str,
+        dh_version: str,
+        ib_version: str,
+        dh_ib_version: Optional[str],
+):
+    """Create a deephaven-ib wheel."""
+    logging.warning(f"Creating a deephaven-ib wheel: python={python}, ib_version={ib_version} dh_version={dh_version}, dh_ib_version={dh_ib_version}")
+
+    if dh_ib_version is None:
+        dh_ib_version = "0.0.0.dev0"
+
+    version_assert_format(ib_version)
+    version_assert_format(dh_version)
+    version_assert_format(dh_ib_version)
+
+    python = Path(python).absolute() if python.startswith("./") else python
+    logging.warning(f"Using system python: {python}")
+    pyenv = Pyenv(python)
+
+    logging.warning(f"Building deephaven-ib from source: {dh_ib_version}")
+    dh_ib_wheel = DhIbWheel(dh_ib_version, dh_version, ib_version)
+    dh_ib_wheel.build(pyenv)
+
+    logging.warning(f"Deephaven-ib wheel created successfully.")
+    logging.warning(f"Deephaven-ib wheel path: {dh_ib_wheel.path}")
 
 
 @click.command()
@@ -570,7 +610,8 @@ def release(
     success(pyenv)
 
 
-cli.add_command(ibwheel)
+cli.add_command(ib_wheel)
+cli.add_command(dhib_wheel)
 cli.add_command(dev)
 cli.add_command(release)
 
