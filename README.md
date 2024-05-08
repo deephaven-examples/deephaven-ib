@@ -202,20 +202,17 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     python3 ./dhib_env.py --help
     ```
 
-   To install the latest production release version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from PyPi: 
-   (This will install the `ibapi` and `deephaven` versions specified in the [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) release.)
+   To install the latest production release version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from PyPi plus the release-specified `ibapi` and `deephaven` versions: 
     ```bash
     python3 ./dhib_env.py release
     ```
    
-   To install the latest development version from source:
-   (This will install the default `ibapi` and `deephaven` versions.)
+   To install the latest development version from source plus the default `ibapi` and `deephaven` versions:
     ```bash
     python3 ./dhib_env.py dev
     ```
 
-   To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install deephaven-ib.)
-   (This will install the default `ibapi` and `deephaven` versions.)
+   To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install `deephaven-ib`, but it will install the default `ibapi` and `deephaven` versions.)
     ```bash
     python3 ./dhib_env.py dev --install_dhib false
     ```
