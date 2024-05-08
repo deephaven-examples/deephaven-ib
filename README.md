@@ -217,7 +217,7 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     python3 ./dhib_env.py dev --install_dhib false
     ```
    
-5) In the logs, take note of where the virtual environment was created.  It will be in a directory like `./venv-<versiondetails>`.
+5) In the logs, take note of where the virtual environment is located.  It will be in a directory like `./venv-<versiondetails>`.
    
 ### Activate the Virtual Environment
 
