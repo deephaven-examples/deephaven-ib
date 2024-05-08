@@ -207,7 +207,7 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     python3 ./dhib_env.py release
     ```
    
-   To install the latest development version from source plus the default `ibapi` and `deephaven` versions:
+   To install the latest development version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from source plus the default `ibapi` and `deephaven` versions:
     ```bash
     python3 ./dhib_env.py dev
     ```
