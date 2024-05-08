@@ -188,6 +188,11 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     ```
 4) Build a [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) virtual environment:
 
+   [./dhib_env.py](./dhib_env.py) is a Python script that builds a Python environment for [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib).
+   The script installs `deephaven-ib`, `ibapi`, and `deephaven` into the environment.
+   * By default, a virtual environment is created, but this can be disabled with the `--use_venv false` option.
+   * An existing virtual environment can be used with the `--create_venv false` option.
+
    First, install the dependencies needed to run the script:
     ```bash
     python3 -m pip install -r requirements_dhib_env.txt
@@ -198,17 +203,20 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     python3 ./dhib_env.py --help
     ```
 
-   To install the latest production version from PyPi:
+   To install the latest production release version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from PyPi: 
+   (This will install the `ibapi` and `deephaven` versions specified in the [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) release.)
     ```bash
     python3 ./dhib_env.py release
     ```
    
    To install the latest development version from source:
+   (This will install the default `ibapi` and `deephaven` versions.)
     ```bash
     python3 ./dhib_env.py dev
     ```
 
    To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install deephaven-ib.)
+   (This will install the default `ibapi` and `deephaven` versions.)
     ```bash
     python3 ./dhib_env.py dev --install_dhib false
     ```
