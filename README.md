@@ -142,7 +142,8 @@ Follow these steps to run a [Deephaven](https://deephaven.io) plus [Interactive 
 These instructions produce a virtual environment with [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib), [Deephaven](https://deephaven.io), and `ibapi` installed.
 For more details on using pip-installed Deephaven, see [Deephaven's Installation Guide for pip](https://deephaven.io/core/docs/tutorials/pip-install/).
 
-**Windows users need to run the commands in WSL.**
+| :exclamation:  Windows users _must_ run these commands in WSL.   |
+|------------------------------------------------------------------|
 
 ## Setup IB
 To setup and configure the system:
