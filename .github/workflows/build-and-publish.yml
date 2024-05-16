@@ -58,13 +58,13 @@ jobs:
         then
             if [ "$GITHUB_REF" = "refs/heads/main" ]
             then
-              echo "::set-output name=version::0.0.0.rc"
+              echo "name=version::0.0.0.rc" >> $GITHUB_OUTPUT
             else
               PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-              echo "::set-output name=version::0.0.0.dev${PR_NUMBER}"
+              echo "name=version::0.0.0.dev${PR_NUMBER}" >> $GITHUB_OUTPUT
             fi
         else
-            echo "::set-output name=version::${{ github.event.release.tag_name }}"
+            echo "name=version::${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
         fi
     - name: Build
       env:
