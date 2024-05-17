@@ -1,0 +1,10 @@
+deephaven_server.cli
+====================
+
+
+.. automodule:: deephaven_server.cli
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

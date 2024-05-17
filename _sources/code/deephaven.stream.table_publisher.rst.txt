@@ -1,0 +1,10 @@
+deephaven.stream.table_publisher
+================================
+
+
+.. automodule:: deephaven.stream.table_publisher
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

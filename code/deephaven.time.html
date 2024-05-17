@@ -1,16 +1,16 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.ugp" href="deephaven.ugp.html" /><link rel="prev" title="deephaven.table_listener" href="deephaven.table_listener.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.update_graph" href="deephaven.update_graph.html" /><link rel="prev" title="deephaven.table_listener" href="deephaven.table_listener.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+    <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.time - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=aca143e9" />
     
     
 
@@ -21,38 +21,38 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -61,15 +61,15 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </symbol>
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -83,16 +83,16 @@
   </symbol>
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
       <path d="M13 12h5" />
@@ -100,6 +100,60 @@
       <path d="M13 18h1" />
       <path d="M13 9h4" />
       <path d="M13 6h1" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" /
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
 </svg>
@@ -112,6 +166,8 @@
 <label class="overlay toc-overlay" for="__toc">
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
 
 
@@ -130,12 +186,13 @@
       <div class="theme-toggle-container theme-toggle-header">
         <button class="theme-toggle">
           <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -150,54 +207,65 @@
   <span class="sidebar-brand-text">deephaven_ib  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../modules.html">Python Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../modules.html">Python Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Python Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of deephaven_server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="deephaven_server.cli.html">cli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven_server.server.html">server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven_server.start_jvm.html">start_jvm</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of deephaven_ib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="deephaven_ib.time.html">time</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current has-children"><a class="reference internal" href="deephaven.html">deephaven</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="deephaven.html">deephaven</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of deephaven</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="deephaven.agg.html">agg</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.appmode.html">appmode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.arrow.html">arrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.barrage.html">barrage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.calendar.html">calendar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.column.html">column</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deephaven.config.html">config</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.constants.html">constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.dbc.html">dbc</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of dbc</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.dbc.adbc.html">adbc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.dbc.odbc.html">odbc</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.dtypes.html">dtypes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.execution_context.html">execution_context</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.data_index.html">data_index</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.outer_joins.html">outer_joins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.s3.html">s3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.sql.html">sql</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.filters.html">filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.html.html">html</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.jcompat.html">jcompat</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of learn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.learn.gather.html">gather</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.liveness_scope.html">liveness_scope</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.numpy.html">numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.pandas.html">pandas</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pandasplugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.parquet.html">parquet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.perfmon.html">perfmon</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axisformat.html">axisformat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axistransform.html">axistransform</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.color.html">color</a></li>
@@ -209,36 +277,32 @@
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.shape.html">shape</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of plugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.js.html">js</a></li>
-<li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object.html">object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object_type.html">object_type</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.query_library.html">query_library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.replay.html">replay</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.server.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5"><a class="reference internal" href="deephaven.server.plugin.object.html">object</a></li>
-<li class="toctree-l5"><a class="reference internal" href="deephaven.server.plugin.register.html">register</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.server.executors.html">executors</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="deephaven.server.script_session.html">script_session</a></li>
-</ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of stream</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of kafka</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.cdc.html">cdc</a></li>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.consumer.html">consumer</a></li>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.producer.html">producer</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.stream.table_publisher.html">table_publisher</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table.html">table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_factory.html">table_factory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">time</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.update_graph.html">update_graph</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.uri.html">uri</a></li>
 </ul>
@@ -254,6 +318,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -261,1054 +326,545 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/code/deephaven.time.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <section id="module-deephaven.time">
-<span id="deephaven-time"></span><h1>deephaven.time<a class="headerlink" href="#module-deephaven.time" title="Permalink to this headline">¶</a></h1>
+<span id="deephaven-time"></span><h1>deephaven.time<a class="headerlink" href="#module-deephaven.time" title="Link to this heading">¶</a></h1>
 <p>This module defines functions for handling Deephaven date/time data.</p>
-<dl class="py data">
-<dt class="sig sig-object py" id="deephaven.time.DAY">
-<span class="sig-name descname"><span class="pre">DAY</span></span><em class="property"> <span class="pre">=</span> <span class="pre">86400000000000</span></em><a class="headerlink" href="#deephaven.time.DAY" title="Permalink to this definition">¶</a></dt>
-<dd><p>One day in nanoseconds.</p>
-</dd></dl>
-<dl class="py data">
-<dt class="sig sig-object py" id="deephaven.time.HOUR">
-<span class="sig-name descname"><span class="pre">HOUR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">3600000000000</span></em><a class="headerlink" href="#deephaven.time.HOUR" title="Permalink to this definition">¶</a></dt>
-<dd><p>One hour in nanoseconds.</p>
-</dd></dl>
-<dl class="py data">
-<dt class="sig sig-object py" id="deephaven.time.MINUTE">
-<span class="sig-name descname"><span class="pre">MINUTE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">60000000000</span></em><a class="headerlink" href="#deephaven.time.MINUTE" title="Permalink to this definition">¶</a></dt>
-<dd><p>One minute in nanoseconds.</p>
-</dd></dl>
-<dl class="py data">
-<dt class="sig sig-object py" id="deephaven.time.SECOND">
-<span class="sig-name descname"><span class="pre">SECOND</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1000000000</span></em><a class="headerlink" href="#deephaven.time.SECOND" title="Permalink to this definition">¶</a></dt>
-<dd><p>One second in nanoseconds.</p>
-</dd></dl>
-<dl class="py class">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TimeZone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#TimeZone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.TimeZone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>A Enum for known time zones.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.AL">
-<span class="sig-name descname"><span class="pre">AL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a390)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.AL" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/Anchorage</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.AT">
-<span class="sig-name descname"><span class="pre">AT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a380)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.AT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Canada/Atlantic</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.BT">
-<span class="sig-name descname"><span class="pre">BT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a360)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.BT" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/Sao_Paulo</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.CE">
-<span class="sig-name descname"><span class="pre">CE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3a0)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.CE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Europe/Berlin</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.CH">
-<span class="sig-name descname"><span class="pre">CH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3c8)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.CH" title="Permalink to this definition">¶</a></dt>
-<dd><p>Europe/Zurich</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.CT">
-<span class="sig-name descname"><span class="pre">CT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a340)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.CT" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/Chicago</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.ET">
-<span class="sig-name descname"><span class="pre">ET</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a330)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.ET" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/New_York</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.HI">
-<span class="sig-name descname"><span class="pre">HI</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a358)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.HI" title="Permalink to this definition">¶</a></dt>
-<dd><p>Pacific/Honolulu</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.HK">
-<span class="sig-name descname"><span class="pre">HK</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a370)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.HK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asia/Hong_Kong</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.IN">
-<span class="sig-name descname"><span class="pre">IN</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a398)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.IN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asia/Kolkata</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.JP">
-<span class="sig-name descname"><span class="pre">JP</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a378)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.JP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asia/Tokyo</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.KR">
-<span class="sig-name descname"><span class="pre">KR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a368)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.KR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asia/Seoul</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.LON">
-<span class="sig-name descname"><span class="pre">LON</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3b0)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.LON" title="Permalink to this definition">¶</a></dt>
-<dd><p>Europe/London</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.MN">
-<span class="sig-name descname"><span class="pre">MN</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a338)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.MN" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/Chicago</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.MOS">
-<span class="sig-name descname"><span class="pre">MOS</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3b8)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.MOS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Europe/Moscow</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.MT">
-<span class="sig-name descname"><span class="pre">MT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a348)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.MT" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/Denver</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.NF">
-<span class="sig-name descname"><span class="pre">NF</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a388)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.NF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Canada/Newfoundland</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.NL">
-<span class="sig-name descname"><span class="pre">NL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3d0)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.NL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Europe/Amsterdam</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.NY">
-<span class="sig-name descname"><span class="pre">NY</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a328)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.NY" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/New_York</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.PT">
-<span class="sig-name descname"><span class="pre">PT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a350)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.PT" title="Permalink to this definition">¶</a></dt>
-<dd><p>America/Los_Angeles</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.SG">
-<span class="sig-name descname"><span class="pre">SG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3a8)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.SG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asia/Singapore</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.SHG">
-<span class="sig-name descname"><span class="pre">SHG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3c0)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.SHG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asia/Shanghai</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.SYD">
-<span class="sig-name descname"><span class="pre">SYD</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3e0)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.SYD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Australia/Sydney</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.TW">
-<span class="sig-name descname"><span class="pre">TW</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3d8)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.TW" title="Permalink to this definition">¶</a></dt>
-<dd><p>Asia/Taipei</p>
-</dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.UTC">
-<span class="sig-name descname"><span class="pre">UTC</span></span><em class="property"> <span class="pre">=</span> <span class="pre">io.deephaven.time.TimeZone(objectRef=0x3f5a3e8)</span></em><a class="headerlink" href="#deephaven.time.TimeZone.UTC" title="Permalink to this definition">¶</a></dt>
-<dd><p>UTC</p>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.get_default_timezone">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">get_default_timezone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#TimeZone.get_default_timezone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.TimeZone.get_default_timezone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the default time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeZone</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="deephaven.time.TimeZone.set_default_timezone">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_default_timezone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#TimeZone.set_default_timezone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.TimeZone.set_default_timezone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the default time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use as default</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-</dd></dl>
-<dl class="py data">
-<dt class="sig sig-object py" id="deephaven.time.WEEK">
-<span class="sig-name descname"><span class="pre">WEEK</span></span><em class="property"> <span class="pre">=</span> <span class="pre">604800000000000</span></em><a class="headerlink" href="#deephaven.time.WEEK" title="Permalink to this definition">¶</a></dt>
-<dd><p>One week in nanoseconds.</p>
-</dd></dl>
-<dl class="py data">
-<dt class="sig sig-object py" id="deephaven.time.YEAR">
-<span class="sig-name descname"><span class="pre">YEAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">31449600000000000</span></em><a class="headerlink" href="#deephaven.time.YEAR" title="Permalink to this definition">¶</a></dt>
-<dd><p>One year in nanoseconds.</p>
-</dd></dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.datetime_at_midnight">
-<span class="sig-name descname"><span class="pre">datetime_at_midnight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#datetime_at_midnight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.datetime_at_midnight" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a DateTime for the requested DateTime at midnight in the specified time zone.</p>
+<dt class="sig sig-object py" id="deephaven.time.dh_now">
+<span class="sig-name descname"><span class="pre">dh_now</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ns'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#dh_now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.dh_now" title="Link to this definition">¶</a></dt>
+<dd><p>Provides the current datetime according to the current Deephaven clock.</p>
+<p>Query strings should use the built-in “now” function instead of this function.
+The build-in “now” function is pure Java and will be more efficient
+because fewer Java/Python boundary crossings will be needed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which the new value at midnight should be calculated</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
+<li><p><strong>system</strong> (<em>bool</em>) – True to use the system clock; False to use the default clock.  Under most circumstances,
+the default clock will return the current system time, but during replay simulations, the default
+clock can return the replay time.</p></li>
+<li><p><strong>resolution</strong> (<em>str</em>) – The resolution of the returned time.  The default “ns” will return nanosecond resolution times
+if possible. “ms” will return millisecond resolution times.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></span></p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>DateTime</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Instant</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.day_of_month">
-<span class="sig-name descname"><span class="pre">day_of_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#day_of_month"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.day_of_month" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an 1-based int value of the day of the month for a DateTime and specified time zone.</p>
+<dt class="sig sig-object py" id="deephaven.time.dh_time_zone">
+<span class="sig-name descname"><span class="pre">dh_time_zone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#dh_time_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.dh_time_zone" title="Link to this definition">¶</a></dt>
+<dd><p>Provides the current Deephaven system time zone.</p>
+<p>Query strings should use the built-in “timeZone” function instead of this function.
+The build-in “timeZone” function is pure Java and will be more efficient
+because fewer Java/Python boundary crossings will be needed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>TimeZone</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.dh_today">
+<span class="sig-name descname"><span class="pre">dh_today</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#dh_today"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.dh_today" title="Link to this definition">¶</a></dt>
+<dd><p>Provides the current date string according to the current Deephaven clock.
+Under most circumstances, this method will return the date according to current system time,
+but during replay simulations, this method can return the date according to replay time.</p>
+<p>Query strings should use the built-in “today” function instead of this function.
+The build-in “today” function is pure Java and will be more efficient
+because fewer Java/Python boundary crossings will be needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tz</strong> (<em>TimeZone</em>) – Time zone to use when determining the date.
+If None is provided, the Deephaven system default time zone is used.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Date string</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.simple_date_format">
+<span class="sig-name descname"><span class="pre">simple_date_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#simple_date_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.simple_date_format" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a Java SimpleDateFormat from a date-time format pattern.</p>
+<p>This method is intended for use in Python code when a SimpleDateFormat is needed.
+It should not be used directly in query strings.
+The most common use case will use this function to construct a SimpleDateFormat
+in Python and then use the result in query strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pattern</strong> (<em>str</em>) – A date-time format pattern string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JObject</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.time_zone_alias_add">
+<span class="sig-name descname"><span class="pre">time_zone_alias_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#time_zone_alias_add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.time_zone_alias_add" title="Link to this definition">¶</a></dt>
+<dd><p>Adds a new time zone alias.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the day of the month</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
+<li><p><strong>alias</strong> (<em>str</em>) – Alias name.</p></li>
+<li><p><strong>tz</strong> (<em>str</em>) – Time zone name.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.day_of_week">
-<span class="sig-name descname"><span class="pre">day_of_week</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#day_of_week"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.day_of_week" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Returns an 1-based int value of the day of the week for a DateTime in the specified time zone, with 1 being</dt><dd><p>Monday and 7 being Sunday.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="deephaven.time.time_zone_alias_rm">
+<span class="sig-name descname"><span class="pre">time_zone_alias_rm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#time_zone_alias_rm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.time_zone_alias_rm" title="Link to this definition">¶</a></dt>
+<dd><p>Removes a time zone alias.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the day of the week.</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime.</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alias</strong> (<em>str</em>) – Alias name.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span></p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the alias was present; False if the alias was not present.</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.day_of_year">
-<span class="sig-name descname"><span class="pre">day_of_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#day_of_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.day_of_year" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an 1-based int value of the day of the year (Julian date) for a DateTime in the specified time zone.</p>
+<dt class="sig sig-object py" id="deephaven.time.to_date">
+<span class="sig-name descname"><span class="pre">to_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_date" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java date time to a datetime.date.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the day of the year</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>LocalDate</em><em>, </em><em>ZonedDateTime</em><em>]</em>) – A Java date time.
+If None is provided, None is returned.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code>]</span></p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.date</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.diff_nanos">
-<span class="sig-name descname"><span class="pre">diff_nanos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#diff_nanos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.diff_nanos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the difference in nanoseconds between two DateTime values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt1</strong> (<em>DateTime</em>) – the 1st DateTime</p></li>
-<li><p><strong>dt2</strong> (<em>DateTime</em>) – the 2nd DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if either dt1 or dt2 is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.format_date">
-<span class="sig-name descname"><span class="pre">format_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#format_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.format_date" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a string date representation of a DateTime interpreted for a specified time zone formatted as
-“yyy-MM-dd”.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime to format</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.format_datetime">
-<span class="sig-name descname"><span class="pre">format_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#format_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.format_datetime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a string DateTime representation formatted as “yyyy-MM-ddThh:mm:ss.SSSSSSSSS TZ”.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime to format as a string</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.format_nanos">
-<span class="sig-name descname"><span class="pre">format_nanos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#format_nanos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.format_nanos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a string DateTime representation formatted as “yyyy-MM-ddThh:mm:ss.SSSSSSSSS”.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ns</strong> (<em>int</em>) – the number of nanoseconds</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.hour_of_day">
-<span class="sig-name descname"><span class="pre">hour_of_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#hour_of_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.hour_of_day" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the hour of the day for a DateTime in the specified time zone. The hour is on a 24 hour clock (0 - 23).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the hour of the day</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.is_after">
-<span class="sig-name descname"><span class="pre">is_after</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#is_after"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.is_after" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluates whether one DateTime value is later than a second DateTime value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt1</strong> (<em>DateTime</em>) – the 1st DateTime</p></li>
-<li><p><strong>dt2</strong> (<em>DateTime</em>) – the 2nd DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.is_before">
-<span class="sig-name descname"><span class="pre">is_before</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#is_before"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.is_before" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluates whether one DateTime value is before a second DateTime value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt1</strong> (<em>DateTime</em>) – the 1st DateTime</p></li>
-<li><p><strong>dt2</strong> (<em>DateTime</em>) – the 2nd DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.lower_bin">
-<span class="sig-name descname"><span class="pre">lower_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#lower_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.lower_bin" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Returns a DateTime value, which is at the starting (lower) end of a time range defined by the interval</dt><dd><p>nanoseconds. For example, a 5*MINUTE intervalNanos value would return the DateTime value for the start of the
-five minute window that contains the input date time.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to evaluate the start of the containing window</p></li>
-<li><p><strong>interval</strong> (<em>int</em>) – the size of the window in nanoseconds</p></li>
-<li><p><strong>offset</strong> (<em>int</em>) – the window start offset in nanoseconds. For example, a value of MINUTE would offset all windows by
-one minute. Default is 0</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>DateTime</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.millis">
-<span class="sig-name descname"><span class="pre">millis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#millis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.millis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns milliseconds since Epoch for a DateTime value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which the milliseconds offset should be returned</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.millis_of_day">
-<span class="sig-name descname"><span class="pre">millis_of_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#millis_of_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.millis_of_day" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of milliseconds since midnight for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the milliseconds since midnight</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.millis_of_second">
-<span class="sig-name descname"><span class="pre">millis_of_second</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#millis_of_second"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.millis_of_second" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of milliseconds since the top of the second for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the milliseconds</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.millis_to_datetime">
-<span class="sig-name descname"><span class="pre">millis_to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#millis_to_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.millis_to_datetime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a value of milliseconds from Epoch in the UTC time zone to a DateTime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ms</strong> (<em>int</em>) – the milliseconds value to convert</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>DateTime</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.millis_to_nanos">
-<span class="sig-name descname"><span class="pre">millis_to_nanos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#millis_to_nanos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.millis_to_nanos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts milliseconds to nanoseconds.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ms</strong> (<em>int</em>) – the milliseconds value to convert</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if ms is NULL_LONG</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.minus">
-<span class="sig-name descname"><span class="pre">minus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#minus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.minus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Subtracts one time from another, returns the difference in nanos.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt1</strong> (<em>DateTime</em>) – the 1st DateTime</p></li>
-<li><p><strong>dt2</strong> (<em>DateTiem</em>) – the 2nd DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if either dt1 or dt2 is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.minus_nanos">
-<span class="sig-name descname"><span class="pre">minus_nanos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#minus_nanos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.minus_nanos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Subtracts nanoseconds from a DateTime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the starting DateTime value</p></li>
-<li><p><strong>ns</strong> (<em>int</em>) – the number of nanoseconds to subtract from dateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>DateTime</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.minus_period">
-<span class="sig-name descname"><span class="pre">minus_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#minus_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.minus_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Subtracts a period from a DateTime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the starting DateTime value</p></li>
-<li><p><strong>period</strong> (<em>Period</em>) – the Period to subtract from dateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>DateTime</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.minute_of_day">
-<span class="sig-name descname"><span class="pre">minute_of_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#minute_of_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.minute_of_day" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of minutes since midnight for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the minutes</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.minute_of_hour">
-<span class="sig-name descname"><span class="pre">minute_of_hour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#minute_of_hour"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.minute_of_hour" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of minutes since the top of the hour for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the minutes</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.month_of_year">
-<span class="sig-name descname"><span class="pre">month_of_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#month_of_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.month_of_year" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an 1-based int value for the month of a DateTime in the specified time zone. January is 1,
-and December is 12.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the month</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.nanos">
-<span class="sig-name descname"><span class="pre">nanos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#nanos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.nanos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns nanoseconds since Epoch for a DateTime value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which the nanoseconds offset should be returned</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.nanos_of_day">
-<span class="sig-name descname"><span class="pre">nanos_of_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#nanos_of_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.nanos_of_day" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of nanoseconds since midnight for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the nanoseconds since midnight</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.nanos_of_second">
-<span class="sig-name descname"><span class="pre">nanos_of_second</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#nanos_of_second"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.nanos_of_second" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of nanoseconds since the top of the second for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the nanoseconds</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.nanos_to_datetime">
-<span class="sig-name descname"><span class="pre">nanos_to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#nanos_to_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.nanos_to_datetime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a value of nanoseconds from Epoch to a DateTime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ns</strong> (<em>long</em>) – the long nanoseconds since Epoch value to convert</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>DateTime</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.nanos_to_millis">
-<span class="sig-name descname"><span class="pre">nanos_to_millis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#nanos_to_millis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.nanos_to_millis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts nanoseconds to milliseconds.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ns</strong> (<em>int</em>) – the value of nanoseconds to convert</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_LONG if ns is NULL_LONG</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.now">
-<span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.now" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the current datetime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>DateTime</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.plus_nanos">
-<span class="sig-name descname"><span class="pre">plus_nanos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#plus_nanos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.plus_nanos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds nanoseconds to a DateTime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the starting DateTime value</p></li>
-<li><p><strong>ns</strong> (<em>int</em>) – the number of nanoseconds to add to DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None if dt is None or ns is NULL_LONG</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>DateTime</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.plus_period">
-<span class="sig-name descname"><span class="pre">plus_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#plus_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.plus_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a period to a DateTime.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the starting DateTime value</p></li>
-<li><p><strong>period</strong> (<em>Period</em>) – the Period to add to the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None if either dt or period is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>DateTime</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.second_of_day">
-<span class="sig-name descname"><span class="pre">second_of_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#second_of_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.second_of_day" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of seconds since midnight for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the seconds</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.second_of_minute">
-<span class="sig-name descname"><span class="pre">second_of_minute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#second_of_minute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.second_of_minute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of seconds since the top of the minute for a DateTime in the specified time zone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the seconds</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
-</dd>
-</dl>
-</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="deephaven.time.to_datetime">
-<span class="sig-name descname"><span class="pre">to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_datetime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a datetime string to a DateTime object.</p>
-<p>Supports ISO 8601 format and others.</p>
+<span class="sig-name descname"><span class="pre">to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_datetime" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java date time to a datetime.datetime.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<em>str</em>) – in the form of ISO 8601 or “yyyy-MM-ddThh:mm:ss[.SSSSSSSSS] TZ”</p></li>
-<li><p><strong>quiet</strong> (<em>bool</em>) – when True, if the datetime string can’t be parsed, this function returns None, otherwise
-it raises an exception. The default is False</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>Instant</em><em>, </em><em>ZonedDateTime</em><em>]</em>) – A Java date time.
+If None is provided, None is returned.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code>]</span></p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a DateTime</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.datetime</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.to_nanos">
-<span class="sig-name descname"><span class="pre">to_nanos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_nanos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_nanos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a time string to nanoseconds.</p>
+<dt class="sig sig-object py" id="deephaven.time.to_j_duration">
+<span class="sig-name descname"><span class="pre">to_j_duration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_j_duration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_j_duration" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a time duration value to a Java Duration,
+which is a unit of time in terms of clock time (24-hour days, hours, minutes, seconds, and nanoseconds).
+Time duration values can be None, a Java Duration, an int, a string, a datetime.timedelta, a numpy.timedelta64,
+or a pandas.Timedelta.</p>
+<p>int values are nanoseconds.</p>
+<p>Duration strings can be formatted according to the ISO-8601 duration format as ‘[-]PnDTnHnMn.nS’, where the
+coefficients can be positive or negative.  Zero coefficients can be omitted.  Optionally, the string can
+begin with a negative sign.</p>
+<p class="rubric">Examples</p>
+<div class="line-block">
+<div class="line">“PT20.345S” – parses as “20.345 seconds”</div>
+<div class="line">“PT15M”     – parses as “15 minutes” (where a minute is 60 seconds)</div>
+<div class="line">“PT10H”     – parses as “10 hours” (where an hour is 3600 seconds)</div>
+<div class="line">“P2D”       – parses as “2 days” (where a day is 24 hours or 86400 seconds)</div>
+<div class="line">“P2DT3H4M”  – parses as “2 days, 3 hours and 4 minutes”</div>
+<div class="line">“PT-6H3M”    – parses as “-6 hours and +3 minutes”</div>
+<div class="line">“-PT6H3M”    – parses as “-6 hours and -3 minutes”</div>
+<div class="line">“-PT-6H+3M”  – parses as “+6 hours and -3 minutes”</div>
+</div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<em>str</em>) – in the format of: hh:mm:ss[.SSSSSSSSS]</p></li>
-<li><p><strong>quiet</strong> (<em>bool</em>) – to return None or raise an exception if the string can’t be parsed, default is False</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><a class="reference internal" href="deephaven_ib.html#deephaven_ib.Duration" title="deephaven_ib.Duration"><em>Duration</em></a><em>, </em><em>int</em><em>, </em><em>str</em><em>, </em><em>datetime.timedelta</em><em>, </em><em>numpy.timedelta64</em><em>, </em><em>pandas.Timedelta</em><em>]</em>) – A time duration value.  If None is provided, None is returned.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a>]</span></p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>int</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Duration</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.to_period">
-<span class="sig-name descname"><span class="pre">to_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a period string into a Period object.</p>
+<dt class="sig sig-object py" id="deephaven.time.to_j_instant">
+<span class="sig-name descname"><span class="pre">to_j_instant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_j_instant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_j_instant" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a date time value to a Java Instant.
+Date time values can be None, a Java Instant, an int, a string, a datetime.datetime,
+a numpy.datetime64, or a pandas.Timestamp.</p>
+<p>int values are the number of nanoseconds since the Epoch.</p>
+<p>Instant strings can be formatted according to the ISO 8601 date time format
+‘yyyy-MM-ddThh:mm:ss[.SSSSSSSSS] TZ’ and others.
+Additionally, date time strings can be integer values that are nanoseconds, milliseconds, or seconds
+from the Epoch.  Expected date ranges are used to infer the units.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<em>str</em>) – a string in the form of nYnMnWnDTnHnMnS, with n being numeric values, e.g. 1W for one week, T1M for
-one minute, 1WT1H for one week plus one hour</p></li>
-<li><p><strong>quiet</strong> (<em>bool</em>) – when True, if the period string can’t be parsed, this function returns None, otherwise
-it raises an exception. The default is False</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>Instant</em><em>, </em><em>int</em><em>, </em><em>str</em><em>, </em><em>datetime.datetime</em><em>, </em><em>numpy.datetime64</em><em>, </em><em>pandas.Timestamp</em><em>]</em>) – A date time value.
+If None is provided, None is returned.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a>]</span></p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a Period</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Instant, TypeError</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.upper_bin">
-<span class="sig-name descname"><span class="pre">upper_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#upper_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.upper_bin" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Returns a DateTime value, which is at the ending (upper) end of a time range defined by the interval</dt><dd><p>nanoseconds. For example, a 5*MINUTE intervalNanos value would return the DateTime value for the end of the five
-minute window that contains the input date time.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="deephaven.time.to_j_local_date">
+<span class="sig-name descname"><span class="pre">to_j_local_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_j_local_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_j_local_date" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a date time value to a Java LocalDate.
+Date time values can be None, a Java LocalDate, a string, a datetime.date, a datetime.datetime,
+a numpy.datetime64, or a pandas.Timestamp.</p>
+<p>Date strings can be formatted according to the ISO 8601 date time format as ‘YYYY-MM-DD’.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to evaluate the end of the containing window</p></li>
-<li><p><strong>interval</strong> (<em>int</em>) – the size of the window in nanoseconds</p></li>
-<li><p><strong>offset</strong> (<em>int</em>) – the window start offset in nanoseconds. For example, a value of MINUTE would offset all windows by
-one minute. Default is 0</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>LocalDate</em><em>, </em><em>str</em><em>, </em><em>datetime.date</em><em>, </em><em>datetime.datetime</em><em>, </em><em>numpy.datetime64</em><em>, </em><em>pandas.Timestamp</em><em>]</em>) – A date time value. If None is provided, None is returned.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>DateTime</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a>]</span></p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LocalDate</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.year">
-<span class="sig-name descname"><span class="pre">year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.year" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an int value of the year for a DateTime in the specified time zone.</p>
+<dt class="sig sig-object py" id="deephaven.time.to_j_local_time">
+<span class="sig-name descname"><span class="pre">to_j_local_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_j_local_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_j_local_time" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a date time value to a Java LocalTime.
+Date time values can be None, a Java LocalTime, an int, a string, a datetime.time, a datetime.datetime,
+a numpy.datetime64, or a pandas.Timestamp.</p>
+<p>int values are the number of nanoseconds since the start of the day.</p>
+<p>Time strings can be formatted as ‘hh:mm:ss[.nnnnnnnnn]’.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the year</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>LocalTime</em><em>, </em><em>int</em><em>, </em><em>str</em><em>, </em><em>datetime.time</em><em>, </em><em>datetime.datetime</em><em>, </em><em>numpy.datetime64</em><em>, </em><em>pandas.Timestamp</em><em>]</em>) – A date time value.  If None is provided, None is returned.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>NULL_INT if dt is None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a>]</span></p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LocalTime</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="deephaven.time.year_of_century">
-<span class="sig-name descname"><span class="pre">year_of_century</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#year_of_century"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.year_of_century" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the two-digit year for a DateTime in the specified time zone.</p>
+<dt class="sig sig-object py" id="deephaven.time.to_j_period">
+<span class="sig-name descname"><span class="pre">to_j_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_j_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_j_period" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a time duration value to a Java Period,
+which is a unit of time in terms of calendar time (days, weeks, months, years, etc.).
+Time duration values can be None, a Java Period, a string, a datetime.timedelta, a numpy.timedelta64,
+or a pandas.Timedelta.</p>
+<p>Period strings can be formatted according to the ISO-8601 duration format as ‘PnYnMnD’ and ‘PnW’, where the
+coefficients can be positive or negative.  Zero coefficients can be omitted.  Optionally, the string can
+begin with a negative sign.</p>
+<p class="rubric">Examples</p>
+<div class="line-block">
+<div class="line">“P2Y”             – 2 Years</div>
+<div class="line">“P3M”             – 3 Months</div>
+<div class="line">“P4W”             – 4 Weeks</div>
+<div class="line">“P5D”             – 5 Days</div>
+<div class="line">“P1Y2M3D”         – 1 Year, 2 Months, 3 Days</div>
+<div class="line">“P-1Y2M”          – -1 Year, 2 Months</div>
+<div class="line">“-P1Y2M”          – -1 Year, -2 Months</div>
+</div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dt</strong> (<em>DateTime</em>) – the DateTime for which to find the year</p></li>
-<li><p><strong>tz</strong> (<a class="reference internal" href="#deephaven.time.TimeZone" title="deephaven.time.TimeZone"><em>TimeZone</em></a>) – the TimeZone to use when interpreting the DateTime</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>Period</em><em>, </em><em>str</em><em>, </em><em>datetime.timedelta</em><em>, </em><em>numpy.timedelta64</em><em>, </em><em>pandas.Timedelta</em><em>]</em>) – A Python period or period string.  If None is provided, None is returned.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a>]</span></p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>int</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Period</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="deephaven.dherror.html#deephaven.dherror.DHError" title="deephaven.dherror.DHError"><strong>DHError</strong></a> – </p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong><strong>, </strong><strong>ValueError</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_j_time_zone">
+<span class="sig-name descname"><span class="pre">to_j_time_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_j_time_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_j_time_zone" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a time zone value to a Java TimeZone.
+Time zone values can be None, a Java TimeZone, a string, a datetime.tzinfo, a datetime.datetime,
+or a pandas.Timestamp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tz</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>TimeZone</em><em>, </em><em>str</em><em>, </em><em>datetime.tzinfo</em><em>, </em><em>datetime.datetime</em><em>, </em><em>pandas.Timestamp</em><em>]</em>) – A time zone value.
+If None is provided, None is returned.
+If a string is provided, it is parsed as a time zone name.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TimeZone</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_j_zdt">
+<span class="sig-name descname"><span class="pre">to_j_zdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_j_zdt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_j_zdt" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a date time value to a Java ZonedDateTime.
+Date time values can be None, a Java ZonedDateTime, a string, a datetime.datetime,
+a numpy.datetime64, or a pandas.Timestamp.</p>
+<p>Date time strings can be formatted according to the ISO 8601 date time format
+<code class="docutils literal notranslate"><span class="pre">'yyyy-MM-ddThh:mm:ss[.SSSSSSSSS]</span> <span class="pre">TZ'</span></code> and others.
+Additionally, date time strings can be integer values that are nanoseconds, milliseconds, or seconds
+from the Epoch. Expected date ranges are used to infer the units.</p>
+<p>Converting a datetime.datetime or pandas.Timestamp to a ZonedDateTime will use the datetime’s timezone information.
+Converting a numpy.datetime64 to a ZonedDateTime will use the Deephaven default time zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>ZonedDateTime</em><em>, </em><em>str</em><em>, </em><em>datetime.datetime</em><em>, </em><em>numpy.datetime64</em><em>, </em><em>pandas.Timestamp</em><em>]</em>) – A date time value.  If None is provided, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DType</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ZonedDateTime</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_np_datetime64">
+<span class="sig-name descname"><span class="pre">to_np_datetime64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_np_datetime64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_np_datetime64" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java date time to a numpy.datetime64.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>Instant</em><em>, </em><em>ZonedDateTime</em><em>]</em>) – A Java date time.
+If None is provided, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">datetime64</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.datetime64</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_np_timedelta64">
+<span class="sig-name descname"><span class="pre">to_np_timedelta64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_np_timedelta64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_np_timedelta64" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java time durationto a numpy.timedelta64.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><a class="reference internal" href="deephaven_ib.html#deephaven_ib.Duration" title="deephaven_ib.Duration"><em>Duration</em></a><em>, </em><em>Period</em><em>]</em>) – A Java time period.  If None is provided, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">timedelta64</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.timedelta64</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong><strong>, </strong><strong>ValueError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_pd_timedelta">
+<span class="sig-name descname"><span class="pre">to_pd_timedelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_pd_timedelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_pd_timedelta" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java time duration to a pandas.Timedelta.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><a class="reference internal" href="deephaven_ib.html#deephaven_ib.Duration" title="deephaven_ib.Duration"><em>Duration</em></a><em>]</em>) – A Java time duration.  If None is provided, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Timedelta</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.Timedelta</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong><strong>, </strong><strong>ValueError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_pd_timestamp">
+<span class="sig-name descname"><span class="pre">to_pd_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_pd_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_pd_timestamp" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java date time to a pandas.Timestamp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>Instant</em><em>, </em><em>ZonedDateTime</em><em>]</em>) – A Java date time.
+If None is provided, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Timestamp</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.Timestamp</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_time">
+<span class="sig-name descname"><span class="pre">to_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_time" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java date time to a datetime.time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><em>LocalTime</em><em>, </em><em>ZonedDateTime</em><em>]</em>) – A Java date time.
+If None is provided, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">time</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.time</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="deephaven.time.to_timedelta">
+<span class="sig-name descname"><span class="pre">to_timedelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/time.html#to_timedelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.time.to_timedelta" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a Java time duration to a datetime.timedelta.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>Union</em><em>[</em><em>None</em><em>, </em><a class="reference internal" href="deephaven_ib.html#deephaven_ib.Duration" title="deephaven_ib.Duration"><em>Duration</em></a><em>]</em>) – A Java time duration.  If None is provided, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">timedelta</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.timedelta</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a><strong>, </strong><strong>TypeError</strong><strong>, </strong><strong>ValueError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
         </article>
@@ -1316,17 +872,17 @@ one minute. Default is 0</p></li>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="deephaven.ugp.html">
+          <a class="next-page" href="deephaven.update_graph.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">deephaven.ugp</div>
+                <div class="title">deephaven.update_graph</div>
               </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
           <a class="prev-page" href="deephaven.table_listener.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
@@ -1337,31 +893,71 @@ one minute. Default is 0</p></li>
               </div>
             </a>
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2021, Deephaven Data Labs |
-            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
-              and
-              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/code/deephaven.time.rst.txt"
-               rel="nofollow">
-              Show Source
-            </a>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Deephaven Data Labs
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">deephaven.time</a><ul>
+<li><a class="reference internal" href="#deephaven.time.dh_now"><code class="docutils literal notranslate"><span class="pre">dh_now()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.dh_time_zone"><code class="docutils literal notranslate"><span class="pre">dh_time_zone()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.dh_today"><code class="docutils literal notranslate"><span class="pre">dh_today()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.simple_date_format"><code class="docutils literal notranslate"><span class="pre">simple_date_format()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.time_zone_alias_add"><code class="docutils literal notranslate"><span class="pre">time_zone_alias_add()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.time_zone_alias_rm"><code class="docutils literal notranslate"><span class="pre">time_zone_alias_rm()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_date"><code class="docutils literal notranslate"><span class="pre">to_date()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_datetime"><code class="docutils literal notranslate"><span class="pre">to_datetime()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_j_duration"><code class="docutils literal notranslate"><span class="pre">to_j_duration()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_j_instant"><code class="docutils literal notranslate"><span class="pre">to_j_instant()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_j_local_date"><code class="docutils literal notranslate"><span class="pre">to_j_local_date()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_j_local_time"><code class="docutils literal notranslate"><span class="pre">to_j_local_time()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_j_period"><code class="docutils literal notranslate"><span class="pre">to_j_period()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_j_time_zone"><code class="docutils literal notranslate"><span class="pre">to_j_time_zone()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_j_zdt"><code class="docutils literal notranslate"><span class="pre">to_j_zdt()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_np_datetime64"><code class="docutils literal notranslate"><span class="pre">to_np_datetime64()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_np_timedelta64"><code class="docutils literal notranslate"><span class="pre">to_np_timedelta64()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_pd_timedelta"><code class="docutils literal notranslate"><span class="pre">to_pd_timedelta()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_pd_timestamp"><code class="docutils literal notranslate"><span class="pre">to_pd_timestamp()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_time"><code class="docutils literal notranslate"><span class="pre">to_time()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.time.to_timedelta"><code class="docutils literal notranslate"><span class="pre">to_timedelta()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/scripts/main.js"></script>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
     </body>
 </html>

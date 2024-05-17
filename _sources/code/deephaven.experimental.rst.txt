@@ -2,7 +2,11 @@ deephaven.experimental
 ======================
 
 .. toctree::
+    data_index <deephaven.experimental.data_index>
     ema <deephaven.experimental.ema>
+    outer_joins <deephaven.experimental.outer_joins>
+    s3 <deephaven.experimental.s3>
+    sql <deephaven.experimental.sql>
 
 .. automodule:: deephaven.experimental
     :members:

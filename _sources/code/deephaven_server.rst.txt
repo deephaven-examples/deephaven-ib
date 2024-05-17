@@ -2,6 +2,7 @@ deephaven_server
 ================
 
 .. toctree::
+    cli <deephaven_server.cli>
     server <deephaven_server.server>
     start_jvm <deephaven_server.start_jvm>
 

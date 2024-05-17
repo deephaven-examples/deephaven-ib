@@ -1,0 +1,10 @@
+deephaven.plugin.object_type
+============================
+
+
+.. automodule:: deephaven.plugin.object_type
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

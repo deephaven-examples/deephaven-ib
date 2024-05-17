@@ -1,0 +1,10 @@
+deephaven.update_graph
+======================
+
+
+.. automodule:: deephaven.update_graph
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

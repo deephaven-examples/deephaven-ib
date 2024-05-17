@@ -1,0 +1,10 @@
+deephaven.barrage
+=================
+
+
+.. automodule:: deephaven.barrage
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

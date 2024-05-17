@@ -3,7 +3,7 @@ deephaven.plugin
 
 .. toctree::
     js <deephaven.plugin.js>
-    object <deephaven.plugin.object>
+    object_type <deephaven.plugin.object_type>
 
 .. automodule:: deephaven.plugin
     :members:

@@ -3,6 +3,7 @@ deephaven.stream
 
 .. toctree::
     kafka <deephaven.stream.kafka>
+    table_publisher <deephaven.stream.table_publisher>
 
 .. automodule:: deephaven.stream
     :members:

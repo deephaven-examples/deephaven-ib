@@ -2,8 +2,7 @@ deephaven.server
 ================
 
 .. toctree::
-    plugin <deephaven.server.plugin>
-    script_session <deephaven.server.script_session>
+    executors <deephaven.server.executors>
 
 .. automodule:: deephaven.server
     :members:

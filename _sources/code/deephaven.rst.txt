@@ -4,11 +4,13 @@ deephaven
 .. toctree::
     agg <deephaven.agg>
     appmode <deephaven.appmode>
+    arrow <deephaven.arrow>
+    barrage <deephaven.barrage>
     calendar <deephaven.calendar>
     column <deephaven.column>
-    config <deephaven.config>
     constants <deephaven.constants>
     csv <deephaven.csv>
+    dbc <deephaven.dbc>
     dherror <deephaven.dherror>
     dtypes <deephaven.dtypes>
     execution_context <deephaven.execution_context>
@@ -33,7 +35,7 @@ deephaven
     table_factory <deephaven.table_factory>
     table_listener <deephaven.table_listener>
     time <deephaven.time>
-    ugp <deephaven.ugp>
+    update_graph <deephaven.update_graph>
     updateby <deephaven.updateby>
     uri <deephaven.uri>
 

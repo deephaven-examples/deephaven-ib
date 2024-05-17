@@ -1,0 +1,10 @@
+deephaven.experimental.data_index
+=================================
+
+
+.. automodule:: deephaven.experimental.data_index
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

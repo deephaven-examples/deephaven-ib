@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/favicon.svg"/><meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+    <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.plot.color - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
     
     
 
@@ -20,38 +20,38 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -60,15 +60,15 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </symbol>
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -82,16 +82,16 @@
   </symbol>
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
       <path d="M13 12h5" />
@@ -99,6 +99,60 @@
       <path d="M13 18h1" />
       <path d="M13 9h4" />
       <path d="M13 6h1" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" /
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
 </svg>
@@ -111,6 +165,8 @@
 <label class="overlay toc-overlay" for="__toc">
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
 
 
@@ -129,7 +185,8 @@
       <div class="theme-toggle-container theme-toggle-header">
         <button class="theme-toggle">
           <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
@@ -149,54 +206,65 @@
   <span class="sidebar-brand-text">deephaven_ib  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Python Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of deephaven_server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_server.cli.html">cli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_server.server.html">server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_server.start_jvm.html">start_jvm</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of deephaven_ib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_ib.time.html">time</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of deephaven</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.agg.html">agg</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.appmode.html">appmode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.arrow.html">arrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.barrage.html">barrage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.calendar.html">calendar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.column.html">column</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.config.html">config</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.constants.html">constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.dbc.html">dbc</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of dbc</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.dbc.adbc.html">adbc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.dbc.odbc.html">odbc</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.dherror.html">dherror</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.dtypes.html">dtypes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.execution_context.html">execution_context</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.data_index.html">data_index</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.ema.html">ema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.outer_joins.html">outer_joins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.s3.html">s3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.sql.html">sql</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.filters.html">filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.html.html">html</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.jcompat.html">jcompat</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of learn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.learn.gather.html">gather</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.liveness_scope.html">liveness_scope</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.numpy.html">numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.pandas.html">pandas</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pandasplugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.parquet.html">parquet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.perfmon.html">perfmon</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.axisformat.html">axisformat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.axistransform.html">axistransform</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.color.html">color</a></li>
@@ -208,36 +276,32 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.shape.html">shape</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of plugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plugin.js.html">js</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plugin.object.html">object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plugin.object_type.html">object_type</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.query_library.html">query_library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.replay.html">replay</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../code/deephaven.server.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.server.plugin.object.html">object</a></li>
-<li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.server.plugin.register.html">register</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.server.executors.html">executors</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.server.script_session.html">script_session</a></li>
-</ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../code/deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of stream</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../code/deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of kafka</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.stream.kafka.cdc.html">cdc</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.stream.kafka.consumer.html">consumer</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.stream.kafka.producer.html">producer</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.stream.table_publisher.html">table_publisher</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.table.html">table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.table_factory.html">table_factory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.table_listener.html">table_listener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.time.html">time</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.ugp.html">ugp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.update_graph.html">update_graph</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.updateby.html">updateby</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.uri.html">uri</a></li>
 </ul>
@@ -253,6 +317,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -260,11 +325,18 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
@@ -274,27 +346,29 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <h1>Source code for deephaven.plot.color</h1><div class="highlight"><pre>
 <span></span><span class="c1">#</span>
-<span class="c1"># Copyright (c) 2016-2022 Deephaven Data Labs and Patent Pending</span>
+<span class="c1"># Copyright (c) 2016-2024 Deephaven Data Labs and Patent Pending</span>
 <span class="c1">#</span>
 
-<span class="sd">""" This module implements the Color class and provides a list of predefined colors that can be used to paint a plot.</span>
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot; This module implements the Color class and provides a list of predefined colors that can be used to paint a plot.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="k">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="k">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
 
-<span class="n">_JColor</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">"io.deephaven.gui.color.Color"</span><span class="p">)</span>
+<span class="n">_JColor</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.gui.color.Color&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Color"><a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color">[docs]</a><span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
-    <span class="sd">""" A color. """</span>
+<div class="viewcode-block" id="Color">
+<a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color">[docs]</a>
+<span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; A color. &quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JColor</span>
 
@@ -302,19 +376,21 @@
     <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_color</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_color</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span> <span class="o">=</span> <span class="n">j_color</span>
 
     <span class="k">def</span> <span class="nf">to_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span><span class="o">.</span><span class="n">toHex</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Color.of_name"><a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_name">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Color.of_name">
+<a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_name">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">of_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
-        <span class="sd">""" Creates a Color instance represented by the name string.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color instance represented by the name string.</span>
 
 <span class="sd">        Colors are specified by name or hex value.</span>
 <span class="sd">        Hex values are parsed as follows: first two digits set the Red component of the color; second two digits set the</span>
-<span class="sd">        Green component; third two the Blue. Hex values must have a "#" in front, e.g. "#001122"</span>
+<span class="sd">        Green component; third two the Blue. Hex values must have a &quot;#&quot; in front, e.g. &quot;#001122&quot;</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            name (str): the name of the color</span>
@@ -324,15 +400,18 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            DHError</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Color</span><span class="p">(</span><span class="n">j_color</span><span class="o">=</span><span class="n">_JColor</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to get a color by its name."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get a color by its name.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
-<div class="viewcode-block" id="Color.of_rgb"><a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_rgb">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Color.of_rgb">
+<a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_rgb">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">of_rgb</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">255</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
-        <span class="sd">""" Creates a Color with the specified red, green, blue, and alpha values.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color with the specified red, green, blue, and alpha values.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            r (int): the red component in the range (0 - 255)</span>
@@ -346,15 +425,18 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            DHError</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Color</span><span class="p">(</span><span class="n">j_color</span><span class="o">=</span><span class="n">_JColor</span><span class="o">.</span><span class="n">colorRGB</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a color from rgb values."</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a color from rgb values.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Color.of_rgb_f"><a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_rgb_f">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Color.of_rgb_f">
+<a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_rgb_f">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">of_rgb_f</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
-        <span class="sd">""" Creates a Color with the specified red, green, blue, and alpha values expressed in floating numbers.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color with the specified red, green, blue, and alpha values expressed in floating numbers.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            r (float): the red component in the range (0.0 - 1.0)</span>
@@ -368,16 +450,19 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            DHError</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Color</span><span class="p">(</span><span class="n">j_color</span><span class="o">=</span><span class="n">_JColor</span><span class="o">.</span><span class="n">colorRGB</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a color from rgb values."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a color from rgb values.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
-<div class="viewcode-block" id="Color.of_hsl"><a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_hsl">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Color.of_hsl">
+<a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_hsl">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">of_hsl</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
-        <span class="sd">""" Creates a Color with the specified hue, saturation, lightness, and alpha. The lower the alpha, the more</span>
-<span class="sd">         transparent the color.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color with the specified hue, saturation, lightness, and alpha. The lower the alpha, the more</span>
+<span class="sd">        transparent the color.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            h (float): the hue component, as a degree on the color wheel in the range (0.0 - 360.0)</span>
@@ -391,163 +476,167 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            DHError</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Color</span><span class="p">(</span><span class="n">j_color</span><span class="o">=</span><span class="n">_JColor</span><span class="o">.</span><span class="n">colorHSL</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"failed to create a color from hue, saturation, lightness values."</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a color from hue, saturation, lightness values.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Colors"><a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Colors">[docs]</a><span class="k">class</span> <span class="nc">Colors</span><span class="p">:</span>
-    <span class="sd">""" The Colors class provides a namespace for all the predefined colors. """</span>
-    <span class="n">ALICEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F0F8FF"</span><span class="p">)</span>
-    <span class="n">ANTIQUEWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FAEBD7"</span><span class="p">)</span>
-    <span class="n">AQUA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00FFFF"</span><span class="p">)</span>
-    <span class="n">AQUAMARINE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#7FFFD4"</span><span class="p">)</span>
-    <span class="n">AZURE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F0FFFF"</span><span class="p">)</span>
-    <span class="n">BEIGE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F5F5DC"</span><span class="p">)</span>
-    <span class="n">BISQUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFE4C4"</span><span class="p">)</span>
-    <span class="n">BLACK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#000000"</span><span class="p">)</span>
-    <span class="n">BLANCHEDALMOND</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFEBCD"</span><span class="p">)</span>
-    <span class="n">BLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#0000FF"</span><span class="p">)</span>
-    <span class="n">BLUEVIOLET</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#8A2BE2"</span><span class="p">)</span>
-    <span class="n">BROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#A52A2A"</span><span class="p">)</span>
-    <span class="n">BURLYWOOD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#DEB887"</span><span class="p">)</span>
-    <span class="n">CADETBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#5F9EA0"</span><span class="p">)</span>
-    <span class="n">CHARTREUSE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#7FFF00"</span><span class="p">)</span>
-    <span class="n">CHOCOLATE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#D2691E"</span><span class="p">)</span>
-    <span class="n">CORAL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF7F50"</span><span class="p">)</span>
-    <span class="n">CORNFLOWERBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#6495ED"</span><span class="p">)</span>
-    <span class="n">CORNSILK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFF8DC"</span><span class="p">)</span>
-    <span class="n">CRIMSON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#DC143C"</span><span class="p">)</span>
-    <span class="n">CYAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00FFFF"</span><span class="p">)</span>
-    <span class="n">DARKBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00008B"</span><span class="p">)</span>
-    <span class="n">DARKCYAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#008B8B"</span><span class="p">)</span>
-    <span class="n">DARKGOLDENROD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#B8860B"</span><span class="p">)</span>
-    <span class="n">DARKGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#A9A9A9"</span><span class="p">)</span>
-    <span class="n">DARKGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#A9A9A9"</span><span class="p">)</span>
-    <span class="n">DARKGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#006400"</span><span class="p">)</span>
-    <span class="n">DARKKHAKI</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#BDB76B"</span><span class="p">)</span>
-    <span class="n">DARKMAGENTA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#8B008B"</span><span class="p">)</span>
-    <span class="n">DARKOLIVEGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#556B2F"</span><span class="p">)</span>
-    <span class="n">DARKORANGE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF8C00"</span><span class="p">)</span>
-    <span class="n">DARKORCHID</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#9932CC"</span><span class="p">)</span>
-    <span class="n">DARKRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#8B0000"</span><span class="p">)</span>
-    <span class="n">DARKSALMON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#E9967A"</span><span class="p">)</span>
-    <span class="n">DARKSEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#8FBC8F"</span><span class="p">)</span>
-    <span class="n">DARKSLATEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#483D8B"</span><span class="p">)</span>
-    <span class="n">DARKSLATEGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#2F4F4F"</span><span class="p">)</span>
-    <span class="n">DARKSLATEGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#2F4F4F"</span><span class="p">)</span>
-    <span class="n">DARKTURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00CED1"</span><span class="p">)</span>
-    <span class="n">DARKVIOLET</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#9400D3"</span><span class="p">)</span>
-    <span class="n">DEEPPINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF1493"</span><span class="p">)</span>
-    <span class="n">DEEPSKYBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00BFFF"</span><span class="p">)</span>
-    <span class="n">DIMGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#696969"</span><span class="p">)</span>
-    <span class="n">DIMGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#696969"</span><span class="p">)</span>
-    <span class="n">DODGERBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#1E90FF"</span><span class="p">)</span>
-    <span class="n">FIREBRICK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#B22222"</span><span class="p">)</span>
-    <span class="n">FLORALWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFFAF0"</span><span class="p">)</span>
-    <span class="n">FORESTGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#228B22"</span><span class="p">)</span>
-    <span class="n">FUCHSIA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF00FF"</span><span class="p">)</span>
-    <span class="n">GAINSBORO</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#DCDCDC"</span><span class="p">)</span>
-    <span class="n">GHOSTWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F8F8FF"</span><span class="p">)</span>
-    <span class="n">GOLD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFD700"</span><span class="p">)</span>
-    <span class="n">GOLDENROD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#DAA520"</span><span class="p">)</span>
-    <span class="n">GRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#808080"</span><span class="p">)</span>
-    <span class="n">GREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#808080"</span><span class="p">)</span>
-    <span class="n">GREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#008000"</span><span class="p">)</span>
-    <span class="n">GREENYELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#ADFF2F"</span><span class="p">)</span>
-    <span class="n">HONEYDEW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F0FFF0"</span><span class="p">)</span>
-    <span class="n">HOTPINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF69B4"</span><span class="p">)</span>
-    <span class="n">INDIANRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#CD5C5C"</span><span class="p">)</span>
-    <span class="n">INDIGO</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#4B0082"</span><span class="p">)</span>
-    <span class="n">IVORY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFFFF0"</span><span class="p">)</span>
-    <span class="n">KHAKI</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F0E68C"</span><span class="p">)</span>
-    <span class="n">LAVENDER</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#E6E6FA"</span><span class="p">)</span>
-    <span class="n">LAVENDERBLUSH</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFF0F5"</span><span class="p">)</span>
-    <span class="n">LAWNGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#7CFC00"</span><span class="p">)</span>
-    <span class="n">LEMONCHIFFON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFFACD"</span><span class="p">)</span>
-    <span class="n">LIGHTBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#ADD8E6"</span><span class="p">)</span>
-    <span class="n">LIGHTCORAL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F08080"</span><span class="p">)</span>
-    <span class="n">LIGHTCYAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#E0FFFF"</span><span class="p">)</span>
-    <span class="n">LIGHTGOLDENRODYELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FAFAD2"</span><span class="p">)</span>
-    <span class="n">LIGHTGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#D3D3D3"</span><span class="p">)</span>
-    <span class="n">LIGHTGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#D3D3D3"</span><span class="p">)</span>
-    <span class="n">LIGHTGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#90EE90"</span><span class="p">)</span>
-    <span class="n">LIGHTPINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFB6C1"</span><span class="p">)</span>
-    <span class="n">LIGHTSALMON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFA07A"</span><span class="p">)</span>
-    <span class="n">LIGHTSEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#20B2AA"</span><span class="p">)</span>
-    <span class="n">LIGHTSKYBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#87CEFA"</span><span class="p">)</span>
-    <span class="n">LIGHTSLATEGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#778899"</span><span class="p">)</span>
-    <span class="n">LIGHTSLATEGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#778899"</span><span class="p">)</span>
-    <span class="n">LIGHTSTEELBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#B0C4DE"</span><span class="p">)</span>
-    <span class="n">LIGHTYELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFFFE0"</span><span class="p">)</span>
-    <span class="n">LIME</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00FF00"</span><span class="p">)</span>
-    <span class="n">LIMEGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#32CD32"</span><span class="p">)</span>
-    <span class="n">LINEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FAF0E6"</span><span class="p">)</span>
-    <span class="n">MAGENTA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF00FF"</span><span class="p">)</span>
-    <span class="n">MAROON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#800000"</span><span class="p">)</span>
-    <span class="n">MEDIUMAQUAMARINE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#66CDAA"</span><span class="p">)</span>
-    <span class="n">MEDIUMBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#0000CD"</span><span class="p">)</span>
-    <span class="n">MEDIUMORCHID</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#BA55D3"</span><span class="p">)</span>
-    <span class="n">MEDIUMPURPLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#9370DB"</span><span class="p">)</span>
-    <span class="n">MEDIUMSEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#3CB371"</span><span class="p">)</span>
-    <span class="n">MEDIUMSLATEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#7B68EE"</span><span class="p">)</span>
-    <span class="n">MEDIUMSPRINGGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00FA9A"</span><span class="p">)</span>
-    <span class="n">MEDIUMTURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#48D1CC"</span><span class="p">)</span>
-    <span class="n">MEDIUMVIOLETRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#C71585"</span><span class="p">)</span>
-    <span class="n">MIDNIGHTBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#191970"</span><span class="p">)</span>
-    <span class="n">MINTCREAM</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F5FFFA"</span><span class="p">)</span>
-    <span class="n">MISTYROSE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFE4E1"</span><span class="p">)</span>
-    <span class="n">MOCCASIN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFE4B5"</span><span class="p">)</span>
-    <span class="n">NAVAJOWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFDEAD"</span><span class="p">)</span>
-    <span class="n">NAVY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#000080"</span><span class="p">)</span>
-    <span class="n">OLDLACE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FDF5E6"</span><span class="p">)</span>
-    <span class="n">OLIVE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#808000"</span><span class="p">)</span>
-    <span class="n">OLIVEDRAB</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#6B8E23"</span><span class="p">)</span>
-    <span class="n">ORANGE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFA500"</span><span class="p">)</span>
-    <span class="n">ORANGERED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF4500"</span><span class="p">)</span>
-    <span class="n">ORCHID</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#DA70D6"</span><span class="p">)</span>
-    <span class="n">PALEGOLDENROD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#EEE8AA"</span><span class="p">)</span>
-    <span class="n">PALEGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#98FB98"</span><span class="p">)</span>
-    <span class="n">PALETURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#AFEEEE"</span><span class="p">)</span>
-    <span class="n">PALEVIOLETRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#DB7093"</span><span class="p">)</span>
-    <span class="n">PAPAYAWHIP</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFEFD5"</span><span class="p">)</span>
-    <span class="n">PEACHPUFF</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFDAB9"</span><span class="p">)</span>
-    <span class="n">PERU</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#CD853F"</span><span class="p">)</span>
-    <span class="n">PINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFC0CB"</span><span class="p">)</span>
-    <span class="n">PLUM</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#DDA0DD"</span><span class="p">)</span>
-    <span class="n">POWDERBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#B0E0E6"</span><span class="p">)</span>
-    <span class="n">PURPLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#800080"</span><span class="p">)</span>
-    <span class="n">REBECCAPURPLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#663399"</span><span class="p">)</span>
-    <span class="n">RED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF0000"</span><span class="p">)</span>
-    <span class="n">ROSYBROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#BC8F8F"</span><span class="p">)</span>
-    <span class="n">ROYALBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#4169E1"</span><span class="p">)</span>
-    <span class="n">SADDLEBROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#8B4513"</span><span class="p">)</span>
-    <span class="n">SALMON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FA8072"</span><span class="p">)</span>
-    <span class="n">SANDYBROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F4A460"</span><span class="p">)</span>
-    <span class="n">SEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#2E8B57"</span><span class="p">)</span>
-    <span class="n">SEASHELL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFF5EE"</span><span class="p">)</span>
-    <span class="n">SIENNA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#A0522D"</span><span class="p">)</span>
-    <span class="n">SILVER</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#C0C0C0"</span><span class="p">)</span>
-    <span class="n">SKYBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#87CEEB"</span><span class="p">)</span>
-    <span class="n">SLATEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#6A5ACD"</span><span class="p">)</span>
-    <span class="n">SLATEGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#708090"</span><span class="p">)</span>
-    <span class="n">SLATEGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#708090"</span><span class="p">)</span>
-    <span class="n">SNOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFFAFA"</span><span class="p">)</span>
-    <span class="n">SPRINGGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#00FF7F"</span><span class="p">)</span>
-    <span class="n">STEELBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#4682B4"</span><span class="p">)</span>
-    <span class="n">TAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#D2B48C"</span><span class="p">)</span>
-    <span class="n">TEAL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#008080"</span><span class="p">)</span>
-    <span class="n">THISTLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#D8BFD8"</span><span class="p">)</span>
-    <span class="n">TOMATO</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FF6347"</span><span class="p">)</span>
-    <span class="n">TURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#40E0D0"</span><span class="p">)</span>
-    <span class="n">VIOLET</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#EE82EE"</span><span class="p">)</span>
-    <span class="n">WHEAT</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F5DEB3"</span><span class="p">)</span>
-    <span class="n">WHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFFFFF"</span><span class="p">)</span>
-    <span class="n">WHITESMOKE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#F5F5F5"</span><span class="p">)</span>
-    <span class="n">YELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#FFFF00"</span><span class="p">)</span>
-    <span class="n">YELLOWGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">"#9ACD32"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Colors">
+<a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Colors">[docs]</a>
+<span class="k">class</span> <span class="nc">Colors</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; The Colors class provides a namespace for all the predefined colors. &quot;&quot;&quot;</span>
+    <span class="n">ALICEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F0F8FF&quot;</span><span class="p">)</span>
+    <span class="n">ANTIQUEWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FAEBD7&quot;</span><span class="p">)</span>
+    <span class="n">AQUA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00FFFF&quot;</span><span class="p">)</span>
+    <span class="n">AQUAMARINE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#7FFFD4&quot;</span><span class="p">)</span>
+    <span class="n">AZURE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F0FFFF&quot;</span><span class="p">)</span>
+    <span class="n">BEIGE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F5F5DC&quot;</span><span class="p">)</span>
+    <span class="n">BISQUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFE4C4&quot;</span><span class="p">)</span>
+    <span class="n">BLACK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#000000&quot;</span><span class="p">)</span>
+    <span class="n">BLANCHEDALMOND</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFEBCD&quot;</span><span class="p">)</span>
+    <span class="n">BLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#0000FF&quot;</span><span class="p">)</span>
+    <span class="n">BLUEVIOLET</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#8A2BE2&quot;</span><span class="p">)</span>
+    <span class="n">BROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#A52A2A&quot;</span><span class="p">)</span>
+    <span class="n">BURLYWOOD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#DEB887&quot;</span><span class="p">)</span>
+    <span class="n">CADETBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#5F9EA0&quot;</span><span class="p">)</span>
+    <span class="n">CHARTREUSE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#7FFF00&quot;</span><span class="p">)</span>
+    <span class="n">CHOCOLATE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#D2691E&quot;</span><span class="p">)</span>
+    <span class="n">CORAL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF7F50&quot;</span><span class="p">)</span>
+    <span class="n">CORNFLOWERBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#6495ED&quot;</span><span class="p">)</span>
+    <span class="n">CORNSILK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFF8DC&quot;</span><span class="p">)</span>
+    <span class="n">CRIMSON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#DC143C&quot;</span><span class="p">)</span>
+    <span class="n">CYAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00FFFF&quot;</span><span class="p">)</span>
+    <span class="n">DARKBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00008B&quot;</span><span class="p">)</span>
+    <span class="n">DARKCYAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#008B8B&quot;</span><span class="p">)</span>
+    <span class="n">DARKGOLDENROD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#B8860B&quot;</span><span class="p">)</span>
+    <span class="n">DARKGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#A9A9A9&quot;</span><span class="p">)</span>
+    <span class="n">DARKGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#A9A9A9&quot;</span><span class="p">)</span>
+    <span class="n">DARKGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#006400&quot;</span><span class="p">)</span>
+    <span class="n">DARKKHAKI</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#BDB76B&quot;</span><span class="p">)</span>
+    <span class="n">DARKMAGENTA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#8B008B&quot;</span><span class="p">)</span>
+    <span class="n">DARKOLIVEGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#556B2F&quot;</span><span class="p">)</span>
+    <span class="n">DARKORANGE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF8C00&quot;</span><span class="p">)</span>
+    <span class="n">DARKORCHID</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#9932CC&quot;</span><span class="p">)</span>
+    <span class="n">DARKRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#8B0000&quot;</span><span class="p">)</span>
+    <span class="n">DARKSALMON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#E9967A&quot;</span><span class="p">)</span>
+    <span class="n">DARKSEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#8FBC8F&quot;</span><span class="p">)</span>
+    <span class="n">DARKSLATEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#483D8B&quot;</span><span class="p">)</span>
+    <span class="n">DARKSLATEGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#2F4F4F&quot;</span><span class="p">)</span>
+    <span class="n">DARKSLATEGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#2F4F4F&quot;</span><span class="p">)</span>
+    <span class="n">DARKTURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00CED1&quot;</span><span class="p">)</span>
+    <span class="n">DARKVIOLET</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#9400D3&quot;</span><span class="p">)</span>
+    <span class="n">DEEPPINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF1493&quot;</span><span class="p">)</span>
+    <span class="n">DEEPSKYBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00BFFF&quot;</span><span class="p">)</span>
+    <span class="n">DIMGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#696969&quot;</span><span class="p">)</span>
+    <span class="n">DIMGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#696969&quot;</span><span class="p">)</span>
+    <span class="n">DODGERBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#1E90FF&quot;</span><span class="p">)</span>
+    <span class="n">FIREBRICK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#B22222&quot;</span><span class="p">)</span>
+    <span class="n">FLORALWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFFAF0&quot;</span><span class="p">)</span>
+    <span class="n">FORESTGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#228B22&quot;</span><span class="p">)</span>
+    <span class="n">FUCHSIA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF00FF&quot;</span><span class="p">)</span>
+    <span class="n">GAINSBORO</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#DCDCDC&quot;</span><span class="p">)</span>
+    <span class="n">GHOSTWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F8F8FF&quot;</span><span class="p">)</span>
+    <span class="n">GOLD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFD700&quot;</span><span class="p">)</span>
+    <span class="n">GOLDENROD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#DAA520&quot;</span><span class="p">)</span>
+    <span class="n">GRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#808080&quot;</span><span class="p">)</span>
+    <span class="n">GREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#808080&quot;</span><span class="p">)</span>
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#008000&quot;</span><span class="p">)</span>
+    <span class="n">GREENYELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#ADFF2F&quot;</span><span class="p">)</span>
+    <span class="n">HONEYDEW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F0FFF0&quot;</span><span class="p">)</span>
+    <span class="n">HOTPINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF69B4&quot;</span><span class="p">)</span>
+    <span class="n">INDIANRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#CD5C5C&quot;</span><span class="p">)</span>
+    <span class="n">INDIGO</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#4B0082&quot;</span><span class="p">)</span>
+    <span class="n">IVORY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFFFF0&quot;</span><span class="p">)</span>
+    <span class="n">KHAKI</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F0E68C&quot;</span><span class="p">)</span>
+    <span class="n">LAVENDER</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#E6E6FA&quot;</span><span class="p">)</span>
+    <span class="n">LAVENDERBLUSH</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFF0F5&quot;</span><span class="p">)</span>
+    <span class="n">LAWNGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#7CFC00&quot;</span><span class="p">)</span>
+    <span class="n">LEMONCHIFFON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFFACD&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#ADD8E6&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTCORAL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F08080&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTCYAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#E0FFFF&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTGOLDENRODYELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FAFAD2&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#D3D3D3&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#D3D3D3&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#90EE90&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTPINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFB6C1&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTSALMON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFA07A&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTSEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#20B2AA&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTSKYBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#87CEFA&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTSLATEGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#778899&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTSLATEGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#778899&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTSTEELBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#B0C4DE&quot;</span><span class="p">)</span>
+    <span class="n">LIGHTYELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFFFE0&quot;</span><span class="p">)</span>
+    <span class="n">LIME</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00FF00&quot;</span><span class="p">)</span>
+    <span class="n">LIMEGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#32CD32&quot;</span><span class="p">)</span>
+    <span class="n">LINEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FAF0E6&quot;</span><span class="p">)</span>
+    <span class="n">MAGENTA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF00FF&quot;</span><span class="p">)</span>
+    <span class="n">MAROON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#800000&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMAQUAMARINE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#66CDAA&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#0000CD&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMORCHID</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#BA55D3&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMPURPLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#9370DB&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMSEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#3CB371&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMSLATEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#7B68EE&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMSPRINGGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00FA9A&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMTURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#48D1CC&quot;</span><span class="p">)</span>
+    <span class="n">MEDIUMVIOLETRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#C71585&quot;</span><span class="p">)</span>
+    <span class="n">MIDNIGHTBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#191970&quot;</span><span class="p">)</span>
+    <span class="n">MINTCREAM</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F5FFFA&quot;</span><span class="p">)</span>
+    <span class="n">MISTYROSE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFE4E1&quot;</span><span class="p">)</span>
+    <span class="n">MOCCASIN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFE4B5&quot;</span><span class="p">)</span>
+    <span class="n">NAVAJOWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFDEAD&quot;</span><span class="p">)</span>
+    <span class="n">NAVY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#000080&quot;</span><span class="p">)</span>
+    <span class="n">OLDLACE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FDF5E6&quot;</span><span class="p">)</span>
+    <span class="n">OLIVE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#808000&quot;</span><span class="p">)</span>
+    <span class="n">OLIVEDRAB</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#6B8E23&quot;</span><span class="p">)</span>
+    <span class="n">ORANGE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFA500&quot;</span><span class="p">)</span>
+    <span class="n">ORANGERED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF4500&quot;</span><span class="p">)</span>
+    <span class="n">ORCHID</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#DA70D6&quot;</span><span class="p">)</span>
+    <span class="n">PALEGOLDENROD</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#EEE8AA&quot;</span><span class="p">)</span>
+    <span class="n">PALEGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#98FB98&quot;</span><span class="p">)</span>
+    <span class="n">PALETURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#AFEEEE&quot;</span><span class="p">)</span>
+    <span class="n">PALEVIOLETRED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#DB7093&quot;</span><span class="p">)</span>
+    <span class="n">PAPAYAWHIP</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFEFD5&quot;</span><span class="p">)</span>
+    <span class="n">PEACHPUFF</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFDAB9&quot;</span><span class="p">)</span>
+    <span class="n">PERU</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#CD853F&quot;</span><span class="p">)</span>
+    <span class="n">PINK</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFC0CB&quot;</span><span class="p">)</span>
+    <span class="n">PLUM</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#DDA0DD&quot;</span><span class="p">)</span>
+    <span class="n">POWDERBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#B0E0E6&quot;</span><span class="p">)</span>
+    <span class="n">PURPLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#800080&quot;</span><span class="p">)</span>
+    <span class="n">REBECCAPURPLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#663399&quot;</span><span class="p">)</span>
+    <span class="n">RED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF0000&quot;</span><span class="p">)</span>
+    <span class="n">ROSYBROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#BC8F8F&quot;</span><span class="p">)</span>
+    <span class="n">ROYALBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#4169E1&quot;</span><span class="p">)</span>
+    <span class="n">SADDLEBROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#8B4513&quot;</span><span class="p">)</span>
+    <span class="n">SALMON</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FA8072&quot;</span><span class="p">)</span>
+    <span class="n">SANDYBROWN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F4A460&quot;</span><span class="p">)</span>
+    <span class="n">SEAGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#2E8B57&quot;</span><span class="p">)</span>
+    <span class="n">SEASHELL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFF5EE&quot;</span><span class="p">)</span>
+    <span class="n">SIENNA</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#A0522D&quot;</span><span class="p">)</span>
+    <span class="n">SILVER</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#C0C0C0&quot;</span><span class="p">)</span>
+    <span class="n">SKYBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#87CEEB&quot;</span><span class="p">)</span>
+    <span class="n">SLATEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#6A5ACD&quot;</span><span class="p">)</span>
+    <span class="n">SLATEGRAY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#708090&quot;</span><span class="p">)</span>
+    <span class="n">SLATEGREY</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#708090&quot;</span><span class="p">)</span>
+    <span class="n">SNOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFFAFA&quot;</span><span class="p">)</span>
+    <span class="n">SPRINGGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#00FF7F&quot;</span><span class="p">)</span>
+    <span class="n">STEELBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#4682B4&quot;</span><span class="p">)</span>
+    <span class="n">TAN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#D2B48C&quot;</span><span class="p">)</span>
+    <span class="n">TEAL</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#008080&quot;</span><span class="p">)</span>
+    <span class="n">THISTLE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#D8BFD8&quot;</span><span class="p">)</span>
+    <span class="n">TOMATO</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FF6347&quot;</span><span class="p">)</span>
+    <span class="n">TURQUOISE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#40E0D0&quot;</span><span class="p">)</span>
+    <span class="n">VIOLET</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#EE82EE&quot;</span><span class="p">)</span>
+    <span class="n">WHEAT</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F5DEB3&quot;</span><span class="p">)</span>
+    <span class="n">WHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFFFFF&quot;</span><span class="p">)</span>
+    <span class="n">WHITESMOKE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F5F5F5&quot;</span><span class="p">)</span>
+    <span class="n">YELLOW</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FFFF00&quot;</span><span class="p">)</span>
+    <span class="n">YELLOWGREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#9ACD32&quot;</span><span class="p">)</span>
 
     <span class="c1"># Legacy non-html-standard colors.</span>
     <span class="n">VIVID_RED</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_rgb</span><span class="p">(</span><span class="mi">231</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">39</span><span class="p">)</span>
@@ -682,6 +771,7 @@
     <span class="n">DB_ORANGE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_rgb</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">DB_GREEN</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_rgb</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">NO_FORMATTING</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_rgb</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -691,13 +781,19 @@
           
           
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2021, Deephaven Data Labs |
-            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
-              and
-              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Deephaven Data Labs
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
         </div>
         
       </footer>
@@ -708,10 +804,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/scripts/main.js"></script>
+</div><script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>
     </body>
 </html>
