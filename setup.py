@@ -2,7 +2,6 @@ import os
 import re
 
 import setuptools
-import packaging
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -23,21 +22,81 @@ if not ib_version:
     raise Exception("ibapi version must be set via the IB_VERSION environment variable.")
 
 
+# def is_semver(version):
+#     """
+#     Checks if a string is in valid semver format.
+
+#     Args:
+#       version: The string to validate.
+
+#     Returns:
+#       True if the string is in valid semver format, False otherwise.
+#     """
+
+#     # Split the version string into components
+#     components = version.split(".")
+
+#     # Check for basic structure (3 components)
+#     if len(components) != 3:
+#         return False
+
+#     # Validate each component as a non-negative integer
+#     try:
+#         for component in components:
+#             if int(component) < 0:
+#                 return False
+#     except ValueError:
+#         return False
+
+#     # Check for optional pre-release and build identifiers
+#     if "-" in version:
+#         pre_release, build = version.split("-")
+#         # Pre-release can be alphanumeric with hyphens or numeric with dots
+#         if not (pre_release.isalnum() and all(c in "-.0123456789" for c in pre_release) or all(c.isdigit() for c in pre_release.split("."))):
+#             return False
+#     else:
+#         pre_release = None
+
+#     if "+" in version:
+#         if pre_release is None:
+#             return False  # Plus sign requires pre-release identifier
+#         build = version.split("+")[-1]
+#         # Build can be alphanumeric with hyphens
+#         if not build.isalnum() and not all(c in "-" for c in build):
+#             return False
+#     else:
+#         build = None
+
+#     return True
+
+_semver_regex = r"""
+^
+(?P<major>\d+)\.
+(?P<minor>\d+)\.
+(?P<patch>\d+)
+(?:
+  -(?P<prerelease>
+    (?:[a-z][a-z0-9-]*)
+    |(?:[0-9]+(?:\.[0-9]+)*)
+  )
+)?
+(?:\+(?P<build>[a-z0-9]+(?:-[a-z0-9]+)*))?
+$
+"""
+
+
 def is_semver(version):
-  """
-  Checks if a string is in valid semver format.
+    """
+    Checks if a string is in valid semver format.
 
-  Args:
-    version: The string to validate.
+    Args:
+        version: The string to validate.
 
-  Returns:
-    True if the string is in valid semver format, False otherwise.
-  """
-  try:
-    packaging.version.parse(version)
-    return True
-  except (ValueError, AttributeError):
-    return False
+    Returns:
+        True if the string is in semver format, False otherwise.
+    """
+    match = re.match(_semver_regex, version, re.VERBOSE)
+    return match is not None
 
 
 def version_assert_format(version: str) -> None:
