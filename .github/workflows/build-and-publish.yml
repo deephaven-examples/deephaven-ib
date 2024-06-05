@@ -58,7 +58,7 @@ jobs:
         then
             if [ "$GITHUB_REF" = "refs/heads/main" ]
             then
-              echo "::set-output name=version::0.0.0.rc"
+              echo "::set-output name=version::0.0.0.rc0"
             else
               PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
               echo "::set-output name=version::0.0.0.dev${PR_NUMBER}"
