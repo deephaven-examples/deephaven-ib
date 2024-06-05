@@ -2,6 +2,7 @@ import os
 import re
 
 import setuptools
+import packaging
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -22,6 +23,23 @@ if not ib_version:
     raise Exception("ibapi version must be set via the IB_VERSION environment variable.")
 
 
+def is_semver(version):
+  """
+  Checks if a string is in valid semver format.
+
+  Args:
+    version: The string to validate.
+
+  Returns:
+    True if the string is in valid semver format, False otherwise.
+  """
+  try:
+    packaging.version.parse(version)
+    return True
+  except (ValueError, AttributeError):
+    return False
+
+
 def version_assert_format(version: str) -> None:
     """Assert that a version string is formatted correctly.
 
@@ -34,13 +52,7 @@ def version_assert_format(version: str) -> None:
     if not version:
         raise ValueError("Version string is empty.")
 
-    # check if the version string is in semver format
-    # check if the version string is in semver format
-    pattern1 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)$")
-    pattern2 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)\.dev([0-9]\d*)$")
-    is_semver = bool(pattern1.match(version)) or bool(pattern2.match(version))
-
-    if not is_semver:
+    if not is_semver(version):
         raise ValueError(f"Version string is not in semver format: {version}")
 
 
