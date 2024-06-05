@@ -22,11 +22,31 @@ if not ib_version:
     raise Exception("ibapi version must be set via the IB_VERSION environment variable.")
 
 
-def version_assert_format(version: str) -> None:
+def is_valid_semver(version: str, allow_zero_prefix: bool=False):
+    """
+    Checks if a string is in valid semver format.
+
+    Args:
+        version: The version string to validate.
+        allow_zero_prefix: Allow zero prefixes
+
+    Returns:
+        True if the string is in valid semver format, False otherwise.
+    """
+    if allow_zero_prefix:
+        pattern = r'^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)(-([0-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.([0-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$'
+    else:
+        pattern = r'^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$'
+
+    return bool(re.match(pattern, version))
+
+
+def version_assert_format(version: str, allow_zero_prefix: bool=False) -> None:
     """Assert that a version string is formatted correctly.
 
     Args:
         version: The version string to check.
+        allow_zero_prefix: Allow zero prefixes
 
     Raises:
         ValueError: If the version string is not formatted correctly.
@@ -34,19 +54,13 @@ def version_assert_format(version: str) -> None:
     if not version:
         raise ValueError("Version string is empty.")
 
-    # check if the version string is in semver format
-    # check if the version string is in semver format
-    pattern1 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)$")
-    pattern2 = re.compile(r"^([0-9]\d*)\.([0-9]\d*)\.([0-9]\d*)\.dev([0-9]\d*)$")
-    is_semver = bool(pattern1.match(version)) or bool(pattern2.match(version))
-
-    if not is_semver:
+    if not is_valid_semver(version, allow_zero_prefix=allow_zero_prefix):
         raise ValueError(f"Version string is not in semver format: {version}")
 
 
 version_assert_format(dh_ib_version)
 version_assert_format(dh_version)
-version_assert_format(ib_version)
+version_assert_format(ib_version, allow_zero_prefix=True)
 
 setuptools.setup(
     name="deephaven_ib",
