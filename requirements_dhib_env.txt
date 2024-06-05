@@ -2,3 +2,4 @@ pkginfo
 click
 requests
 build
+packaging
