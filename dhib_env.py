@@ -15,7 +15,8 @@ import pkginfo
 import requests
 
 IB_VERSION_DEFAULT="10.19.04"
-DH_VERSION_DEFAULT="0.34.1"
+DH_VERSION_DEFAULT="0.36.1"
+MIN_PY_VERSION="3.10.0"
 
 ########################################################################################################################
 # Version Numbers
@@ -195,6 +196,36 @@ def pkg_dependencies(path_or_module: Union[str, Path, ModuleType]) -> Dict[str, 
 ########################################################################################################################
 # Venv
 ########################################################################################################################
+
+
+def python_version(python: str) -> tuple[int, ...]:
+    """Get the version of Python.
+
+    Args:
+        python: The path to the Python executable.
+
+    Returns:
+        A tuple of integers representing the version of Python.
+    """
+    cmd = f"{python} --version"
+    logging.warning(f"Getting Python version: {cmd}")
+    version = os.popen(cmd).read().strip().split(" ")[1]
+    return version_tuple(version)
+
+def assert_python_version(python: str) -> None:
+    """Assert that the version of Python is at least the minimum required version.
+
+    Args:
+        python: The path to the Python executable.
+
+    Raises:
+        ValueError: If the version of Python is less than the minimum required version.
+    """
+    version = python_version(python)
+    min_version = version_tuple(MIN_PY_VERSION)
+
+    if version < min_version:
+        raise ValueError(f"Python version {version_str(version, True)} is less than the minimum required version {version_str(min_version, True)}.")
 
 
 class Pyenv:
@@ -431,6 +462,8 @@ def ib_wheel(
 
     python = Path(python).absolute() if python.startswith("./") else python
     logging.warning(f"Using system python: {python}")
+    assert_python_version(python)
+
     pyenv = Pyenv(python)
 
     ib_wheel = IbWheel(ib_version)
@@ -463,6 +496,8 @@ def dhib_wheel(
 
     python = Path(python).absolute() if python.startswith("./") else python
     logging.warning(f"Using system python: {python}")
+    assert_python_version(python)
+
     pyenv = Pyenv(python)
 
     logging.warning(f"Building deephaven-ib from source: {dh_ib_version}")
@@ -500,6 +535,7 @@ def dev(
     logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, dh_version_exact={dh_version_exact}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
 
     python = Path(python).absolute() if python.startswith("./") else python
+    assert_python_version(python)
 
     if dh_version_exact:
         if dh_version != DH_VERSION_DEFAULT:
@@ -572,6 +608,7 @@ def release(
     logging.warning(f"Creating release environment: python={python} dh_ib_version={dh_ib_version}")
 
     python = Path(python).absolute() if python.startswith("./") else python
+    assert_python_version(python)
 
     wheel = download_wheel(python, "deephaven_ib", dh_ib_version)
     deps = pkg_dependencies(wheel)
