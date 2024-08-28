@@ -8,6 +8,10 @@ from ibapi.order import Order
 
 import deephaven_ib as dhib
 
+## Setup
+
+account = "DU9999999" # Set your account here
+
 ###########################################################################
 # WARNING: THIS SCRIPT EXECUTES TRADES!! ONLY USE ON PAPER TRADING ACCOUNTS
 ###########################################################################
@@ -483,7 +487,7 @@ rc = client.get_registered_contract(contract)
 print(contract)
 
 order = Order()
-order.account = "DF4943843"
+order.account = account
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
@@ -494,7 +498,7 @@ client.order_place(rc, order)
 print("Placing order: END")
 
 order = Order()
-order.account = "DF4943843"
+order.account = account
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
@@ -505,7 +509,7 @@ client.order_place(rc, order)
 print("Placing order: START")
 
 order = Order()
-order.account = "DF4943843"
+order.account = account
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
