@@ -8,6 +8,10 @@ from ibapi.order import Order
 
 import deephaven_ib as dhib
 
+## Setup
+
+account = "DU123456"  # Set your account here
+
 print("==============================================================================================================")
 print("==== Create a client and connect.")
 print("==== ** Accept the connection in TWS **")
@@ -479,7 +483,7 @@ rc = client.get_registered_contract(contract)
 print(contract)
 
 order = Order()
-order.account = "DF4943843"
+order.account = account
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
@@ -496,7 +500,7 @@ except Exception:
 print("Placing order -- confirm fail: END")
 
 order = Order()
-order.account = "DF4943843"
+order.account = account
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
@@ -513,7 +517,7 @@ except Exception:
 print("Placing order -- confirm fail: START")
 
 order = Order()
-order.account = "DF4943843"
+order.account = account
 order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1

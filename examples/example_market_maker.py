@@ -29,7 +29,7 @@ print(f"IsConnected: {client.is_connected()}")
 
 ## Setup
 
-account = "DU4943848"
+account = "DU123456"  # Set your account here
 max_position_dollars = 10000.0
 em_time = "PT00:02:00"
 
