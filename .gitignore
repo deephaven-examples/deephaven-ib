@@ -1,5 +1,7 @@
 .idea
 venv
+venv-*
+build
 dist
 src/deephaven_ib.egg-info
 docker/data
