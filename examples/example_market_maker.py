@@ -179,6 +179,8 @@ orders = preds.last_by(["Symbol"]) \
         "Position = replaceIfNull(Position, 0.0)",
         "PositionDollars = Position * MidPrice",
         "MaxPositionDollars = max_position_dollars",
+    ]) \
+    .update_view([
         "BuyOrder = PositionDollars < MaxPositionDollars",
         "SellOrder = PositionDollars > -MaxPositionDollars",
     ]) \
