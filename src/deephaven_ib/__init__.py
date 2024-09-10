@@ -1107,7 +1107,7 @@ class IbSessionTws:
         what_to_show = tick_type.historical_value()
         requests = []
 
-        if tick_type not in [TickDataType.MIDPOINT, TickDataType.LAST]:
+        if tick_type not in [TickDataType.MIDPOINT, TickDataType.LAST, TickDataType.BID_ASK]:
             raise Exception(f"Unsupported tick data type: {tick_type}")
 
         for cd in contract.contract_details:

@@ -182,6 +182,10 @@ class IbTwsClient(EWrapper, EClient):
         table_writers["accounts_pnl"] = TableWriter(
             ["RequestId", "DailyPnl", "UnrealizedPnl", "RealizedPnl"],
             [dtypes.int64, dtypes.float64, dtypes.float64, dtypes.float64])
+        
+        table_writers["accounts_pnl_single"] = TableWriter(
+            ["RequestId", "Position", "DailyPnL", "UnrealizedPnL", "RealizedPnL", "Value"],
+            [dtypes.int64, dtypes.float64, dtypes.float64, dtypes.float64, dtypes.float64, dtypes.float64])
 
         ####
         # News
@@ -590,6 +594,25 @@ class IbTwsClient(EWrapper, EClient):
         self.reqPositionsMulti(reqId=req_id, account=account, modelCode=model_code)
         return req_id
 
+    def request_single_pnl(self, account: str, model_code: str, conid: int) -> int:
+        """Request PNL updates for a single position.  Results are returned in the `accounts_pnl_single` table.
+
+        Args:
+            account (str): Account to request PNL for.
+            model_code (str): Model portfolio code to request PNL for.
+            con_id (int): Contract ID of the position to request PNL for.
+
+        Returns:
+            Request ID
+
+        Raises:
+              Exception
+        """
+
+        req_id = self.request_id_manager.next_id()
+        self.log_request(req_id, "PnlSingle", None, {"account": account, "model_code": model_code, "conid": conid})
+        self.reqPnLSingle(reqId=req_id, account=account, modelCode=model_code, conid=conid)
+        return req_id
 
     ####
     # reqManagedAccts
@@ -605,6 +628,9 @@ class IbTwsClient(EWrapper, EClient):
                 self.request_account_pnl(account)
                 self.request_account_overview(account)
                 self.request_account_positions(account)
+                
+                # TODO: Implement PnL requests for individual positions
+             
 
     ####
     # reqFamilyCodes
@@ -698,6 +724,20 @@ class IbTwsClient(EWrapper, EClient):
         self._table_writers["accounts_summary"].write_row([reqId, account, tag, value, currency])
 
     ####
+    # reqPnLSingle
+    ####
+
+    def pnlSingle(self, reqId: int, pos: decimal.Decimal, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
+        EWrapper.pnlSingle(self, reqId, pos, dailyPnL, unrealizedPnL, realizedPnL, value)
+        self._table_writers["accounts_pnl_single"].write_row([
+            reqId, 
+            pos, 
+            dailyPnL, 
+            unrealizedPnL, 
+            realizedPnL, 
+            value
+        ])
+
     # reqPositions
     ####
 
