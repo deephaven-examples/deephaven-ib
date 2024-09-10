@@ -628,9 +628,7 @@ class IbTwsClient(EWrapper, EClient):
                 self.request_account_pnl(account)
                 self.request_account_overview(account)
                 self.request_account_positions(account)
-                
-                # TODO: Implement PnL requests for individual positions
-             
+                             
 
     ####
     # reqFamilyCodes
