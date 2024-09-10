@@ -1107,7 +1107,7 @@ class IbSessionTws:
         what_to_show = tick_type.historical_value()
         requests = []
 
-        if tick_type not in [TickDataType.MIDPOINT, TickDataType.LAST, TickDataType.BID_ASK]:
+        if tick_type not in [TickDataType.MIDPOINT, TickDataType.LAST]:
             raise Exception(f"Unsupported tick data type: {tick_type}")
 
         for cd in contract.contract_details:
@@ -1156,7 +1156,12 @@ class IbSessionTws:
             raise Exception(
                 f"RegisteredContracts with multiple contract details are not supported for orders: {contract}")
 
-        req_id = self._client.next_order_id()
+        if order.orderId == 0 or order.orderId is None:
+            req_id = self._client.next_order_id()
+            order.orderId = req_id
+        else:
+            req_id = order.orderId
+            
         cd = contract.contract_details[0]
         self._client.log_request(req_id, "PlaceOrder", cd.contract, {"order": f"Order({order})"})
         self._client.placeOrder(req_id, cd.contract, order)
