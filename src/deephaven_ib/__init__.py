@@ -615,7 +615,7 @@ class IbSessionTws:
                     "Account=(String)deephaven_ib_parse_note(Note,`account`)",
                     "ModelCode=(String)deephaven_ib_parse_note(Note,`model_code`)",
                     "ConId=(String)deephaven_ib_parse_note(Note,`conid`)"]) \
-                .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
+                .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode", "ConId"]) \
                 .drop_columns("Note") \
                 .last_by("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
