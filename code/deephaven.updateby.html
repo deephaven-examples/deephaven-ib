@@ -364,25 +364,25 @@
 <p>An Enum defining ways to handle invalid data during update-by operations.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.POISON">
-<span class="sig-name descname"><span class="pre">POISON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x561e8cb65a48)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.POISON" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">POISON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x5607dfd132c8)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.POISON" title="Link to this definition">¶</a></dt>
 <dd><p>Allow the bad data to poison the result. This is only valid for use with NaN</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.RESET">
-<span class="sig-name descname"><span class="pre">RESET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x561e8cb65a38)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.RESET" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">RESET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x5607dfd132b8)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.RESET" title="Link to this definition">¶</a></dt>
 <dd><p>Reset the state for the bucket to None when invalid data is encountered</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.SKIP">
-<span class="sig-name descname"><span class="pre">SKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x561e8cb65a40)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.SKIP" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">SKIP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x5607dfd132c0)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.SKIP" title="Link to this definition">¶</a></dt>
 <dd><p>Skip and do not process the invalid data without changing state</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.BadDataBehavior.THROW">
-<span class="sig-name descname"><span class="pre">THROW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x561e8cb65a30)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.THROW" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">THROW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.BadDataBehavior(objectRef=0x5607dfd132b0)</span></em><a class="headerlink" href="#deephaven.updateby.BadDataBehavior.THROW" title="Link to this definition">¶</a></dt>
 <dd><p>Throw an exception and abort processing when bad data is encountered</p>
 </dd></dl>
 
@@ -396,19 +396,19 @@
 difference between the current row and the previous row.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.DeltaControl.NULL_DOMINATES">
-<span class="sig-name descname"><span class="pre">NULL_DOMINATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.DeltaControl(objectRef=0x561e8cb73d80)</span></em><a class="headerlink" href="#deephaven.updateby.DeltaControl.NULL_DOMINATES" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">NULL_DOMINATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.DeltaControl(objectRef=0x5607dfd20640)</span></em><a class="headerlink" href="#deephaven.updateby.DeltaControl.NULL_DOMINATES" title="Link to this definition">¶</a></dt>
 <dd><p>A valid value following a null value returns null</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.DeltaControl.VALUE_DOMINATES">
-<span class="sig-name descname"><span class="pre">VALUE_DOMINATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.DeltaControl(objectRef=0x561e8cb73d88)</span></em><a class="headerlink" href="#deephaven.updateby.DeltaControl.VALUE_DOMINATES" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">VALUE_DOMINATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.DeltaControl(objectRef=0x5607dfd20648)</span></em><a class="headerlink" href="#deephaven.updateby.DeltaControl.VALUE_DOMINATES" title="Link to this definition">¶</a></dt>
 <dd><p>A valid value following a null value returns the valid value</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.DeltaControl.ZERO_DOMINATES">
-<span class="sig-name descname"><span class="pre">ZERO_DOMINATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.DeltaControl(objectRef=0x561e8cb73d90)</span></em><a class="headerlink" href="#deephaven.updateby.DeltaControl.ZERO_DOMINATES" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ZERO_DOMINATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.updateby.DeltaControl(objectRef=0x5607dfd20650)</span></em><a class="headerlink" href="#deephaven.updateby.DeltaControl.ZERO_DOMINATES" title="Link to this definition">¶</a></dt>
 <dd><p>A valid value following a null value returns zero</p>
 </dd></dl>
 
@@ -421,25 +421,25 @@ difference between the current row and the previous row.</p>
 <p>An Enum for predefined precision and rounding settings in numeric calculation.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.MathContext.DECIMAL128">
-<span class="sig-name descname"><span class="pre">DECIMAL128</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x561e8cb73db8)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL128" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">DECIMAL128</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x5607dfd20678)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL128" title="Link to this definition">¶</a></dt>
 <dd><p>a precision setting matching the IEEE 754R Decimal128 format, 34 digits, rounding is half-even</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.MathContext.DECIMAL32">
-<span class="sig-name descname"><span class="pre">DECIMAL32</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x561e8cb73da8)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL32" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">DECIMAL32</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x5607dfd20668)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL32" title="Link to this definition">¶</a></dt>
 <dd><p>a precision setting matching the IEEE 754R Decimal32 format, 7 digits, rounding is half-even</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.MathContext.DECIMAL64">
-<span class="sig-name descname"><span class="pre">DECIMAL64</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x561e8cb73db0)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL64" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">DECIMAL64</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x5607dfd20670)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.DECIMAL64" title="Link to this definition">¶</a></dt>
 <dd><p>a precision setting matching the IEEE 754R Decimal64 format, 16 digits, rounding is half-even</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.updateby.MathContext.UNLIMITED">
-<span class="sig-name descname"><span class="pre">UNLIMITED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x561e8cb73da0)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.UNLIMITED" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">UNLIMITED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">java.math.MathContext(objectRef=0x5607dfd20660)</span></em><a class="headerlink" href="#deephaven.updateby.MathContext.UNLIMITED" title="Link to this definition">¶</a></dt>
 <dd><p>unlimited precision arithmetic, rounding is half-up</p>
 </dd></dl>
 

@@ -781,7 +781,8 @@
 <span class="sd">        * **accounts_summary**: account summary.  Automatically populated.</span>
 <span class="sd">        * **accounts_positions**: account positions.  Automatically populated.</span>
 <span class="sd">        * **accounts_pnl**: account PNL.  Automatically populated.</span>
-
+<span class="sd">        * **accounts_pnl_single**: single PNL.  populated by calling request_single_pnl() on a specific contract.</span>
+<span class="sd">        </span>
 <span class="sd">        ####</span>
 <span class="sd">        # News</span>
 <span class="sd">        ####</span>
@@ -1014,6 +1015,15 @@
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">&quot;RequestId&quot;</span><span class="p">,</span> <span class="s2">&quot;ReceiveTime&quot;</span><span class="p">,</span> <span class="s2">&quot;Account&quot;</span><span class="p">,</span> <span class="s2">&quot;ModelCode&quot;</span><span class="p">])</span> \
                 <span class="o">.</span><span class="n">drop_columns</span><span class="p">(</span><span class="s2">&quot;Note&quot;</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">last_by</span><span class="p">(</span><span class="s2">&quot;RequestId&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;accounts_pnl_single&quot;</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">&quot;raw_accounts_pnl_single&quot;</span><span class="p">]</span> \
+                <span class="o">.</span><span class="n">natural_join</span><span class="p">(</span><span class="n">tables_raw</span><span class="p">[</span><span class="s2">&quot;raw_requests&quot;</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;RequestId&quot;</span><span class="p">,</span> <span class="n">joins</span><span class="o">=</span><span class="s2">&quot;Note&quot;</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">update</span><span class="p">([</span>
+                    <span class="s2">&quot;Account=(String)deephaven_ib_parse_note(Note,`account`)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ModelCode=(String)deephaven_ib_parse_note(Note,`model_code`)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ConId=(String)deephaven_ib_parse_note(Note,`conid`)&quot;</span><span class="p">])</span> \
+                <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">&quot;RequestId&quot;</span><span class="p">,</span> <span class="s2">&quot;ReceiveTime&quot;</span><span class="p">,</span> <span class="s2">&quot;Account&quot;</span><span class="p">,</span> <span class="s2">&quot;ModelCode&quot;</span><span class="p">,</span> <span class="s2">&quot;ConId&quot;</span><span class="p">])</span> \
+                <span class="o">.</span><span class="n">drop_columns</span><span class="p">(</span><span class="s2">&quot;Note&quot;</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">last_by</span><span class="p">(</span><span class="s2">&quot;RequestId&quot;</span><span class="p">),</span>
             <span class="s2">&quot;contracts_matching&quot;</span><span class="p">:</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">&quot;raw_contracts_matching&quot;</span><span class="p">]</span> \
                 <span class="o">.</span><span class="n">natural_join</span><span class="p">(</span><span class="n">tables_raw</span><span class="p">[</span><span class="s2">&quot;raw_requests&quot;</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;RequestId&quot;</span><span class="p">,</span> <span class="n">joins</span><span class="o">=</span><span class="s2">&quot;Pattern=Note&quot;</span><span class="p">)</span> \
                 <span class="o">.</span><span class="n">move_columns_up</span><span class="p">([</span><span class="s2">&quot;RequestId&quot;</span><span class="p">,</span> <span class="s2">&quot;ReceiveTime&quot;</span><span class="p">,</span> <span class="s2">&quot;Pattern&quot;</span><span class="p">])</span> \
@@ -1194,6 +1204,27 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_connected</span><span class="p">()</span>
         <span class="n">req_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">request_account_positions</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="n">model_code</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Request</span><span class="p">(</span><span class="n">request_id</span><span class="o">=</span><span class="n">req_id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IbSessionTws.request_single_pnl">
+<a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_single_pnl">[docs]</a>
+    <span class="k">def</span> <span class="nf">request_single_pnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Request PNL updates for a single position.  Results are returned in the ``accounts_pnl_single`` table.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            contract (RegisteredContract): contract data is requested for.</span>
+<span class="sd">            account (str): Account to request PNL for.</span>
+<span class="sd">            model_code (str): Model portfolio code to request PNL for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A Request.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">              Exception: problem executing action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_connected</span><span class="p">()</span>
+        <span class="n">req_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">request_single_pnl</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="n">model_code</span><span class="p">,</span> <span class="n">contract</span><span class="o">.</span><span class="n">contract_details</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contract</span><span class="o">.</span><span class="n">conId</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Request</span><span class="p">(</span><span class="n">request_id</span><span class="o">=</span><span class="n">req_id</span><span class="p">)</span></div>
 
 
@@ -1603,7 +1634,12 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;RegisteredContracts with multiple contract details are not supported for orders: </span><span class="si">{</span><span class="n">contract</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">req_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">next_order_id</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">orderId</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">order</span><span class="o">.</span><span class="n">orderId</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">req_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">next_order_id</span><span class="p">()</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">orderId</span> <span class="o">=</span> <span class="n">req_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">req_id</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">orderId</span>
+
         <span class="n">cd</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">contract_details</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">log_request</span><span class="p">(</span><span class="n">req_id</span><span class="p">,</span> <span class="s2">&quot;PlaceOrder&quot;</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">contract</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Order(</span><span class="si">{</span><span class="n">order</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">placeOrder</span><span class="p">(</span><span class="n">req_id</span><span class="p">,</span> <span class="n">cd</span><span class="o">.</span><span class="n">contract</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span>

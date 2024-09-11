@@ -734,6 +734,7 @@ All orders placed/modified from this client will be associated with this client 
 <li><p><strong>accounts_summary</strong>: account summary.  Automatically populated.</p></li>
 <li><p><strong>accounts_positions</strong>: account positions.  Automatically populated.</p></li>
 <li><p><strong>accounts_pnl</strong>: account PNL.  Automatically populated.</p></li>
+<li><p><strong>accounts_pnl_single</strong>: single PNL.  populated by calling request_single_pnl() on a specific contract.</p></li>
 </ul>
 <ul class="simple">
 <li><p><strong>news_providers</strong>: currently subscribed news sources.  Automatically populated.</p></li>
@@ -1156,6 +1157,30 @@ Do not enter any genericTicklist values if you use snapshots.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_single_pnl">
+<span class="sig-name descname"><span class="pre">request_single_pnl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_single_pnl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_single_pnl" title="Link to this definition">¶</a></dt>
+<dd><p>Request PNL updates for a single position.  Results are returned in the <code class="docutils literal notranslate"><span class="pre">accounts_pnl_single</span></code> table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contract</strong> (<a class="reference internal" href="#deephaven_ib.RegisteredContract" title="deephaven_ib.RegisteredContract"><em>RegisteredContract</em></a>) – contract data is requested for.</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account to request PNL for.</p></li>
+<li><p><strong>model_code</strong> (<em>str</em>) – Model portfolio code to request PNL for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#deephaven_ib.Request" title="deephaven_ib.Request"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Request.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – problem executing action.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="deephaven_ib.IbSessionTws.request_tick_data_historical">
 <span class="sig-name descname"><span class="pre">request_tick_data_historical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tick_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_ticks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market_data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MarketDataType.FROZEN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven_ib.html#IbSessionTws.request_tick_data_historical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven_ib.IbSessionTws.request_tick_data_historical" title="Link to this definition">¶</a></dt>
 <dd><p>Requests historical tick-by-tick data. Results are returned in the <code class="docutils literal notranslate"><span class="pre">ticks_trade</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks_bid_ask</span></code>,
@@ -1520,6 +1545,7 @@ and <code class="docutils literal notranslate"><span class="pre">ticks_mid_point
 <li><a class="reference internal" href="#deephaven_ib.IbSessionTws.request_market_data"><code class="docutils literal notranslate"><span class="pre">IbSessionTws.request_market_data()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven_ib.IbSessionTws.request_news_article"><code class="docutils literal notranslate"><span class="pre">IbSessionTws.request_news_article()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven_ib.IbSessionTws.request_news_historical"><code class="docutils literal notranslate"><span class="pre">IbSessionTws.request_news_historical()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven_ib.IbSessionTws.request_single_pnl"><code class="docutils literal notranslate"><span class="pre">IbSessionTws.request_single_pnl()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven_ib.IbSessionTws.request_tick_data_historical"><code class="docutils literal notranslate"><span class="pre">IbSessionTws.request_tick_data_historical()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven_ib.IbSessionTws.request_tick_data_realtime"><code class="docutils literal notranslate"><span class="pre">IbSessionTws.request_tick_data_realtime()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven_ib.IbSessionTws.set_market_data_type"><code class="docutils literal notranslate"><span class="pre">IbSessionTws.set_market_data_type()</span></code></a></li>
