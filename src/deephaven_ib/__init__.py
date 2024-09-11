@@ -384,7 +384,8 @@ class IbSessionTws:
         * **accounts_summary**: account summary.  Automatically populated.
         * **accounts_positions**: account positions.  Automatically populated.
         * **accounts_pnl**: account PNL.  Automatically populated.
-
+        * **accounts_pnl_single**: single PNL.  populated by calling request_single_pnl() on a specific contract.
+        
         ####
         # News
         ####
@@ -608,6 +609,15 @@ class IbSessionTws:
                 .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode"]) \
                 .drop_columns("Note") \
                 .last_by("RequestId"),
+            "accounts_pnl_single": tables_raw["raw_accounts_pnl_single"] \
+                .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Note") \
+                .update([
+                    "Account=(String)deephaven_ib_parse_note(Note,`account`)",
+                    "ModelCode=(String)deephaven_ib_parse_note(Note,`model_code`)",
+                    "ConId=(String)deephaven_ib_parse_note(Note,`conid`)"]) \
+                .move_columns_up(["RequestId", "ReceiveTime", "Account", "ModelCode", "ConId"]) \
+                .drop_columns("Note") \
+                .last_by("RequestId"),
             "contracts_matching": tables_raw["raw_contracts_matching"] \
                 .natural_join(tables_raw["raw_requests"], on="RequestId", joins="Pattern=Note") \
                 .move_columns_up(["RequestId", "ReceiveTime", "Pattern"]) \
@@ -774,6 +784,24 @@ class IbSessionTws:
         """
         self._assert_connected()
         req_id = self._client.request_account_positions(account, model_code)
+        return Request(request_id=req_id)
+
+    def request_single_pnl(self, contract: RegisteredContract, account: str, model_code: str = "") -> Request:
+        """Request PNL updates for a single position.  Results are returned in the ``accounts_pnl_single`` table.
+
+        Args:
+            contract (RegisteredContract): contract data is requested for.
+            account (str): Account to request PNL for.
+            model_code (str): Model portfolio code to request PNL for.
+
+        Returns:
+            A Request.
+
+        Raises:
+              Exception: problem executing action.
+        """
+        self._assert_connected()
+        req_id = self._client.request_single_pnl(account, model_code, contract.contract_details[0].contract.conId)
         return Request(request_id=req_id)
 
 
@@ -1156,7 +1184,12 @@ class IbSessionTws:
             raise Exception(
                 f"RegisteredContracts with multiple contract details are not supported for orders: {contract}")
 
-        req_id = self._client.next_order_id()
+        if order.orderId == 0 or order.orderId is None:
+            req_id = self._client.next_order_id()
+            order.orderId = req_id
+        else:
+            req_id = order.orderId
+
         cd = contract.contract_details[0]
         self._client.log_request(req_id, "PlaceOrder", cd.contract, {"order": f"Order({order})"})
         self._client.placeOrder(req_id, cd.contract, order)
