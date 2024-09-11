@@ -786,13 +786,13 @@ class IbSessionTws:
         req_id = self._client.request_account_positions(account, model_code)
         return Request(request_id=req_id)
 
-    def request_single_pnl(self, account: str, model_code: str = "", conid: int = 0) -> Request:
+    def request_single_pnl(self, contract: RegisteredContract, account: str, model_code: str = "") -> Request:
         """Request PNL updates for a single position.  Results are returned in the ``accounts_pnl_single`` table.
 
         Args:
+            contract (RegisteredContract): contract data is requested for.
             account (str): Account to request PNL for.
             model_code (str): Model portfolio code to request PNL for.
-            conid (int): Contract ID to request PNL for.
 
         Returns:
             A Request.
@@ -801,7 +801,7 @@ class IbSessionTws:
               Exception: problem executing action.
         """
         self._assert_connected()
-        req_id = self._client.request_single_pnl(account, model_code, conid)
+        req_id = self._client.request_single_pnl(account, model_code, contract.conId)
         return Request(request_id=req_id)
 
 
