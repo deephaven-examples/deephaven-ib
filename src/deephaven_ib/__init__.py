@@ -801,7 +801,7 @@ class IbSessionTws:
               Exception: problem executing action.
         """
         self._assert_connected()
-        req_id = self._client.request_single_pnl(account, model_code, contract.conId)
+        req_id = self._client.request_single_pnl(account, model_code, contract.contract_details[0].contract.conId)
         return Request(request_id=req_id)
 
 
