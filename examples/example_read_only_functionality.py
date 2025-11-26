@@ -100,7 +100,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.localSymbol = "ESM4"
+    contract.localSymbol = "ESM6"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -166,8 +166,8 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202409"
-    contract.strike = 5000
+    contract.lastTradeDateOrContractMonth = "202601"
+    contract.strike = 7000
     contract.right = "C"
     contract.multiplier = "50"
     rst["futureoption_1"] = contract
@@ -233,7 +233,7 @@ def get_contracts() -> Dict[str, Contract]:
 contracts = get_contracts()
 
 for name, contract in contracts.items():
-    print(f"{name} {contract}")
+    print(f"\n{name} {contract}")
     rc = client.get_registered_contract(contract)
     print(rc)
 

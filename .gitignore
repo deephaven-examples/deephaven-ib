@@ -1,4 +1,6 @@
 .idea
+.venv
+.venv-*
 venv
 venv-*
 build
@@ -7,4 +9,5 @@ src/deephaven_ib.egg-info
 docker/data
 docker/*/data
 docker/*/build
+*.pyc
 
