@@ -33,6 +33,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
         504: "Not connected",
         502: "Couldn't connect to TWS. Confirm that 'Enable ActiveX and Socket EClients' is enabled and connection port is the same as 'Socket Port' on the TWS 'Edit->Global Configuration...->API->Settings' menu. Live Trading ports: TWS: 7496; IB Gateway: 4001. Simulated Trading ports for new installations of version 954.1 or newer:  TWS: 7497; IB Gateway: 4002",
         2113: "The order size for Bonds (Bills) is entered as a nominal par value of the order, and must be a multiple",
+        2129: "The product is provided on an indicative and informational basis only. IBKR does not represent that the valuation for this instrument is accurate. The basis for the calculation may change at any time. Traders are responsible for understanding the contract details and details of deliverable instruments independently of IBKR sources, which are provided on a best efforts basis only.",
         2157: "Sec-def data farm connection is broken:secdefil",
         10089: "Requested market data requires additional subscription for API.See link in 'Market Data Connections' dialog for more details.",
         10147: "OrderId that needs to be cancelled is not found.",
@@ -42,6 +43,7 @@ def load_error_codes() -> Tuple[Dict[int, str], Dict[int, str]]:
         10189: "Failed to request tick-by-tick data",
         10190: "Maxnumber of tick-by-tick requests has been reached.",
         10311: "This order will be directly routed to NYSE. Direct routed orders may result in higher trade fees. Restriction is specified in Precautionary Settings of Global Configuration/API.",
+        10349: "Order TIF was set to DAY based on order preset.",
     }
 
     for k, v in overrides.items():
