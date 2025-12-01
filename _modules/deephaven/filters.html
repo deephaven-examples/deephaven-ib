@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.filters - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,17 +353,17 @@
 <span class="c1">#</span>
 
 <span class="sd">&quot;&quot;&quot; This module implement various filters that can be used in deephaven table&#39;s filter operations.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">to_sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_sequence</span>
 
 <span class="n">_JFilter</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.filter.Filter&quot;</span><span class="p">)</span>
 <span class="n">_JColumnName</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.ColumnName&quot;</span><span class="p">)</span>
@@ -374,21 +374,21 @@
 
 <div class="viewcode-block" id="Filter">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.Filter">[docs]</a>
-<span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Filter</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A Filter object represents a filter that can be used in Table&#39;s filtering(where) operations.&quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JFilter</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_filter</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_filter</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_filter</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_filter</span> <span class="o">=</span> <span class="n">j_filter</span>
 
 <div class="viewcode-block" id="Filter.not_">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.Filter.not_">[docs]</a>
-    <span class="k">def</span> <span class="nf">not_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">not_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to the opposite of what this filter evaluates to.</span>
 
 <span class="sd">        Returns:</span>
@@ -400,7 +400,7 @@
 <div class="viewcode-block" id="Filter.from_">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.Filter.from_">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">conditions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Filter</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Filter</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">conditions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Filter</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Filter</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates filter(s) from the given condition(s).</span>
 
 <span class="sd">        Args:</span>
@@ -420,14 +420,14 @@
             <span class="p">]</span>
             <span class="k">return</span> <span class="n">filters</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create filters.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create filters.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="or_">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.or_">[docs]</a>
-<span class="k">def</span> <span class="nf">or_</span><span class="p">(</span><span class="n">filters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Filter</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">or_</span><span class="p">(</span><span class="n">filters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Filter</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when any of the given filters evaluates to true.</span>
 
 <span class="sd">    Args:</span>
@@ -446,7 +446,7 @@
 
 <div class="viewcode-block" id="and_">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.and_">[docs]</a>
-<span class="k">def</span> <span class="nf">and_</span><span class="p">(</span><span class="n">filters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Filter</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">and_</span><span class="p">(</span><span class="n">filters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Filter</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when all of the given filters evaluates to true.</span>
 
 <span class="sd">    Args:</span>
@@ -465,7 +465,7 @@
 
 <div class="viewcode-block" id="not_">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.not_">[docs]</a>
-<span class="k">def</span> <span class="nf">not_</span><span class="p">(</span><span class="n">filter_</span><span class="p">:</span> <span class="n">Filter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">not_</span><span class="p">(</span><span class="n">filter_</span><span class="p">:</span> <span class="n">Filter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to the opposite of what filter_ evaluates to.</span>
 
 <span class="sd">    Args:</span>
@@ -480,7 +480,7 @@
 
 <div class="viewcode-block" id="is_null">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.is_null">[docs]</a>
-<span class="k">def</span> <span class="nf">is_null</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_null</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the col is null, and evaluates to false when col is not null.</span>
 
 <span class="sd">    Args:</span>
@@ -495,7 +495,7 @@
 
 <div class="viewcode-block" id="is_not_null">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.is_not_null">[docs]</a>
-<span class="k">def</span> <span class="nf">is_not_null</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_not_null</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the col is not null, and evaluates to false when col is null.</span>
 
 <span class="sd">    Args:</span>
@@ -510,7 +510,7 @@
 
 <div class="viewcode-block" id="PatternMode">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.PatternMode">[docs]</a>
-<span class="k">class</span> <span class="nc">PatternMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatternMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The regex mode to use&quot;&quot;&quot;</span>
 
     <span class="n">MATCHES</span> <span class="o">=</span> <span class="n">_JPatternMode</span><span class="o">.</span><span class="n">MATCHES</span>
@@ -523,7 +523,7 @@
 
 <div class="viewcode-block" id="pattern">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.pattern">[docs]</a>
-<span class="k">def</span> <span class="nf">pattern</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pattern</span><span class="p">(</span>
     <span class="n">mode</span><span class="p">:</span> <span class="n">PatternMode</span><span class="p">,</span>
     <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">regex</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -558,7 +558,7 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a pattern filter.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a pattern filter.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

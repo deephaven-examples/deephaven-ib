@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.time - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -354,17 +354,17 @@
 
 <span class="sd">&quot;&quot;&quot; This module defines functions for handling Deephaven date/time data. &quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">pytz</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Literal</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">LocalDate</span><span class="p">,</span> <span class="n">LocalTime</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">Period</span><span class="p">,</span> <span class="n">TimeZone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">LocalDate</span><span class="p">,</span> <span class="n">LocalTime</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">Period</span><span class="p">,</span> <span class="n">TimeZone</span>
 
 <span class="n">_JDateTimeUtils</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.time.DateTimeUtils&quot;</span><span class="p">)</span>
 <span class="n">_JPythonTimeComponents</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.integrations.python.PythonTimeComponents&quot;</span><span class="p">)</span>
@@ -385,7 +385,7 @@
 
 <div class="viewcode-block" id="dh_now">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.dh_now">[docs]</a>
-<span class="k">def</span> <span class="nf">dh_now</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="s2">&quot;ms&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ns&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instant</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dh_now</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="s2">&quot;ms&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ns&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instant</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Provides the current datetime according to the current Deephaven clock.</span>
 
 <span class="sd">    Query strings should use the built-in &quot;now&quot; function instead of this function.</span>
@@ -421,13 +421,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="dh_today">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.dh_today">[docs]</a>
-<span class="k">def</span> <span class="nf">dh_today</span><span class="p">(</span><span class="n">tz</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TimeZone</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dh_today</span><span class="p">(</span><span class="n">tz</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TimeZone</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Provides the current date string according to the current Deephaven clock.</span>
 <span class="sd">    Under most circumstances, this method will return the date according to current system time,</span>
 <span class="sd">    but during replay simulations, this method can return the date according to replay time.</span>
@@ -452,13 +452,13 @@
 
         <span class="k">return</span> <span class="n">_JDateTimeUtils</span><span class="o">.</span><span class="n">today</span><span class="p">(</span><span class="n">tz</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="dh_time_zone">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.dh_time_zone">[docs]</a>
-<span class="k">def</span> <span class="nf">dh_time_zone</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">TimeZone</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dh_time_zone</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">TimeZone</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Provides the current Deephaven system time zone.</span>
 
 <span class="sd">    Query strings should use the built-in &quot;timeZone&quot; function instead of this function.</span>
@@ -474,7 +474,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_JDateTimeUtils</span><span class="o">.</span><span class="n">timeZone</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
@@ -485,7 +485,7 @@
 
 <div class="viewcode-block" id="time_zone_alias_add">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.time_zone_alias_add">[docs]</a>
-<span class="k">def</span> <span class="nf">time_zone_alias_add</span><span class="p">(</span><span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tz</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_zone_alias_add</span><span class="p">(</span><span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tz</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Adds a new time zone alias.</span>
 
 <span class="sd">    Args:</span>
@@ -501,13 +501,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_JDateTimeUtils</span><span class="o">.</span><span class="n">timeZoneAliasAdd</span><span class="p">(</span><span class="n">alias</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="time_zone_alias_rm">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.time_zone_alias_rm">[docs]</a>
-<span class="k">def</span> <span class="nf">time_zone_alias_rm</span><span class="p">(</span><span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_zone_alias_rm</span><span class="p">(</span><span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Removes a time zone alias.</span>
 
 <span class="sd">    Args:</span>
@@ -522,7 +522,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_JDateTimeUtils</span><span class="o">.</span><span class="n">timeZoneAliasRm</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
@@ -531,7 +531,7 @@
 
 <span class="c1"># region Conversions: Python To Java</span>
 
-<span class="k">def</span> <span class="nf">_tzinfo_to_j_time_zone</span><span class="p">(</span><span class="n">tzi</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeZone</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_tzinfo_to_j_time_zone</span><span class="p">(</span><span class="n">tzi</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeZone</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Python time zone to a Java TimeZone.</span>
 
@@ -553,7 +553,7 @@
     <span class="c1"># Handle zoneinfo time zones</span>
     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
         <span class="c1"># novermin</span>
-        <span class="kn">import</span> <span class="nn">zoneinfo</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">zoneinfo</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tzi</span><span class="p">,</span> <span class="n">zoneinfo</span><span class="o">.</span><span class="n">ZoneInfo</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">_JDateTimeUtils</span><span class="o">.</span><span class="n">parseTimeZone</span><span class="p">(</span><span class="n">tzi</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
 
@@ -590,7 +590,7 @@
 
 <div class="viewcode-block" id="to_j_time_zone">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_j_time_zone">[docs]</a>
-<span class="k">def</span> <span class="nf">to_j_time_zone</span><span class="p">(</span><span class="n">tz</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">TimeZone</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> \
+<span class="k">def</span><span class="w"> </span><span class="nf">to_j_time_zone</span><span class="p">(</span><span class="n">tz</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">TimeZone</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> \
         <span class="n">Optional</span><span class="p">[</span><span class="n">TimeZone</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a time zone value to a Java TimeZone.</span>
@@ -630,13 +630,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_j_local_date">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_j_local_date">[docs]</a>
-<span class="k">def</span> <span class="nf">to_j_local_date</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalDate</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_j_local_date</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalDate</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
                               <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LocalDate</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a date time value to a Java LocalDate.</span>
@@ -672,13 +672,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_j_local_time">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_j_local_time">[docs]</a>
-<span class="k">def</span> <span class="nf">to_j_local_time</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalTime</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_j_local_time</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalTime</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
                               <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LocalTime</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a date time value to a Java LocalTime.</span>
@@ -721,13 +721,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_j_instant">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_j_instant">[docs]</a>
-<span class="k">def</span> <span class="nf">to_j_instant</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> \
+<span class="k">def</span><span class="w"> </span><span class="nf">to_j_instant</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> \
         <span class="n">Optional</span><span class="p">[</span><span class="n">Instant</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a date time value to a Java Instant.</span>
@@ -776,13 +776,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_j_zdt">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_j_zdt">[docs]</a>
-<span class="k">def</span> <span class="nf">to_j_zdt</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> \
+<span class="k">def</span><span class="w"> </span><span class="nf">to_j_zdt</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">])</span> <span class="o">-&gt;</span> \
         <span class="n">Optional</span><span class="p">[</span><span class="n">ZonedDateTime</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a date time value to a Java ZonedDateTime.</span>
@@ -831,13 +831,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_j_duration">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_j_duration">[docs]</a>
-<span class="k">def</span> <span class="nf">to_j_duration</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">])</span> <span class="o">-&gt;</span> \
+<span class="k">def</span><span class="w"> </span><span class="nf">to_j_duration</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">])</span> <span class="o">-&gt;</span> \
         <span class="n">Optional</span><span class="p">[</span><span class="n">Duration</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a time duration value to a Java Duration,</span>
@@ -894,13 +894,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_j_period">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_j_period">[docs]</a>
-<span class="k">def</span> <span class="nf">to_j_period</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Period</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">])</span> <span class="o">-&gt;</span> \
+<span class="k">def</span><span class="w"> </span><span class="nf">to_j_period</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Period</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">])</span> <span class="o">-&gt;</span> \
         <span class="n">Optional</span><span class="p">[</span><span class="n">Period</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a time duration value to a Java Period,</span>
@@ -977,7 +977,7 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
@@ -989,7 +989,7 @@
 
 <div class="viewcode-block" id="to_date">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_date">[docs]</a>
-<span class="k">def</span> <span class="nf">to_date</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalDate</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_date</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalDate</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java date time to a datetime.date.</span>
 
@@ -1017,13 +1017,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_time">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_time">[docs]</a>
-<span class="k">def</span> <span class="nf">to_time</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalTime</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_time</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">LocalTime</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java date time to a datetime.time.</span>
 
@@ -1051,13 +1051,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_datetime">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_datetime">[docs]</a>
-<span class="k">def</span> <span class="nf">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java date time to a datetime.datetime.</span>
 
@@ -1087,13 +1087,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_pd_timestamp">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_pd_timestamp">[docs]</a>
-<span class="k">def</span> <span class="nf">to_pd_timestamp</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_pd_timestamp</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java date time to a pandas.Timestamp.</span>
 
@@ -1118,13 +1118,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_np_datetime64">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_np_datetime64">[docs]</a>
-<span class="k">def</span> <span class="nf">to_np_datetime64</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_np_datetime64</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">ZonedDateTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java date time to a numpy.datetime64.</span>
 
@@ -1154,13 +1154,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_timedelta">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_timedelta">[docs]</a>
-<span class="k">def</span> <span class="nf">to_timedelta</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_timedelta</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java time duration to a datetime.timedelta.</span>
 
@@ -1194,13 +1194,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_pd_timedelta">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_pd_timedelta">[docs]</a>
-<span class="k">def</span> <span class="nf">to_pd_timedelta</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_pd_timedelta</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pandas</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java time duration to a pandas.Timedelta.</span>
 
@@ -1235,13 +1235,13 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_np_timedelta64">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.to_np_timedelta64">[docs]</a>
-<span class="k">def</span> <span class="nf">to_np_timedelta64</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">Period</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_np_timedelta64</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">Period</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a Java time durationto a numpy.timedelta64.</span>
 
@@ -1284,7 +1284,7 @@
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <span class="c1"># endregion</span>
@@ -1293,7 +1293,7 @@
 
 <div class="viewcode-block" id="simple_date_format">
 <a class="viewcode-back" href="../../code/deephaven.time.html#deephaven.time.simple_date_format">[docs]</a>
-<span class="k">def</span> <span class="nf">simple_date_format</span><span class="p">(</span><span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_date_format</span><span class="p">(</span><span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a Java SimpleDateFormat from a date-time format pattern.</span>
 
 <span class="sd">    This method is intended for use in Python code when a SimpleDateFormat is needed.</span>
@@ -1314,7 +1314,7 @@
         <span class="c1"># Returning a Java object directly to avoid Python/Java boundary crossings in query strings</span>
         <span class="k">return</span> <span class="n">_JSimpleDateFormat</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <span class="c1"># endregion</span>

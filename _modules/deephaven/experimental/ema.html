@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.experimental.ema - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -353,8 +353,8 @@
 <span class="c1">#</span>
 
 <span class="sd">&quot;&quot;&quot;This modules allows users to define exponential moving averages that can be used in the Deephaven query language.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
 <span class="n">_JAbstractMAType</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s1">&#39;io.deephaven.numerics.movingaverages.AbstractMa$Type&#39;</span><span class="p">)</span>
 <span class="n">_JAbstractMATMode</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s1">&#39;io.deephaven.numerics.movingaverages.AbstractMa$Mode&#39;</span><span class="p">)</span>
@@ -366,7 +366,7 @@
 <span class="n">_JExponentiallyDecayedSum</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s1">&#39;io.deephaven.numerics.movingaverages.ExponentiallyDecayedSum&#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_convertEnumBehavior</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">enumType</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_convertEnumBehavior</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">enumType</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">enumType</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span>
     <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">enumType</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -376,7 +376,7 @@
 
 <div class="viewcode-block" id="ByEmaSimple">
 <a class="viewcode-back" href="../../../code/deephaven.experimental.ema.html#deephaven.experimental.ema.ByEmaSimple">[docs]</a>
-<span class="k">def</span> <span class="nf">ByEmaSimple</span><span class="p">(</span><span class="n">nullBehavior</span><span class="p">,</span> <span class="n">nanBehavior</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">timeScale</span><span class="p">,</span> <span class="n">timeUnit</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ByEmaSimple</span><span class="p">(</span><span class="n">nullBehavior</span><span class="p">,</span> <span class="n">nanBehavior</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">timeScale</span><span class="p">,</span> <span class="n">timeUnit</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructor for an engine aware Exponential Moving Average (EMA) which performs a `groupBy` ema calculation without</span>
 <span class="sd">    the added inefficiency of explicitly performing the grouping and then ungrouping operations.</span>
 
@@ -410,7 +410,7 @@
 
 <div class="viewcode-block" id="Ema">
 <a class="viewcode-back" href="../../../code/deephaven.experimental.ema.html#deephaven.experimental.ema.Ema">[docs]</a>
-<span class="k">def</span> <span class="nf">Ema</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">timeScale</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Ema</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">timeScale</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructor for a Exponential Moving Average (EMA) calculation object.</span>
 
 <span class="sd">    Args:</span>
@@ -431,7 +431,7 @@
 
 <div class="viewcode-block" id="EmaArray">
 <a class="viewcode-back" href="../../../code/deephaven.experimental.ema.html#deephaven.experimental.ema.EmaArray">[docs]</a>
-<span class="k">def</span> <span class="nf">EmaArray</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">timeScales</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">EmaArray</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">timeScales</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructor for object managing an array of Exponential Moving Average (EMA) objects.</span>
 
 <span class="sd">    Args:</span>
@@ -454,7 +454,7 @@
 
 <div class="viewcode-block" id="ExponentiallyDecayedSum">
 <a class="viewcode-back" href="../../../code/deephaven.experimental.ema.html#deephaven.experimental.ema.ExponentiallyDecayedSum">[docs]</a>
-<span class="k">def</span> <span class="nf">ExponentiallyDecayedSum</span><span class="p">(</span><span class="n">decayRate</span><span class="p">,</span> <span class="n">enableTimestepOutOfOrderException</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ExponentiallyDecayedSum</span><span class="p">(</span><span class="n">decayRate</span><span class="p">,</span> <span class="n">enableTimestepOutOfOrderException</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructor for an object to calculate a sum where the values are decayed at an exponential rate to zero.</span>
 
 <span class="sd">    Args:</span>

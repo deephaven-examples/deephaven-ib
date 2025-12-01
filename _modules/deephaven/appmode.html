@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.appmode - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,12 +353,12 @@
 <span class="c1">#</span>
 
 <span class="sd">&quot;&quot;&quot; This module supports writing Deephaven application mode Python scripts. &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">pythonify</span><span class="p">,</span> <span class="n">javaify</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">pythonify</span><span class="p">,</span> <span class="n">javaify</span>
 
 <span class="n">_JApplicationContext</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.appmode.ApplicationContext&quot;</span><span class="p">)</span>
 <span class="n">_JApplicationState</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.appmode.ApplicationState&quot;</span><span class="p">)</span>
@@ -366,42 +366,42 @@
 
 <div class="viewcode-block" id="ApplicationState">
 <a class="viewcode-back" href="../../code/deephaven.appmode.html#deephaven.appmode.ApplicationState">[docs]</a>
-<span class="k">class</span> <span class="nc">ApplicationState</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ApplicationState</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The ApplicationState represents the state of an application. &quot;&quot;&quot;</span>
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JApplicationState</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_app_state</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_app_state</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span> <span class="o">=</span> <span class="n">j_app_state</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;id: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span><span class="o">.</span><span class="n">id</span><span class="p">()</span><span class="si">}</span><span class="s2">, name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="n">item</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="n">j_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span><span class="o">.</span><span class="n">getField</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">j_field</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pythonify</span><span class="p">(</span><span class="n">j_field</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span><span class="o">.</span><span class="n">setField</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">javaify</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span><span class="o">.</span><span class="n">removeField</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">j_fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_app_state</span><span class="o">.</span><span class="n">listFields</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j_fields</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
@@ -414,7 +414,7 @@
 
 <div class="viewcode-block" id="get_app_state">
 <a class="viewcode-back" href="../../code/deephaven.appmode.html#deephaven.appmode.get_app_state">[docs]</a>
-<span class="k">def</span> <span class="nf">get_app_state</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_app_state</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Get the current application state object.</span>
 
 <span class="sd">    Raises:</span>
@@ -423,7 +423,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ApplicationState</span><span class="p">(</span><span class="n">j_app_state</span><span class="o">=</span><span class="n">_JApplicationContext</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get the application state.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get the application state.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

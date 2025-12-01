@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.experimental.data_index - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -353,14 +353,14 @@
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;This module provides the ability to create, check, and retrieve DataIndex objects from Deephaven tables.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_list_to_list</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_list_to_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">_JDataIndexer</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.impl.indexer.DataIndexer&quot;</span><span class="p">)</span>
 <span class="n">_JDataIndex</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.DataIndex&quot;</span><span class="p">)</span>
@@ -368,7 +368,7 @@
 
 <div class="viewcode-block" id="DataIndex">
 <a class="viewcode-back" href="../../../code/deephaven.experimental.data_index.html#deephaven.experimental.data_index.DataIndex">[docs]</a>
-<span class="k">class</span> <span class="nc">DataIndex</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataIndex</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A DataIndex is an index used to improve the speed of data access operations for a Deephaven table.  The index</span>
 <span class="sd">    applies to one or more indexed (key) column(s) of a Deephaven table.</span>
 
@@ -376,20 +376,20 @@
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JDataIndex</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_data_index</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_data_index</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_data_index</span> <span class="o">=</span> <span class="n">j_data_index</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_data_index</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The names of the columns indexed by the DataIndex. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">j_list_to_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j_data_index</span><span class="o">.</span><span class="n">keyColumnNames</span><span class="p">())</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The backing table of the DataIndex.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j_data_index</span><span class="o">.</span><span class="n">table</span><span class="p">())</span></div>
 
@@ -397,7 +397,7 @@
 
 <div class="viewcode-block" id="has_data_index">
 <a class="viewcode-back" href="../../../code/deephaven.experimental.data_index.html#deephaven.experimental.data_index.has_data_index">[docs]</a>
-<span class="k">def</span> <span class="nf">has_data_index</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_data_index</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if a table currently has a DataIndex for the given key columns.</span>
 
 <span class="sd">    Args:</span>
@@ -411,7 +411,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_get_data_index</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataIndex</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_data_index</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataIndex</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets a DataIndex for the given key columns. Returns None if the DataIndex does not exist.</span>
 
 <span class="sd">    Args:</span>
@@ -427,7 +427,7 @@
 
 <div class="viewcode-block" id="data_index">
 <a class="viewcode-back" href="../../../code/deephaven.experimental.data_index.html#deephaven.experimental.data_index.data_index">[docs]</a>
-<span class="k">def</span> <span class="nf">data_index</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">create_if_absent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataIndex</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">data_index</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">create_if_absent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataIndex</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the DataIndex for the given key columns on the provided table. When the DataIndex already exists, returns it.</span>
 <span class="sd">    When the DataIndex doesn&#39;t already exist, if create_if_absent is True, creates the DataIndex first then returns it;</span>
 <span class="sd">    otherwise returns None.</span>
@@ -448,7 +448,7 @@
             <span class="k">return</span> <span class="n">_get_data_index</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">DataIndex</span><span class="p">(</span><span class="n">_JDataIndexer</span><span class="o">.</span><span class="n">getOrCreateDataIndex</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">j_table</span><span class="p">,</span> <span class="n">key_cols</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create DataIndex.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create DataIndex.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

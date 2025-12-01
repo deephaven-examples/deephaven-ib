@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.arrow - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,13 +353,13 @@
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;This module supports conversions between pyarrow tables and Deephaven tables.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">dtypes</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">dtypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">_JArrowToTableConverter</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.extensions.barrage.util.ArrowToTableConverter&quot;</span><span class="p">)</span>
 <span class="n">_JTableToArrowConverter</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.extensions.barrage.util.TableToArrowConverter&quot;</span><span class="p">)</span>
@@ -411,7 +411,7 @@
 <span class="n">SUPPORTED_ARROW_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_ARROW_DH_DATA_TYPE_MAPPING</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">_map_arrow_type</span><span class="p">(</span><span class="n">arrow_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_map_arrow_type</span><span class="p">(</span><span class="n">arrow_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Maps a pyarrow type to the corresponding Deephaven column data type.&quot;&quot;&quot;</span>
     <span class="n">dh_type</span> <span class="o">=</span> <span class="n">_ARROW_DH_DATA_TYPE_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">arrow_type</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dh_type</span><span class="p">:</span>
@@ -428,7 +428,7 @@
 
 <div class="viewcode-block" id="to_table">
 <a class="viewcode-back" href="../../code/deephaven.arrow.html#deephaven.arrow.to_table">[docs]</a>
-<span class="k">def</span> <span class="nf">to_table</span><span class="p">(</span><span class="n">pa_table</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_table</span><span class="p">(</span><span class="n">pa_table</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Deephaven table from a pyarrow table.</span>
 
 <span class="sd">    Args:</span>
@@ -460,13 +460,13 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">j_barrage_table_builder</span><span class="o">.</span><span class="n">getResultTable</span><span class="p">())</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to create a Deephaven table from a pyarrow table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to create a Deephaven table from a pyarrow table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_arrow">
 <a class="viewcode-back" href="../../code/deephaven.arrow.html#deephaven.arrow.to_arrow">[docs]</a>
-<span class="k">def</span> <span class="nf">to_arrow</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_arrow</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Produces a pyarrow table from a Deephaven table</span>
 
 <span class="sd">    Args:</span>
@@ -498,13 +498,13 @@
 
         <span class="k">return</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_batches</span><span class="p">(</span><span class="n">record_batches</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to create a pyarrow table from a Deephaven table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to create a pyarrow table from a Deephaven table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="read_feather">
 <a class="viewcode-back" href="../../code/deephaven.arrow.html#deephaven.arrow.read_feather">[docs]</a>
-<span class="k">def</span> <span class="nf">read_feather</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_feather</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads an Arrow feather file into a Deephaven table.</span>
 
 <span class="sd">    Args:</span>
@@ -519,7 +519,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JArrowWrapperTools</span><span class="o">.</span><span class="n">readFeather</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;failed to read a feather file </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;failed to read a feather file </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.plot.axisformat - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -354,10 +354,10 @@
 
 <span class="sd">&quot;&quot;&quot; This module implements the AxisFormat class that can be applied to format axis tick labels on a plot. &quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">from</span> <span class="nn">deephaven.time</span> <span class="kn">import</span> <span class="n">TimeZone</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.time</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeZone</span>
 
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
 
 <span class="n">_JAxisFormat</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.plot.axisformatters.AxisFormat&quot;</span><span class="p">)</span>
 <span class="n">_JDecimalAxisFormat</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.plot.axisformatters.DecimalAxisFormat&quot;</span><span class="p">)</span>
@@ -366,22 +366,22 @@
 
 <div class="viewcode-block" id="AxisFormat">
 <a class="viewcode-back" href="../../../code/deephaven.plot.axisformat.html#deephaven.plot.axisformat.AxisFormat">[docs]</a>
-<span class="k">class</span> <span class="nc">AxisFormat</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AxisFormat</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The AxisFormat class defines the format for axis tick labels. For time values, this would be how the dates are</span>
 <span class="sd">    formatted. For numerical values, this would be the number of significant digits, etc. &quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JAxisFormat</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_axis_format</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_axis_format</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_axis_format</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_axis_format</span> <span class="o">=</span> <span class="n">j_axis_format</span>
 
 <div class="viewcode-block" id="AxisFormat.set_pattern">
 <a class="viewcode-back" href="../../../code/deephaven.plot.axisformat.html#deephaven.plot.axisformat.AxisFormat.set_pattern">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Set the pattern used for formatting values.</span>
 
 <span class="sd">        For details on the supported patterns see the javadoc for </span>
@@ -397,24 +397,24 @@
 
 <div class="viewcode-block" id="DecimalAxisFormat">
 <a class="viewcode-back" href="../../../code/deephaven.plot.axisformat.html#deephaven.plot.axisformat.DecimalAxisFormat">[docs]</a>
-<span class="k">class</span> <span class="nc">DecimalAxisFormat</span><span class="p">(</span><span class="n">AxisFormat</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DecimalAxisFormat</span><span class="p">(</span><span class="n">AxisFormat</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A formatter for converting decimals into formatted strings.</span>
 
 <span class="sd">    For details on the supported patterns see the javadoc for </span>
 <span class="sd">    `DecimalFormat &lt;https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_axis_format</span> <span class="o">=</span> <span class="n">_JDecimalAxisFormat</span><span class="p">()</span></div>
 
 
 
 <div class="viewcode-block" id="NanosAxisFormat">
 <a class="viewcode-back" href="../../../code/deephaven.plot.axisformat.html#deephaven.plot.axisformat.NanosAxisFormat">[docs]</a>
-<span class="k">class</span> <span class="nc">NanosAxisFormat</span><span class="p">(</span><span class="n">AxisFormat</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NanosAxisFormat</span><span class="p">(</span><span class="n">AxisFormat</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A formatter for converting nanoseconds into formatted strings. &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tz</span><span class="p">:</span> <span class="n">TimeZone</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tz</span><span class="p">:</span> <span class="n">TimeZone</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a new NanosAxisFormat with the specified timezone.</span>
 
 <span class="sd">        Args:</span>

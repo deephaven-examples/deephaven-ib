@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.plot.plotstyle - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -354,16 +354,16 @@
 
 <span class="sd">&quot;&quot;&quot; This module provides support for different plot styles (e.g. line, bar, area, etc.). &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
 <span class="n">_JPlotStyle</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.plot.PlotStyle&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="PlotStyle">
 <a class="viewcode-back" href="../../../code/deephaven.plot.plotstyle.html#deephaven.plot.plotstyle.PlotStyle">[docs]</a>
-<span class="k">class</span> <span class="nc">PlotStyle</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlotStyle</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; An enum defining the styles of a plot (e.g. line, bar, etc.). &quot;&quot;&quot;</span>
 
     <span class="n">BAR</span> <span class="o">=</span> <span class="n">_JPlotStyle</span><span class="o">.</span><span class="n">BAR</span>

@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.server.executors - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -358,10 +358,10 @@
 <span class="sd">when there is no chance of using either lock.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_runnable</span>
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_runnable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
 
 
 <span class="n">_executors</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -369,7 +369,7 @@
 
 <div class="viewcode-block" id="has_executor">
 <a class="viewcode-back" href="../../../code/deephaven.server.executors.html#deephaven.server.executors.has_executor">[docs]</a>
-<span class="k">def</span> <span class="nf">has_executor</span><span class="p">(</span><span class="n">executor_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_executor</span><span class="p">(</span><span class="n">executor_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if an executor exists with that name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -379,7 +379,7 @@
 
 <div class="viewcode-block" id="executor_names">
 <a class="viewcode-back" href="../../../code/deephaven.server.executors.html#deephaven.server.executors.executor_names">[docs]</a>
-<span class="k">def</span> <span class="nf">executor_names</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">executor_names</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns: the List of known executor names</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -389,7 +389,7 @@
 
 <div class="viewcode-block" id="submit_task">
 <a class="viewcode-back" href="../../../code/deephaven.server.executors.html#deephaven.server.executors.submit_task">[docs]</a>
-<span class="k">def</span> <span class="nf">submit_task</span><span class="p">(</span><span class="n">executor_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">submit_task</span><span class="p">(</span><span class="n">executor_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Submits a task to run on a named executor. If no such executor exists, raises KeyError. The provided task should</span>
 <span class="sd">    take care to set up any execution context or liveness scope to ensure that the task runs as intended.</span>
@@ -408,7 +408,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_register_named_java_executor</span><span class="p">(</span><span class="n">executor_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">java_executor</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_register_named_java_executor</span><span class="p">(</span><span class="n">executor_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">java_executor</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides a Java executor for user code to submit tasks to. Called during server startup.</span>
 

@@ -7,7 +7,7 @@
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.liveness_scope - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=aca143e9" />
@@ -369,14 +369,14 @@ or as a decorator.</p>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@liveness_scope</span>
-<span class="k">def</span> <span class="nf">get_values</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_values</span><span class="p">():</span>
     <span class="n">ticking_table</span> <span class="o">=</span> <span class="n">some_ticking_source</span><span class="p">()</span><span class="o">.</span><span class="n">last_by</span><span class="p">(</span><span class="s2">&quot;Sym&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dhnp</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">ticking_table</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Use the LivenessScope type for greater control, allowing a scope to be opened more than once, and to release the
 resources that it manages when the scope will no longer be used.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_table_and_scope</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_table_and_scope</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="n">scope</span> <span class="o">=</span> <span class="n">LivenessScope</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">scope</span><span class="o">.</span><span class="n">open</span><span class="p">():</span>
         <span class="n">ticking_table</span> <span class="o">=</span> <span class="n">some_ticking_source</span><span class="p">()</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A=</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

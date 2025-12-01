@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.table_factory - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -354,21 +354,21 @@
 
 <span class="sd">&quot;&quot;&quot; This module provides various ways to make a Deephaven table. &quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Mapping</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">execution_context</span><span class="p">,</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="kn">import</span> <span class="n">InputColumn</span><span class="p">,</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">Instant</span>
-<span class="kn">from</span> <span class="nn">deephaven.execution_context</span> <span class="kn">import</span> <span class="n">ExecutionContext</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_lambda</span><span class="p">,</span> <span class="n">j_list_to_list</span><span class="p">,</span> <span class="n">to_sequence</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">deephaven.update_graph</span> <span class="kn">import</span> <span class="n">auto_locking_ctx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">execution_context</span><span class="p">,</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.column</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputColumn</span><span class="p">,</span> <span class="n">Column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span><span class="p">,</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">Instant</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.execution_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExecutionContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_lambda</span><span class="p">,</span> <span class="n">j_list_to_list</span><span class="p">,</span> <span class="n">to_sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.update_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">auto_locking_ctx</span>
 
 <span class="n">_JTableFactory</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.TableFactory&quot;</span><span class="p">)</span>
 <span class="n">_JTableTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.util.TableTools&quot;</span><span class="p">)</span>
@@ -387,7 +387,7 @@
 
 <div class="viewcode-block" id="empty_table">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.empty_table">[docs]</a>
-<span class="k">def</span> <span class="nf">empty_table</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">empty_table</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a table with rows but no columns.</span>
 
 <span class="sd">    Args:</span>
@@ -402,13 +402,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">emptyTable</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create an empty table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create an empty table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="time_table">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.time_table">[docs]</a>
-<span class="k">def</span> <span class="nf">time_table</span><span class="p">(</span><span class="n">period</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Duration</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">],</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_table</span><span class="p">(</span><span class="n">period</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Duration</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">],</span>
                <span class="n">start_time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                <span class="n">blink_table</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a table that adds a new row on a regular interval.</span>
@@ -445,13 +445,13 @@
 
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">())</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a time table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a time table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="new_table">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.new_table">[docs]</a>
-<span class="k">def</span> <span class="nf">new_table</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">InputColumn</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">new_table</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">InputColumn</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an in-memory table from a list of input columns or a Dict (mapping) of column names and column data.</span>
 <span class="sd">    Each column must have an equal number of elements.</span>
 
@@ -473,17 +473,17 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableFactory</span><span class="o">.</span><span class="n">newTable</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">j_column</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">deephaven.pandas</span> <span class="kn">import</span> <span class="n">to_table</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_table</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span><span class="o">.</span><span class="n">convert_dtypes</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">to_table</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a new time table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a new time table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="merge">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.merge">[docs]</a>
-<span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Combines two or more tables into one aggregate table. This essentially appends the tables one on top of the</span>
 <span class="sd">    other. Null tables are ignored.</span>
 
@@ -500,13 +500,13 @@
         <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="o">*</span><span class="n">tables</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;merge tables operation failed.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;merge tables operation failed.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="merge_sorted">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.merge_sorted">[docs]</a>
-<span class="k">def</span> <span class="nf">merge_sorted</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">],</span> <span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_sorted</span><span class="p">(</span><span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">],</span> <span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Combines two or more tables into one sorted, aggregate table. This essentially stacks the tables one on top</span>
 <span class="sd">    of the other and sorts the result. Null tables are ignored. mergeSorted is more efficient than using merge</span>
 <span class="sd">    followed by sort.</span>
@@ -525,13 +525,13 @@
         <span class="k">with</span> <span class="n">auto_locking_ctx</span><span class="p">(</span><span class="o">*</span><span class="n">tables</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">mergeSorted</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;merge sorted operation failed.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;merge sorted operation failed.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="DynamicTableWriter">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.DynamicTableWriter">[docs]</a>
-<span class="k">class</span> <span class="nc">DynamicTableWriter</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DynamicTableWriter</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The DynamicTableWriter creates a new in-memory table and supports writing data to it.</span>
 
 <span class="sd">    This class implements the context manager protocol and thus can be used in with statements.</span>
@@ -539,7 +539,7 @@
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JDynamicTableWriter</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_defs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_defs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the writer and creates a new in-memory table.</span>
 
 <span class="sd">        Args:</span>
@@ -554,21 +554,21 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_writer</span> <span class="o">=</span> <span class="n">_JDynamicTableWriter</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">qst_type</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">col_dtypes</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_j_table_writer</span><span class="o">.</span><span class="n">getTable</span><span class="p">())</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a DynamicTableWriter.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a DynamicTableWriter.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_writer</span>
 
-    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <div class="viewcode-block" id="DynamicTableWriter.close">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.DynamicTableWriter.close">[docs]</a>
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes the writer.</span>
 
 <span class="sd">        Raises:</span>
@@ -577,12 +577,12 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to close the writer.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to close the writer.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="DynamicTableWriter.write_row">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.DynamicTableWriter.write_row">[docs]</a>
-    <span class="k">def</span> <span class="nf">write_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">values</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">values</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Writes a row to the newly created table.</span>
 
 <span class="sd">        The type of a value must be convertible (safely or unsafely, e.g. lose precision, overflow, etc.) to the type</span>
@@ -599,20 +599,20 @@
             <span class="n">values</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_writer</span><span class="o">.</span><span class="n">logRowPermissive</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to write a row.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to write a row.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="InputTable">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.InputTable">[docs]</a>
-<span class="k">class</span> <span class="nc">InputTable</span><span class="p">(</span><span class="n">Table</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">InputTable</span><span class="p">(</span><span class="n">Table</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;InputTable is a subclass of Table that allows the users to dynamically add/delete/modify data in it.</span>
 
 <span class="sd">    Users should always create InputTables through factory methods rather than directly from the constructor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">j_table</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_input_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table</span><span class="o">.</span><span class="n">getAttribute</span><span class="p">(</span><span class="n">_J_INPUT_TABLE_ATTRIBUTE</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_input_table</span><span class="p">:</span>
@@ -622,7 +622,7 @@
 
 <div class="viewcode-block" id="InputTable.add">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.InputTable.add">[docs]</a>
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Synchronously writes rows from the provided table to this input table. If this is a keyed input table, added rows with keys</span>
 <span class="sd">        that match existing rows will replace those rows.</span>
 
@@ -635,12 +635,12 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">j_input_table</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">j_table</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;add to InputTable failed.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;add to InputTable failed.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="InputTable.delete">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.InputTable.delete">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Synchronously  deletes the keys contained in the provided table from this keyed input table. If this method is called on an</span>
 <span class="sd">        append-only input table, an error will be raised.</span>
 
@@ -653,16 +653,16 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">j_input_table</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">j_table</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;delete data in the InputTable failed.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;delete data in the InputTable failed.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">key_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">key_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The names of the key columns of the InputTable.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">j_list_to_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_input_table</span><span class="o">.</span><span class="n">getKeyNames</span><span class="p">())</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The names of the value columns. By default, any column not marked as a key column is a value column.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">j_list_to_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_input_table</span><span class="o">.</span><span class="n">getValueNames</span><span class="p">())</span></div>
 
@@ -670,7 +670,7 @@
 
 <div class="viewcode-block" id="input_table">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.input_table">[docs]</a>
-<span class="k">def</span> <span class="nf">input_table</span><span class="p">(</span><span class="n">col_defs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">init_table</span><span class="p">:</span> <span class="n">Table</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">input_table</span><span class="p">(</span><span class="n">col_defs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">init_table</span><span class="p">:</span> <span class="n">Table</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">key_cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputTable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an in-memory InputTable from either column definitions or an initial table. When key columns are</span>
 <span class="sd">    provided, the InputTable will be keyed, otherwise it will be append-only.</span>
@@ -712,7 +712,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">j_table</span> <span class="o">=</span> <span class="n">_JAppendOnlyArrayBackedInputTable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">j_arg_1</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create an in-memory InputTable.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create an in-memory InputTable.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">InputTable</span><span class="p">(</span><span class="n">j_table</span><span class="p">)</span></div>
 
@@ -720,7 +720,7 @@
 
 <div class="viewcode-block" id="ring_table">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.ring_table">[docs]</a>
-<span class="k">def</span> <span class="nf">ring_table</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">initialize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ring_table</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">initialize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a ring table that retains the latest &#39;capacity&#39; number of rows from the parent table.</span>
 <span class="sd">    Latest rows are determined solely by the new rows added to the parent table, deleted rows are ignored,</span>
 <span class="sd">    and updated rows are not expected and will raise an exception.</span>
@@ -741,13 +741,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JRingTableTools</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">j_table</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">initialize</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a ring table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a ring table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="function_generated_table">
 <a class="viewcode-back" href="../../code/deephaven.table_factory.html#deephaven.function_generated_table">[docs]</a>
-<span class="k">def</span> <span class="nf">function_generated_table</span><span class="p">(</span><span class="n">table_generator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Table</span><span class="p">],</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">function_generated_table</span><span class="p">(</span><span class="n">table_generator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Table</span><span class="p">],</span>
            <span class="n">source_tables</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
            <span class="n">refresh_interval_ms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
            <span class="n">exec_ctx</span><span class="p">:</span> <span class="n">ExecutionContext</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -800,7 +800,7 @@
         <span class="k">if</span> <span class="n">exec_ctx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No execution context is available and exec_ctx was not provided! &quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">table_generator_function</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table_generator_function</span><span class="p">():</span>
         <span class="k">with</span> <span class="n">exec_ctx</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">table_generator</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 

@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.calendar - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -354,12 +354,12 @@
 
 <span class="sd">&quot;&quot;&quot; This module defines functions for working with business calendars. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">BusinessCalendar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">BusinessCalendar</span>
 
 
 <span class="n">_JCalendars</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.time.calendar.Calendars&quot;</span><span class="p">)</span>
@@ -367,7 +367,7 @@
 
 <div class="viewcode-block" id="remove_calendar">
 <a class="viewcode-back" href="../../code/deephaven.calendar.html#deephaven.calendar.remove_calendar">[docs]</a>
-<span class="k">def</span> <span class="nf">remove_calendar</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_calendar</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Removes the calendar with the given name from the set of available options.</span>
 
 <span class="sd">    Args:</span>
@@ -379,13 +379,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_JCalendars</span><span class="o">.</span><span class="n">removeCalendar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to remove calendar &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to remove calendar &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="add_calendar">
 <a class="viewcode-back" href="../../code/deephaven.calendar.html#deephaven.calendar.add_calendar">[docs]</a>
-<span class="k">def</span> <span class="nf">add_calendar</span><span class="p">(</span><span class="n">cal</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BusinessCalendar</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_calendar</span><span class="p">(</span><span class="n">cal</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BusinessCalendar</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Adds a new business calendar to the set of available options.</span>
 
 <span class="sd">    Args:</span>
@@ -401,18 +401,18 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">_JCalendars</span><span class="o">.</span><span class="n">addCalendarFromFile</span><span class="p">(</span><span class="n">cal</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to add calendar from file &#39;</span><span class="si">{</span><span class="n">cal</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to add calendar from file &#39;</span><span class="si">{</span><span class="n">cal</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">_JCalendars</span><span class="o">.</span><span class="n">addCalendar</span><span class="p">(</span><span class="n">cal</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to add calendar&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to add calendar&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="set_calendar">
 <a class="viewcode-back" href="../../code/deephaven.calendar.html#deephaven.calendar.set_calendar">[docs]</a>
-<span class="k">def</span> <span class="nf">set_calendar</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_calendar</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Sets the default calendar.</span>
 
 <span class="sd">    Args:</span>
@@ -424,13 +424,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_JCalendars</span><span class="o">.</span><span class="n">setCalendar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to set the default calendar name to &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to set the default calendar name to &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="calendar_names">
 <a class="viewcode-back" href="../../code/deephaven.calendar.html#deephaven.calendar.calendar_names">[docs]</a>
-<span class="k">def</span> <span class="nf">calendar_names</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calendar_names</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Returns the names of all available calendar names.</span>
 
 <span class="sd">    Returns:</span>
@@ -442,13 +442,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_JCalendars</span><span class="o">.</span><span class="n">calendarNames</span><span class="p">())</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to obtain the available calendar names.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to obtain the available calendar names.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="calendar_name">
 <a class="viewcode-back" href="../../code/deephaven.calendar.html#deephaven.calendar.calendar_name">[docs]</a>
-<span class="k">def</span> <span class="nf">calendar_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calendar_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Returns the default business calendar name.</span>
 
 <span class="sd">    The default business calendar is set by the &#39;Calendar.default&#39; property or by calling &#39;set_calendar&#39;.</span>
@@ -462,13 +462,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_JCalendars</span><span class="o">.</span><span class="n">calendarName</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get the default calendar name.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get the default calendar name.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="calendar">
 <a class="viewcode-back" href="../../code/deephaven.calendar.html#deephaven.calendar.calendar">[docs]</a>
-<span class="k">def</span> <span class="nf">calendar</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BusinessCalendar</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calendar</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BusinessCalendar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Returns the calendar with the given name.</span>
 
 <span class="sd">    The returned calendar is an &#39;io.deephaven.time.calendar.BusinessCalendar&#39; Java object that can be used in Python.</span>
@@ -491,7 +491,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_JCalendars</span><span class="o">.</span><span class="n">calendar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get the default calendar.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get the default calendar.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 

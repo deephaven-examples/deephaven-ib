@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.stream.table_publisher - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -353,17 +353,17 @@
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;The table_publisher module supports publishing Deephaven Tables into blink Tables.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="kn">import</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span>
-<span class="kn">from</span> <span class="nn">deephaven.execution_context</span> <span class="kn">import</span> <span class="n">get_exec_ctx</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_lambda</span><span class="p">,</span> <span class="n">j_runnable</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">deephaven.update_graph</span> <span class="kn">import</span> <span class="n">UpdateGraph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.column</span><span class="w"> </span><span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.execution_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_exec_ctx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_lambda</span><span class="p">,</span> <span class="n">j_runnable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.update_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">UpdateGraph</span>
 
 <span class="n">_JTableDefinition</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.TableDefinition&quot;</span><span class="p">)</span>
 <span class="n">_JTablePublisher</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.stream.TablePublisher&quot;</span><span class="p">)</span>
@@ -373,20 +373,20 @@
 
 <div class="viewcode-block" id="TablePublisher">
 <a class="viewcode-back" href="../../../code/deephaven.stream.table_publisher.html#deephaven.stream.table_publisher.TablePublisher">[docs]</a>
-<span class="k">class</span> <span class="nc">TablePublisher</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TablePublisher</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The interface for publishing table data into a blink table.&quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JTablePublisher</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table_publisher</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table_publisher</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_table_publisher</span> <span class="o">=</span> <span class="n">j_table_publisher</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table_publisher</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks whether this is alive; if False, the caller should stop adding new data and release any related</span>
 <span class="sd">        resources as soon as practicable since adding new data won&#39;t have any downstream effects.</span>
 
@@ -400,7 +400,7 @@
 
 <div class="viewcode-block" id="TablePublisher.add">
 <a class="viewcode-back" href="../../../code/deephaven.stream.table_publisher.html#deephaven.stream.table_publisher.TablePublisher.add">[docs]</a>
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a snapshot of the data from table into the blink table. The table must contain a superset of the columns</span>
 <span class="sd">        from the blink table&#39;s definition; the columns may be in any order. Columns from table that are not in the blink</span>
 <span class="sd">        table&#39;s definition are ignored.</span>
@@ -419,7 +419,7 @@
 
 <div class="viewcode-block" id="TablePublisher.publish_failure">
 <a class="viewcode-back" href="../../../code/deephaven.stream.table_publisher.html#deephaven.stream.table_publisher.TablePublisher.publish_failure">[docs]</a>
-    <span class="k">def</span> <span class="nf">publish_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failure</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">publish_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failure</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Indicate that data publication has failed. Blink table listeners will be notified of the failure, the</span>
 <span class="sd">        on-shutdown callback will be invoked if it hasn&#39;t already been, this publisher will no longer be alive, and</span>
 <span class="sd">        future calls to add will silently return without publishing. These effects may resolve asynchronously.</span>
@@ -434,7 +434,7 @@
 
 <div class="viewcode-block" id="table_publisher">
 <a class="viewcode-back" href="../../../code/deephaven.stream.table_publisher.html#deephaven.stream.table_publisher.table_publisher">[docs]</a>
-<span class="k">def</span> <span class="nf">table_publisher</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">table_publisher</span><span class="p">(</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">col_defs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span>
     <span class="n">on_flush_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">TablePublisher</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -463,7 +463,7 @@
 <span class="sd">        a two-tuple, where the first item is resulting blink Table and the second item is the TablePublisher</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">adapt_callback</span><span class="p">(</span><span class="n">_table_publisher</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">adapt_callback</span><span class="p">(</span><span class="n">_table_publisher</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="n">on_flush_callback</span><span class="p">(</span><span class="n">TablePublisher</span><span class="p">(</span><span class="n">j_table_publisher</span><span class="o">=</span><span class="n">_table_publisher</span><span class="p">))</span>
 
     <span class="n">j_table_publisher</span> <span class="o">=</span> <span class="n">_JTablePublisher</span><span class="o">.</span><span class="n">of</span><span class="p">(</span>

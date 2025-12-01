@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.dtypes - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -356,17 +356,17 @@
 
 <span class="sd">Each data type is represented by a DType class which supports creating arrays of the same type and more.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.constants</span> <span class="kn">import</span> <span class="n">NULL_BYTE</span><span class="p">,</span> <span class="n">NULL_SHORT</span><span class="p">,</span> <span class="n">NULL_INT</span><span class="p">,</span> <span class="n">NULL_LONG</span><span class="p">,</span> <span class="n">NULL_FLOAT</span><span class="p">,</span> <span class="n">NULL_DOUBLE</span><span class="p">,</span> <span class="n">NULL_CHAR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">NULL_BYTE</span><span class="p">,</span> <span class="n">NULL_SHORT</span><span class="p">,</span> <span class="n">NULL_INT</span><span class="p">,</span> <span class="n">NULL_LONG</span><span class="p">,</span> <span class="n">NULL_FLOAT</span><span class="p">,</span> <span class="n">NULL_DOUBLE</span><span class="p">,</span> <span class="n">NULL_CHAR</span>
 
 <span class="n">_JQstType</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.qst.type.Type&quot;</span><span class="p">)</span>
 <span class="n">_JTableTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.util.TableTools&quot;</span><span class="p">)</span>
@@ -375,7 +375,7 @@
 <span class="n">_j_name_type_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 
-<span class="k">def</span> <span class="nf">_qst_custom_type</span><span class="p">(</span><span class="n">cls_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_qst_custom_type</span><span class="p">(</span><span class="n">cls_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_JQstType</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">_JTableTools</span><span class="o">.</span><span class="n">typeFromName</span><span class="p">(</span><span class="n">cls_name</span><span class="p">))</span>
     <span class="k">except</span><span class="p">:</span>
@@ -384,10 +384,10 @@
 
 <div class="viewcode-block" id="DType">
 <a class="viewcode-back" href="../../code/deephaven.dtypes.html#deephaven.dtypes.DType">[docs]</a>
-<span class="k">class</span> <span class="nc">DType</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A class representing a data type in Deephaven.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">j_type</span><span class="p">:</span> <span class="n">Type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">qst_type</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_primitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">j_type</span><span class="p">:</span> <span class="n">Type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">qst_type</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_primitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                  <span class="n">np_type</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">object_</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
@@ -406,17 +406,17 @@
 
         <span class="n">_j_name_type_map</span><span class="p">[</span><span class="n">j_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_name</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_primitive</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;primitive type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">j_name</span><span class="si">}</span><span class="s2"> is not callable.&quot;</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_type</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create an instance of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">j_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create an instance of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">j_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
@@ -558,7 +558,7 @@
 
 <div class="viewcode-block" id="null_remap">
 <a class="viewcode-back" href="../../code/deephaven.dtypes.html#deephaven.dtypes.null_remap">[docs]</a>
-<span class="k">def</span> <span class="nf">null_remap</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">null_remap</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a null value remap function for the provided DType.</span>
 
 <span class="sd">    Args:</span>
@@ -578,7 +578,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_instant_array</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_instant_array</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a sequence of either datetime64[ns], datetime.datetime, pandas.Timestamp, datetime strings,</span>
 <span class="sd">    or integers in nanoseconds, to a Java array of Instant values. &quot;&quot;&quot;</span>
 
@@ -614,7 +614,7 @@
         <span class="k">return</span> <span class="n">_JPrimitiveArrayConversionUtility</span><span class="o">.</span><span class="n">translateArrayLongToInstant</span><span class="p">(</span><span class="n">longs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">instant_array</span><span class="o">.</span><span class="n">j_type</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">deephaven.time</span> <span class="kn">import</span> <span class="n">to_j_instant</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.time</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_j_instant</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_j_instant</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">jpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Instant</span><span class="o">.</span><span class="n">j_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -622,7 +622,7 @@
 
 <div class="viewcode-block" id="array">
 <a class="viewcode-back" href="../../code/deephaven.dtypes.html#deephaven.dtypes.array">[docs]</a>
-<span class="k">def</span> <span class="nf">array</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">],</span> <span class="n">remap</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">array</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">],</span> <span class="n">remap</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a Java array of the specified data type populated with values from a sequence.</span>
 
 <span class="sd">    Note:</span>
@@ -670,13 +670,13 @@
 
         <span class="k">return</span> <span class="n">jpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">j_type</span><span class="p">,</span> <span class="n">seq</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create a Java </span><span class="si">{</span><span class="n">dtype</span><span class="o">.</span><span class="n">j_name</span><span class="si">}</span><span class="s2"> array.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create a Java </span><span class="si">{</span><span class="n">dtype</span><span class="o">.</span><span class="n">j_name</span><span class="si">}</span><span class="s2"> array.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="from_jtype">
 <a class="viewcode-back" href="../../code/deephaven.dtypes.html#deephaven.dtypes.from_jtype">[docs]</a>
-<span class="k">def</span> <span class="nf">from_jtype</span><span class="p">(</span><span class="n">j_class</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DType</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_jtype</span><span class="p">(</span><span class="n">j_class</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DType</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; looks up a DType that matches the java type, if not found, creates a DType for it. &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">j_class</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -692,7 +692,7 @@
 
 <div class="viewcode-block" id="from_np_dtype">
 <a class="viewcode-back" href="../../code/deephaven.dtypes.html#deephaven.dtypes.from_np_dtype">[docs]</a>
-<span class="k">def</span> <span class="nf">from_np_dtype</span><span class="p">(</span><span class="n">np_dtype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExtensionDtype</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_np_dtype</span><span class="p">(</span><span class="n">np_dtype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExtensionDtype</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Looks up a DType that matches the provided numpy dtype or Pandas&#39;s nullable equivalent; if not found,</span>
 <span class="sd">    returns PyObject. &quot;&quot;&quot;</span>
 
@@ -723,7 +723,7 @@
 <span class="n">_NUMPY_FLOATING_TYPE_CODES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">_is_py_null</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_py_null</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the value is a Python null value, i.e. None or NaN, or Pandas.NA.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -734,7 +734,7 @@
         <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span> <span class="nf">_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a Python value to a Java scalar value. It converts the numpy primitive types, string to</span>
 <span class="sd">    their Python equivalents so that JPY can handle them. For datetime values, it converts them to Java Instant.</span>
 <span class="sd">    Otherwise, it returns the value as is.&quot;&quot;&quot;</span>
@@ -759,10 +759,10 @@
             <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">x</span>
             <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">deephaven.time</span> <span class="kn">import</span> <span class="n">to_j_instant</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.time</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_j_instant</span>
                 <span class="k">return</span> <span class="n">to_j_instant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)):</span>
-                <span class="kn">from</span> <span class="nn">deephaven.time</span> <span class="kn">import</span> <span class="n">to_j_instant</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.time</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_j_instant</span>
                 <span class="k">return</span> <span class="n">to_j_instant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span>
     <span class="k">except</span><span class="p">:</span>

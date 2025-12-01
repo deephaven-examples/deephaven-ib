@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.column - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -354,16 +354,16 @@
 
 <span class="sd">&quot;&quot;&quot; This module implements the Column class and functions that work with Columns. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">import</span> <span class="nn">deephaven.dtypes</span> <span class="k">as</span> <span class="nn">dtypes</span>
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">_instant_array</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dtypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">_instant_array</span>
 
 <span class="n">_JColumnHeader</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.qst.column.header.ColumnHeader&quot;</span><span class="p">)</span>
 <span class="n">_JColumn</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.qst.column.Column&quot;</span><span class="p">)</span>
@@ -374,13 +374,13 @@
 
 <div class="viewcode-block" id="ColumnType">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.ColumnType">[docs]</a>
-<span class="k">class</span> <span class="nc">ColumnType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ColumnType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">NORMAL</span> <span class="o">=</span> <span class="n">_JColumnDefinitionType</span><span class="o">.</span><span class="n">Normal</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A regular column. &quot;&quot;&quot;</span>
     <span class="n">PARTITIONING</span> <span class="o">=</span> <span class="n">_JColumnDefinitionType</span><span class="o">.</span><span class="n">Partitioning</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A partitioning column. &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
 
@@ -388,7 +388,7 @@
 <div class="viewcode-block" id="Column">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.Column">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">Column</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Column</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A Column object represents a column definition in a Deephaven Table. &quot;&quot;&quot;</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">data_type</span><span class="p">:</span> <span class="n">DType</span>
@@ -396,11 +396,11 @@
     <span class="n">column_type</span><span class="p">:</span> <span class="n">ColumnType</span> <span class="o">=</span> <span class="n">ColumnType</span><span class="o">.</span><span class="n">NORMAL</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_column_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_column_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_JColumnHeader</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">qst_type</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_column_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_column_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">j_type</span><span class="p">,</span> <span class="s1">&#39;jclass&#39;</span><span class="p">):</span>
             <span class="n">j_data_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">j_type</span><span class="o">.</span><span class="n">jclass</span>
         <span class="k">else</span><span class="p">:</span>
@@ -414,11 +414,11 @@
 <div class="viewcode-block" id="InputColumn">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.InputColumn">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">InputColumn</span><span class="p">(</span><span class="n">Column</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">InputColumn</span><span class="p">(</span><span class="n">Column</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; An InputColumn represents a user defined column with some input data. &quot;&quot;&quot;</span>
     <span class="n">input_data</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">j_column</span> <span class="o">=</span> <span class="n">_JColumn</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_column_header</span><span class="p">)</span>
@@ -429,13 +429,13 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">j_column</span> <span class="o">=</span> <span class="n">_JColumn</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_column_header</span><span class="p">,</span> <span class="n">dtypes</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_data</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create an InputColumn (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create an InputColumn (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="bool_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.bool_col">[docs]</a>
-<span class="k">def</span> <span class="nf">bool_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bool_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing Boolean data.</span>
 
 <span class="sd">    Args:</span>
@@ -451,7 +451,7 @@
 
 <div class="viewcode-block" id="byte_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.byte_col">[docs]</a>
-<span class="k">def</span> <span class="nf">byte_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">byte_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing primitive byte data.</span>
 
 <span class="sd">    Args:</span>
@@ -467,7 +467,7 @@
 
 <div class="viewcode-block" id="char_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.char_col">[docs]</a>
-<span class="k">def</span> <span class="nf">char_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">char_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing primitive char data.</span>
 
 <span class="sd">    Args:</span>
@@ -483,7 +483,7 @@
 
 <div class="viewcode-block" id="short_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.short_col">[docs]</a>
-<span class="k">def</span> <span class="nf">short_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">short_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing primitive short data.</span>
 
 <span class="sd">    Args:</span>
@@ -499,7 +499,7 @@
 
 <div class="viewcode-block" id="int_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.int_col">[docs]</a>
-<span class="k">def</span> <span class="nf">int_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">int_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing primitive int data.</span>
 
 <span class="sd">    Args:</span>
@@ -515,7 +515,7 @@
 
 <div class="viewcode-block" id="long_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.long_col">[docs]</a>
-<span class="k">def</span> <span class="nf">long_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">long_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing primitive long data.</span>
 
 <span class="sd">    Args:</span>
@@ -531,7 +531,7 @@
 
 <div class="viewcode-block" id="float_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.float_col">[docs]</a>
-<span class="k">def</span> <span class="nf">float_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">float_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing primitive float data.</span>
 
 <span class="sd">    Args:</span>
@@ -547,7 +547,7 @@
 
 <div class="viewcode-block" id="double_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.double_col">[docs]</a>
-<span class="k">def</span> <span class="nf">double_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">double_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing primitive double data.</span>
 
 <span class="sd">    Args:</span>
@@ -563,7 +563,7 @@
 
 <div class="viewcode-block" id="string_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.string_col">[docs]</a>
-<span class="k">def</span> <span class="nf">string_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">string_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing string data.</span>
 
 <span class="sd">    Args:</span>
@@ -579,7 +579,7 @@
 
 <div class="viewcode-block" id="datetime_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.datetime_col">[docs]</a>
-<span class="k">def</span> <span class="nf">datetime_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">datetime_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing Deephaven Datetime instances.</span>
 
 <span class="sd">    Args:</span>
@@ -597,7 +597,7 @@
 
 <div class="viewcode-block" id="pyobj_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.pyobj_col">[docs]</a>
-<span class="k">def</span> <span class="nf">pyobj_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pyobj_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an input column containing complex, non-primitive-like Python objects.</span>
 
 <span class="sd">    Args:</span>
@@ -613,7 +613,7 @@
 
 <div class="viewcode-block" id="jobj_col">
 <a class="viewcode-back" href="../../code/deephaven.column.html#deephaven.column.jobj_col">[docs]</a>
-<span class="k">def</span> <span class="nf">jobj_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">jobj_col</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an input column containing Java objects.</span>
 
 <span class="sd">    Args:</span>

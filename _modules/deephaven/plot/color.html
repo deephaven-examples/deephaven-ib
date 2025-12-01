@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.plot.color - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -355,37 +355,37 @@
 <span class="sd">&quot;&quot;&quot; This module implements the Color class and provides a list of predefined colors that can be used to paint a plot.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
 
 <span class="n">_JColor</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.gui.color.Color&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Color">
 <a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color">[docs]</a>
-<span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A color. &quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JColor</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_color</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_color</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span> <span class="o">=</span> <span class="n">j_color</span>
 
-    <span class="k">def</span> <span class="nf">to_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_color</span><span class="o">.</span><span class="n">toHex</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Color.of_name">
 <a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_name">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">of_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color instance represented by the name string.</span>
 
 <span class="sd">        Colors are specified by name or hex value.</span>
@@ -404,13 +404,13 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Color</span><span class="p">(</span><span class="n">j_color</span><span class="o">=</span><span class="n">_JColor</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get a color by its name.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get a color by its name.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="Color.of_rgb">
 <a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_rgb">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">of_rgb</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">255</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of_rgb</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">255</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color with the specified red, green, blue, and alpha values.</span>
 
 <span class="sd">        Args:</span>
@@ -435,7 +435,7 @@
 <div class="viewcode-block" id="Color.of_rgb_f">
 <a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_rgb_f">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">of_rgb_f</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of_rgb_f</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color with the specified red, green, blue, and alpha values expressed in floating numbers.</span>
 
 <span class="sd">        Args:</span>
@@ -454,13 +454,13 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Color</span><span class="p">(</span><span class="n">j_color</span><span class="o">=</span><span class="n">_JColor</span><span class="o">.</span><span class="n">colorRGB</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a color from rgb values.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a color from rgb values.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="Color.of_hsl">
 <a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Color.of_hsl">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">of_hsl</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of_hsl</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">l</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Color</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a Color with the specified hue, saturation, lightness, and alpha. The lower the alpha, the more</span>
 <span class="sd">        transparent the color.</span>
 
@@ -480,14 +480,14 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Color</span><span class="p">(</span><span class="n">j_color</span><span class="o">=</span><span class="n">_JColor</span><span class="o">.</span><span class="n">colorHSL</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a color from hue, saturation, lightness values.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a color from hue, saturation, lightness values.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="Colors">
 <a class="viewcode-back" href="../../../code/deephaven.plot.color.html#deephaven.plot.color.Colors">[docs]</a>
-<span class="k">class</span> <span class="nc">Colors</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Colors</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The Colors class provides a namespace for all the predefined colors. &quot;&quot;&quot;</span>
     <span class="n">ALICEBLUE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#F0F8FF&quot;</span><span class="p">)</span>
     <span class="n">ANTIQUEWHITE</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">of_name</span><span class="p">(</span><span class="s2">&quot;#FAEBD7&quot;</span><span class="p">)</span>

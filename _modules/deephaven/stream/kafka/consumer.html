@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.stream.kafka.consumer - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=aca143e9" />
@@ -353,17 +353,17 @@
 <span class="c1">#</span>
 
 <span class="sd">&quot;&quot;&quot; The kafka.consumer module supports consuming a Kakfa topic as a Deephaven live table. &quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">dtypes</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="kn">import</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">deephaven.dherror</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_hashmap</span><span class="p">,</span> <span class="n">j_properties</span><span class="p">,</span> <span class="n">j_array_list</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">dtypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.column</span><span class="w"> </span><span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dherror</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_hashmap</span><span class="p">,</span> <span class="n">j_properties</span><span class="p">,</span> <span class="n">j_array_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span>
 
 <span class="n">_JKafkaTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.kafka.KafkaTools&quot;</span><span class="p">)</span>
 <span class="n">_JKafkaTools_Consume</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.kafka.KafkaTools$Consume&quot;</span><span class="p">)</span>
@@ -398,14 +398,14 @@
 
 <div class="viewcode-block" id="KeyValueSpec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.KeyValueSpec">[docs]</a>
-<span class="k">class</span> <span class="nc">KeyValueSpec</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">KeyValueSpec</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.kafka.KafkaTools$Consume$KeyOrValueSpec&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_spec</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_spec</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_spec</span> <span class="o">=</span> <span class="n">j_spec</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_spec</span></div>
 
 
@@ -421,7 +421,7 @@
 
 <div class="viewcode-block" id="TableType">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.TableType">[docs]</a>
-<span class="k">class</span> <span class="nc">TableType</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TableType</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A factory that creates the supported Table Type for consuming Kafka.&quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.kafka.KafkaTools$TableType&quot;</span><span class="p">)</span>
@@ -429,7 +429,7 @@
 <div class="viewcode-block" id="TableType.blink">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.TableType.blink">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">blink</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">blink</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Consume all partitions into a single interleaved blink table, which will present only newly-available rows</span>
 <span class="sd">         to downstream operations and visualizations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">TableType</span><span class="p">(</span><span class="n">TableType</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">blink</span><span class="p">())</span></div>
@@ -439,7 +439,7 @@
 <div class="viewcode-block" id="TableType.stream">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.TableType.stream">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">stream</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stream</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Deprecated synonym for &quot;blink&quot;.&quot;&quot;&quot;</span>
         <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;This function is deprecated, prefer blink&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">TableType</span><span class="o">.</span><span class="n">blink</span><span class="p">()</span></div>
@@ -448,7 +448,7 @@
 <div class="viewcode-block" id="TableType.append">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.TableType.append">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">append</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Consume all partitions into a single interleaved in-memory append-only table.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">TableType</span><span class="p">(</span><span class="n">TableType</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">append</span><span class="p">())</span></div>
 
@@ -456,16 +456,16 @@
 <div class="viewcode-block" id="TableType.ring">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.TableType.ring">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">ring</span><span class="p">(</span><span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ring</span><span class="p">(</span><span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Consume all partitions into a single in-memory ring table.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">TableType</span><span class="p">(</span><span class="n">TableType</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">ring</span><span class="p">(</span><span class="n">capacity</span><span class="p">))</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table_type</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table_type</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_type</span> <span class="o">=</span> <span class="n">j_table_type</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_table_type</span></div>
 
 
@@ -479,7 +479,7 @@
 <span class="sd">&quot;&quot;&quot; Deprecated, prefer TableType.append(). Consume all partitions into a single interleaved in-memory append-only table.&quot;&quot;&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">j_partitions</span><span class="p">(</span><span class="n">partitions</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_partitions</span><span class="p">(</span><span class="n">partitions</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">partitions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">partitions</span> <span class="o">=</span> <span class="n">ALL_PARTITIONS</span>
     <span class="k">else</span><span class="p">:</span>
@@ -488,7 +488,7 @@
     <span class="k">return</span> <span class="n">partitions</span>
 
 
-<span class="k">def</span> <span class="nf">_dict_to_j_func</span><span class="p">(</span><span class="n">dict_mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">mapped_only</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_dict_to_j_func</span><span class="p">(</span><span class="n">dict_mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">mapped_only</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="n">java_map</span> <span class="o">=</span> <span class="n">j_hashmap</span><span class="p">(</span><span class="n">dict_mapping</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">mapped_only</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_JPythonTools</span><span class="o">.</span><span class="n">functionFromMapWithIdentityDefaults</span><span class="p">(</span><span class="n">java_map</span><span class="p">)</span>
@@ -497,7 +497,7 @@
 
 <div class="viewcode-block" id="consume">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.consume">[docs]</a>
-<span class="k">def</span> <span class="nf">consume</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">consume</span><span class="p">(</span>
         <span class="n">kafka_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">partitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -545,7 +545,7 @@
 
 <div class="viewcode-block" id="consume_to_partitioned_table">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.consume_to_partitioned_table">[docs]</a>
-<span class="k">def</span> <span class="nf">consume_to_partitioned_table</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">consume_to_partitioned_table</span><span class="p">(</span>
         <span class="n">kafka_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">partitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -594,7 +594,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_consume</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_consume</span><span class="p">(</span>
         <span class="n">kafka_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">partitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -650,11 +650,11 @@
                 <span class="n">table_type</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
             <span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to consume a Kafka stream.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to consume a Kafka stream.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
 <div class="viewcode-block" id="ProtobufProtocol">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.ProtobufProtocol">[docs]</a>
-<span class="k">class</span> <span class="nc">ProtobufProtocol</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProtobufProtocol</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The protobuf serialization / deserialization protocol.&quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.kafka.protobuf.Protocol&quot;</span><span class="p">)</span>
@@ -662,7 +662,7 @@
 <div class="viewcode-block" id="ProtobufProtocol.serdes">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.ProtobufProtocol.serdes">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">serdes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s1">&#39;ProtobufProtocol&#39;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serdes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s1">&#39;ProtobufProtocol&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The Kafka Protobuf serdes protocol. The payload&#39;s first byte is the serdes magic byte, the next 4-bytes are</span>
 <span class="sd">        the schema ID, the next variable-sized bytes are the message indexes, followed by the normal binary encoding of</span>
 <span class="sd">        the Protobuf data.&quot;&quot;&quot;</span>
@@ -672,23 +672,23 @@
 <div class="viewcode-block" id="ProtobufProtocol.raw">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.ProtobufProtocol.raw">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">raw</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s1">&#39;ProtobufProtocol&#39;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">raw</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s1">&#39;ProtobufProtocol&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The raw Protobuf protocol. The full payload is the normal binary encoding of the Protobuf data.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ProtobufProtocol</span><span class="p">(</span><span class="n">ProtobufProtocol</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">raw</span><span class="p">())</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_protocol</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_protocol</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_protocol</span> <span class="o">=</span> <span class="n">j_protocol</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_protocol</span></div>
 
 
 
 <div class="viewcode-block" id="protobuf_spec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.protobuf_spec">[docs]</a>
-<span class="k">def</span> <span class="nf">protobuf_spec</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">protobuf_spec</span><span class="p">(</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">schema_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">schema_message_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -760,7 +760,7 @@
 
 <div class="viewcode-block" id="avro_spec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.avro_spec">[docs]</a>
-<span class="k">def</span> <span class="nf">avro_spec</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">avro_spec</span><span class="p">(</span>
         <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">schema_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span>
         <span class="n">mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -812,13 +812,13 @@
                     <span class="n">j_spec</span><span class="o">=</span><span class="n">_JKafkaTools_Consume</span><span class="o">.</span><span class="n">avroSpec</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">schema_version</span><span class="p">)</span>
                 <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Kafka key/value spec&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Kafka key/value spec&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="json_spec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.json_spec">[docs]</a>
-<span class="k">def</span> <span class="nf">json_spec</span><span class="p">(</span><span class="n">col_defs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]]],</span> <span class="n">mapping</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KeyValueSpec</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">json_spec</span><span class="p">(</span><span class="n">col_defs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">]]],</span> <span class="n">mapping</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KeyValueSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a spec for how to use JSON data when consuming a Kafka stream to a Deephaven table.</span>
 
 <span class="sd">    Args:</span>
@@ -849,13 +849,13 @@
         <span class="n">mapping</span> <span class="o">=</span> <span class="n">j_hashmap</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">KeyValueSpec</span><span class="p">(</span><span class="n">j_spec</span><span class="o">=</span><span class="n">_JKafkaTools_Consume</span><span class="o">.</span><span class="n">jsonSpec</span><span class="p">(</span><span class="n">col_defs</span><span class="p">,</span> <span class="n">mapping</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Kafka key/value spec&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Kafka key/value spec&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="simple_spec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.consumer.html#deephaven.stream.kafka.consumer.simple_spec">[docs]</a>
-<span class="k">def</span> <span class="nf">simple_spec</span><span class="p">(</span><span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KeyValueSpec</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_spec</span><span class="p">(</span><span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KeyValueSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a spec that defines a single column to receive the key or value of a Kafka message when consuming a</span>
 <span class="sd">    Kafka stream to a Deephaven table.</span>
 
@@ -876,7 +876,7 @@
             <span class="n">j_spec</span><span class="o">=</span><span class="n">_JKafkaTools_Consume</span><span class="o">.</span><span class="n">simpleSpec</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">.</span><span class="n">qst_type</span><span class="o">.</span><span class="n">clazz</span><span class="p">())</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Kafka key/value spec&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Kafka key/value spec&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

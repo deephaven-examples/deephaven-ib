@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.plot.selectable_dataset - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -355,13 +355,13 @@
 <span class="sd">&quot;&quot;&quot; This module defines the SelectableDateSet which is used to provides a view of a selectable subset of a table.</span>
 <span class="sd">For example, in some selectable data sets, a GUI click can be used to select a portion of a table. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span>
 
 <span class="n">_JSelectableDataSet</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.plot.filters.SelectableDataSet&quot;</span><span class="p">)</span>
 <span class="n">_JSelectables</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.plot.filters.Selectables&quot;</span><span class="p">)</span>
@@ -369,24 +369,24 @@
 
 <div class="viewcode-block" id="SelectableDataSet">
 <a class="viewcode-back" href="../../../code/deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.SelectableDataSet">[docs]</a>
-<span class="k">class</span> <span class="nc">SelectableDataSet</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SelectableDataSet</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A SelectableDataSet provides a view of a selectable subset of a table.  For example, in some selectable data</span>
 <span class="sd">    sets, a GUI click can be used to select a portion of a table. &quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JSelectableDataSet</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_sds</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_sds</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_sds</span> <span class="o">=</span> <span class="n">j_sds</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_sds</span></div>
 
 
 
 <div class="viewcode-block" id="one_click">
 <a class="viewcode-back" href="../../../code/deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.one_click">[docs]</a>
-<span class="k">def</span> <span class="nf">one_click</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">require_all_filters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelectableDataSet</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_click</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">require_all_filters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelectableDataSet</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a SelectableDataSet with the specified columns from a table.</span>
 
 <span class="sd">    Args:</span>
@@ -406,13 +406,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SelectableDataSet</span><span class="p">(</span><span class="n">j_sds</span><span class="o">=</span><span class="n">_JSelectables</span><span class="o">.</span><span class="n">oneClick</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span><span class="p">,</span> <span class="n">require_all_filters</span><span class="p">,</span> <span class="o">*</span><span class="n">by</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed in one_click.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed in one_click.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="one_click_partitioned_table">
 <a class="viewcode-back" href="../../../code/deephaven.plot.selectable_dataset.html#deephaven.plot.selectable_dataset.one_click_partitioned_table">[docs]</a>
-<span class="k">def</span> <span class="nf">one_click_partitioned_table</span><span class="p">(</span><span class="n">pt</span><span class="p">:</span> <span class="n">PartitionedTable</span><span class="p">,</span> <span class="n">require_all_filters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelectableDataSet</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_click_partitioned_table</span><span class="p">(</span><span class="n">pt</span><span class="p">:</span> <span class="n">PartitionedTable</span><span class="p">,</span> <span class="n">require_all_filters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelectableDataSet</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a SelectableDataSet with the specified columns from the table map.</span>
 
 <span class="sd">    Args:</span>
@@ -429,7 +429,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SelectableDataSet</span><span class="p">(</span><span class="n">j_sds</span><span class="o">=</span><span class="n">_JSelectables</span><span class="o">.</span><span class="n">oneClick</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">j_partitioned_table</span><span class="p">,</span> <span class="n">require_all_filters</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed in one_click.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed in one_click.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

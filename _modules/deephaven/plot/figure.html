@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.plot.figure - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -358,27 +358,27 @@
 <span class="c1">######################################################################################################################</span>
 <span class="sd">&quot;&quot;&quot; This module implements the Figure class for creating plots, charts, line, axis, color, etc. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">numbers</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">_GenericAlias</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numbers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">_GenericAlias</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">dtypes</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">PyObject</span><span class="p">,</span> <span class="n">BusinessCalendar</span>
-<span class="kn">from</span> <span class="nn">deephaven.plot</span> <span class="kn">import</span> <span class="n">LineStyle</span><span class="p">,</span> <span class="n">PlotStyle</span><span class="p">,</span> <span class="n">Color</span><span class="p">,</span> <span class="n">Font</span><span class="p">,</span> <span class="n">AxisFormat</span><span class="p">,</span> <span class="n">Shape</span><span class="p">,</span> <span class="n">AxisTransform</span><span class="p">,</span> \
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">dtypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instant</span><span class="p">,</span> <span class="n">PyObject</span><span class="p">,</span> <span class="n">BusinessCalendar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">LineStyle</span><span class="p">,</span> <span class="n">PlotStyle</span><span class="p">,</span> <span class="n">Color</span><span class="p">,</span> <span class="n">Font</span><span class="p">,</span> <span class="n">AxisFormat</span><span class="p">,</span> <span class="n">Shape</span><span class="p">,</span> <span class="n">AxisTransform</span><span class="p">,</span> \
     <span class="n">SelectableDataSet</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_function</span>
 
 <span class="n">_JPlottingConvenience</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.plot.PlottingConvenience&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_assert_type</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">types</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_assert_type</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">types</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Assert that the input object is of the proper type.</span>
 
 <span class="sd">    Args:</span>
@@ -397,7 +397,7 @@
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Improper input type: name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> type=</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2"> supported=</span><span class="si">{</span><span class="n">supported</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_no_convert_j</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">types</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_no_convert_j</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">types</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -406,7 +406,7 @@
     <span class="k">return</span> <span class="n">obj</span>
 
 
-<span class="k">def</span> <span class="nf">_convert_j</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">types</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_convert_j</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">types</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the input object into a Java object that can be used for plotting.</span>
 
 <span class="sd">    Args:</span>
@@ -451,13 +451,13 @@
 
 <div class="viewcode-block" id="Figure">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure">[docs]</a>
-<span class="k">class</span> <span class="nc">Figure</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Figure</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A Figure represents a graphical figure such as a plot, chart, line, axis, color, etc. A Figure is immutable,</span>
 <span class="sd">    and all function calls return a new immutable Figure instance. &quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.plot.Figure&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j_figure</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j_figure</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Initializes a Figure object that is used for displaying plots</span>
 
 <span class="sd">        Args:</span>
@@ -471,12 +471,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">j_figure</span> <span class="o">=</span> <span class="n">j_figure</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_figure</span>
 
 <div class="viewcode-block" id="Figure.axes">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.axes">[docs]</a>
-    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">axes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">axes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -543,7 +543,7 @@
 
 <div class="viewcode-block" id="Figure.axis">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.axis">[docs]</a>
-    <span class="k">def</span> <span class="nf">axis</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">axis</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -725,7 +725,7 @@
 
 <div class="viewcode-block" id="Figure.chart">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.chart">[docs]</a>
-    <span class="k">def</span> <span class="nf">chart</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chart</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">multi_series_key</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">remove_series</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -878,7 +878,7 @@
 
 <div class="viewcode-block" id="Figure.chart_legend">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.chart_legend">[docs]</a>
-    <span class="k">def</span> <span class="nf">chart_legend</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chart_legend</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Color</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">font</span><span class="p">:</span> <span class="n">Font</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -935,7 +935,7 @@
 
 <div class="viewcode-block" id="Figure.chart_title">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.chart_title">[docs]</a>
-    <span class="k">def</span> <span class="nf">chart_title</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chart_title</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1037,7 +1037,7 @@
 
 <div class="viewcode-block" id="Figure.figure">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.figure">[docs]</a>
-    <span class="k">def</span> <span class="nf">figure</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">figure</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">remove_series</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">remove_chart_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1109,7 +1109,7 @@
 
 <div class="viewcode-block" id="Figure.figure_title">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.figure_title">[docs]</a>
-    <span class="k">def</span> <span class="nf">figure_title</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">figure_title</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Color</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1166,7 +1166,7 @@
 
 <div class="viewcode-block" id="Figure.func">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.func">[docs]</a>
-    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xmin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">xmax</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1223,7 +1223,7 @@
 
 <div class="viewcode-block" id="Figure.line">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.line">[docs]</a>
-    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">line</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">multi_series_key</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Color</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1308,7 +1308,7 @@
 
 <div class="viewcode-block" id="Figure.new_axes">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.new_axes">[docs]</a>
-    <span class="k">def</span> <span class="nf">new_axes</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_axes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1348,7 +1348,7 @@
 
 <div class="viewcode-block" id="Figure.new_chart">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.new_chart">[docs]</a>
-    <span class="k">def</span> <span class="nf">new_chart</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_chart</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">row</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1391,7 +1391,7 @@
 
 <div class="viewcode-block" id="Figure.plot_cat">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.plot_cat">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_cat</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_cat</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">series_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1462,7 +1462,7 @@
 
 <div class="viewcode-block" id="Figure.plot_cat_hist">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.plot_cat_hist">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_cat_hist</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_cat_hist</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">series_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1505,7 +1505,7 @@
 
 <div class="viewcode-block" id="Figure.plot_ohlc">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.plot_ohlc">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_ohlc</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_ohlc</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">series_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1575,7 +1575,7 @@
 
 <div class="viewcode-block" id="Figure.plot_pie">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.plot_pie">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_pie</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_pie</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">series_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1623,7 +1623,7 @@
 
 <div class="viewcode-block" id="Figure.plot_treemap">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.plot_treemap">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_treemap</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_treemap</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">series_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">],</span>
@@ -1695,7 +1695,7 @@
 
 <div class="viewcode-block" id="Figure.plot_xy">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.plot_xy">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_xy</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_xy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">series_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1807,7 +1807,7 @@
 
 <div class="viewcode-block" id="Figure.plot_xy_hist">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.plot_xy_hist">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_xy_hist</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_xy_hist</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">series_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1871,7 +1871,7 @@
 
 <div class="viewcode-block" id="Figure.point">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.point">[docs]</a>
-    <span class="k">def</span> <span class="nf">point</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">category</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2147,7 +2147,7 @@
 
 <div class="viewcode-block" id="Figure.save">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.save">[docs]</a>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2204,7 +2204,7 @@
 
 <div class="viewcode-block" id="Figure.series">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.series">[docs]</a>
-    <span class="k">def</span> <span class="nf">series</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">series</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">axes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2383,7 +2383,7 @@
 
 <div class="viewcode-block" id="Figure.show">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.show">[docs]</a>
-    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a displayable version of the figure and returns it.</span>
@@ -2406,7 +2406,7 @@
 
 <div class="viewcode-block" id="Figure.ticks">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.ticks">[docs]</a>
-    <span class="k">def</span> <span class="nf">ticks</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ticks</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">font</span><span class="p">:</span> <span class="n">Font</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2483,7 +2483,7 @@
 
 <div class="viewcode-block" id="Figure.ticks_minor">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.ticks_minor">[docs]</a>
-    <span class="k">def</span> <span class="nf">ticks_minor</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ticks_minor</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nminor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">visible</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2530,7 +2530,7 @@
 
 <div class="viewcode-block" id="Figure.twin">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.twin">[docs]</a>
-    <span class="k">def</span> <span class="nf">twin</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">twin</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2570,7 +2570,7 @@
 
 <div class="viewcode-block" id="Figure.x_axis">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.x_axis">[docs]</a>
-    <span class="k">def</span> <span class="nf">x_axis</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x_axis</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2747,7 +2747,7 @@
 
 <div class="viewcode-block" id="Figure.x_ticks">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.x_ticks">[docs]</a>
-    <span class="k">def</span> <span class="nf">x_ticks</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x_ticks</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">font</span><span class="p">:</span> <span class="n">Font</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2824,7 +2824,7 @@
 
 <div class="viewcode-block" id="Figure.x_ticks_minor">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.x_ticks_minor">[docs]</a>
-    <span class="k">def</span> <span class="nf">x_ticks_minor</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x_ticks_minor</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nminor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">visible</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2871,7 +2871,7 @@
 
 <div class="viewcode-block" id="Figure.x_twin">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.x_twin">[docs]</a>
-    <span class="k">def</span> <span class="nf">x_twin</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x_twin</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
@@ -2902,7 +2902,7 @@
 
 <div class="viewcode-block" id="Figure.y_axis">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.y_axis">[docs]</a>
-    <span class="k">def</span> <span class="nf">y_axis</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y_axis</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">SelectableDataSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3079,7 +3079,7 @@
 
 <div class="viewcode-block" id="Figure.y_ticks">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.y_ticks">[docs]</a>
-    <span class="k">def</span> <span class="nf">y_ticks</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y_ticks</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">font</span><span class="p">:</span> <span class="n">Font</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3156,7 +3156,7 @@
 
 <div class="viewcode-block" id="Figure.y_ticks_minor">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.y_ticks_minor">[docs]</a>
-    <span class="k">def</span> <span class="nf">y_ticks_minor</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y_ticks_minor</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nminor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">visible</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3203,7 +3203,7 @@
 
 <div class="viewcode-block" id="Figure.y_twin">
 <a class="viewcode-back" href="../../../code/deephaven.plot.figure.html#deephaven.plot.figure.Figure.y_twin">[docs]</a>
-    <span class="k">def</span> <span class="nf">y_twin</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y_twin</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>

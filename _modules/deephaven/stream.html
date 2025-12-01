@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.stream - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,18 +353,18 @@
 <span class="c1">#</span>
 
 <span class="sd">&quot;&quot;&quot; Utility module for the stream subpackage. &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">_JBlinkTableTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.impl.BlinkTableTools&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="blink_to_append_only">
 <a class="viewcode-back" href="../../code/deephaven.stream.html#deephaven.stream.blink_to_append_only">[docs]</a>
-<span class="k">def</span> <span class="nf">blink_to_append_only</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">blink_to_append_only</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates an &#39;append only&#39; table from the blink table.</span>
 
 <span class="sd">    Args:</span>
@@ -379,13 +379,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JBlinkTableTools</span><span class="o">.</span><span class="n">blinkToAppendOnly</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">j_table</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create an append-only table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create an append-only table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <span class="c1"># TODO (https://github.com/deephaven/deephaven-core/issues/3853): Delete this method</span>
 <div class="viewcode-block" id="stream_to_append_only">
 <a class="viewcode-back" href="../../code/deephaven.stream.html#deephaven.stream.stream_to_append_only">[docs]</a>
-<span class="k">def</span> <span class="nf">stream_to_append_only</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stream_to_append_only</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Deprecated synonym for blink_to_append_only&quot;&quot;&quot;</span>
     <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;This function is deprecated, prefer blink_to_append_only&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">blink_to_append_only</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>

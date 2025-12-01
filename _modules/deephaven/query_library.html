@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.query_library - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -354,10 +354,10 @@
 
 <span class="sd">&quot;&quot;&quot;This module allows users to import Java classes or packages into the query library for the Deephaven query engine.</span>
 <span class="sd">These classes or packages can then be used in Deephaven queries. &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
 
 <span class="n">_JPackage</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.lang.Package&quot;</span><span class="p">)</span>
 <span class="n">_JExecutionContext</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.context.ExecutionContext&quot;</span><span class="p">)</span>
@@ -366,7 +366,7 @@
 
 <div class="viewcode-block" id="import_class">
 <a class="viewcode-back" href="../../code/deephaven.query_library.html#deephaven.query_library.import_class">[docs]</a>
-<span class="k">def</span> <span class="nf">import_class</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_class</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a Java class to the query library, making it available to be used in Deephaven query strings (formulas</span>
 <span class="sd">    and conditional expressions). The class must be reachable in the Deephaven server&#39;s classpath.</span>
 
@@ -380,13 +380,13 @@
         <span class="n">j_class</span> <span class="o">=</span> <span class="n">_JClass</span><span class="o">.</span><span class="n">forName</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">getContext</span><span class="p">()</span><span class="o">.</span><span class="n">getQueryLibrary</span><span class="p">()</span><span class="o">.</span><span class="n">importClass</span><span class="p">(</span><span class="n">j_class</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to add the Java class to the Query Library.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to add the Java class to the Query Library.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="import_static">
 <a class="viewcode-back" href="../../code/deephaven.query_library.html#deephaven.query_library.import_static">[docs]</a>
-<span class="k">def</span> <span class="nf">import_static</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_static</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds the static members of a Java class to the query library, making them available to be used in Deephaven</span>
 <span class="sd">    query strings (formulas and conditional expressions). The class must be reachable in the Deephaven server&#39;s</span>
 <span class="sd">    classpath.</span>
@@ -401,13 +401,13 @@
         <span class="n">j_class</span> <span class="o">=</span> <span class="n">_JClass</span><span class="o">.</span><span class="n">forName</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">getContext</span><span class="p">()</span><span class="o">.</span><span class="n">getQueryLibrary</span><span class="p">()</span><span class="o">.</span><span class="n">importStatic</span><span class="p">(</span><span class="n">j_class</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to add the static members of the Java class to the Query Library.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to add the static members of the Java class to the Query Library.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="import_package">
 <a class="viewcode-back" href="../../code/deephaven.query_library.html#deephaven.query_library.import_package">[docs]</a>
-<span class="k">def</span> <span class="nf">import_package</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_package</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds all the public classes and interfaces of a Java package to the query library, making them available to be</span>
 <span class="sd">    used in Deephaven query strings (formulas and conditional expressions). The package must be reachable in the</span>
 <span class="sd">    Deephaven server&#39;s classpath.</span>
@@ -422,13 +422,13 @@
         <span class="n">j_package</span> <span class="o">=</span> <span class="n">_JPackage</span><span class="o">.</span><span class="n">getPackage</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">_JExecutionContext</span><span class="o">.</span><span class="n">getContext</span><span class="p">()</span><span class="o">.</span><span class="n">getQueryLibrary</span><span class="p">()</span><span class="o">.</span><span class="n">importPackage</span><span class="p">(</span><span class="n">j_package</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to add the Java package into to the Query Library.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to add the Java package into to the Query Library.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="imports">
 <a class="viewcode-back" href="../../code/deephaven.query_library.html#deephaven.query_library.imports">[docs]</a>
-<span class="k">def</span> <span class="nf">imports</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">imports</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns all the Java import statements currently in the Query Library.</span>
 
 <span class="sd">    Returns:</span>

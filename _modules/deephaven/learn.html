@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.learn - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -356,12 +356,12 @@
 <span class="sd">as well as a framework for using popular machine-learning / deep-learning libraries with Deephaven tables.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Type</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">_JLearnInput</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.integrations.learn.Input&quot;</span><span class="p">)</span>
 <span class="n">_JLearnOutput</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.integrations.learn.Output&quot;</span><span class="p">)</span>
@@ -371,10 +371,10 @@
 
 <div class="viewcode-block" id="Input">
 <a class="viewcode-back" href="../../code/deephaven.learn.html#deephaven.learn.Input">[docs]</a>
-<span class="k">class</span> <span class="nc">Input</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Input</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Input specifies how to gather data from a Deephaven table into an object. &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">gather_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">gather_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;  Initializes an Input object with the given arguments.</span>
 
 <span class="sd">        Args:</span>
@@ -383,7 +383,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">_JLearnInput</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">gather_func</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the Input object as a string containing a printable representation of the Input object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span></div>
 
@@ -391,10 +391,10 @@
 
 <div class="viewcode-block" id="Output">
 <a class="viewcode-back" href="../../code/deephaven.learn.html#deephaven.learn.Output">[docs]</a>
-<span class="k">class</span> <span class="nc">Output</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Output</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Output specifies how to scatter data from an object into a table column. &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scatter_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">col_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scatter_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">col_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Initializes an Output object with the given arguments.</span>
 
 <span class="sd">        Args:</span>
@@ -405,13 +405,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">_JLearnOutput</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="n">scatter_func</span><span class="p">,</span> <span class="n">col_type</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the Output object as a string containing a printable representation of the Output object. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span></div>
 
 
 
-<span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Output</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Output</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Ensures that all input columns exist in the table, and that no output column names already exist in the table.</span>
 
 <span class="sd">    Args:</span>
@@ -445,7 +445,7 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot find columns </span><span class="si">{</span><span class="n">difference</span><span class="si">}</span><span class="s2"> in the table.&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_create_non_conflicting_col_name</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">base_col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_create_non_conflicting_col_name</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">base_col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a column name that is not present in the table.</span>
 
 <span class="sd">    Args:</span>
@@ -468,7 +468,7 @@
 
 <div class="viewcode-block" id="learn">
 <a class="viewcode-back" href="../../code/deephaven.learn.html#deephaven.learn.learn">[docs]</a>
-<span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">model_func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Output</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">learn</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">model_func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Output</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
           <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Learn gathers data from multiple rows of the input table, performs a calculation, and scatters values from the</span>
 <span class="sd">    calculation into an output table. This is a common computing paradigm for artificial intelligence, machine learning,</span>
@@ -526,7 +526,7 @@
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="p">]))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to complete the learn function.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to complete the learn function.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

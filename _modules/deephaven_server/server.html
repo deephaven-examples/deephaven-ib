@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven_server.server - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -352,10 +352,10 @@
 <span class="c1"># Copyright (c) 2016-2024 Deephaven Data Labs and Patent Pending</span>
 <span class="c1">#</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">.start_jvm</span> <span class="kn">import</span> <span class="n">start_jvm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.start_jvm</span><span class="w"> </span><span class="kn">import</span> <span class="n">start_jvm</span>
 
 <span class="c1"># These classes are explicitly not JObjectWrapper, as that would require importing deephaven and jpy</span>
 <span class="c1"># before the JVM was running.</span>
@@ -363,20 +363,20 @@
 
 <div class="viewcode-block" id="ServerConfig">
 <a class="viewcode-back" href="../../code/deephaven_server.server.html#deephaven_server.server.ServerConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">ServerConfig</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ServerConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents the configuration of a Deephaven server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_server_config</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_server_config</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_server_config</span> <span class="o">=</span> <span class="n">j_server_config</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server_config</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">target_url_or_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">target_url_or_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the target URL to bring up the Web UI.</span>
 
@@ -389,19 +389,19 @@
 
 <div class="viewcode-block" id="AuthenticationHandler">
 <a class="viewcode-back" href="../../code/deephaven_server.server.html#deephaven_server.server.AuthenticationHandler">[docs]</a>
-<span class="k">class</span> <span class="nc">AuthenticationHandler</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthenticationHandler</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an authentication handler for a Deephaven server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_authentication_handler</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_authentication_handler</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_authentication_handler</span> <span class="o">=</span> <span class="n">j_authentication_handler</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_authentication_handler</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">auth_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">auth_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the authentication type for this handler.</span>
 
@@ -412,7 +412,7 @@
 
 <div class="viewcode-block" id="AuthenticationHandler.urls">
 <a class="viewcode-back" href="../../code/deephaven_server.server.html#deephaven_server.server.AuthenticationHandler.urls">[docs]</a>
-    <span class="k">def</span> <span class="nf">urls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">urls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the URLs for this authentication handler.</span>
 
@@ -431,7 +431,7 @@
 
 <div class="viewcode-block" id="Server">
 <a class="viewcode-back" href="../../code/deephaven_server.server.html#deephaven_server.server.Server">[docs]</a>
-<span class="k">class</span> <span class="nc">Server</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Server</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a Deephaven server that can be created from Python.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -439,11 +439,11 @@
     <span class="n">instance</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the port the server is running on.</span>
 
@@ -453,7 +453,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">getPort</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">server_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ServerConfig</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">server_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ServerConfig</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the configuration of the server.</span>
 
@@ -463,7 +463,7 @@
         <span class="k">return</span> <span class="n">ServerConfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">serverConfig</span><span class="p">())</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">authentication_handlers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthenticationHandler</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">authentication_handlers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthenticationHandler</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the authentication handlers for the server.</span>
 
@@ -475,7 +475,7 @@
             <span class="k">for</span> <span class="n">j_auth_handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">authenticationHandlers</span><span class="p">()</span><span class="o">.</span><span class="n">toArray</span><span class="p">()</span>
         <span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">host</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">port</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -489,7 +489,7 @@
 
         <span class="c1"># If the server was already created, emit an error to warn away from trying again</span>
         <span class="k">if</span> <span class="n">Server</span><span class="o">.</span><span class="n">instance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
 
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="s2">&quot;Cannot create more than one instance of the server&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">extra_classpath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -499,14 +499,14 @@
         <span class="n">start_jvm</span><span class="p">(</span><span class="n">jvm_args</span><span class="o">=</span><span class="n">jvm_args</span><span class="p">,</span> <span class="n">extra_classpath</span><span class="o">=</span><span class="n">extra_classpath</span><span class="p">)</span>
 
         <span class="c1"># it is now safe to import jpy</span>
-        <span class="kn">import</span> <span class="nn">jpy</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
         <span class="c1"># Create a python-wrapped java server that we can reference to talk to the platform</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.python.server.EmbeddedServer&quot;</span><span class="p">)(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
 
         <span class="c1"># Obtain references to the deephaven logbuffer and redirect stdout/stderr to it. Note that we should not import</span>
         <span class="c1"># this until after jpy has started.</span>
-        <span class="kn">from</span> <span class="nn">deephaven_internal.stream</span> <span class="kn">import</span> <span class="n">TeeStream</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven_internal.stream</span><span class="w"> </span><span class="kn">import</span> <span class="n">TeeStream</span>
 
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">TeeStream</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">getStdout</span><span class="p">())</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">TeeStream</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_server</span><span class="o">.</span><span class="n">getStderr</span><span class="p">())</span>
@@ -516,7 +516,7 @@
 
 <div class="viewcode-block" id="Server.start">
 <a class="viewcode-back" href="../../code/deephaven_server.server.html#deephaven_server.server.Server.start">[docs]</a>
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Starts the server. Presently once the server is started, it cannot be stopped until the</span>
 <span class="sd">        python process halts.</span>

@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.update_graph - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -356,14 +356,14 @@
 <span class="sd">the data between table operations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
 
 <span class="n">_JUpdateGraph</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.updategraph.UpdateGraph&quot;</span><span class="p">)</span>
 
@@ -375,7 +375,7 @@
 
 <div class="viewcode-block" id="UpdateGraph">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.UpdateGraph">[docs]</a>
-<span class="k">class</span> <span class="nc">UpdateGraph</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">UpdateGraph</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An Update Graph handles table update propagation within the Deephaven query engine. It provides access to</span>
 <span class="sd">    various control knobs and tools for ensuring consistency or blocking update processing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -383,17 +383,17 @@
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JUpdateGraph</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_update_graph</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_update_graph</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_update_graph</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_update_graph</span> <span class="o">=</span> <span class="n">j_update_graph</span></div>
 
 
 
 <div class="viewcode-block" id="has_exclusive_lock">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.has_exclusive_lock">[docs]</a>
-<span class="k">def</span> <span class="nf">has_exclusive_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_exclusive_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the current thread is holding the provided Update Graph&#39;s (UG) exclusive lock.</span>
 
 <span class="sd">    Args:</span>
@@ -412,7 +412,7 @@
 
 <div class="viewcode-block" id="has_shared_lock">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.has_shared_lock">[docs]</a>
-<span class="k">def</span> <span class="nf">has_shared_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_shared_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the current thread is holding the provided Update Graph&#39;s (UG) shared lock.</span>
 
 <span class="sd">    Args: </span>
@@ -432,7 +432,7 @@
 <div class="viewcode-block" id="exclusive_lock">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.exclusive_lock">[docs]</a>
 <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">exclusive_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exclusive_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager for running a block of code under an Update Graph (UG) exclusive lock.</span>
 
 <span class="sd">    Args: </span>
@@ -447,7 +447,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;exception raised in the enclosed code block.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;exception raised in the enclosed code block.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">lock</span><span class="o">.</span><span class="n">unlock</span><span class="p">()</span></div>
 
@@ -456,7 +456,7 @@
 <div class="viewcode-block" id="shared_lock">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.shared_lock">[docs]</a>
 <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">shared_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">shared_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager for running a block of code under an Update Graph (UG) shared lock.</span>
 
 <span class="sd">    Args:</span>
@@ -472,7 +472,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;exception raised in the enclosed code block.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;exception raised in the enclosed code block.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">lock</span><span class="o">.</span><span class="n">unlock</span><span class="p">()</span></div>
 
@@ -480,7 +480,7 @@
 
 <div class="viewcode-block" id="exclusive_locked">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.exclusive_locked">[docs]</a>
-<span class="k">def</span> <span class="nf">exclusive_locked</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exclusive_locked</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A decorator that ensures the decorated function be called under the Update Graph (UG) exclusive</span>
 <span class="sd">    lock. The lock is released after the function returns regardless of what happens inside the function.</span>
 
@@ -491,9 +491,9 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ug</span><span class="p">,</span> <span class="n">UpdateGraph</span><span class="p">):</span>
         <span class="n">ug</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">update_graph</span>
 
-    <span class="k">def</span> <span class="nf">inner_wrapper</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner_wrapper</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">do_locked</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">do_locked</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">with</span> <span class="n">exclusive_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -505,7 +505,7 @@
 
 <div class="viewcode-block" id="shared_locked">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.shared_locked">[docs]</a>
-<span class="k">def</span> <span class="nf">shared_locked</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">shared_locked</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A decorator that ensures the decorated function be called under the Update Graph (UG) shared lock.</span>
 <span class="sd">    The lock is released after the function returns regardless of what happens inside the function.</span>
 
@@ -516,9 +516,9 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ug</span><span class="p">,</span> <span class="n">UpdateGraph</span><span class="p">):</span>
         <span class="n">ug</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">update_graph</span>
 
-    <span class="k">def</span> <span class="nf">inner_wrapper</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner_wrapper</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">do_locked</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">do_locked</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">with</span> <span class="n">shared_lock</span><span class="p">(</span><span class="n">ug</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -528,7 +528,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_is_arg_refreshing</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_arg_refreshing</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">_is_arg_refreshing</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
@@ -539,7 +539,7 @@
     <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span> <span class="nf">_first_refreshing_table</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Table&quot;</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_first_refreshing_table</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Table&quot;</span><span class="p">]:</span>
     <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">_is_arg_refreshing</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">arg</span>
@@ -550,7 +550,7 @@
     <span class="k">return</span> <span class="kc">None</span>
 
 
-<span class="k">def</span> <span class="nf">_serial_table_operations_safe</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_serial_table_operations_safe</span><span class="p">(</span>
         <span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the current thread is marked as being able to safely call serial operations according to the provided</span>
 <span class="sd">    Update Graph (UG) without locking.</span>
@@ -569,7 +569,7 @@
     <span class="k">return</span> <span class="n">ug</span><span class="o">.</span><span class="n">j_update_graph</span><span class="o">.</span><span class="n">serialTableOperationsSafe</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">_current_thread_processes_updates</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_current_thread_processes_updates</span><span class="p">(</span>
         <span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="s2">&quot;Table&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionedTable&quot;</span><span class="p">,</span> <span class="s2">&quot;PartitionTableProxy&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the current thread processes updates for the provided Update Graph (UG).</span>
 
@@ -588,13 +588,13 @@
 
 <div class="viewcode-block" id="auto_locking_op">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.auto_locking_op">[docs]</a>
-<span class="k">def</span> <span class="nf">auto_locking_op</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">auto_locking_op</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A decorator for annotating unsafe Table operations. It ensures that the decorated function runs under the UG</span>
 <span class="sd">    shared lock if ugp.auto_locking is True, the target table-like object or any table-like arguments are refreshing,</span>
 <span class="sd">    the current thread doesn&#39;t own any UG lock, and the current thread is not part of the update graph.&quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">do_locked</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_locked</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">arg</span> <span class="o">=</span> <span class="n">_first_refreshing_table</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">arg</span>
                 <span class="ow">or</span> <span class="ow">not</span> <span class="n">auto_locking</span>
@@ -614,7 +614,7 @@
 <div class="viewcode-block" id="auto_locking_ctx">
 <a class="viewcode-back" href="../../code/deephaven.update_graph.html#deephaven.update_graph.auto_locking_ctx">[docs]</a>
 <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">auto_locking_ctx</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">auto_locking_ctx</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An auto-locking aware context manager. It ensures that the enclosed code block runs under the UG shared lock if</span>
 <span class="sd">    ugp.auto_locking is True, the target table-like object or any table-like arguments are refreshing, the current</span>
 <span class="sd">    thread doesn&#39;t own any UG lock, and the current thread is not part of the update graph.&quot;&quot;&quot;</span>

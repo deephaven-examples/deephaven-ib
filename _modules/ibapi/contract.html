@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>ibapi.contract - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -361,11 +361,11 @@
 <span class="sd">	UNKNOWN_POS = unknown</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">ibapi.object_implem</span> <span class="kn">import</span> <span class="n">Object</span>
-<span class="kn">from</span> <span class="nn">ibapi.common</span> <span class="kn">import</span> <span class="n">UNSET_DECIMAL</span>
-<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="kn">import</span> <span class="n">intMaxString</span>
-<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="kn">import</span> <span class="n">floatMaxString</span>
-<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="kn">import</span> <span class="n">decimalMaxString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.object_implem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Object</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET_DECIMAL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">intMaxString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">floatMaxString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decimalMaxString</span>
 
 
 <span class="p">(</span><span class="n">SAME_POS</span><span class="p">,</span> <span class="n">OPEN_POS</span><span class="p">,</span> <span class="n">CLOSE_POS</span><span class="p">,</span> <span class="n">UNKNOWN_POS</span><span class="p">)</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -373,8 +373,8 @@
 
 <div class="viewcode-block" id="ComboLeg">
 <a class="viewcode-back" href="../../code/ibapi.contract.html#ibapi.contract.ComboLeg">[docs]</a>
-<span class="k">class</span> <span class="nc">ComboLeg</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComboLeg</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conId</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># type: int</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># type: int</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>      <span class="c1"># BUY/SELL/SSHORT</span>
@@ -386,7 +386,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">exemptCode</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
             <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conId</span><span class="p">),</span>
             <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">),</span>
@@ -401,13 +401,13 @@
 
 <div class="viewcode-block" id="DeltaNeutralContract">
 <a class="viewcode-back" href="../../code/ibapi.contract.html#ibapi.contract.DeltaNeutralContract">[docs]</a>
-<span class="k">class</span> <span class="nc">DeltaNeutralContract</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DeltaNeutralContract</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conId</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c1"># type: int</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="mf">0.</span>  <span class="c1"># type: float</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="mf">0.</span>  <span class="c1"># type: float</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conId</span><span class="p">),</span>
             <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">),</span>
@@ -417,8 +417,8 @@
 
 <div class="viewcode-block" id="Contract">
 <a class="viewcode-back" href="../../code/ibapi.contract.html#ibapi.contract.Contract">[docs]</a>
-<span class="k">class</span> <span class="nc">Contract</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Contract</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conId</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">secType</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -443,7 +443,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">deltaNeutralContract</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conId</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">),</span>
@@ -477,8 +477,8 @@
 
 <div class="viewcode-block" id="ContractDetails">
 <a class="viewcode-back" href="../../code/ibapi.contract.html#ibapi.contract.ContractDetails">[docs]</a>
-<span class="k">class</span> <span class="nc">ContractDetails</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContractDetails</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="o">=</span> <span class="n">Contract</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">marketName</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">minTick</span> <span class="o">=</span> <span class="mf">0.</span>
@@ -524,7 +524,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nextOptionPartial</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">notes</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">marketName</span><span class="p">),</span>
@@ -575,8 +575,8 @@
 
 <div class="viewcode-block" id="ContractDescription">
 <a class="viewcode-back" href="../../code/ibapi.contract.html#ibapi.contract.ContractDescription">[docs]</a>
-<span class="k">class</span> <span class="nc">ContractDescription</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContractDescription</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="o">=</span> <span class="n">Contract</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">derivativeSecTypes</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># type: list of strings</span></div>
 

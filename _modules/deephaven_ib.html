@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven_ib - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=aca143e9" />
@@ -348,22 +348,22 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for deephaven_ib</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">pandas</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span>
 
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">deephaven.constants</span> <span class="kn">import</span> <span class="n">NULL_DOUBLE</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">Instant</span>
-<span class="kn">from</span> <span class="nn">ibapi.contract</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractDetails</span>
-<span class="kn">from</span> <span class="nn">ibapi.order</span> <span class="kn">import</span> <span class="n">Order</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">NULL_DOUBLE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instant</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.contract</span><span class="w"> </span><span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractDetails</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.order</span><span class="w"> </span><span class="kn">import</span> <span class="n">Order</span>
 
-<span class="kn">from</span> <span class="nn">._tws</span> <span class="kn">import</span> <span class="n">IbTwsClient</span>
-<span class="kn">from</span> <span class="nn">._tws.order_id_queue</span> <span class="kn">import</span> <span class="n">OrderIdStrategy</span>
-<span class="kn">from</span> <span class="nn">.time</span> <span class="kn">import</span> <span class="n">to_ib_datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._tws</span><span class="w"> </span><span class="kn">import</span> <span class="n">IbTwsClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._tws.order_id_queue</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderIdStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.time</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_ib_datetime</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MarketDataType&quot;</span><span class="p">,</span> <span class="s2">&quot;TickDataType&quot;</span><span class="p">,</span> <span class="s2">&quot;BarDataType&quot;</span><span class="p">,</span> <span class="s2">&quot;BarSize&quot;</span><span class="p">,</span> <span class="s2">&quot;Duration&quot;</span><span class="p">,</span> <span class="s2">&quot;OrderIdStrategy&quot;</span><span class="p">,</span>
            <span class="s2">&quot;Request&quot;</span><span class="p">,</span> <span class="s2">&quot;RegisteredContract&quot;</span><span class="p">,</span> <span class="s2">&quot;IbSessionTws&quot;</span><span class="p">]</span>
@@ -371,7 +371,7 @@
 
 <div class="viewcode-block" id="MarketDataType">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.MarketDataType">[docs]</a>
-<span class="k">class</span> <span class="nc">MarketDataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MarketDataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of market data to use.&quot;&quot;&quot;</span>
 
     <span class="n">REAL_TIME</span> <span class="o">=</span> <span class="mi">1</span>
@@ -385,7 +385,7 @@
 
 <div class="viewcode-block" id="TickDataType">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.TickDataType">[docs]</a>
-<span class="k">class</span> <span class="nc">TickDataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TickDataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tick data type.&quot;&quot;&quot;</span>
 
     <span class="n">LAST</span> <span class="o">=</span> <span class="s2">&quot;Last&quot;</span>
@@ -395,7 +395,7 @@
     <span class="n">MIDPOINT</span> <span class="o">=</span> <span class="s2">&quot;MidPoint&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Most recent midpoint.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">historical_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">historical_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;Last&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;Trades&quot;</span>
         <span class="k">else</span><span class="p">:</span>
@@ -403,14 +403,11 @@
 
 
 
-<span class="k">class</span> <span class="nc">GenericTickType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GenericTickType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tick data types for &#39;Generic&#39; data.</span>
 
 <span class="sd">    See: https://interactivebrokers.github.io/tws-api/tick_types.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">NEWS</span> <span class="o">=</span> <span class="mi">292</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;News.&quot;&quot;&quot;</span>
 
     <span class="n">DIVIDENDS</span> <span class="o">=</span> <span class="mi">456</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dividends.&quot;&quot;&quot;</span>
@@ -451,8 +448,11 @@
     <span class="n">FUTURE_INDEX_PREMIUM</span> <span class="o">=</span> <span class="mi">162</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of points that the index is over the cash index.&quot;&quot;&quot;</span>
 
-    <span class="n">OPTION_VOLATILITY_HISTORICAL</span> <span class="o">=</span> <span class="mi">104</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;30-day historical volatility.&quot;&quot;&quot;</span>
+    <span class="n">DELAYED_YIELD_BID</span> <span class="o">=</span> <span class="mi">103</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;10-15 minute delayed bid yield price.&quot;&quot;&quot;</span>
+    <span class="n">DELAYED_YIELD_ASK</span> <span class="o">=</span> <span class="mi">104</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;10-15 minute delayed ask yield price.&quot;&quot;&quot;</span>
+
     <span class="n">OPTION_VOLATILITY_HISTORICAL_REAL_TIME</span> <span class="o">=</span> <span class="mi">411</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Real-time historical volatility.&quot;&quot;&quot;</span>
     <span class="n">OPTION_VOLATILITY_IMPLIED</span> <span class="o">=</span> <span class="mi">106</span>
@@ -481,7 +481,7 @@
 
 <div class="viewcode-block" id="BarDataType">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.BarDataType">[docs]</a>
-<span class="k">class</span> <span class="nc">BarDataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BarDataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Bar data type.&quot;&quot;&quot;</span>
 
     <span class="n">TRADES</span> <span class="o">=</span> <span class="mi">1</span>
@@ -518,7 +518,7 @@
 
 <div class="viewcode-block" id="BarSize">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.BarSize">[docs]</a>
-<span class="k">class</span> <span class="nc">BarSize</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BarSize</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Bar data sizes.&quot;&quot;&quot;</span>
 
     <span class="n">SEC_1</span> <span class="o">=</span> <span class="s2">&quot;1 sec&quot;</span>
@@ -568,18 +568,18 @@
 
 <div class="viewcode-block" id="Duration">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Duration">[docs]</a>
-<span class="k">class</span> <span class="nc">Duration</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Duration</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Time period to request data for.&quot;&quot;&quot;</span>
 
     <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="Duration.seconds">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Duration.seconds">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">seconds</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">seconds</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a duration of a specified number of seconds.</span>
 
 <span class="sd">        Args:</span>
@@ -594,7 +594,7 @@
 <div class="viewcode-block" id="Duration.days">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Duration.days">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">days</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">days</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a duration of a specified number of days.</span>
 
 <span class="sd">        Args:</span>
@@ -609,7 +609,7 @@
 <div class="viewcode-block" id="Duration.weeks">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Duration.weeks">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">weeks</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weeks</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a duration of a specified number of weeks.</span>
 
 <span class="sd">        Args:</span>
@@ -624,7 +624,7 @@
 <div class="viewcode-block" id="Duration.months">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Duration.months">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">months</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">months</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a duration of a specified number of months.</span>
 
 <span class="sd">        Args:</span>
@@ -639,7 +639,7 @@
 <div class="viewcode-block" id="Duration.years">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Duration.years">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">years</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">years</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Duration&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a duration of a specified number of years.</span>
 
 <span class="sd">        Args:</span>
@@ -651,26 +651,26 @@
         <span class="k">return</span> <span class="n">Duration</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> Y&quot;</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Duration(&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;)&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="Request">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Request">[docs]</a>
-<span class="k">class</span> <span class="nc">Request</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Request</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; IB session request. &quot;&quot;&quot;</span>
 
     <span class="n">request_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">_cancel_func</span><span class="p">:</span> <span class="n">Callable</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cancel_func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cancel_func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">request_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cancel_func</span> <span class="o">=</span> <span class="n">cancel_func</span>
 
 <div class="viewcode-block" id="Request.is_cancellable">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Request.is_cancellable">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_cancellable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_cancellable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Is the request cancellable?</span>
 
 <span class="sd">        Returns:</span>
@@ -681,7 +681,7 @@
 
 <div class="viewcode-block" id="Request.cancel">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.Request.cancel">[docs]</a>
-    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancel the request.</span>
 
 <span class="sd">        Returns:</span>
@@ -701,7 +701,7 @@
 
 <div class="viewcode-block" id="RegisteredContract">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.RegisteredContract">[docs]</a>
-<span class="k">class</span> <span class="nc">RegisteredContract</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RegisteredContract</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Details describing a financial instrument that has been registered in the framework.  This can be a stock, bond, option, etc.</span>
 
 <span class="sd">    When some contracts are registered, details on multiple contracts are returned.</span>
@@ -710,13 +710,13 @@
     <span class="n">query_contract</span><span class="p">:</span> <span class="n">Contract</span>
     <span class="n">contract_details</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ContractDetails</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_contract</span><span class="p">:</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">contract_details</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ContractDetails</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_contract</span><span class="p">:</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">contract_details</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ContractDetails</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query_contract</span> <span class="o">=</span> <span class="n">query_contract</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contract_details</span> <span class="o">=</span> <span class="n">contract_details</span>
 
 <div class="viewcode-block" id="RegisteredContract.is_multi">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.RegisteredContract.is_multi">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Does the contract have multiple contract details?</span>
 
 <span class="sd">        Returns:</span>
@@ -725,14 +725,14 @@
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contract_details</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;RegistredContract(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">query_contract</span><span class="si">}</span><span class="s2">,[</span><span class="si">{</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">contract</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">cd</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">contract_details</span><span class="p">])</span><span class="si">}</span><span class="s2">])&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="IbSessionTws">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws">[docs]</a>
-<span class="k">class</span> <span class="nc">IbSessionTws</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">IbSessionTws</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; IB TWS session.</span>
 
 <span class="sd">    **NOTE: Some tables are data specific to the current client_id (e.g. orders_submitted).  A client_id of 0 includes</span>
@@ -827,7 +827,7 @@
     <span class="n">_tables_raw</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]</span>
     <span class="n">_tables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7497</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">download_short_rates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="p">:</span> <span class="n">OrderIdStrategy</span> <span class="o">=</span> <span class="n">OrderIdStrategy</span><span class="o">.</span><span class="n">INCREMENT</span><span class="p">,</span> <span class="n">read_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">is_fa</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7497</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">download_short_rates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">order_id_strategy</span><span class="p">:</span> <span class="n">OrderIdStrategy</span> <span class="o">=</span> <span class="n">OrderIdStrategy</span><span class="o">.</span><span class="n">INCREMENT</span><span class="p">,</span> <span class="n">read_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">is_fa</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="n">host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span> <span class="o">=</span> <span class="n">client_id</span>
@@ -837,7 +837,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">IbSessionTws</span><span class="o">.</span><span class="n">_make_tables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tables_raw</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">host</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">host</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Client host.</span>
 
 <span class="sd">        Returns:</span>
@@ -846,7 +846,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Client port.</span>
 
 <span class="sd">        Returns:</span>
@@ -855,7 +855,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_port</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">client_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">client_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Client ID.</span>
 
 <span class="sd">        Returns:</span>
@@ -864,14 +864,14 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">read_only</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_only</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Is the client read only?</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            a boolean indicating if the client is read only.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;IbSessionTws(host=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_host</span><span class="si">}</span><span class="s2">, port=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="si">}</span><span class="s2">, client_id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_client_id</span><span class="si">}</span><span class="s2">, read_only=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="c1">####################################################################################################################</span>
@@ -882,7 +882,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.connect">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.connect">[docs]</a>
-    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to an IB TWS session.  Raises an exception if already connected.</span>
 
 <span class="sd">        Returns:</span>
@@ -897,7 +897,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.disconnect">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.disconnect">[docs]</a>
-    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from an IB TWS session.</span>
 
 <span class="sd">        Returns:</span>
@@ -909,7 +909,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.is_connected">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.is_connected">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Is there a connection with TWS?</span>
 
 <span class="sd">        Returns:</span>
@@ -919,13 +919,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">isConnected</span><span class="p">()</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_assert_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assert_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assert that the IbSessionTws is connected.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_connected</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;IbSessionTws is not connected.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_assert_read_write</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assert_read_write</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assert that the IbSessionTws is read-write.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span><span class="p">:</span>
@@ -938,8 +938,8 @@
     <span class="c1">####################################################################################################################</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_make_tables</span><span class="p">(</span><span class="n">tables_raw</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]:</span>
-        <span class="k">def</span> <span class="nf">annotate_ticks</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_tables</span><span class="p">(</span><span class="n">tables_raw</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">annotate_ticks</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
             <span class="n">requests</span> <span class="o">=</span> <span class="n">tables_raw</span><span class="p">[</span><span class="s2">&quot;raw_requests&quot;</span><span class="p">]</span> \
                 <span class="o">.</span><span class="n">drop_columns</span><span class="p">([</span><span class="s2">&quot;ReceiveTime&quot;</span><span class="p">,</span> <span class="s2">&quot;RequestType&quot;</span><span class="p">,</span> <span class="s2">&quot;SecId&quot;</span><span class="p">,</span> <span class="s2">&quot;SecIdType&quot;</span><span class="p">,</span> <span class="s2">&quot;DeltaNeutralContract&quot;</span><span class="p">,</span> <span class="s2">&quot;Note&quot;</span><span class="p">])</span>
 
@@ -957,7 +957,7 @@
 
             <span class="k">return</span> <span class="n">rst</span>
 
-        <span class="k">def</span> <span class="nf">deephaven_ib_float_value</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">deephaven_ib_float_value</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">NULL_DOUBLE</span>
 
@@ -966,7 +966,7 @@
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">NULL_DOUBLE</span>
 
-        <span class="k">def</span> <span class="nf">deephaven_ib_parse_note</span><span class="p">(</span><span class="n">note</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">deephaven_ib_parse_note</span><span class="p">(</span><span class="n">note</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
             <span class="nb">dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">note</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">:</span>
@@ -1070,7 +1070,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets a dictionary of all data tables.</span>
 
 <span class="sd">        Returns:</span>
@@ -1079,7 +1079,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">tables_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tables_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets a dictionary of all raw data tables.  Raw tables are just as the data comes from IB.</span>
 
 <span class="sd">        Returns:</span>
@@ -1095,7 +1095,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.get_registered_contract">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.get_registered_contract">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_registered_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">Contract</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RegisteredContract</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_registered_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">Contract</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RegisteredContract</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets a contract that has been registered in the framework.  The registered contract is confirmed to</span>
 <span class="sd">        exist in the IB system and contains a complete description of the contract.</span>
 
@@ -1120,7 +1120,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_contracts_matching">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_contracts_matching">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_contracts_matching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_contracts_matching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Request contracts matching a pattern.  Results are returned in the ``contracts_matching`` table.</span>
 
 <span class="sd">        Args:</span>
@@ -1148,11 +1148,11 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_account_pnl">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_account_pnl">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_account_pnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_account_pnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Request PNL updates.  Results are returned in the ``accounts_pnl`` table.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            account (str): Account to request PNL for.  &quot;All&quot; requests for all accounts.</span>
+<span class="sd">            account (str): Account to request PNL for.</span>
 <span class="sd">            model_code (str): Model portfolio code to request PNL for.</span>
 
 <span class="sd">        Returns:</span>
@@ -1169,7 +1169,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_account_overview">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_account_overview">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_account_overview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_account_overview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Request portfolio overview updates.  Results are returned in the ``accounts_overview`` table.</span>
 
 <span class="sd">        Args:</span>
@@ -1189,7 +1189,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_account_positions">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_account_positions">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_account_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_account_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Request portfolio position updates.  Results are returned in the ``accounts_positions`` table.</span>
 
 <span class="sd">        Args:</span>
@@ -1209,7 +1209,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_single_pnl">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_single_pnl">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_single_pnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_single_pnl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Request PNL updates for a single position.  Results are returned in the ``accounts_pnl_single`` table.</span>
 
 <span class="sd">        Args:</span>
@@ -1237,7 +1237,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_news_historical">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_news_historical">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_news_historical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_news_historical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span>
                                 <span class="n">start</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">],</span>
                                 <span class="n">end</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">],</span>
                                 <span class="n">provider_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">total_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">]:</span>
@@ -1283,7 +1283,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_news_article">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_news_article">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_news_article</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">article_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_news_article</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">article_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Request the text of a news article.  Results are returned in the ``news_articles`` table.</span>
 
 <span class="sd">        Args:</span>
@@ -1314,7 +1314,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.set_market_data_type">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.set_market_data_type">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_market_data_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">market_data_type</span><span class="p">:</span> <span class="n">MarketDataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_market_data_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">market_data_type</span><span class="p">:</span> <span class="n">MarketDataType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the default type of market data.</span>
 
 <span class="sd">        Args:</span>
@@ -1334,7 +1334,7 @@
     <span class="c1"># noinspection PyDefaultArgument</span>
 <div class="viewcode-block" id="IbSessionTws.request_market_data">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_market_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">generic_tick_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GenericTickType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">generic_tick_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GenericTickType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
                             <span class="n">snapshot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">regulatory_snapshot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Request market data for a contract.  Results are returned in the ``ticks_price``, ``ticks_size``,</span>
 <span class="sd">        ``ticks_string``, ``ticks_efp``, ``ticks_generic``, and ``ticks_option_computation`` tables.</span>
@@ -1373,7 +1373,7 @@
         <span class="k">return</span> <span class="n">requests</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_cancel_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cancel_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancel a market data request.</span>
 
 <span class="sd">        Args:</span>
@@ -1391,7 +1391,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_bars_historical">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_bars_historical">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_bars_historical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_bars_historical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span>
                                 <span class="n">duration</span><span class="p">:</span> <span class="n">Duration</span><span class="p">,</span> <span class="n">bar_size</span><span class="p">:</span> <span class="n">BarSize</span><span class="p">,</span> <span class="n">bar_type</span><span class="p">:</span> <span class="n">BarDataType</span><span class="p">,</span>
                                 <span class="n">end</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                 <span class="n">market_data_type</span><span class="p">:</span> <span class="n">MarketDataType</span> <span class="o">=</span> <span class="n">MarketDataType</span><span class="o">.</span><span class="n">FROZEN</span><span class="p">,</span>
@@ -1442,7 +1442,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_bars_realtime">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_bars_realtime">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_bars_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">bar_type</span><span class="p">:</span> <span class="n">BarDataType</span><span class="p">,</span> <span class="n">bar_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_bars_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">bar_type</span><span class="p">:</span> <span class="n">BarDataType</span><span class="p">,</span> <span class="n">bar_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
                               <span class="n">market_data_type</span><span class="p">:</span> <span class="n">MarketDataType</span> <span class="o">=</span> <span class="n">MarketDataType</span><span class="o">.</span><span class="n">FROZEN</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Requests real time bars for a contract.  Results are returned in the ``bars_realtime`` table.</span>
 
@@ -1479,7 +1479,7 @@
         <span class="k">return</span> <span class="n">requests</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_cancel_bars_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cancel_bars_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancel a real-time bar request.</span>
 
 <span class="sd">        Args:</span>
@@ -1497,7 +1497,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_tick_data_realtime">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_tick_data_realtime">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_tick_data_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">tick_type</span><span class="p">:</span> <span class="n">TickDataType</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_tick_data_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">tick_type</span><span class="p">:</span> <span class="n">TickDataType</span><span class="p">,</span>
                                    <span class="n">number_of_ticks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ignore_size</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Requests real-time tick-by-tick data.  Results are returned in the ``ticks_trade``, ``ticks_bid_ask``,</span>
 <span class="sd">        and ``ticks_mid_point`` tables.</span>
@@ -1533,7 +1533,7 @@
         <span class="k">return</span> <span class="n">requests</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_cancel_tick_data_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cancel_tick_data_realtime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancel a real-time tick-by-tick data request.</span>
 
 <span class="sd">        Args:</span>
@@ -1551,7 +1551,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.request_tick_data_historical">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.request_tick_data_historical">[docs]</a>
-    <span class="k">def</span> <span class="nf">request_tick_data_historical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">request_tick_data_historical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span>
                                      <span class="n">tick_type</span><span class="p">:</span> <span class="n">TickDataType</span><span class="p">,</span> <span class="n">number_of_ticks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                                      <span class="n">start</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                      <span class="n">end</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1614,7 +1614,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.order_place">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.order_place">[docs]</a>
-    <span class="k">def</span> <span class="nf">order_place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="n">Order</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">order_place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="n">RegisteredContract</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="n">Order</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Places an order.</span>
 
 <span class="sd">        Args:</span>
@@ -1648,7 +1648,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.order_cancel">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.order_cancel">[docs]</a>
-    <span class="k">def</span> <span class="nf">order_cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">order_cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancels an order.</span>
 
 <span class="sd">        Args:</span>
@@ -1668,7 +1668,7 @@
 
 <div class="viewcode-block" id="IbSessionTws.order_cancel_all">
 <a class="viewcode-back" href="../code/deephaven_ib.html#deephaven_ib.IbSessionTws.order_cancel_all">[docs]</a>
-    <span class="k">def</span> <span class="nf">order_cancel_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">order_cancel_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancel all open orders.</span>
 
 <span class="sd">        Returns:</span>

@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.pandas - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,26 +353,26 @@
 <span class="c1">#</span>
 
 <span class="sd">&quot;&quot;&quot; This module supports the conversion between Deephaven tables and pandas DataFrames. &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">new_table</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">,</span> <span class="n">arrow</span>
-<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="kn">import</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">deephaven.constants</span> <span class="kn">import</span> <span class="n">NULL_BYTE</span><span class="p">,</span> <span class="n">NULL_SHORT</span><span class="p">,</span> <span class="n">NULL_INT</span><span class="p">,</span> <span class="n">NULL_LONG</span><span class="p">,</span> <span class="n">NULL_FLOAT</span><span class="p">,</span> <span class="n">NULL_DOUBLE</span><span class="p">,</span> <span class="n">NULL_CHAR</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">_j_array_to_series</span>
-<span class="kn">from</span> <span class="nn">deephaven.numpy</span> <span class="kn">import</span> <span class="n">_make_input_column</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">new_table</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">,</span> <span class="n">arrow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.column</span><span class="w"> </span><span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">NULL_BYTE</span><span class="p">,</span> <span class="n">NULL_SHORT</span><span class="p">,</span> <span class="n">NULL_INT</span><span class="p">,</span> <span class="n">NULL_LONG</span><span class="p">,</span> <span class="n">NULL_FLOAT</span><span class="p">,</span> <span class="n">NULL_DOUBLE</span><span class="p">,</span> <span class="n">NULL_CHAR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">_j_array_to_series</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_input_column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">_NULL_BOOLEAN_AS_BYTE</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.util.BooleanUtils&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">NULL_BOOLEAN_AS_BYTE</span>
 <span class="n">_JDataAccessHelpers</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.impl.DataAccessHelpers&quot;</span><span class="p">)</span>
 <span class="n">_is_dtype_backend_supported</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&gt;=</span> <span class="s2">&quot;2.0.0&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">_column_to_series</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">col_def</span><span class="p">:</span> <span class="n">Column</span><span class="p">,</span> <span class="n">conv_null</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_column_to_series</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">col_def</span><span class="p">:</span> <span class="n">Column</span><span class="p">,</span> <span class="n">conv_null</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce a copy of the specified column as a pandas.Series object.</span>
 
 <span class="sd">    Args:</span>
@@ -394,7 +394,7 @@
     <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to create a pandas Series for </span><span class="si">{col}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to create a pandas Series for </span><span class="si">{col}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
 
 <span class="n">_PANDAS_ARROW_TYPE_MAP</span> <span class="o">=</span> <span class="p">{</span>
@@ -438,7 +438,7 @@
 
 <div class="viewcode-block" id="to_pandas">
 <a class="viewcode-back" href="../../code/deephaven.pandas.html#deephaven.pandas.to_pandas">[docs]</a>
-<span class="k">def</span> <span class="nf">to_pandas</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_pandas</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
               <span class="n">dtype_backend</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;pyarrow&quot;</span><span class="p">,</span> <span class="s2">&quot;numpy_nullable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;numpy_nullable&quot;</span><span class="p">,</span>
               <span class="n">conv_null</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Produces a pandas DataFrame from a table.</span>
@@ -503,7 +503,7 @@
     <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a pandas DataFrame from table.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a pandas DataFrame from table.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
@@ -530,7 +530,7 @@
 <span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">_map_na</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExtensionArray</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_map_na</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExtensionArray</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replaces the pd.NA values in the array if it is of pandas ExtensionDtype(nullable).&quot;&quot;&quot;</span>
     <span class="n">pd_dtype</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">dtype</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pd_dtype</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExtensionDtype</span><span class="p">):</span>
@@ -557,7 +557,7 @@
 
 <div class="viewcode-block" id="to_table">
 <a class="viewcode-back" href="../../code/deephaven.pandas.html#deephaven.pandas.to_table">[docs]</a>
-<span class="k">def</span> <span class="nf">to_table</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_table</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new table from a pandas DataFrame.</span>
 
 <span class="sd">    Args:</span>
@@ -604,7 +604,7 @@
     <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Deephaven Table from a pandas DataFrame.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Deephaven Table from a pandas DataFrame.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 </pre></div>

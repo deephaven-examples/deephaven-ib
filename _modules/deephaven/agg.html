@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.agg - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,12 +353,12 @@
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;This module implement various aggregations that can be used in deephaven table&#39;s aggregation operations.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">to_sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_sequence</span>
 
 <span class="n">_JAggregation</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.agg.Aggregation&quot;</span><span class="p">)</span>
 <span class="n">_JAggSpec</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.agg.spec.AggSpec&quot;</span><span class="p">)</span>
@@ -368,20 +368,20 @@
 
 <div class="viewcode-block" id="Aggregation">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.Aggregation">[docs]</a>
-<span class="k">class</span> <span class="nc">Aggregation</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An Aggregation object represents an aggregation operation.</span>
 
 <span class="sd">    Note: It should not be instantiated directly by user code but rather through the static methods on the class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_agg_spec</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">j_aggregation</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_agg_spec</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">j_aggregation</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_agg_spec</span> <span class="o">=</span> <span class="n">j_agg_spec</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_aggregation</span> <span class="o">=</span> <span class="n">j_aggregation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span> <span class="o">=</span> <span class="n">to_sequence</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_aggregation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_aggregation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_aggregation</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_aggregation</span>
         <span class="k">else</span><span class="p">:</span>
@@ -390,20 +390,20 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_agg_spec</span><span class="o">.</span><span class="n">aggregation</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">_JPair</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span><span class="p">])</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_agg_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_agg_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_aggregation</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;unsupported aggregation operation.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_agg_spec</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j_agg_spec</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.agg.spec.AggSpecFormula&quot;</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="sum_">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.sum_">[docs]</a>
-<span class="k">def</span> <span class="nf">sum_</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sum_</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Sum aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -419,7 +419,7 @@
 
 <div class="viewcode-block" id="abs_sum">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.abs_sum">[docs]</a>
-<span class="k">def</span> <span class="nf">abs_sum</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">abs_sum</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an Absolute-sum aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -435,7 +435,7 @@
 
 <div class="viewcode-block" id="group">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.group">[docs]</a>
-<span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">group</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Group aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -451,7 +451,7 @@
 
 <div class="viewcode-block" id="avg">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.avg">[docs]</a>
-<span class="k">def</span> <span class="nf">avg</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">avg</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an Average aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -467,7 +467,7 @@
 
 <div class="viewcode-block" id="count_">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.count_">[docs]</a>
-<span class="k">def</span> <span class="nf">count_</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">count_</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Count aggregation. This is not supported in &#39;Table.agg_all_by&#39;.</span>
 
 <span class="sd">    Args:</span>
@@ -484,7 +484,7 @@
 
 <div class="viewcode-block" id="partition">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.partition">[docs]</a>
-<span class="k">def</span> <span class="nf">partition</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_by_columns</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">partition</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_by_columns</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Partition aggregation. This is not supported in &#39;Table.agg_all_by&#39;.</span>
 
 <span class="sd">    Args:</span>
@@ -502,7 +502,7 @@
 
 <div class="viewcode-block" id="count_distinct">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.count_distinct">[docs]</a>
-<span class="k">def</span> <span class="nf">count_distinct</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">count_nulls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">count_distinct</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">count_nulls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Count Distinct aggregation which computes the count of distinct values within an aggregation group for</span>
 <span class="sd">    each of the given columns.</span>
 
@@ -520,7 +520,7 @@
 
 <div class="viewcode-block" id="first">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.first">[docs]</a>
-<span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">first</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a First aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -536,7 +536,7 @@
 
 <div class="viewcode-block" id="formula">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.formula">[docs]</a>
-<span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="n">formula</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">formula_param</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">formula</span><span class="p">(</span><span class="n">formula</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">formula_param</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a user defined formula aggregation. This formula can contain a combination of any of the following:</span>
 <span class="sd">        |  Built-in functions such as `min`, `max`, etc.</span>
 <span class="sd">        |  Mathematical arithmetic such as `*`, `+`, `/`, etc.</span>
@@ -558,7 +558,7 @@
 
 <div class="viewcode-block" id="last">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.last">[docs]</a>
-<span class="k">def</span> <span class="nf">last</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">last</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates Last aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -574,7 +574,7 @@
 
 <div class="viewcode-block" id="min_">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.min_">[docs]</a>
-<span class="k">def</span> <span class="nf">min_</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">min_</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Min aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -590,7 +590,7 @@
 
 <div class="viewcode-block" id="max_">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.max_">[docs]</a>
-<span class="k">def</span> <span class="nf">max_</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Max aggregation to the ComboAggregation object.</span>
 
 <span class="sd">    Args:</span>
@@ -606,7 +606,7 @@
 
 <div class="viewcode-block" id="median">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.median">[docs]</a>
-<span class="k">def</span> <span class="nf">median</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">average_evenly_divided</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">median</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">average_evenly_divided</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Median aggregation which computes the median value within an aggregation group for each of the</span>
 <span class="sd">    given columns.</span>
 
@@ -626,7 +626,7 @@
 
 <div class="viewcode-block" id="pct">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.pct">[docs]</a>
-<span class="k">def</span> <span class="nf">pct</span><span class="p">(</span><span class="n">percentile</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">average_evenly_divided</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pct</span><span class="p">(</span><span class="n">percentile</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">average_evenly_divided</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Percentile aggregation which computes the percentile value within an aggregation group for each of</span>
 <span class="sd">    the given columns.</span>
 
@@ -647,7 +647,7 @@
 
 <div class="viewcode-block" id="sorted_first">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.sorted_first">[docs]</a>
-<span class="k">def</span> <span class="nf">sorted_first</span><span class="p">(</span><span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sorted_first</span><span class="p">(</span><span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a SortedFirst aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -664,7 +664,7 @@
 
 <div class="viewcode-block" id="sorted_last">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.sorted_last">[docs]</a>
-<span class="k">def</span> <span class="nf">sorted_last</span><span class="p">(</span><span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sorted_last</span><span class="p">(</span><span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a SortedLast aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -681,7 +681,7 @@
 
 <div class="viewcode-block" id="std">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.std">[docs]</a>
-<span class="k">def</span> <span class="nf">std</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">std</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Std (sample standard deviation) aggregation.</span>
 
 <span class="sd">    Sample standard deviation is computed using `Bessel&#39;s correction &lt;https://en.wikipedia.org/wiki/Bessel%27s_correction&gt;`_,</span>
@@ -701,7 +701,7 @@
 
 <div class="viewcode-block" id="unique">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.unique">[docs]</a>
-<span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">include_nulls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">non_unique_sentinel</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">unique</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">include_nulls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">non_unique_sentinel</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Unique aggregation which computes the single unique value within an aggregation group for each of</span>
 <span class="sd">    the given columns. If all values in a column are null, or if there is more than one distinct value in a column, the</span>
 <span class="sd">    result is null or the specified non_unique_sentinel value.</span>
@@ -731,7 +731,7 @@
 
 <div class="viewcode-block" id="var">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.var">[docs]</a>
-<span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a sample Var aggregation.</span>
 
 <span class="sd">    Sample standard deviation is computed using `Bessel&#39;s correction &lt;https://en.wikipedia.org/wiki/Bessel%27s_correction&gt;`_,</span>
@@ -751,7 +751,7 @@
 
 <div class="viewcode-block" id="weighted_avg">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.weighted_avg">[docs]</a>
-<span class="k">def</span> <span class="nf">weighted_avg</span><span class="p">(</span><span class="n">wcol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_avg</span><span class="p">(</span><span class="n">wcol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Weighted-avg aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -768,7 +768,7 @@
 
 <div class="viewcode-block" id="weighted_sum">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.weighted_sum">[docs]</a>
-<span class="k">def</span> <span class="nf">weighted_sum</span><span class="p">(</span><span class="n">wcol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_sum</span><span class="p">(</span><span class="n">wcol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Weighted-sum aggregation.</span>
 
 <span class="sd">    Args:</span>
@@ -785,7 +785,7 @@
 
 <div class="viewcode-block" id="distinct">
 <a class="viewcode-back" href="../../code/deephaven.agg.html#deephaven.agg.distinct">[docs]</a>
-<span class="k">def</span> <span class="nf">distinct</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">include_nulls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">distinct</span><span class="p">(</span><span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">include_nulls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Aggregation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Distinct aggregation which computes the distinct values within an aggregation group for each of the</span>
 <span class="sd">    given columns and stores them as vectors.</span>
 

@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.stream.kafka.cdc - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=aca143e9" />
@@ -355,15 +355,15 @@
 <span class="sd">&quot;&quot;&quot; This module provides Change Data Capture(CDC) support for streaming relational database changes into Deephaven</span>
 <span class="sd">tables. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_properties</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.stream.kafka.consumer</span> <span class="kn">import</span> <span class="n">j_partitions</span><span class="p">,</span> <span class="n">TableType</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_properties</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.stream.kafka.consumer</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_partitions</span><span class="p">,</span> <span class="n">TableType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">_JCdcTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.kafka.CdcTools&quot;</span><span class="p">)</span>
 <span class="n">_JCDCSpec</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.kafka.CdcTools$CdcSpec&quot;</span><span class="p">)</span>
@@ -371,22 +371,22 @@
 
 <div class="viewcode-block" id="CDCSpec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.cdc.html#deephaven.stream.kafka.cdc.CDCSpec">[docs]</a>
-<span class="k">class</span> <span class="nc">CDCSpec</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CDCSpec</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A specification for how to consume a CDC Kafka stream. &quot;&quot;&quot;</span>
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JCDCSpec</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_spec</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_spec</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_spec</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_spec</span> <span class="o">=</span> <span class="n">j_spec</span></div>
 
 
 
 <div class="viewcode-block" id="consume">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.cdc.html#deephaven.stream.kafka.cdc.consume">[docs]</a>
-<span class="k">def</span> <span class="nf">consume</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">consume</span><span class="p">(</span>
         <span class="n">kafka_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">cdc_spec</span><span class="p">:</span> <span class="n">CDCSpec</span><span class="p">,</span>
         <span class="n">partitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -422,13 +422,13 @@
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
             <span class="n">j_table</span><span class="o">=</span><span class="n">_JCdcTools</span><span class="o">.</span><span class="n">consumeToTable</span><span class="p">(</span><span class="n">kafka_config</span><span class="p">,</span> <span class="n">cdc_spec</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span> <span class="n">partitions</span><span class="p">,</span> <span class="n">stream_table</span><span class="p">,</span> <span class="n">cols_to_drop</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to consume a CDC stream.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to consume a CDC stream.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="consume_raw">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.cdc.html#deephaven.stream.kafka.cdc.consume_raw">[docs]</a>
-<span class="k">def</span> <span class="nf">consume_raw</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">consume_raw</span><span class="p">(</span>
         <span class="n">kafka_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">cdc_spec</span><span class="p">:</span> <span class="n">CDCSpec</span><span class="p">,</span>
         <span class="n">partitions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -457,13 +457,13 @@
         <span class="n">table_type_enum</span> <span class="o">=</span> <span class="n">table_type</span><span class="o">.</span><span class="n">value</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_table</span><span class="o">=</span><span class="n">_JCdcTools</span><span class="o">.</span><span class="n">consumeRawToTable</span><span class="p">(</span><span class="n">kafka_config</span><span class="p">,</span> <span class="n">cdc_spec</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span> <span class="n">partitions</span><span class="p">,</span> <span class="n">table_type_enum</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to consume a raw CDC stream.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to consume a raw CDC stream.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="cdc_long_spec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.cdc.html#deephaven.stream.kafka.cdc.cdc_long_spec">[docs]</a>
-<span class="k">def</span> <span class="nf">cdc_long_spec</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cdc_long_spec</span><span class="p">(</span>
         <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">key_schema_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">key_schema_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -495,13 +495,13 @@
         <span class="k">return</span> <span class="n">CDCSpec</span><span class="p">(</span><span class="n">j_spec</span><span class="o">=</span><span class="n">_JCdcTools</span><span class="o">.</span><span class="n">cdcLongSpec</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">key_schema_name</span><span class="p">,</span> <span class="n">key_schema_version</span><span class="p">,</span> <span class="n">value_schema_name</span><span class="p">,</span>
                                                      <span class="n">value_schema_version</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a CDC spec in cdc_long_spec.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a CDC spec in cdc_long_spec.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="cdc_short_spec">
 <a class="viewcode-back" href="../../../../code/deephaven.stream.kafka.cdc.html#deephaven.stream.kafka.cdc.cdc_short_spec">[docs]</a>
-<span class="k">def</span> <span class="nf">cdc_short_spec</span><span class="p">(</span><span class="n">server_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cdc_short_spec</span><span class="p">(</span><span class="n">server_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a CDCSpec in the debezium style from the provided server name, database name and table name.</span>
 
 <span class="sd">    The topic name, and key and value schema names are implied by convention:</span>
@@ -523,7 +523,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">CDCSpec</span><span class="p">(</span><span class="n">j_spec</span><span class="o">=</span><span class="n">_JCdcTools</span><span class="o">.</span><span class="n">cdcShortSpec</span><span class="p">(</span><span class="n">server_name</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table_name</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a CDC spec in cdc_short_spec.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a CDC spec in cdc_short_spec.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

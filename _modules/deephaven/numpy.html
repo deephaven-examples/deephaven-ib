@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.numpy - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,31 +353,31 @@
 <span class="c1">#</span>
 
 <span class="sd">&quot;&quot;&quot; This module supports the conversion between Deephaven tables and numpy arrays. &quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span><span class="p">,</span> <span class="n">BusinessCalendar</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span><span class="p">,</span> <span class="n">BusinessCalendar</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">,</span> <span class="n">new_table</span>
-<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">InputColumn</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">_j_array_to_numpy_array</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_list_to_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">,</span> <span class="n">new_table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.column</span><span class="w"> </span><span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">InputColumn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">_j_array_to_numpy_array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_list_to_list</span>
 
 <span class="n">_JDataAccessHelpers</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.impl.DataAccessHelpers&quot;</span><span class="p">)</span>
 <span class="n">_JDayOfWeek</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.time.DayOfWeek&quot;</span><span class="p">)</span>
 <span class="n">_JArrayList</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.util.ArrayList&quot;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">_to_column_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_column_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Transforms the given name string into a valid table column name. &quot;&quot;&quot;</span>
     <span class="n">tmp_name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">tmp_name</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_column_to_numpy_array</span><span class="p">(</span><span class="n">col_def</span><span class="p">:</span> <span class="n">Column</span><span class="p">,</span> <span class="n">j_array</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_column_to_numpy_array</span><span class="p">(</span><span class="n">col_def</span><span class="p">:</span> <span class="n">Column</span><span class="p">,</span> <span class="n">j_array</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Produces a numpy array from the given Java array and the Table column definition.</span>
 
 <span class="sd">    Args:</span>
@@ -395,10 +395,10 @@
     <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create a numpy array for the column </span><span class="si">{</span><span class="n">col_def</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create a numpy array for the column </span><span class="si">{</span><span class="n">col_def</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
 
-<span class="k">def</span> <span class="nf">_columns_to_2d_numpy_array</span><span class="p">(</span><span class="n">col_def</span><span class="p">:</span> <span class="n">Column</span><span class="p">,</span> <span class="n">j_arrays</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_columns_to_2d_numpy_array</span><span class="p">(</span><span class="n">col_def</span><span class="p">:</span> <span class="n">Column</span><span class="p">,</span> <span class="n">j_arrays</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Produces a 2d numpy array from the given Java arrays of the same component type and the Table column</span>
 <span class="sd">    definition &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -415,17 +415,17 @@
     <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create a numpy array for the column </span><span class="si">{</span><span class="n">col_def</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to create a numpy array for the column </span><span class="si">{</span><span class="n">col_def</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
 
-<span class="k">def</span> <span class="nf">_make_input_column</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_input_column</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputColumn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a InputColumn with the given column name and the numpy array. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">InputColumn</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">_to_column_name</span><span class="p">(</span><span class="n">col</span><span class="p">),</span> <span class="n">data_type</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">input_data</span><span class="o">=</span><span class="n">np_array</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="to_numpy">
 <a class="viewcode-back" href="../../code/deephaven.numpy.html#deephaven.numpy.to_numpy">[docs]</a>
-<span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_numpy</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;  Produces a numpy array from a table.</span>
 
 <span class="sd">    Note that the **entire table** is going to be cloned into memory, so the total number of entries in the table</span>
@@ -467,13 +467,13 @@
     <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a numpy array from the table column.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a numpy array from the table column.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_table">
 <a class="viewcode-back" href="../../code/deephaven.numpy.html#deephaven.numpy.to_table">[docs]</a>
-<span class="k">def</span> <span class="nf">to_table</span><span class="p">(</span><span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_table</span><span class="p">(</span><span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;  Creates a new table from a numpy array.</span>
 
 <span class="sd">    Args:</span>
@@ -508,13 +508,13 @@
     <span class="k">except</span> <span class="n">DHError</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Deephaven Table from a Pandas DataFrame.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a Deephaven Table from a Pandas DataFrame.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="to_np_busdaycalendar">
 <a class="viewcode-back" href="../../code/deephaven.numpy.html#deephaven.numpy.to_np_busdaycalendar">[docs]</a>
-<span class="k">def</span> <span class="nf">to_np_busdaycalendar</span><span class="p">(</span><span class="n">cal</span><span class="p">:</span> <span class="n">BusinessCalendar</span><span class="p">,</span> <span class="n">include_partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">busdaycalendar</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_np_busdaycalendar</span><span class="p">(</span><span class="n">cal</span><span class="p">:</span> <span class="n">BusinessCalendar</span><span class="p">,</span> <span class="n">include_partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">busdaycalendar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a numpy business day calendar from a Java BusinessCalendar.</span>
 
 <span class="sd">    Partial holidays in the business calendar are interepreted as full holidays in the numpy business day calendar.</span>
@@ -552,7 +552,7 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">busdaycalendar</span><span class="p">(</span><span class="n">weekmask</span><span class="o">=</span><span class="n">weekmask</span><span class="p">,</span> <span class="n">holidays</span><span class="o">=</span><span class="n">holidays</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a numpy busdaycalendar from a Java BusinessCalendar.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create a numpy busdaycalendar from a Java BusinessCalendar.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

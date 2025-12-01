@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.dbc - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -352,16 +352,16 @@
 <span class="c1"># Copyright (c) 2016-2024 Deephaven Data Labs and Patent Pending</span>
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;The dbc package includes the modules and functions for using external databases with Deephaven.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span>
 
-<span class="kn">import</span> <span class="nn">deephaven.arrow</span> <span class="k">as</span> <span class="nn">dharrow</span>
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">deephaven.arrow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dharrow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 
 <div class="viewcode-block" id="read_sql">
 <a class="viewcode-back" href="../../code/deephaven.dbc.html#deephaven.read_sql">[docs]</a>
-<span class="k">def</span> <span class="nf">read_sql</span><span class="p">(</span><span class="n">conn</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">driver</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;odbc&quot;</span><span class="p">,</span> <span class="s2">&quot;adbc&quot;</span><span class="p">,</span> <span class="s2">&quot;connectorx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;connectorx&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_sql</span><span class="p">(</span><span class="n">conn</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">driver</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;odbc&quot;</span><span class="p">,</span> <span class="s2">&quot;adbc&quot;</span><span class="p">,</span> <span class="s2">&quot;connectorx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;connectorx&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Executes the provided SQL query via a supported driver and returns a Deephaven table.</span>
 
 <span class="sd">    Args:</span>
@@ -379,7 +379,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">driver</span> <span class="o">==</span> <span class="s2">&quot;connectorx&quot;</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="kn">import</span> <span class="nn">connectorx</span> <span class="k">as</span> <span class="nn">cx</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">connectorx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cx</span>
             <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;import connectorx failed, please install it first.&quot;</span><span class="p">)</span>
 
@@ -387,20 +387,20 @@
                 <span class="n">pa_table</span> <span class="o">=</span> <span class="n">cx</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">conn</span><span class="o">=</span><span class="n">conn</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;arrow&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">dharrow</span><span class="o">.</span><span class="n">to_table</span><span class="p">(</span><span class="n">pa_table</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to get a Arrow table from ConnectorX.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to get a Arrow table from ConnectorX.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">elif</span> <span class="n">driver</span> <span class="o">==</span> <span class="s2">&quot;odbc&quot;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">deephaven.dbc.odbc</span> <span class="kn">import</span> <span class="n">read_cursor</span>
-            <span class="kn">import</span> <span class="nn">turbodbc</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dbc.odbc</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_cursor</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">turbodbc</span>
             <span class="k">with</span> <span class="n">turbodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connection_string</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
                 <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
                     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">read_cursor</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">driver</span> <span class="o">==</span> <span class="s2">&quot;adbc&quot;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">deephaven.dbc.adbc</span> <span class="kn">import</span> <span class="n">read_cursor</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dbc.adbc</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_cursor</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="p">:</span>
-                <span class="kn">import</span> <span class="nn">adbc_driver_sqlite.dbapi</span> <span class="k">as</span> <span class="nn">dbapi</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">adbc_driver_sqlite.dbapi</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dbapi</span>
             <span class="k">elif</span> <span class="n">conn</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;postgresql:&quot;</span><span class="p">):</span>
-                <span class="kn">import</span> <span class="nn">adbc_driver_postgresql.dbapi</span> <span class="k">as</span> <span class="nn">dbapi</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">adbc_driver_postgresql.dbapi</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dbapi</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;unsupported ADBC connection string </span><span class="si">{</span><span class="n">conn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -412,9 +412,9 @@
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;unsupported driver </span><span class="si">{</span><span class="n">driver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">adbc_driver_manager.dbapi</span> <span class="k">as</span> <span class="nn">dbapi</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">adbc_driver_manager.dbapi</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dbapi</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">dbapi</span><span class="o">.</span><span class="n">Connection</span><span class="p">):</span>
-                <span class="kn">from</span> <span class="nn">deephaven.dbc.adbc</span> <span class="kn">import</span> <span class="n">read_cursor</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dbc.adbc</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_cursor</span>
                 <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
                     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">read_cursor</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
@@ -422,9 +422,9 @@
             <span class="k">pass</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">turbodbc.connection</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">turbodbc.connection</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">turbodbc</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">Connection</span><span class="p">):</span>
-                <span class="kn">from</span> <span class="nn">deephaven.dbc.odbc</span> <span class="kn">import</span> <span class="n">read_cursor</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dbc.odbc</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_cursor</span>
                 <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
                     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">read_cursor</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>

@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.jcompat - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -355,15 +355,15 @@
 <span class="sd">&quot;&quot;&quot; This module provides Java compatibility support including convenience functions to create some widely used Java</span>
 <span class="sd">data structures from corresponding Python ones in order to be able to call Java methods. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">dtypes</span><span class="p">,</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">unwrap</span><span class="p">,</span> <span class="n">wrap_j_object</span><span class="p">,</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span><span class="p">,</span> <span class="n">_PRIMITIVE_DTYPE_NULL_MAP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">dtypes</span><span class="p">,</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">unwrap</span><span class="p">,</span> <span class="n">wrap_j_object</span><span class="p">,</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span><span class="p">,</span> <span class="n">_PRIMITIVE_DTYPE_NULL_MAP</span>
 
 <span class="n">_NULL_BOOLEAN_AS_BYTE</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.util.BooleanUtils&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">NULL_BOOLEAN_AS_BYTE</span>
 <span class="n">_JPrimitiveArrayConversionUtility</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.integrations.common.PrimitiveArrayConversionUtility&quot;</span><span class="p">)</span>
@@ -382,7 +382,7 @@
 
 <div class="viewcode-block" id="is_java_type">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.is_java_type">[docs]</a>
-<span class="k">def</span> <span class="nf">is_java_type</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_java_type</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns True if the object is originated in Java.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">)</span></div>
 
@@ -390,7 +390,7 @@
 
 <div class="viewcode-block" id="j_array_list">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_array_list">[docs]</a>
-<span class="k">def</span> <span class="nf">j_array_list</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_array_list</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Java ArrayList instance from an iterable.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -403,7 +403,7 @@
 
 <div class="viewcode-block" id="j_hashmap">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_hashmap">[docs]</a>
-<span class="k">def</span> <span class="nf">j_hashmap</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_hashmap</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Java HashMap from a dict.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -419,7 +419,7 @@
 
 <div class="viewcode-block" id="j_hashset">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_hashset">[docs]</a>
-<span class="k">def</span> <span class="nf">j_hashset</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_hashset</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Java HashSet from a set.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -433,7 +433,7 @@
 
 <div class="viewcode-block" id="j_properties">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_properties">[docs]</a>
-<span class="k">def</span> <span class="nf">j_properties</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_properties</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Java Properties from a dict.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -448,7 +448,7 @@
 
 <div class="viewcode-block" id="j_map_to_dict">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_map_to_dict">[docs]</a>
-<span class="k">def</span> <span class="nf">j_map_to_dict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_map_to_dict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a java map to a python dictionary.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{}</span>
@@ -459,7 +459,7 @@
 
 <div class="viewcode-block" id="j_list_to_list">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_list_to_list">[docs]</a>
-<span class="k">def</span> <span class="nf">j_list_to_list</span><span class="p">(</span><span class="n">jlist</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_list_to_list</span><span class="p">(</span><span class="n">jlist</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a java list to a python list.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">jlist</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
@@ -474,7 +474,7 @@
 
 <div class="viewcode-block" id="j_runnable">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_runnable">[docs]</a>
-<span class="k">def</span> <span class="nf">j_runnable</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_runnable</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructs a Java &#39;Runnable&#39; implementation from a Python callable that doesn&#39;t take any arguments and returns</span>
 <span class="sd">    None.</span>
 
@@ -490,7 +490,7 @@
 
 <div class="viewcode-block" id="j_function">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_function">[docs]</a>
-<span class="k">def</span> <span class="nf">j_function</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">R</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_function</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">R</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructs a Java &#39;Function&lt;PyObject, Object&gt;&#39; implementation from a Python callable or an object with an</span>
 <span class="sd">    &#39;apply&#39; method that accepts a single argument.</span>
 
@@ -509,7 +509,7 @@
 
 <div class="viewcode-block" id="j_unary_operator">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_unary_operator">[docs]</a>
-<span class="k">def</span> <span class="nf">j_unary_operator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_unary_operator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructs a Java &#39;Function&lt;PyObject, Object&gt;&#39; implementation from a Python callable or an object with an</span>
 <span class="sd">    &#39;apply&#39; method that accepts a single argument.</span>
 
@@ -528,7 +528,7 @@
 
 <div class="viewcode-block" id="j_binary_operator">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_binary_operator">[docs]</a>
-<span class="k">def</span> <span class="nf">j_binary_operator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_binary_operator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructs a Java &#39;Function&lt;PyObject, PyObject, Object&gt;&#39; implementation from a Python callable or an object with an</span>
 <span class="sd">    &#39;apply&#39; method that accepts a single argument.</span>
 
@@ -547,7 +547,7 @@
 
 <div class="viewcode-block" id="j_lambda">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.j_lambda">[docs]</a>
-<span class="k">def</span> <span class="nf">j_lambda</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">lambda_jtype</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">return_dtype</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">j_lambda</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">lambda_jtype</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">return_dtype</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps a Python Callable as a Java &quot;lambda&quot; type.  </span>
 <span class="sd">    </span>
 <span class="sd">    Java lambda types must contain a single abstract method.</span>
@@ -567,7 +567,7 @@
 
 <div class="viewcode-block" id="to_sequence">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.to_sequence">[docs]</a>
-<span class="k">def</span> <span class="nf">to_sequence</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">wrapped</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_sequence</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">wrapped</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A convenience function to create a sequence of wrapped or unwrapped object from either one or a sequence of</span>
 <span class="sd">    input values to help JPY find the matching Java overloaded method to call.</span>
 
@@ -597,7 +597,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_j_array_to_numpy_array</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">,</span> <span class="n">j_array</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">conv_null</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">type_promotion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> \
+<span class="k">def</span><span class="w"> </span><span class="nf">_j_array_to_numpy_array</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">,</span> <span class="n">j_array</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">conv_null</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">type_promotion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> \
         <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Produces a numpy array from the DType and given Java array.</span>
 
@@ -644,7 +644,7 @@
 
 <div class="viewcode-block" id="dh_null_to_nan">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.dh_null_to_nan">[docs]</a>
-<span class="k">def</span> <span class="nf">dh_null_to_nan</span><span class="p">(</span><span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">type_promotion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dh_null_to_nan</span><span class="p">(</span><span class="n">np_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">type_promotion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts Deephaven primitive null values in the given numpy array to np.nan. No conversion is performed on</span>
 <span class="sd">    non-primitive types.</span>
 
@@ -685,7 +685,7 @@
     <span class="k">return</span> <span class="n">np_array</span></div>
 
 
-<span class="k">def</span> <span class="nf">_j_array_to_series</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">,</span> <span class="n">j_array</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">conv_null</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_j_array_to_series</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">,</span> <span class="n">j_array</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">conv_null</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce a copy of the specified Java array as a pandas.Series object.</span>
 
 <span class="sd">    Args:</span>
@@ -720,33 +720,33 @@
 
 <div class="viewcode-block" id="AutoCloseable">
 <a class="viewcode-back" href="../../code/deephaven.jcompat.html#deephaven.jcompat.AutoCloseable">[docs]</a>
-<span class="k">class</span> <span class="nc">AutoCloseable</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AutoCloseable</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A context manager wrapper to allow Java AutoCloseable to be used in with statements.</span>
 <span class="sd">    </span>
 <span class="sd">    When constructing a new instance, the Java AutoCloseable must not be closed.&quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.lang.AutoCloseable&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_auto_closeable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_auto_closeable</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_j_auto_closeable</span> <span class="o">=</span> <span class="n">j_auto_closeable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_j_auto_closeable</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_auto_closeable</span></div>
 
 </pre></div>

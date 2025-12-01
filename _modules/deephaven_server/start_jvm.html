@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven_server.start_jvm - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -352,25 +352,25 @@
 <span class="c1"># Copyright (c) 2016-2024 Deephaven Data Labs and Patent Pending</span>
 <span class="c1">#</span>
 
-<span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
-<span class="kn">from</span> <span class="nn">deephaven_internal</span> <span class="kn">import</span> <span class="n">jvm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven_internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">jvm</span>
 
 <span class="c1"># TODO(deephaven-core#2592): Generalize start_jvm to work with importlib.resources</span>
 
-<span class="k">def</span> <span class="nf">_jars_path</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_jars_path</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;jars&#39;</span>
 
-<span class="k">def</span> <span class="nf">_compiler_directives</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_compiler_directives</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">_jars_path</span><span class="p">()</span> <span class="o">/</span> <span class="s1">&#39;dh-compiler-directives.txt&#39;</span>
 
-<span class="k">def</span> <span class="nf">_default_vmoptions</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_default_vmoptions</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">_jars_path</span><span class="p">()</span> <span class="o">/</span> <span class="s1">&#39;dh-default.vmoptions&#39;</span>
 
-<span class="k">def</span> <span class="nf">_jars</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_jars</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">_jars_path</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.jar&#39;</span><span class="p">)</span>
 
 <span class="n">DEFAULT_JVM_PROPERTIES</span> <span class="o">=</span> <span class="p">{</span>
@@ -399,7 +399,7 @@
 <span class="c1"># Provide a util func to start the JVM, will use its own defaults if none are offered</span>
 <div class="viewcode-block" id="start_jvm">
 <a class="viewcode-back" href="../../code/deephaven_server.start_jvm.html#deephaven_server.start_jvm.start_jvm">[docs]</a>
-<span class="k">def</span> <span class="nf">start_jvm</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">start_jvm</span><span class="p">(</span>
         <span class="n">jvm_args</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">jvm_properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">java_home</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -450,7 +450,7 @@
         <span class="c1"># config_file=config_file,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
 
-    <span class="kn">import</span> <span class="nn">jpy</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
     <span class="n">jpy</span><span class="o">.</span><span class="n">VerboseExceptions</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 </pre></div>

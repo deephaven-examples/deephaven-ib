@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.plugin.object_type - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
@@ -348,10 +348,10 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for deephaven.plugin.object_type</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">abc</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">Registration</span><span class="p">,</span> <span class="n">register_all_into</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">Registration</span><span class="p">,</span> <span class="n">register_all_into</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Tools to create ObjectType plugins in Python to run on a Deephaven server.</span>
@@ -360,15 +360,15 @@
 
 <div class="viewcode-block" id="Reference">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.Reference">[docs]</a>
-<span class="k">class</span> <span class="nc">Reference</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Reference</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A reference.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="nb">type</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The index, which is defined by the order in which references are created.</span>
 <span class="sd">        May be used in the output stream to refer to the reference from the client.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span></div>
@@ -377,13 +377,13 @@
 
 <div class="viewcode-block" id="Exporter">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.Exporter">[docs]</a>
-<span class="k">class</span> <span class="nc">Exporter</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Exporter</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The interface for creating new references during FetchOnlyObjectBase.to_bytes.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Exporter.reference">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.Exporter.reference">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">reference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Reference</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Reference</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a reference for an object, ensuring that it is exported for use on the client. Each time this is</span>
 <span class="sd">        called, a new reference will be returned, with the index of the export in the data to be sent to the client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -394,19 +394,19 @@
 
 <div class="viewcode-block" id="MessageStream">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.MessageStream">[docs]</a>
-<span class="k">class</span> <span class="nc">MessageStream</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MessageStream</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A stream of messages, either sent from server to client or client to server. ObjectType implementations</span>
 <span class="sd">    provide an instance of this interface for each incoming stream to invoke as messages arrive, and will</span>
 <span class="sd">    likewise be given an instance of this interface to be able to send messages to the client.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="MessageStream.on_close">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.MessageStream.on_close">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">on_close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes the stream on both ends. No further messages can be sent or received.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -414,7 +414,7 @@
 <div class="viewcode-block" id="MessageStream.on_data">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.MessageStream.on_data">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">on_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">references</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">references</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Transmits data to the remote end of the stream. This can consist of a binary payload and references to</span>
 <span class="sd">        objects on the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -425,19 +425,19 @@
 
 <div class="viewcode-block" id="ObjectType">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.ObjectType">[docs]</a>
-<span class="k">class</span> <span class="nc">ObjectType</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ObjectType</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An object type plugin. Useful for serializing custom objects between the server / client.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The name of the object type.&quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="ObjectType.is_type">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.ObjectType.is_type">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">is_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns True if, and only if, the object is compatible with this object type.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
@@ -446,7 +446,7 @@
 
 <div class="viewcode-block" id="BidirectionalObjectType">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.BidirectionalObjectType">[docs]</a>
-<span class="k">class</span> <span class="nc">BidirectionalObjectType</span><span class="p">(</span><span class="n">ObjectType</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BidirectionalObjectType</span><span class="p">(</span><span class="n">ObjectType</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for an object type that can continue to send responses to the client, or receive requests</span>
 <span class="sd">    from the server even after it is fetched.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -454,7 +454,7 @@
 <div class="viewcode-block" id="BidirectionalObjectType.create_client_connection">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.BidirectionalObjectType.create_client_connection">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">create_client_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">connection</span><span class="p">:</span> <span class="n">MessageStream</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageStream</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_client_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">connection</span><span class="p">:</span> <span class="n">MessageStream</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageStream</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Signals creation of a client stream to the specified object. The returned MessageStream implementation will</span>
 <span class="sd">        be called with each received message from the client, and can call the provided connection parameter to send</span>
 <span class="sd">        messages as needed to the client.</span>
@@ -469,7 +469,7 @@
 
 <div class="viewcode-block" id="FetchOnlyObjectType">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.FetchOnlyObjectType">[docs]</a>
-<span class="k">class</span> <span class="nc">FetchOnlyObjectType</span><span class="p">(</span><span class="n">ObjectType</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FetchOnlyObjectType</span><span class="p">(</span><span class="n">ObjectType</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for an object type which will only be fetched once, rather than support streaming requests or</span>
 <span class="sd">    responses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -477,7 +477,7 @@
 <div class="viewcode-block" id="FetchOnlyObjectType.to_bytes">
 <a class="viewcode-back" href="../../../code/deephaven.plugin.object_type.html#deephaven.plugin.object_type.FetchOnlyObjectType.to_bytes">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exporter</span><span class="p">:</span> <span class="n">Exporter</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exporter</span><span class="p">:</span> <span class="n">Exporter</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes obj into bytes. Must only be called with a compatible object.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>

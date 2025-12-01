@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.parquet - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -354,19 +354,19 @@
 
 <span class="sd">&quot;&quot;&quot; This module supports reading an external Parquet files into Deephaven tables and writing Deephaven tables out as</span>
 <span class="sd">Parquet files. &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="kn">import</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">DType</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">j_array_list</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span>
-<span class="kn">from</span> <span class="nn">deephaven.experimental</span> <span class="kn">import</span> <span class="n">s3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.column</span><span class="w"> </span><span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">DType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_array_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">s3</span>
 
 <span class="n">_JParquetTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.parquet.table.ParquetTools&quot;</span><span class="p">)</span>
 <span class="n">_JFile</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.io.File&quot;</span><span class="p">)</span>
@@ -379,7 +379,7 @@
 <div class="viewcode-block" id="ColumnInstruction">
 <a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.ColumnInstruction">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">ColumnInstruction</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ColumnInstruction</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;  This class specifies the instructions for reading/writing a Parquet column. &quot;&quot;&quot;</span>
     <span class="n">column_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">parquet_column_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -391,7 +391,7 @@
 
 <div class="viewcode-block" id="ParquetFileLayout">
 <a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.ParquetFileLayout">[docs]</a>
-<span class="k">class</span> <span class="nc">ParquetFileLayout</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParquetFileLayout</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The parquet file layout. &quot;&quot;&quot;</span>
 
     <span class="n">SINGLE_FILE</span> <span class="o">=</span> <span class="mi">1</span>
@@ -414,7 +414,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_build_parquet_instructions</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_parquet_instructions</span><span class="p">(</span>
     <span class="n">col_instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ColumnInstruction</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">compression_codec_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">max_dictionary_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -511,7 +511,7 @@
 
     <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
 
-<span class="k">def</span> <span class="nf">_j_table_definition</span><span class="p">(</span><span class="n">table_definition</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_j_table_definition</span><span class="p">(</span><span class="n">table_definition</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">table_definition</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table_definition</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
@@ -529,7 +529,7 @@
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected table_definition type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">table_definition</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_j_file_layout</span><span class="p">(</span><span class="n">file_layout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ParquetFileLayout</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_j_file_layout</span><span class="p">(</span><span class="n">file_layout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ParquetFileLayout</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">file_layout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">file_layout</span> <span class="o">==</span> <span class="n">ParquetFileLayout</span><span class="o">.</span><span class="n">SINGLE_FILE</span><span class="p">:</span>
@@ -545,7 +545,7 @@
 
 <div class="viewcode-block" id="read">
 <a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.read">[docs]</a>
-<span class="k">def</span> <span class="nf">read</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">col_instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ColumnInstruction</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">is_legacy_parquet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -591,18 +591,18 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">_JParquetTools</span><span class="o">.</span><span class="n">readTable</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_instructions</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to read parquet data.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to read parquet data.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
-<span class="k">def</span> <span class="nf">_j_string_array</span><span class="p">(</span><span class="n">str_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_j_string_array</span><span class="p">(</span><span class="n">str_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
     <span class="k">return</span> <span class="n">jpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s2">&quot;java.lang.String&quot;</span><span class="p">,</span> <span class="n">str_seq</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">_j_list_of_list_of_string</span><span class="p">(</span><span class="n">str_seq_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_j_list_of_list_of_string</span><span class="p">(</span><span class="n">str_seq_seq</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]):</span>
     <span class="k">return</span> <span class="n">j_array_list</span><span class="p">([</span><span class="n">j_array_list</span><span class="p">(</span><span class="n">str_seq</span><span class="p">)</span> <span class="k">for</span> <span class="n">str_seq</span> <span class="ow">in</span> <span class="n">str_seq_seq</span><span class="p">])</span>
 
 <div class="viewcode-block" id="delete">
 <a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.delete">[docs]</a>
-<span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Deletes a Parquet table on disk.</span>
 
 <span class="sd">    Args:</span>
@@ -614,13 +614,13 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_JParquetTools</span><span class="o">.</span><span class="n">deleteTable</span><span class="p">(</span><span class="n">_JFile</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to delete a parquet table: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> on disk.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to delete a parquet table: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> on disk.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="write">
 <a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.write">[docs]</a>
-<span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
     <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">table_definition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -688,13 +688,13 @@
         <span class="p">)</span>
         <span class="n">_JParquetTools</span><span class="o">.</span><span class="n">writeTable</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">j_table</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">write_instructions</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to write to parquet data.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to write to parquet data.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="write_partitioned">
 <a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.write_partitioned">[docs]</a>
-<span class="k">def</span> <span class="nf">write_partitioned</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_partitioned</span><span class="p">(</span>
         <span class="n">table</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">PartitionedTable</span><span class="p">],</span>
         <span class="n">destination_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">table_definition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -780,13 +780,13 @@
         <span class="p">)</span>
         <span class="n">_JParquetTools</span><span class="o">.</span><span class="n">writeKeyValuePartitionedTable</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span> <span class="n">destination_dir</span><span class="p">,</span> <span class="n">write_instructions</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to write to parquet data.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to write to parquet data.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
 <div class="viewcode-block" id="batch_write">
 <a class="viewcode-back" href="../../code/deephaven.parquet.html#deephaven.parquet.batch_write">[docs]</a>
-<span class="k">def</span> <span class="nf">batch_write</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">batch_write</span><span class="p">(</span>
     <span class="n">tables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">],</span>
     <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">table_definition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DType</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -858,7 +858,7 @@
         <span class="p">)</span>
         <span class="n">_JParquetTools</span><span class="o">.</span><span class="n">writeTables</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">j_table</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">],</span> <span class="n">_j_string_array</span><span class="p">(</span><span class="n">paths</span><span class="p">),</span> <span class="n">write_instructions</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;write multiple tables to parquet data failed.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;write multiple tables to parquet data failed.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 </pre></div>
         </article>

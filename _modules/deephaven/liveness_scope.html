@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.liveness_scope - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -401,33 +401,33 @@
 <span class="sd">     * `scope.unmanage(obj)` will stop managing the given instance. This can be used regardless of how the instance</span>
 <span class="sd">       was managed to begin with.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterator</span>
 
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
 
 <span class="n">_JLivenessScopeStack</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.liveness.LivenessScopeStack&quot;</span><span class="p">)</span>
 <span class="n">_JLivenessScope</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.liveness.LivenessScope&quot;</span><span class="p">)</span>
 <span class="n">_JLivenessReferent</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.liveness.LivenessReferent&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_push</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="n">_JLivenessScope</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_push</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="n">_JLivenessScope</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">_JLivenessScopeStack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_pop</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="n">_JLivenessScope</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_pop</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="n">_JLivenessScope</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_JLivenessScopeStack</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to pop the LivenessScope from the stack.&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_unwrap_to_liveness_referent</span><span class="p">(</span><span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_unwrap_to_liveness_referent</span><span class="p">(</span><span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">referent</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_JLivenessReferent</span><span class="o">.</span><span class="n">jclass</span><span class="o">.</span><span class="n">isInstance</span><span class="p">(</span><span class="n">referent</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">referent</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">referent</span><span class="p">,</span> <span class="n">JObjectWrapper</span><span class="p">):</span>
@@ -435,16 +435,16 @@
     <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="s2">&quot;Provided referent isn&#39;t a LivenessReferent or a JObjectWrapper around one&quot;</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">_BaseLivenessScope</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_BaseLivenessScope</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Internal base type for Java LivenessScope types in python.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JLivenessScope</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_scope</span> <span class="o">=</span> <span class="n">_JLivenessScope</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes the LivenessScope and releases all the query graph resources.</span>
 
 <span class="sd">        Raises:</span>
@@ -456,7 +456,7 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to close the LivenessScope.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">preserve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preserve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preserves a query graph node (usually a Table) to keep it live for the outer scope.</span>
 
 <span class="sd">        Args:</span>
@@ -481,7 +481,7 @@
             <span class="c1"># Success or failure, restore the scope that was successfully popped</span>
             <span class="n">_JLivenessScopeStack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_scope</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">manage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">manage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Explicitly manage the given java object in this scope. Must only be passed a Java LivenessReferent, or</span>
 <span class="sd">        a Python wrapper around a LivenessReferent</span>
@@ -501,7 +501,7 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to manage object&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">unmanage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unmanage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Explicitly unmanage the given java object from this scope. Must only be passed a Java LivenessReferent, or</span>
 <span class="sd">        a Python wrapper around a LivenessReferent</span>
@@ -522,13 +522,13 @@
             <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;failed to unmanage object&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_scope</span>
 
 
 <div class="viewcode-block" id="SimpleLivenessScope">
 <a class="viewcode-back" href="../../code/deephaven.liveness_scope.html#deephaven.liveness_scope.SimpleLivenessScope">[docs]</a>
-<span class="k">class</span> <span class="nc">SimpleLivenessScope</span><span class="p">(</span><span class="n">_BaseLivenessScope</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleLivenessScope</span><span class="p">(</span><span class="n">_BaseLivenessScope</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A SimpleLivenessScope automatically manages reference counting of tables and other query resources that</span>
 <span class="sd">    are created in it. Instances are created through calling `liveness_scope()` in a `with` block or as a</span>
@@ -539,18 +539,18 @@
 
 <div class="viewcode-block" id="LivenessScope">
 <a class="viewcode-back" href="../../code/deephaven.liveness_scope.html#deephaven.liveness_scope.LivenessScope">[docs]</a>
-<span class="k">class</span> <span class="nc">LivenessScope</span><span class="p">(</span><span class="n">_BaseLivenessScope</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LivenessScope</span><span class="p">(</span><span class="n">_BaseLivenessScope</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A LivenessScope automatically manages reference counting of tables and other query resources that are</span>
 <span class="sd">    created in it. Any created instances must have `release()` called on them to correctly free resources</span>
 <span class="sd">    that have been managed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
 <div class="viewcode-block" id="LivenessScope.release">
 <a class="viewcode-back" href="../../code/deephaven.liveness_scope.html#deephaven.liveness_scope.LivenessScope.release">[docs]</a>
-    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes the LivenessScope and releases all the managed resources.</span>
 
 <span class="sd">        Raises:</span>
@@ -562,7 +562,7 @@
 <div class="viewcode-block" id="LivenessScope.open">
 <a class="viewcode-back" href="../../code/deephaven.liveness_scope.html#deephaven.liveness_scope.LivenessScope.open">[docs]</a>
     <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Uses this scope for the duration of a `with` block, automatically managing all resources created in the block.</span>
 
@@ -579,7 +579,7 @@
 
 <div class="viewcode-block" id="is_liveness_referent">
 <a class="viewcode-back" href="../../code/deephaven.liveness_scope.html#deephaven.liveness_scope.is_liveness_referent">[docs]</a>
-<span class="k">def</span> <span class="nf">is_liveness_referent</span><span class="p">(</span><span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_liveness_referent</span><span class="p">(</span><span class="n">referent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JObjectWrapper</span><span class="p">,</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the provided object is a LivenessReferent, and so can be managed by a LivenessScope.</span>
 <span class="sd">    Args:</span>
@@ -599,7 +599,7 @@
 <div class="viewcode-block" id="liveness_scope">
 <a class="viewcode-back" href="../../code/deephaven.liveness_scope.html#deephaven.liveness_scope.liveness_scope">[docs]</a>
 <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">liveness_scope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">SimpleLivenessScope</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">liveness_scope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">SimpleLivenessScope</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates and opens a LivenessScope for running a block of code. Use</span>
 <span class="sd">    this function to wrap a block of code using a `with` statement.</span>
 

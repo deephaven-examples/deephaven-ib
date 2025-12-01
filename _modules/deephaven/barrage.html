@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.barrage - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -354,12 +354,12 @@
 <span class="sd">&quot;&quot;&quot; This module defines the BarrageSession wrapper class and provides a factory function to create an instance of it</span>
 <span class="sd"> for accessing resources on remote Deephaven servers.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="n">_JURI</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.net.URI&quot;</span><span class="p">)</span>
 <span class="n">_JTimeUnit</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.util.concurrent.TimeUnit&quot;</span><span class="p">)</span>
@@ -382,10 +382,10 @@
 
 <div class="viewcode-block" id="BarrageSession">
 <a class="viewcode-back" href="../../code/deephaven.barrage.html#deephaven.barrage.BarrageSession">[docs]</a>
-<span class="k">class</span> <span class="nc">BarrageSession</span><span class="p">():</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BarrageSession</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A Deephaven Barrage session to a remote server.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_barrage_session</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">j_managed_channel</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_barrage_session</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">j_managed_channel</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Initializes a Barrage session.</span>
 
 <span class="sd">        When BarrageSession is created via the barrage_session() factory function, j_managed_channel is always provided,</span>
@@ -399,15 +399,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">j_session</span> <span class="o">=</span> <span class="n">j_barrage_session</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_managed_channel</span> <span class="o">=</span> <span class="n">j_managed_channel</span>
 
-    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarrageSession</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarrageSession</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <div class="viewcode-block" id="BarrageSession.close">
 <a class="viewcode-back" href="../../code/deephaven.barrage.html#deephaven.barrage.BarrageSession.close">[docs]</a>
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Closes the barrage session.</span>
 
 <span class="sd">        If the BarrageSession is initialized with a managed channel, the channel will be shut down as well.</span>
@@ -418,12 +418,12 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">j_managed_channel</span><span class="o">.</span><span class="n">shutdownNow</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">j_managed_channel</span><span class="o">.</span><span class="n">awaitTermination</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">_JTimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to close the barrage session.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to close the barrage session.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="BarrageSession.subscribe">
 <a class="viewcode-back" href="../../code/deephaven.barrage.html#deephaven.barrage.BarrageSession.subscribe">[docs]</a>
-    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticket</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticket</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Subscribes to a published remote table with the given ticket.</span>
 
 <span class="sd">        Note, if the remote table is closed or its owner session is closed, the ticket becomes invalid. If the same</span>
@@ -443,12 +443,12 @@
                                                                       <span class="n">_JBarrageTableResolver</span><span class="o">.</span><span class="n">SUB_OPTIONS</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_barrage_subscription</span><span class="o">.</span><span class="n">entireTable</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to subscribe to the remote table with the provided ticket.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to subscribe to the remote table with the provided ticket.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 <div class="viewcode-block" id="BarrageSession.snapshot">
 <a class="viewcode-back" href="../../code/deephaven.barrage.html#deephaven.barrage.BarrageSession.snapshot">[docs]</a>
-    <span class="k">def</span> <span class="nf">snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticket</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticket</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns a snapshot of a published remote table with the given ticket.</span>
 
 <span class="sd">        Note, if the remote table is closed or its owner session is closed, the ticket becomes invalid. If the same</span>
@@ -467,14 +467,14 @@
             <span class="n">j_barrage_snapshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_barrage_session</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">_JTableSpec</span><span class="o">.</span><span class="n">ticket</span><span class="p">(</span><span class="n">ticket</span><span class="p">),</span> <span class="n">_JBarrageTableResolver</span><span class="o">.</span><span class="n">SNAP_OPTIONS</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">j_barrage_snapshot</span><span class="o">.</span><span class="n">entireTable</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to take a snapshot of the remote table with the provided ticket.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to take a snapshot of the remote table with the provided ticket.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="barrage_session">
 <a class="viewcode-back" href="../../code/deephaven.barrage.html#deephaven.barrage.barrage_session">[docs]</a>
-<span class="k">def</span> <span class="nf">barrage_session</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">barrage_session</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                     <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
                     <span class="n">auth_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Anonymous&quot;</span><span class="p">,</span>
                     <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -527,11 +527,11 @@
             <span class="c1">#  https://github.com/deephaven/deephaven-core/issues/5401</span>
             <span class="k">return</span> <span class="n">_get_barrage_session_direct</span><span class="p">(</span><span class="n">j_client_config</span><span class="p">,</span> <span class="n">auth</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get a barrage session to the target remote Deephaven server.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to get a barrage session to the target remote Deephaven server.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
 
-<span class="k">def</span> <span class="nf">_get_barrage_session_via_api_server</span><span class="p">(</span><span class="n">client_config</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">auth</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarrageSession</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_barrage_session_via_api_server</span><span class="p">(</span><span class="n">client_config</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">auth</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarrageSession</span><span class="p">:</span>
     <span class="n">j_barrage_session_factory_creator</span> <span class="o">=</span> <span class="n">_JDeephavenApiServer</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">sessionFactoryCreator</span><span class="p">()</span>
     <span class="n">j_barrage_session_factory</span> <span class="o">=</span> <span class="n">j_barrage_session_factory_creator</span><span class="o">.</span><span class="n">barrageFactory</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
     <span class="n">j_managed_channel</span> <span class="o">=</span> <span class="n">j_barrage_session_factory</span><span class="o">.</span><span class="n">managedChannel</span><span class="p">()</span>
@@ -544,7 +544,7 @@
         <span class="n">j_barrage_session</span> <span class="o">=</span> <span class="n">j_barrage_session_factory</span><span class="o">.</span><span class="n">newBarrageSession</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">BarrageSession</span><span class="p">(</span><span class="n">j_barrage_session</span><span class="p">,</span> <span class="n">j_managed_channel</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">_get_barrage_session_direct</span><span class="p">(</span><span class="n">client_config</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">auth</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarrageSession</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_barrage_session_direct</span><span class="p">(</span><span class="n">client_config</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">,</span> <span class="n">auth</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BarrageSession</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Note, this is used for testing only. This way of constructing a Barrage session is less efficient because it does</span>
 <span class="sd">    not share any of the state or configuration that the server provides; namely, when you are doing it with the server</span>
 <span class="sd">    context it provides a singleton executor, allocator, outbound SSL configuration, and the ability for the server to</span>
@@ -574,7 +574,7 @@
     <span class="k">return</span> <span class="n">BarrageSession</span><span class="p">(</span><span class="n">j_barrage_session</span><span class="p">,</span> <span class="n">j_channel</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_build_client_config</span><span class="p">(</span><span class="n">target_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tls_root_certs</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_client_config</span><span class="p">(</span><span class="n">target_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tls_root_certs</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
     <span class="n">j_client_config_builder</span> <span class="o">=</span> <span class="n">_JClientConfig</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
     <span class="n">j_client_config_builder</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="n">_JDeephavenTarget</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">_JURI</span><span class="p">(</span><span class="n">target_uri</span><span class="p">)))</span>
     <span class="k">if</span> <span class="n">tls_root_certs</span><span class="p">:</span>

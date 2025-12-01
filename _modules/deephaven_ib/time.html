@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven_ib.time - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -350,15 +350,15 @@
           <h1>Source code for deephaven_ib.time</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Functionality for working with time in Deephaven and IB.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span>
 
-<span class="kn">import</span> <span class="nn">deephaven.time</span> <span class="k">as</span> <span class="nn">dtime</span>
-<span class="kn">from</span> <span class="nn">deephaven.dtypes</span> <span class="kn">import</span> <span class="n">Instant</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">deephaven.time</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dtime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.dtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instant</span>
 
 <span class="n">_SimpleDateFormat</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.text.SimpleDateFormat&quot;</span><span class="p">)</span>
 <span class="n">_TimeZone</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;java.util.TimeZone&quot;</span><span class="p">)</span>
@@ -384,7 +384,7 @@
 
 <div class="viewcode-block" id="to_ib_datetime">
 <a class="viewcode-back" href="../../code/deephaven_ib.time.html#deephaven_ib.time.to_ib_datetime">[docs]</a>
-<span class="k">def</span> <span class="nf">to_ib_datetime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">],</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_ib_datetime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Instant</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">],</span>
                    <span class="n">sub_sec</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a time to an IB timestamp string.</span>
 
@@ -409,7 +409,7 @@
 
 <div class="viewcode-block" id="ib_to_j_instant">
 <a class="viewcode-back" href="../../code/deephaven_ib.time.html#deephaven_ib.time.ib_to_j_instant">[docs]</a>
-<span class="k">def</span> <span class="nf">ib_to_j_instant</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instant</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ib_to_j_instant</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instant</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert an IB timestamp to a Java Instant.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -430,7 +430,7 @@
 
 <div class="viewcode-block" id="unix_sec_to_j_instant">
 <a class="viewcode-back" href="../../code/deephaven_ib.time.html#deephaven_ib.time.unix_sec_to_j_instant">[docs]</a>
-<span class="k">def</span> <span class="nf">unix_sec_to_j_instant</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instant</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">unix_sec_to_j_instant</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Instant</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert Unix seconds since the epoch to a Java Instant.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

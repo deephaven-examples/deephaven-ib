@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>ibapi.order - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,12 +353,12 @@
 <span class="sd"> and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">ibapi.common</span> <span class="kn">import</span> <span class="n">UNSET_INTEGER</span><span class="p">,</span> <span class="n">UNSET_DOUBLE</span><span class="p">,</span> <span class="n">UNSET_DECIMAL</span><span class="p">,</span> <span class="n">DOUBLE_INFINITY</span>
-<span class="kn">from</span> <span class="nn">ibapi.object_implem</span> <span class="kn">import</span> <span class="n">Object</span>
-<span class="kn">from</span> <span class="nn">ibapi.softdollartier</span> <span class="kn">import</span> <span class="n">SoftDollarTier</span>
-<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="kn">import</span> <span class="n">decimalMaxString</span>
-<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="kn">import</span> <span class="n">intMaxString</span>
-<span class="kn">from</span> <span class="nn">ibapi.utils</span> <span class="kn">import</span> <span class="n">floatMaxString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET_INTEGER</span><span class="p">,</span> <span class="n">UNSET_DOUBLE</span><span class="p">,</span> <span class="n">UNSET_DECIMAL</span><span class="p">,</span> <span class="n">DOUBLE_INFINITY</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.object_implem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Object</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.softdollartier</span><span class="w"> </span><span class="kn">import</span> <span class="n">SoftDollarTier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decimalMaxString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">intMaxString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibapi.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">floatMaxString</span>
 
 <span class="c1"># enum Origin</span>
 <span class="p">(</span><span class="n">CUSTOMER</span><span class="p">,</span> <span class="n">FIRM</span><span class="p">,</span> <span class="n">UNKNOWN</span><span class="p">)</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -371,19 +371,19 @@
 
 <div class="viewcode-block" id="OrderComboLeg">
 <a class="viewcode-back" href="../../code/ibapi.order.html#ibapi.order.OrderComboLeg">[docs]</a>
-<span class="k">class</span> <span class="nc">OrderComboLeg</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OrderComboLeg</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>  <span class="c1"># type: float</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">floatMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="Order">
 <a class="viewcode-back" href="../../code/ibapi.order.html#ibapi.order.Order">[docs]</a>
-<span class="k">class</span> <span class="nc">Order</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">softDollarTier</span> <span class="o">=</span> <span class="n">SoftDollarTier</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="c1"># order identifier</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">orderId</span>  <span class="o">=</span> <span class="mi">0</span>
@@ -575,7 +575,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">midOffsetAtWhole</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">midOffsetAtHalf</span> <span class="o">=</span> <span class="n">UNSET_DOUBLE</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orderId</span><span class="p">),</span> <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clientId</span><span class="p">),</span> <span class="n">intMaxString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permId</span><span class="p">))</span>
 
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">@</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>

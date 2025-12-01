@@ -6,7 +6,7 @@
 
     <link rel="shortcut icon" href="../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.table_listener - deephaven_ib documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=aca143e9" />
@@ -353,29 +353,29 @@
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot; This module provides utilities for listening to table changes. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Literal</span>
 
-<span class="kn">import</span> <span class="nn">jpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">DHError</span>
-<span class="kn">from</span> <span class="nn">deephaven</span> <span class="kn">import</span> <span class="n">update_graph</span>
-<span class="kn">from</span> <span class="nn">deephaven._wrapper</span> <span class="kn">import</span> <span class="n">JObjectWrapper</span>
-<span class="kn">from</span> <span class="nn">deephaven.column</span> <span class="kn">import</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">deephaven.jcompat</span> <span class="kn">import</span> <span class="n">to_sequence</span>
-<span class="kn">from</span> <span class="nn">deephaven.numpy</span> <span class="kn">import</span> <span class="n">_column_to_numpy_array</span>
-<span class="kn">from</span> <span class="nn">deephaven.table</span> <span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span> <span class="nn">deephaven.update_graph</span> <span class="kn">import</span> <span class="n">UpdateGraph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_graph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.column</span><span class="w"> </span><span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_column_to_numpy_array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.update_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">UpdateGraph</span>
 
 <span class="n">_JPythonReplayListenerAdapter</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.integrations.python.PythonReplayListenerAdapter&quot;</span><span class="p">)</span>
 <span class="n">_JTableUpdate</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.engine.table.TableUpdate&quot;</span><span class="p">)</span>
 <span class="n">_JTableUpdateDataReader</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.integrations.python.PythonListenerTableUpdateDataReader&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_col_defs</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_col_defs</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cols</span><span class="p">:</span>
         <span class="n">col_defs</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
     <span class="k">else</span><span class="p">:</span>
@@ -385,7 +385,7 @@
     <span class="k">return</span> <span class="n">col_defs</span>
 
 
-<span class="k">def</span> <span class="nf">_changes_to_numpy</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">row_set</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_changes_to_numpy</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">row_set</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
                       <span class="n">prev</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
     <span class="n">col_defs</span> <span class="o">=</span> <span class="n">_col_defs</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
 
@@ -412,20 +412,20 @@
 
 <div class="viewcode-block" id="TableUpdate">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate">[docs]</a>
-<span class="k">class</span> <span class="nc">TableUpdate</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TableUpdate</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JTableUpdate</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">j_table_update</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">j_table_update</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">table</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j_table_update</span> <span class="o">=</span> <span class="n">j_table_update</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table_update</span>
 
 <div class="viewcode-block" id="TableUpdate.added">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.added">[docs]</a>
-    <span class="k">def</span> <span class="nf">added</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">added</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a dict with each key being a column name and each value being a NumPy array of</span>
 <span class="sd">        all the added rows in the columns.</span>
 
@@ -448,7 +448,7 @@
 
 <div class="viewcode-block" id="TableUpdate.added_chunks">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.added_chunks">[docs]</a>
-    <span class="k">def</span> <span class="nf">added_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">added_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
         <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a generator that on each iteration, only returns a chunk of added rows in the form of a dict with</span>
 <span class="sd">        each key being a column name and each value being a NumPy array of the rows in the chunk.</span>
@@ -469,7 +469,7 @@
 
 <div class="viewcode-block" id="TableUpdate.removed">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.removed">[docs]</a>
-    <span class="k">def</span> <span class="nf">removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a dict with each key being a column name and each value being a NumPy array of</span>
 <span class="sd">        all the removed rows in the columns.</span>
 
@@ -492,7 +492,7 @@
 
 <div class="viewcode-block" id="TableUpdate.removed_chunks">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.removed_chunks">[docs]</a>
-    <span class="k">def</span> <span class="nf">removed_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">removed_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
         <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a generator that on each iteration, only returns a chunk of removed rows in the form of a dict with</span>
 <span class="sd">        each key being a column name and each value being a NumPy array of the rows in the chunk.</span>
@@ -513,7 +513,7 @@
 
 <div class="viewcode-block" id="TableUpdate.modified">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.modified">[docs]</a>
-    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a dict with each key being a column name and each value being a NumPy array of the current values of</span>
 <span class="sd">        all the modified rows in the columns.</span>
 
@@ -536,7 +536,7 @@
 
 <div class="viewcode-block" id="TableUpdate.modified_chunks">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.modified_chunks">[docs]</a>
-    <span class="k">def</span> <span class="nf">modified_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modified_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
         <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a generator that on each iteration, only returns a chunk of modified rows in the form of a dict with</span>
 <span class="sd">        each key being a column name and each value being a NumPy array of the current values of the rows in the chunk.</span>
@@ -557,7 +557,7 @@
 
 <div class="viewcode-block" id="TableUpdate.modified_prev">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.modified_prev">[docs]</a>
-    <span class="k">def</span> <span class="nf">modified_prev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modified_prev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a dict with each key being a column name and each value being a NumPy array of the previous values of</span>
 <span class="sd">        all the modified rows in the columns.</span>
 
@@ -580,7 +580,7 @@
 
 <div class="viewcode-block" id="TableUpdate.modified_prev_chunks">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableUpdate.modified_prev_chunks">[docs]</a>
-    <span class="k">def</span> <span class="nf">modified_prev_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modified_prev_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
         <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a generator that on each iteration, only returns a chunk of modified rows in the form of a dict with</span>
 <span class="sd">        each key being a column name and each value being a NumPy array of the previous values of the rows in the chunk.</span>
@@ -600,11 +600,11 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">shifted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shifted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s2">&quot;shifts are not supported yet.&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">modified_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modified_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The list of modified columns in this update.&quot;&quot;&quot;</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table_update</span><span class="o">.</span><span class="n">modifiedColumnSet</span><span class="o">.</span><span class="n">dirtyColumnNames</span><span class="p">()</span>
 
@@ -612,7 +612,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_do_locked</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="n">Table</span><span class="p">],</span> <span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">lock_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;shared&quot;</span><span class="p">,</span><span class="s2">&quot;exclusive&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;shared&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> \
+<span class="k">def</span><span class="w"> </span><span class="nf">_do_locked</span><span class="p">(</span><span class="n">ug</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UpdateGraph</span><span class="p">,</span> <span class="n">Table</span><span class="p">],</span> <span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">lock_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;shared&quot;</span><span class="p">,</span><span class="s2">&quot;exclusive&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;shared&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> \
         <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Executes a function while holding the UpdateGraph (UG) lock.  Holding the UG lock</span>
 <span class="sd">    ensures that the contents of a table will not change during a computation, but holding</span>
@@ -643,29 +643,29 @@
 
 <div class="viewcode-block" id="TableListener">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableListener">[docs]</a>
-<span class="k">class</span> <span class="nc">TableListener</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TableListener</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract table listener class that should be subclassed by any user table listener class.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TableListener.on_update">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableListener.on_update">[docs]</a>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">on_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="n">TableUpdate</span><span class="p">,</span> <span class="n">is_replay</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="n">TableUpdate</span><span class="p">,</span> <span class="n">is_replay</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The required method on a listener object that receives table updates.&quot;&quot;&quot;</span>
         <span class="o">...</span></div>
 </div>
 
 
 
-<span class="k">def</span> <span class="nf">_listener_wrapper</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_listener_wrapper</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">Table</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A decorator to wrap a user listener function or on_update method to receive the numpy-converted Table updates.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        table (Table): the table to listen for updates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">listener</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">listener</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">listener</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
             <span class="n">t_update</span> <span class="o">=</span> <span class="n">TableUpdate</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">j_table_update</span><span class="o">=</span><span class="n">update</span><span class="p">)</span>
             <span class="n">listener</span><span class="p">(</span><span class="n">t_update</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
@@ -674,14 +674,14 @@
     <span class="k">return</span> <span class="n">decorator</span>
 
 
-<span class="k">def</span> <span class="nf">_wrap_listener_func</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_wrap_listener_func</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
     <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">listener</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n_params</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;listener function must have 2 (update, is_replay) parameters.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_listener_wrapper</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">t</span><span class="p">)(</span><span class="n">listener</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_wrap_listener_obj</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">TableListener</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_wrap_listener_obj</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">TableListener</span><span class="p">):</span>
     <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">listener</span><span class="o">.</span><span class="n">on_update</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n_params</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The on_update method must have 2 (update, is_replay) parameters.&quot;</span><span class="p">)</span>
@@ -691,7 +691,7 @@
 
 <div class="viewcode-block" id="listen">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.listen">[docs]</a>
-<span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">TableListener</span><span class="p">],</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">do_replay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">listen</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">TableListener</span><span class="p">],</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">do_replay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
            <span class="n">replay_lock</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;shared&quot;</span><span class="p">,</span> <span class="s2">&quot;exclusive&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;shared&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This is a convenience function that creates a TableListenerHandle object and immediately starts it to listen</span>
 <span class="sd">    for table updates.</span>
@@ -721,11 +721,11 @@
 
 <div class="viewcode-block" id="TableListenerHandle">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableListenerHandle">[docs]</a>
-<span class="k">class</span> <span class="nc">TableListenerHandle</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TableListenerHandle</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A handle to manage a table listener&#39;s lifecycle.&quot;&quot;&quot;</span>
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JPythonReplayListenerAdapter</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">TableListener</span><span class="p">],</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">listener</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">TableListener</span><span class="p">],</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new table listener handle.</span>
 
 <span class="sd">        Table change events are processed by &#39;listener&#39;, which can be either</span>
@@ -761,7 +761,7 @@
 
 <div class="viewcode-block" id="TableListenerHandle.start">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableListenerHandle.start">[docs]</a>
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">do_replay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">replay_lock</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;shared&quot;</span><span class="p">,</span> <span class="s2">&quot;exclusive&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;shared&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">do_replay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">replay_lock</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;shared&quot;</span><span class="p">,</span> <span class="s2">&quot;exclusive&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;shared&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the listener by registering it with the table and listening for updates.</span>
 
 <span class="sd">        Args:</span>
@@ -775,7 +775,7 @@
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Attempting to start an already started listener..&quot;</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">_start</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">_start</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">do_replay</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">listener</span><span class="o">.</span><span class="n">replay</span><span class="p">()</span>
 
@@ -786,14 +786,14 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">_start</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to listen to the table changes.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to listen to the table changes.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">started</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="TableListenerHandle.stop">
 <a class="viewcode-back" href="../../code/deephaven.table_listener.html#deephaven.table_listener.TableListenerHandle.stop">[docs]</a>
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the listener by de-registering it from the table and stop listening for updates.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">started</span><span class="p">:</span>
@@ -803,7 +803,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">listener</span></div>
 
 </pre></div>
