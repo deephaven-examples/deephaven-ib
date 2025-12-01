@@ -87,7 +87,7 @@ jobs:
     if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
     steps:
     - name: Download Build Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v5
       with:
         name: wheels
         path: wheel/
@@ -112,13 +112,13 @@ jobs:
     - name: Pip installs
       run:  pip3 install --upgrade sphinx~=7.3.0 sphinx-autodoc-typehints furo==2024.5.6
     - name: Download IB wheels
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v5
       with:
         name: ib-wheels
     - name: Install IB Whl
       run: pip3 install *.whl
     - name: Download wheels
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v5
       with:
         name: wheels
     - name: Install Whl
@@ -152,7 +152,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Download Sphinx Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v5
       with:
         name: documentation-html
         path: html/
@@ -184,12 +184,12 @@ jobs:
         id: branch-name
         uses: tj-actions/branch-names@v5.2
       - name: Download IB wheels
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: ib-wheels
           path: ib-wheels/
       - name: Download wheels
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: wheels
           path: wheels/
@@ -242,12 +242,12 @@ jobs:
         id: branch-name
         uses: tj-actions/branch-names@v5.2
       - name: Download IB wheels
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: ib-wheels
           path: ib-wheels/
       - name: Download wheels
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: wheels
           path: wheels/
