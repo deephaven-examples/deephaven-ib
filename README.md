@@ -193,29 +193,43 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     ```
 4) Build a [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) virtual environment:
 
-   First, install the dependencies needed to run the script:
+   First, create a small, local virtual environment that will be used only to run the `dhib_env.py` script (this avoids installing packages system-wide):
     ```bash
-    python3 -m pip install -r requirements_dhib_env.txt
+    python3 -m venv .venv-installer
+    source .venv-installer/bin/activate
     ```
+
+   Install the dependencies needed to run the script into this installer virtual environment:
+    ```bash
+    pip install -r requirements_dhib_env.txt
+    ```
+
+   With the installer virtual environment still activated, use its `python` to run the script.
 
    To see all options:
     ```bash
-    python3 ./dhib_env.py --help
+    python ./dhib_env.py --help
     ```
 
    To install the latest production release version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from PyPi plus the release-specified `ibapi` and `deephaven` versions: 
     ```bash
-    python3 ./dhib_env.py release
+    python ./dhib_env.py release
     ```
    
    To install the latest development version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from source plus the default `ibapi` and `deephaven` versions:
     ```bash
-    python3 ./dhib_env.py dev
+    python ./dhib_env.py dev
     ```
 
    To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install `deephaven-ib`, but it will install the default `ibapi` and `deephaven` versions.)
     ```bash
-    python3 ./dhib_env.py dev --install_dhib false
+    python ./dhib_env.py dev --install_dhib false
+    ```
+
+   After the main `venv-<versiondetails>` has been created and noted from the logs, you can deactivate and optionally remove the temporary installer virtual environment:
+    ```bash
+    deactivate
+    rm -rf .venv-installer
     ```
    
 5) In the logs, take note of where the virtual environment is located.  It will be in a directory like `./venv-<versiondetails>`.

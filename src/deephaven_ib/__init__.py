@@ -53,9 +53,6 @@ class GenericTickType(Enum):
     See: https://interactivebrokers.github.io/tws-api/tick_types.html
     """
 
-    NEWS = 292
-    """News."""
-
     DIVIDENDS = 456
     """Dividends."""
 
@@ -95,8 +92,11 @@ class GenericTickType(Enum):
     FUTURE_INDEX_PREMIUM = 162
     """Number of points that the index is over the cash index."""
 
-    OPTION_VOLATILITY_HISTORICAL = 104
-    """30-day historical volatility."""
+    DELAYED_YIELD_BID = 103
+    """10-15 minute delayed bid yield price."""
+    DELAYED_YIELD_ASK = 104
+    """10-15 minute delayed ask yield price."""
+
     OPTION_VOLATILITY_HISTORICAL_REAL_TIME = 411
     """Real-time historical volatility."""
     OPTION_VOLATILITY_IMPLIED = 106
@@ -734,11 +734,11 @@ class IbSessionTws:
     ####################################################################################################################
     ####################################################################################################################
 
-    def request_account_pnl(self, account: str = "All", model_code: str = "") -> Request:
+    def request_account_pnl(self, account: str, model_code: str = "") -> Request:
         """Request PNL updates.  Results are returned in the ``accounts_pnl`` table.
 
         Args:
-            account (str): Account to request PNL for.  "All" requests for all accounts.
+            account (str): Account to request PNL for.
             model_code (str): Model portfolio code to request PNL for.
 
         Returns:

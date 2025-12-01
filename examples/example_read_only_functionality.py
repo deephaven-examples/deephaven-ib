@@ -100,7 +100,7 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FUT"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.localSymbol = "ESM4"
+    contract.localSymbol = "ESM6"
     rst["future_2"] = contract
 
     contract = Contract()
@@ -166,8 +166,8 @@ def get_contracts() -> Dict[str, Contract]:
     contract.secType = "FOP"
     contract.exchange = "CME"
     contract.currency = "USD"
-    contract.lastTradeDateOrContractMonth = "202409"
-    contract.strike = 5000
+    contract.lastTradeDateOrContractMonth = "202601"
+    contract.strike = 7000
     contract.right = "C"
     contract.multiplier = "50"
     rst["futureoption_1"] = contract
@@ -233,7 +233,7 @@ def get_contracts() -> Dict[str, Contract]:
 contracts = get_contracts()
 
 for name, contract in contracts.items():
-    print(f"{name} {contract}")
+    print(f"\n{name} {contract}")
     rc = client.get_registered_contract(contract)
     print(rc)
 
@@ -243,7 +243,7 @@ print("=========================================================================
 print("==== Request account pnl.")
 print("==============================================================================================================")
 
-client.request_account_pnl()
+client.request_account_pnl(account=account)
 
 print("==============================================================================================================")
 print("==== Request contracts matching.")
@@ -268,14 +268,14 @@ start = "2021-01-01T00:00:00 ET"
 end = "2021-01-10T00:00:00 ET"
 client.request_news_historical(rc, start=start, end=end)
 
-client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
+#client.request_news_article(provider_code="BRFUPDN", article_id="BRFUPDN$107d53ea")
 
 print("==============================================================================================================")
 print("==== Set market data type.")
 print("==============================================================================================================")
 
-# client.set_market_data_type(dhib.MarketDataType.DELAYED)
-client.set_market_data_type(dhib.MarketDataType.REAL_TIME)
+client.set_market_data_type(dhib.MarketDataType.DELAYED)
+# client.set_market_data_type(dhib.MarketDataType.REAL_TIME)
 
 print("==============================================================================================================")
 print("==== Request bars.")
@@ -411,7 +411,6 @@ rc = client.get_registered_contract(contract)
 print(contract)
 
 generic_tick_types = [
-    dhib.GenericTickType.NEWS,
     dhib.GenericTickType.DIVIDENDS,
     dhib.GenericTickType.AUCTION,
     dhib.GenericTickType.MARK_PRICE,
@@ -433,7 +432,6 @@ generic_tick_types = [
     # dhib.GenericTickType.FUTURE_OPEN_INTEREST,
     # dhib.GenericTickType.FUTURE_INDEX_PREMIUM,
 
-    dhib.GenericTickType.OPTION_VOLATILITY_HISTORICAL,
     dhib.GenericTickType.OPTION_VOLATILITY_HISTORICAL_REAL_TIME,
     dhib.GenericTickType.OPTION_VOLATILITY_IMPLIED,
     dhib.GenericTickType.OPTION_VOLUME,
@@ -488,6 +486,7 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 100
+order.tif = "DAY"
 
 print("Placing order -- confirm fail: START")
 try:
@@ -505,6 +504,7 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 90
+order.tif = "DAY"
 
 print("Placing order -- confirm fail: START")
 try:
@@ -514,7 +514,7 @@ except AssertionError as e:
     raise e
 except Exception:
     pass
-print("Placing order -- confirm fail: START")
+print("Placing order -- confirm fail: END")
 
 order = Order()
 order.account = account
@@ -522,16 +522,18 @@ order.action = "BUY"
 order.orderType = "LIMIT"
 order.totalQuantity = 1
 order.lmtPrice = 91
+order.tif = "DAY"
 
 print("Placing order -- confirm fail: START")
 try:
-    req = client.order_place(rc, order)
+    client.order_place(rc, order)
     raise AssertionError("Operation should not be possible")
 except AssertionError as e:
     raise e
 except Exception:
     pass
 print("Placing order -- confirm fail: END")
+
 # req.cancel()
 
 # client.order_cancel_all()
