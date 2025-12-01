@@ -506,7 +506,7 @@ order.tif = "DAY"
 
 print("Placing order: START")
 client.order_place(rc, order)
-print("Placing order: START")
+print("Placing order: END")
 
 order = Order()
 order.account = account

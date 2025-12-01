@@ -506,9 +506,15 @@ order.totalQuantity = 1
 order.lmtPrice = 90
 order.tif = "DAY"
 
-print("Placing order: START")
-client.order_place(rc, order)
-print("Placing order: START")
+print("Placing order -- confirm fail: START")
+try:
+    client.order_place(rc, order)
+    raise AssertionError("Operation should not be possible")
+except AssertionError as e:
+    raise e
+except Exception:
+    pass
+print("Placing order -- confirm fail: END")
 
 order = Order()
 order.account = account
@@ -518,9 +524,16 @@ order.totalQuantity = 1
 order.lmtPrice = 91
 order.tif = "DAY"
 
-print("Placing order: START")
-req = client.order_place(rc, order)
-print("Placing order: END")
+print("Placing order -- confirm fail: START")
+try:
+    client.order_place(rc, order)
+    raise AssertionError("Operation should not be possible")
+except AssertionError as e:
+    raise e
+except Exception:
+    pass
+print("Placing order -- confirm fail: END")
+
 # req.cancel()
 
 # client.order_cancel_all()
