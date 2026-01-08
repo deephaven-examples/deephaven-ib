@@ -407,25 +407,25 @@ result Table, use the <a class="reference internal" href="#deephaven.table.Multi
 <p>An Enum defining ways to handle duplicate right hand table values during natural join operations</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NaturalJoinType.ERROR_ON_DUPLICATE">
-<span class="sig-name descname"><span class="pre">ERROR_ON_DUPLICATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55db213d7088)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.ERROR_ON_DUPLICATE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ERROR_ON_DUPLICATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55d9f0abe388)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.ERROR_ON_DUPLICATE" title="Link to this definition">¶</a></dt>
 <dd><p>Throw an error if a duplicate right hand table row is found. This is the default behavior if not specified</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NaturalJoinType.EXACTLY_ONE_MATCH">
-<span class="sig-name descname"><span class="pre">EXACTLY_ONE_MATCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55db213d70a0)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.EXACTLY_ONE_MATCH" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">EXACTLY_ONE_MATCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55d9f0abe3a0)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.EXACTLY_ONE_MATCH" title="Link to this definition">¶</a></dt>
 <dd><p>Match exactly one right hand table row; throw an error if there are zero or more than one matches</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NaturalJoinType.FIRST_MATCH">
-<span class="sig-name descname"><span class="pre">FIRST_MATCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55db213d7090)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.FIRST_MATCH" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">FIRST_MATCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55d9f0abe390)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.FIRST_MATCH" title="Link to this definition">¶</a></dt>
 <dd><p>Match the first right hand table row and ignore later duplicates</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NaturalJoinType.LAST_MATCH">
-<span class="sig-name descname"><span class="pre">LAST_MATCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55db213d7098)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.LAST_MATCH" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">LAST_MATCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.api.NaturalJoinType(objectRef=0x55d9f0abe398)</span></em><a class="headerlink" href="#deephaven.table.NaturalJoinType.LAST_MATCH" title="Link to this definition">¶</a></dt>
 <dd><p>Match the last right hand table row and ignore earlier duplicates</p>
 </dd></dl>
 
@@ -438,14 +438,14 @@ result Table, use the <a class="reference internal" href="#deephaven.table.Multi
 <p>An enum of behavior types for new columns introduced while ticking</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NewColumnBehaviorType.FAIL">
-<span class="sig-name descname"><span class="pre">FAIL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.impl.util.KeyedTranspose$NewColumnBehavior(objectRef=0x55db213ec168)</span></em><a class="headerlink" href="#deephaven.table.NewColumnBehaviorType.FAIL" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">FAIL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.impl.util.KeyedTranspose$NewColumnBehavior(objectRef=0x55d9f0ad1ae8)</span></em><a class="headerlink" href="#deephaven.table.NewColumnBehaviorType.FAIL" title="Link to this definition">¶</a></dt>
 <dd><p>The result table reports an error when a new column is detected. This is the default behavior, which ensures
 consistency between the result and a newly created keyed_transpose.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NewColumnBehaviorType.IGNORE">
-<span class="sig-name descname"><span class="pre">IGNORE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.impl.util.KeyedTranspose$NewColumnBehavior(objectRef=0x55db213ec170)</span></em><a class="headerlink" href="#deephaven.table.NewColumnBehaviorType.IGNORE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">IGNORE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.impl.util.KeyedTranspose$NewColumnBehavior(objectRef=0x55d9f0ad1af0)</span></em><a class="headerlink" href="#deephaven.table.NewColumnBehaviorType.IGNORE" title="Link to this definition">¶</a></dt>
 <dd><p>The result table ignores the new column. If a new column would have been created, then the result table
 becomes inconsistent with a newly created keyed_transpose.</p>
 </dd></dl>
@@ -459,7 +459,7 @@ becomes inconsistent with a newly created keyed_transpose.</p>
 <p>An enum of node types for RollupTable</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NodeType.AGGREGATED">
-<span class="sig-name descname"><span class="pre">AGGREGATED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.hierarchical.RollupTable$NodeType(objectRef=0x55db213ec0c8)</span></em><a class="headerlink" href="#deephaven.table.NodeType.AGGREGATED" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">AGGREGATED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.hierarchical.RollupTable$NodeType(objectRef=0x55d9f0ad1a48)</span></em><a class="headerlink" href="#deephaven.table.NodeType.AGGREGATED" title="Link to this definition">¶</a></dt>
 <dd><p>Nodes at an aggregated (rolled up) level in the RollupTable. An aggregated level is above the constituent (
 leaf) level. These nodes have column names and types that result from applying aggregations on the source table
 of the RollupTable.</p>
@@ -467,7 +467,7 @@ of the RollupTable.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.NodeType.CONSTITUENT">
-<span class="sig-name descname"><span class="pre">CONSTITUENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.hierarchical.RollupTable$NodeType(objectRef=0x55db213ec0d0)</span></em><a class="headerlink" href="#deephaven.table.NodeType.CONSTITUENT" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">CONSTITUENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.table.hierarchical.RollupTable$NodeType(objectRef=0x55d9f0ad1a50)</span></em><a class="headerlink" href="#deephaven.table.NodeType.CONSTITUENT" title="Link to this definition">¶</a></dt>
 <dd><p>Nodes at the leaf level when <a class="reference internal" href="#deephaven.table.Table.rollup" title="deephaven.table.Table.rollup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rollup()</span></code></a> method is called with
 include_constituent=True. The constituent level is the lowest in a rollup table. These nodes have column names
 and types from the source table of the RollupTable.</p>
@@ -1962,19 +1962,19 @@ method on the same table.</p>
 <p>An enum of search display modes for layout hints</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.SearchDisplayMode.DEFAULT">
-<span class="sig-name descname"><span class="pre">DEFAULT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.util.LayoutHintBuilder$SearchDisplayModes(objectRef=0x55db213c28b0)</span></em><a class="headerlink" href="#deephaven.table.SearchDisplayMode.DEFAULT" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">DEFAULT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.util.LayoutHintBuilder$SearchDisplayModes(objectRef=0x55d9f0aa73f0)</span></em><a class="headerlink" href="#deephaven.table.SearchDisplayMode.DEFAULT" title="Link to this definition">¶</a></dt>
 <dd><p>Use the system default. This may depend on your user and/or system settings.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.SearchDisplayMode.HIDE">
-<span class="sig-name descname"><span class="pre">HIDE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.util.LayoutHintBuilder$SearchDisplayModes(objectRef=0x55db213c28c0)</span></em><a class="headerlink" href="#deephaven.table.SearchDisplayMode.HIDE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">HIDE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.util.LayoutHintBuilder$SearchDisplayModes(objectRef=0x55d9f0aa7400)</span></em><a class="headerlink" href="#deephaven.table.SearchDisplayMode.HIDE" title="Link to this definition">¶</a></dt>
 <dd><p>Hide the search bar, regardless of user or system settings.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="deephaven.table.SearchDisplayMode.SHOW">
-<span class="sig-name descname"><span class="pre">SHOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.util.LayoutHintBuilder$SearchDisplayModes(objectRef=0x55db213c28b8)</span></em><a class="headerlink" href="#deephaven.table.SearchDisplayMode.SHOW" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">SHOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">io.deephaven.engine.util.LayoutHintBuilder$SearchDisplayModes(objectRef=0x55d9f0aa73f8)</span></em><a class="headerlink" href="#deephaven.table.SearchDisplayMode.SHOW" title="Link to this definition">¶</a></dt>
 <dd><p>Permit the search bar to be displayed, regardless of user or system settings.</p>
 </dd></dl>
 
