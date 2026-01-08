@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.learn" href="deephaven.learn.html" /><link rel="prev" title="deephaven.html" href="deephaven.html.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.json" href="deephaven.json.html" /><link rel="prev" title="deephaven.html" href="deephaven.html.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.jcompat - deephaven_ib documentation</title>
@@ -231,6 +231,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.barrage.html">barrage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.calendar.html">calendar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.column.html">column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.concurrency_control.html">concurrency_control</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.constants.html">constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.dbc.html">dbc</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of dbc</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -244,28 +245,34 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.data_index.html">data_index</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.iceberg.html">iceberg</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.outer_joins.html">outer_joins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.s3.html">s3</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.sql.html">sql</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.table_data_service.html">table_data_service</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.filters.html">filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.html.html">html</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">jcompat</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of learn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.json.html">json</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of json</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.json.jackson.html">jackson</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of learn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.learn.gather.html">gather</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.liveness_scope.html">liveness_scope</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.numpy.html">numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.pandas.html">pandas</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pandasplugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pandasplugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.parquet.html">parquet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.perfmon.html">perfmon</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axisformat.html">axisformat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axistransform.html">axistransform</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.color.html">color</a></li>
@@ -277,19 +284,19 @@
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.shape.html">shape</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of plugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of plugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.js.html">js</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object_type.html">object_type</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.query_library.html">query_library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.replay.html">replay</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.server.executors.html">executors</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of stream</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of kafka</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of stream</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of kafka</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.cdc.html">cdc</a></li>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.consumer.html">consumer</a></li>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.producer.html">producer</a></li>
@@ -298,6 +305,7 @@
 <li class="toctree-l4"><a class="reference internal" href="deephaven.stream.table_publisher.html">table_publisher</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.systemic_obj_tracker.html">systemic_obj_tracker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table.html">table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_factory.html">table_factory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
@@ -418,7 +426,7 @@ and Deephaven nulls will always be converted to np.nan in place. Defaults to Fal
 <dd><p>Creates a Java ArrayList instance from an iterable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -431,7 +439,7 @@ and Deephaven nulls will always be converted to np.nan in place. Defaults to Fal
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> (<em>Callable</em>) – a Python callable or an object with an ‘apply’ method that accepts two arguments</p></li>
+<li><p><strong>func</strong> (<em>Callable</em><em>[</em><em>[</em><em>T</em><em>, </em><em>T</em><em>]</em><em>, </em><em>T</em><em>]</em>) – a Python callable or an object with an ‘apply’ method that accepts two arguments</p></li>
 <li><p><strong>dtype</strong> (<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><em>DType</em></a>) – the return type of ‘func’</p></li>
 </ul>
 </dd>
@@ -445,6 +453,17 @@ and Deephaven nulls will always be converted to np.nan in place. Defaults to Fal
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="deephaven.jcompat.j_collection_to_list">
+<span class="sig-name descname"><span class="pre">j_collection_to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jcollection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/jcompat.html#j_collection_to_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.jcompat.j_collection_to_list" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a java Collection to a python list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="deephaven.jcompat.j_function">
 <span class="sig-name descname"><span class="pre">j_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/jcompat.html#j_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.jcompat.j_function" title="Link to this definition">¶</a></dt>
 <dd><p>Constructs a Java ‘Function&lt;PyObject, Object&gt;’ implementation from a Python callable or an object with an
@@ -452,7 +471,7 @@ and Deephaven nulls will always be converted to np.nan in place. Defaults to Fal
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> (<em>Callable</em>) – a Python callable or an object with an ‘apply’ method that accepts a single argument</p></li>
+<li><p><strong>func</strong> (<em>Callable</em><em>[</em><em>[</em><em>T</em><em>]</em><em>, </em><em>R</em><em>]</em>) – a Python callable or an object with an ‘apply’ method that accepts a single argument</p></li>
 <li><p><strong>dtype</strong> (<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><em>DType</em></a>) – the return type of ‘func’</p></li>
 </ul>
 </dd>
@@ -471,7 +490,7 @@ and Deephaven nulls will always be converted to np.nan in place. Defaults to Fal
 <dd><p>Creates a Java HashMap from a dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -482,7 +501,7 @@ and Deephaven nulls will always be converted to np.nan in place. Defaults to Fal
 <dd><p>Creates a Java HashSet from a set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -498,7 +517,7 @@ and Deephaven nulls will always be converted to np.nan in place. Defaults to Fal
 <li><p><strong>func</strong> (<em>Callable</em>) – Any Python Callable or object with an ‘apply’ method that accepts the same arguments
 (number and type) the target Java lambda type</p></li>
 <li><p><strong>lambda_jtype</strong> (<a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><em>jpy.JType</em></a>) – The Java lambda interface to wrap the provided callable in</p></li>
-<li><p><strong>return_dtype</strong> (<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><em>DType</em></a>) – The expected return type if conversion should be applied.  None (the default) does not
+<li><p><strong>return_dtype</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><em>DType</em></a><em>]</em>) – The expected return type if conversion should be applied.  None (the default) does not
 attempt to convert the return value and returns a Java Object.</p></li>
 </ul>
 </dd>
@@ -511,7 +530,7 @@ attempt to convert the return value and returns a Java Object.</p></li>
 <dd><p>Converts a java list to a python list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -522,7 +541,7 @@ attempt to convert the return value and returns a Java Object.</p></li>
 <dd><p>Converts a java map to a python dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -533,7 +552,7 @@ attempt to convert the return value and returns a Java Object.</p></li>
 <dd><p>Creates a Java Properties from a dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -557,6 +576,27 @@ None.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="deephaven.jcompat.j_table_definition">
+<span class="sig-name descname"><span class="pre">j_table_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_definition</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/jcompat.html#j_table_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.jcompat.j_table_definition" title="Link to this definition">¶</a></dt>
+<dd><p>Deprecated for removal next release, prefer TableDefinition. Produce a Deephaven TableDefinition from user input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_definition</strong> (<em>Optional</em><em>[</em><em>TableDefinitionLike</em><em>]</em>) – the table definition as a dictionary of column
+names and their corresponding data types or a list of Column objects</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType"><code class="xref py py-class docutils literal notranslate"><span class="pre">JType</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a Deephaven TableDefinition object or None if the input is None</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="deephaven.html#deephaven.DHError" title="deephaven.DHError"><strong>DHError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="deephaven.jcompat.j_unary_operator">
 <span class="sig-name descname"><span class="pre">j_unary_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/deephaven/jcompat.html#j_unary_operator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#deephaven.jcompat.j_unary_operator" title="Link to this definition">¶</a></dt>
 <dd><p>Constructs a Java ‘Function&lt;PyObject, Object&gt;’ implementation from a Python callable or an object with an
@@ -564,7 +604,7 @@ None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> (<em>Callable</em>) – a Python callable or an object with an ‘apply’ method that accepts a single argument</p></li>
+<li><p><strong>func</strong> (<em>Callable</em><em>[</em><em>[</em><em>T</em><em>]</em><em>, </em><em>T</em><em>]</em>) – a Python callable or an object with an ‘apply’ method that accepts a single argument</p></li>
 <li><p><strong>dtype</strong> (<a class="reference internal" href="deephaven.dtypes.html#deephaven.dtypes.DType" title="deephaven.dtypes.DType"><em>DType</em></a>) – the return type of ‘func’</p></li>
 </ul>
 </dd>
@@ -587,8 +627,8 @@ for the convenience of the users, e.g. both x= “abc” and x = [“abc”] are
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>v</strong> (<em>Union</em><em>[</em><em>T</em><em>, </em><em>Sequence</em><em>[</em><em>T</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the input value(s) to be converted to a sequence</p></li>
-<li><p><strong>wrapped</strong> (<em>bool</em><em>, </em><em>optional</em>) – if True, the input value(s) will remain wrapped in a JPy object; otherwise, the input
+<li><p><strong>v</strong> (<em>Optional</em><em>[</em><em>Any</em><em>]</em>) – the input value(s) to be converted to a sequence</p></li>
+<li><p><strong>wrapped</strong> (<em>bool</em>) – if True, the input value(s) will remain wrapped in a JPy object; otherwise, the input
 value(s) will be unwrapped. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -596,7 +636,7 @@ value(s) will be unwrapped. Defaults to False.</p></li>
 <dd class="field-even"><p>a sequence of wrapped or unwrapped objects</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence[Union[T, <a class="reference internal" href="jpy.html#jpy.JType" title="jpy.JType">jpy.JType</a>]]</p>
+<dd class="field-odd"><p>Sequence[Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -608,12 +648,12 @@ value(s) will be unwrapped. Defaults to False.</p></li>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="deephaven.learn.html">
+          <a class="next-page" href="deephaven.json.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">deephaven.learn</div>
+                <div class="title">deephaven.json</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -667,6 +707,7 @@ value(s) will be unwrapped. Defaults to False.</p></li>
 <li><a class="reference internal" href="#deephaven.jcompat.is_java_type"><code class="docutils literal notranslate"><span class="pre">is_java_type()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_array_list"><code class="docutils literal notranslate"><span class="pre">j_array_list()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_binary_operator"><code class="docutils literal notranslate"><span class="pre">j_binary_operator()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.jcompat.j_collection_to_list"><code class="docutils literal notranslate"><span class="pre">j_collection_to_list()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_function"><code class="docutils literal notranslate"><span class="pre">j_function()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_hashmap"><code class="docutils literal notranslate"><span class="pre">j_hashmap()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_hashset"><code class="docutils literal notranslate"><span class="pre">j_hashset()</span></code></a></li>
@@ -675,6 +716,7 @@ value(s) will be unwrapped. Defaults to False.</p></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_map_to_dict"><code class="docutils literal notranslate"><span class="pre">j_map_to_dict()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_properties"><code class="docutils literal notranslate"><span class="pre">j_properties()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_runnable"><code class="docutils literal notranslate"><span class="pre">j_runnable()</span></code></a></li>
+<li><a class="reference internal" href="#deephaven.jcompat.j_table_definition"><code class="docutils literal notranslate"><span class="pre">j_table_definition()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.j_unary_operator"><code class="docutils literal notranslate"><span class="pre">j_unary_operator()</span></code></a></li>
 <li><a class="reference internal" href="#deephaven.jcompat.to_sequence"><code class="docutils literal notranslate"><span class="pre">to_sequence()</span></code></a></li>
 </ul>

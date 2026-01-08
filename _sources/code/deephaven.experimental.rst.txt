@@ -4,9 +4,11 @@ deephaven.experimental
 .. toctree::
     data_index <deephaven.experimental.data_index>
     ema <deephaven.experimental.ema>
+    iceberg <deephaven.experimental.iceberg>
     outer_joins <deephaven.experimental.outer_joins>
     s3 <deephaven.experimental.s3>
     sql <deephaven.experimental.sql>
+    table_data_service <deephaven.experimental.table_data_service>
 
 .. automodule:: deephaven.experimental
     :members:

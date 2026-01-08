@@ -1,0 +1,1618 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <link rel="shortcut icon" href="../../../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
+        <title>deephaven.experimental.iceberg - deephaven_ib documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=aca143e9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" /
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">deephaven_ib  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">deephaven_ib  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">Python Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Python Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven_server.html">deephaven_server</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of deephaven_server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_server.cli.html">cli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_server.server.html">server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_server.start_jvm.html">start_jvm</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven_ib.html">deephaven_ib</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of deephaven_ib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven_ib.time.html">time</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../code/deephaven.html">deephaven</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of deephaven</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.agg.html">agg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.appmode.html">appmode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.arrow.html">arrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.barrage.html">barrage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.calendar.html">calendar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.column.html">column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.concurrency_control.html">concurrency_control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.constants.html">constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.csv.html">csv</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.dbc.html">dbc</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of dbc</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.dbc.adbc.html">adbc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.dbc.odbc.html">odbc</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.dherror.html">dherror</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.dtypes.html">dtypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.execution_context.html">execution_context</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.experimental.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.data_index.html">data_index</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.ema.html">ema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.iceberg.html">iceberg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.outer_joins.html">outer_joins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.s3.html">s3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.sql.html">sql</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.experimental.table_data_service.html">table_data_service</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.html.html">html</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.jcompat.html">jcompat</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.json.html">json</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of json</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.json.jackson.html">jackson</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of learn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.learn.gather.html">gather</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.liveness_scope.html">liveness_scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.numpy.html">numpy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.pandas.html">pandas</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pandasplugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.parquet.html">parquet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.perfmon.html">perfmon</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.axisformat.html">axisformat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.axistransform.html">axistransform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.color.html">color</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.font.html">font</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.linestyle.html">linestyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.plotstyle.html">plotstyle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.selectable_dataset.html">selectable_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plot.shape.html">shape</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of plugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plugin.js.html">js</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.plugin.object_type.html">object_type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.query_library.html">query_library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.replay.html">replay</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.server.executors.html">executors</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../code/deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of stream</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../code/deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of kafka</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.stream.kafka.cdc.html">cdc</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.stream.kafka.consumer.html">consumer</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../code/deephaven.stream.kafka.producer.html">producer</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../code/deephaven.stream.table_publisher.html">table_publisher</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.systemic_obj_tracker.html">systemic_obj_tracker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.table.html">table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.table_factory.html">table_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.table_listener.html">table_listener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.time.html">time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.update_graph.html">update_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.updateby.html">updateby</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../code/deephaven.uri.html">uri</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../code/jpy.html">jpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../code/ibapi.contract.html">ibapi.contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../code/ibapi.order.html">ibapi.order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py-modindex.html">Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for deephaven.experimental.iceberg</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Copyright (c) 2016-2025 Deephaven Data Labs and Patent Pending</span>
+<span class="c1">#</span>
+<span class="sd">&quot;&quot;&quot;This module adds Iceberg table support into Deephaven.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven</span><span class="w"> </span><span class="kn">import</span> <span class="n">DHError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven._wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JObjectWrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">s3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">j_hashmap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">TableDefinition</span><span class="p">,</span> <span class="n">TableDefinitionLike</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">overload</span>  <span class="c1"># novermin  # noqa</span>
+
+<span class="n">_JBuildCatalogOptions</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.BuildCatalogOptions&quot;</span><span class="p">)</span>
+<span class="n">_JIcebergUpdateMode</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+    <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.IcebergUpdateMode&quot;</span><span class="p">)</span>
+<span class="p">)</span>  <span class="c1"># type: TypeAlias</span>
+<span class="n">_JIcebergReadInstructions</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span>
+    <span class="s2">&quot;io.deephaven.iceberg.util.IcebergReadInstructions&quot;</span>
+<span class="p">)</span>
+<span class="n">_JIcebergWriteInstructions</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span>
+    <span class="s2">&quot;io.deephaven.iceberg.util.IcebergWriteInstructions&quot;</span>
+<span class="p">)</span>
+<span class="n">_JSchemaProvider</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.SchemaProvider&quot;</span><span class="p">)</span>
+<span class="n">_JSortOrderProvider</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.SortOrderProvider&quot;</span><span class="p">)</span>
+<span class="n">_JTableParquetWriterOptions</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span>
+    <span class="s2">&quot;io.deephaven.iceberg.util.TableParquetWriterOptions&quot;</span>
+<span class="p">)</span>
+<span class="n">_JIcebergCatalogAdapter</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+    <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.IcebergCatalogAdapter&quot;</span><span class="p">)</span>
+<span class="p">)</span>  <span class="c1"># type: TypeAlias</span>
+<span class="n">_JIcebergTableAdapter</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+    <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.IcebergTableAdapter&quot;</span><span class="p">)</span>
+<span class="p">)</span>  <span class="c1"># type: TypeAlias</span>
+<span class="n">_JIcebergTableWriter</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+    <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.IcebergTableWriter&quot;</span><span class="p">)</span>
+<span class="p">)</span>  <span class="c1"># type: TypeAlias</span>
+<span class="n">_JIcebergTable</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.IcebergTable&quot;</span><span class="p">)</span>
+<span class="n">_JIcebergTools</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.IcebergTools&quot;</span><span class="p">)</span>
+<span class="n">_JLoadTableOptions</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.LoadTableOptions&quot;</span><span class="p">)</span>
+<span class="n">_JResolverProvider</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.ResolverProvider&quot;</span><span class="p">)</span>
+<span class="n">_JInferenceResolver</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.InferenceResolver&quot;</span><span class="p">)</span>
+<span class="n">_JUnboundResolver</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.UnboundResolver&quot;</span><span class="p">)</span>
+<span class="n">_JColumnInstructions</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.ColumnInstructions&quot;</span><span class="p">)</span>
+
+<span class="c1"># IcebergToolsS3 is an optional library</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">_JIcebergToolsS3</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.iceberg.util.IcebergToolsS3&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">_JIcebergToolsS3</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">_JNamespace</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;org.apache.iceberg.catalog.Namespace&quot;</span><span class="p">)</span>
+<span class="n">_JTableIdentifier</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;org.apache.iceberg.catalog.TableIdentifier&quot;</span><span class="p">)</span>
+<span class="n">_JSnapshot</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;org.apache.iceberg.Snapshot&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="IcebergUpdateMode">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergUpdateMode">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IcebergUpdateMode</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `IcebergUpdateMode` specifies the update mode for an Iceberg table to be loaded into Deephaven. The modes</span>
+<span class="sd">    are:</span>
+
+<span class="sd">    - :py:func:`static() &lt;IcebergUpdateMode.static&gt;`: The table is loaded once and does not change</span>
+<span class="sd">    - :py:func:`manual_refresh() &lt;IcebergUpdateMode.manual_refresh&gt;`: The table can be manually refreshed by the user.</span>
+<span class="sd">    - :py:func:`auto_refresh() &lt;IcebergUpdateMode.auto_refresh&gt;`: The table will be automatically refreshed at a</span>
+<span class="sd">            system-defined interval (also can call :py:func:`auto_refresh(auto_refresh_ms: int) &lt;IcebergUpdateMode.auto_refresh&gt;`</span>
+<span class="sd">            to specify an interval rather than use the system default of 60 seconds).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JIcebergUpdateMode</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">_JIcebergUpdateMode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">mode</span>
+
+<div class="viewcode-block" id="IcebergUpdateMode.static">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergUpdateMode.static">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">static</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergUpdateMode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates an IcebergUpdateMode with no refreshing supported.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">IcebergUpdateMode</span><span class="p">(</span><span class="n">_JIcebergUpdateMode</span><span class="o">.</span><span class="n">staticMode</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="IcebergUpdateMode.manual_refresh">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergUpdateMode.manual_refresh">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">manual_refresh</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergUpdateMode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates an IcebergUpdateMode with manual refreshing enabled.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">IcebergUpdateMode</span><span class="p">(</span><span class="n">_JIcebergUpdateMode</span><span class="o">.</span><span class="n">manualRefreshingMode</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="IcebergUpdateMode.auto_refresh">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergUpdateMode.auto_refresh">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">auto_refresh</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">auto_refresh_ms</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergUpdateMode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates an IcebergUpdateMode with auto-refreshing enabled.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            auto_refresh_ms (Optional[int]): the refresh interval in milliseconds; if omitted, the default of 60 seconds</span>
+<span class="sd">                is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">auto_refresh_ms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IcebergUpdateMode</span><span class="p">(</span><span class="n">_JIcebergUpdateMode</span><span class="o">.</span><span class="n">autoRefreshingMode</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">IcebergUpdateMode</span><span class="p">(</span>
+            <span class="n">_JIcebergUpdateMode</span><span class="o">.</span><span class="n">autoRefreshingMode</span><span class="p">(</span><span class="n">auto_refresh_ms</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span></div>
+
+
+
+<div class="viewcode-block" id="IcebergReadInstructions">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergReadInstructions">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IcebergReadInstructions</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `IcebergReadInstructions` specifies the instructions for reading an Iceberg table into Deephaven. These include</span>
+<span class="sd">    special data instructions for loading data files from the cloud.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JIcebergReadInstructions</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_definition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TableDefinitionLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">s3</span><span class="o">.</span><span class="n">S3Instructions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">column_renames</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">update_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IcebergUpdateMode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">snapshot_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignore_resolving_errors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the instructions using the provided parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            table_definition (Optional[TableDefinitionLike]): this parameter is deprecated and has no effect</span>
+<span class="sd">            data_instructions (Optional[s3.S3Instructions]): Special instructions for reading data files, useful when</span>
+<span class="sd">                reading files from a non-local file system, like S3. If omitted, the data instructions will be derived</span>
+<span class="sd">                from the catalog.</span>
+<span class="sd">            column_renames (Optional[dict[str, str]]): this parameter is deprecated and has no effect</span>
+<span class="sd">            update_mode (Optional[IcebergUpdateMode]): The update mode for the table. If omitted, the default update</span>
+<span class="sd">                mode of :py:func:`IcebergUpdateMode.static() &lt;IcebergUpdateMode.static&gt;` is used.</span>
+<span class="sd">            snapshot_id (Optional[int]): the snapshot id to read; if omitted the most recent snapshot will be selected.</span>
+<span class="sd">            ignore_resolving_errors (bool): Controls whether to ignore unexpected resolving errors by silently returning</span>
+<span class="sd">                null data for columns that can&#39;t be resolved in DataFiles where they should be present. These errors may</span>
+<span class="sd">                be a sign of an incorrect resolver or name mapping; or an Iceberg metadata / data issue. By default, is</span>
+<span class="sd">                `False`.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            DHError: If unable to build the instructions object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">table_definition</span><span class="p">:</span>
+                <span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;The table_definition parameter is deprecated, has no effect&quot;</span><span class="p">,</span>
+                    <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">data_instructions</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">dataInstructions</span><span class="p">(</span><span class="n">data_instructions</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">column_renames</span><span class="p">:</span>
+                <span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;This column_renames parameter is deprecated, has no effect&quot;</span><span class="p">,</span>
+                    <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">update_mode</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">updateMode</span><span class="p">(</span><span class="n">update_mode</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">snapshot_id</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">snapshotId</span><span class="p">(</span><span class="n">snapshot_id</span><span class="p">)</span>
+
+            <span class="n">builder</span><span class="o">.</span><span class="n">ignoreResolvingErrors</span><span class="p">(</span><span class="n">ignore_resolving_errors</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build Iceberg instructions&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span></div>
+
+
+
+<div class="viewcode-block" id="IcebergWriteInstructions">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergWriteInstructions">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IcebergWriteInstructions</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `IcebergWriteInstructions` provides instructions intended for writing deephaven tables as partitions to Iceberg</span>
+<span class="sd">    tables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JIcebergWriteInstructions</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tables</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Table</span><span class="p">]],</span>
+        <span class="n">partition_paths</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the instructions using the provided parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tables (Union[Table, Sequence[Table]]): The deephaven tables to write.</span>
+<span class="sd">            partition_paths (Optional[Union[str, Sequence[str]]]): The partition paths where each table will be written.</span>
+<span class="sd">                For example, if the Iceberg table is partitioned by &quot;year&quot; and &quot;month&quot;, a partition path could be</span>
+<span class="sd">                &quot;year=2021/month=01&quot;.</span>
+<span class="sd">                If writing to a partitioned Iceberg table, users must provide partition path for each table in tables</span>
+<span class="sd">                argument in the same order.</span>
+<span class="sd">                Else when writing to a non-partitioned table, users should not provide any partition paths.</span>
+<span class="sd">                Defaults to `None`, which means the deephaven tables will be written to the root data directory of the</span>
+<span class="sd">                Iceberg table.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DHError: If unable to build the instructions object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">Table</span><span class="p">):</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">addTables</span><span class="p">(</span><span class="n">tables</span><span class="o">.</span><span class="n">j_table</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+                    <span class="n">builder</span><span class="o">.</span><span class="n">addTables</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">j_table</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">partition_paths</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">partition_paths</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">builder</span><span class="o">.</span><span class="n">addPartitionPaths</span><span class="p">(</span><span class="n">partition_paths</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">partition_paths</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">partition_path</span> <span class="ow">in</span> <span class="n">partition_paths</span><span class="p">:</span>
+                        <span class="n">builder</span><span class="o">.</span><span class="n">addPartitionPaths</span><span class="p">(</span><span class="n">partition_path</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build Iceberg write instructions&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span></div>
+
+
+
+<div class="viewcode-block" id="SchemaProvider">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SchemaProvider">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SchemaProvider</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `SchemaProvider` is used to extract the schema from an Iceberg table. Users can specify multiple ways to do</span>
+<span class="sd">    so, for example, by schema ID, snapshot ID, current schema, etc. This can be useful for passing a schema when</span>
+<span class="sd">    writing to an Iceberg table.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JSchemaProvider</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_j_object</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the `SchemaProvider` object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            _j_object (SchemaProvider): the Java `SchemaProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">_j_object</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span>
+
+<div class="viewcode-block" id="SchemaProvider.from_current">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SchemaProvider.from_current">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_current</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SchemaProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used for extracting the current schema from the table.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `SchemaProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_JSchemaProvider</span><span class="o">.</span><span class="n">fromCurrent</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="SchemaProvider.from_schema_id">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SchemaProvider.from_schema_id">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_schema_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">schema_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SchemaProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used for extracting the schema from the table using the specified schema id.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            schema_id (int): the schema id to use.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `SchemaProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_JSchemaProvider</span><span class="o">.</span><span class="n">fromSchemaId</span><span class="p">(</span><span class="n">schema_id</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SchemaProvider.from_snapshot_id">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SchemaProvider.from_snapshot_id">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_snapshot_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">snapshot_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SchemaProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used for extracting the schema from the table using the specified snapshot id.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            snapshot_id (int): the snapshot id to use.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `SchemaProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_JSchemaProvider</span><span class="o">.</span><span class="n">fromSnapshotId</span><span class="p">(</span><span class="n">snapshot_id</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SchemaProvider.from_current_snapshot">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SchemaProvider.from_current_snapshot">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_current_snapshot</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SchemaProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used for extracting the schema from the table using the current snapshot.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the SchemaProvider object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_JSchemaProvider</span><span class="o">.</span><span class="n">fromCurrentSnapshot</span><span class="p">())</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SortOrderProvider">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SortOrderProvider">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SortOrderProvider</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `SortOrderProvider` is used to specify the sort order for new data when writing to an Iceberg table. More details</span>
+<span class="sd">    about sort order can be found in the `Iceberg spec &lt;https://iceberg.apache.org/spec/#sorting&gt;`_</span>
+<span class="sd">    Users can specify the sort order in multiple ways, such as by providing a sort ID or using the table&#39;s default sort</span>
+<span class="sd">    order. This class consists of factory methods to create different sort order providers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JSortOrderProvider</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_j_object</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the `SortOrderProvider` object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            _j_object (SortOrderProvider): the Java `SortOrderProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">_j_object</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span>
+
+<div class="viewcode-block" id="SortOrderProvider.unsorted">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SortOrderProvider.unsorted">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unsorted</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SortOrderProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used to disable sorting while writing new data to the Iceberg table.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `SortOrderProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_JSortOrderProvider</span><span class="o">.</span><span class="n">unsorted</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="SortOrderProvider.use_table_default">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SortOrderProvider.use_table_default">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">use_table_default</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SortOrderProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use the default sort order of the table while writing new data. If no sort order is set on the table, no sorting</span>
+<span class="sd">        will be done.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `SortOrderProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_JSortOrderProvider</span><span class="o">.</span><span class="n">useTableDefault</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="SortOrderProvider.from_sort_id">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SortOrderProvider.from_sort_id">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_sort_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sort_order_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SortOrderProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use the sort order with the given ID to sort new data while writing to the Iceberg table.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sort_order_id (int): the id of the sort order to use.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `.SortOrderProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_JSortOrderProvider</span><span class="o">.</span><span class="n">fromSortId</span><span class="p">(</span><span class="n">sort_order_id</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SortOrderProvider.with_id">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SortOrderProvider.with_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sort_order_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SortOrderProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a sort order provider that uses the current provider to determine the columns to sort on, but writes a</span>
+<span class="sd">        different sort order ID to the Iceberg table.</span>
+<span class="sd">        For example, this provider might sort by columns {A, B, C}, but the ID written to Iceberg corresponds to a sort</span>
+<span class="sd">        order with columns {A, B}.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sort_order_id (int): the sort order ID to write to the Iceberg table.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `SortOrderProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SortOrderProvider</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span><span class="o">.</span><span class="n">withId</span><span class="p">(</span><span class="n">sort_order_id</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SortOrderProvider.with_fail_on_unmapped">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.SortOrderProvider.with_fail_on_unmapped">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_fail_on_unmapped</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fail_on_unmapped</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SortOrderProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a sort order provider configured to fail (or not) if the sort order cannot be applied to the tables</span>
+<span class="sd">        being written. By default, all providers fail if the sort order cannot be applied.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fail_on_unmapped: whether to fail if the sort order cannot be applied to the tables being written. If</span>
+<span class="sd">                `False` and the sort order cannot be applied, the tables will be written without sorting.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the `SortOrderProvider` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SortOrderProvider</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span><span class="o">.</span><span class="n">withFailOnUnmapped</span><span class="p">(</span><span class="n">fail_on_unmapped</span><span class="p">))</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="InferenceResolver">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.InferenceResolver">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InferenceResolver</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This provides a set of inference options for use in :meth:`~IcebergTableAdapter.load_table`. This is useful when the</span>
+<span class="sd">    caller does not know the structure of the table to be loaded, and wants the resulting Deephaven Table definition</span>
+<span class="sd">    (and mapping to the Iceberg fields) to be inferred.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JInferenceResolver</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">infer_partitioning_columns</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">fail_on_unsupported_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">schema_provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SchemaProvider</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the `InferenceResolver` object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            infer_partitioning_columns (bool): if Partitioning column should be inferred based on the latest Iceberg</span>
+<span class="sd">                PartitionSpec. By default, is `False`. Warning: inferring partition columns for general-purpose use is</span>
+<span class="sd">                dangerous. This is only meant to be applied in situations where caller knows that the latest Iceberg</span>
+<span class="sd">                PartitionSpec contains identity transforms that are not expected to ever change.</span>
+<span class="sd">            fail_on_unsupported_types (bool): If inference should fail if any of the Iceberg fields fail to map to</span>
+<span class="sd">                Deephaven columns. By default, is `False`.</span>
+<span class="sd">            schema_provider (Optional[SchemaProvider]): The Iceberg Schema to be used for inference. Defaults to</span>
+<span class="sd">                `None`, which means use the current schema from the Iceberg Table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">builder</span> <span class="o">=</span> <span class="n">_JInferenceResolver</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">inferPartitioningColumns</span><span class="p">(</span><span class="n">infer_partitioning_columns</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">failOnUnsupportedTypes</span><span class="p">(</span><span class="n">fail_on_unsupported_types</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">schema_provider</span><span class="p">:</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">schema_provider</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span></div>
+
+
+
+<div class="viewcode-block" id="UnboundResolver">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.UnboundResolver">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnboundResolver</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This provides a set of resolver options for use in :meth:`~IcebergTableAdapter.load_table`. This is useful when the</span>
+<span class="sd">    caller knows the definition of the table they want to load, and can provide an explicit mapping between the</span>
+<span class="sd">    Deephaven columns and Iceberg fields.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JUnboundResolver</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_definition</span><span class="p">:</span> <span class="n">TableDefinitionLike</span><span class="p">,</span>
+        <span class="n">column_instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">schema_provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SchemaProvider</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the `UnboundResolver` object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            table_definition (TableDefinitionLike): the table definition</span>
+<span class="sd">            column_instructions (Optional[Mapping[str, Union[int, str]]]): The map from Deephaven column names to</span>
+<span class="sd">                instructions for mapping to Iceberg columns. An int value will be treated as a schema field id, and a</span>
+<span class="sd">                str value will be treated as a schema field name. Any columns from table_definition not in this map will</span>
+<span class="sd">                be assumed as exact name matches for the fields in the Schema. Callers are encouraged to use schema</span>
+<span class="sd">                field ids as they will remain valid across Iceberg Schema evolution.</span>
+<span class="sd">            schema_provider (Optional[SchemaProvider]): The Iceberg Schema to be used for inference. Defaults to</span>
+<span class="sd">                `None`, which means use the current schema from the Iceberg Table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">builder</span> <span class="o">=</span> <span class="n">_JUnboundResolver</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">TableDefinition</span><span class="p">(</span><span class="n">table_definition</span><span class="p">)</span><span class="o">.</span><span class="n">j_table_definition</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">column_instructions</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">column_instructions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="n">ci</span> <span class="o">=</span> <span class="n">_JColumnInstructions</span><span class="o">.</span><span class="n">schemaField</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">ci</span> <span class="o">=</span> <span class="n">_JColumnInstructions</span><span class="o">.</span><span class="n">schemaFieldName</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;Unexpected value in Mapping&quot;</span><span class="p">)</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">putColumnInstructions</span><span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="n">ci</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">schema_provider</span><span class="p">:</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">schema_provider</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span></div>
+
+
+
+<div class="viewcode-block" id="TableParquetWriterOptions">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.TableParquetWriterOptions">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TableParquetWriterOptions</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `TableParquetWriterOptions` provides specialized instructions for configuring `IcebergTableWriter`</span>
+<span class="sd">    instances.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JTableParquetWriterOptions</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_definition</span><span class="p">:</span> <span class="n">TableDefinitionLike</span><span class="p">,</span>
+        <span class="n">schema_provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SchemaProvider</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">field_id_to_column_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">compression_codec_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">maximum_dictionary_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">maximum_dictionary_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sort_order_provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SortOrderProvider</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">s3</span><span class="o">.</span><span class="n">S3Instructions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the instructions using the provided parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            table_definition: TableDefinitionLike: The table definition to use when writing Iceberg data files using</span>
+<span class="sd">                this writer instance. This definition can be used to skip some columns or add additional columns with</span>
+<span class="sd">                null values. The provided definition should have at least one column.</span>
+<span class="sd">            schema_provider: Optional[SchemaProvider]: Used to extract a Schema from an Iceberg table. This schema will</span>
+<span class="sd">                be used in conjunction with the field_id_to_column_name to map Deephaven columns from table_definition</span>
+<span class="sd">                to Iceberg columns.</span>
+<span class="sd">                Defaults to `None`, which means use the current schema from the table.</span>
+<span class="sd">            field_id_to_column_name: Optional[dict[int, str]]: A one-to-one map from Iceberg field IDs from the</span>
+<span class="sd">                schema_spec to Deephaven column names from the table_definition.</span>
+<span class="sd">                Defaults to `None`, which means map Iceberg columns to Deephaven columns using column names.</span>
+<span class="sd">            compression_codec_name (Optional[str]): The compression codec to use for writing the parquet file. Allowed</span>
+<span class="sd">                values include &quot;UNCOMPRESSED&quot;, &quot;SNAPPY&quot;, &quot;GZIP&quot;, &quot;LZO&quot;, &quot;LZ4&quot;, &quot;LZ4_RAW&quot;, &quot;ZSTD&quot;, etc. Defaults to</span>
+<span class="sd">                `None`, which means use &quot;SNAPPY&quot;.</span>
+<span class="sd">            maximum_dictionary_keys (Optional[int]): the maximum number of unique keys the Parquet writer should add to</span>
+<span class="sd">                a dictionary page before switching to non-dictionary encoding, never used for non-String columns.</span>
+<span class="sd">                Defaults to `None`, which means use 2^20 (1,048,576)</span>
+<span class="sd">            maximum_dictionary_size (Optional[int]): the maximum number of bytes the Parquet writer should add to the</span>
+<span class="sd">                dictionary before switching to non-dictionary encoding, never used for non-String columns. Defaults to</span>
+<span class="sd">                `None`, which means use 2^20 (1,048,576)</span>
+<span class="sd">            target_page_size (Optional[int]): the target Parquet file page size in bytes, if not specified. Defaults to</span>
+<span class="sd">                `None`, which means use 2^20 bytes (1 MiB)</span>
+<span class="sd">            sort_order_provider (Optional[SortOrderProvider]): Specifies the sort order to use for sorting new data</span>
+<span class="sd">                when writing to an Iceberg table with this writer. The sort order is determined at the time the writer</span>
+<span class="sd">                is created and does not change if the table&#39;s sort order changes later. Defaults to `None`, which means</span>
+<span class="sd">                the table&#39;s default sort order is used. More details about sort order can be found in the</span>
+<span class="sd">                `Iceberg spec &lt;https://iceberg.apache.org/spec/#sorting&gt;`_</span>
+<span class="sd">            data_instructions (Optional[s3.S3Instructions]): Special instructions for writing data files, useful when</span>
+<span class="sd">                writing files to a non-local file system, like S3. If omitted, the data instructions will be derived</span>
+<span class="sd">                from the catalog.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DHError: If unable to build the object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_object_type</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+
+            <span class="n">builder</span><span class="o">.</span><span class="n">tableDefinition</span><span class="p">(</span>
+                <span class="n">TableDefinition</span><span class="p">(</span><span class="n">table_definition</span><span class="p">)</span><span class="o">.</span><span class="n">j_table_definition</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">schema_provider</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">schemaProvider</span><span class="p">(</span><span class="n">schema_provider</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">field_id_to_column_name</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">field_id</span><span class="p">,</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">field_id_to_column_name</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">builder</span><span class="o">.</span><span class="n">putFieldIdToColumnName</span><span class="p">(</span><span class="n">field_id</span><span class="p">,</span> <span class="n">column_name</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">compression_codec_name</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">compressionCodecName</span><span class="p">(</span><span class="n">compression_codec_name</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">maximum_dictionary_keys</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">maximumDictionaryKeys</span><span class="p">(</span><span class="n">maximum_dictionary_keys</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">maximum_dictionary_size</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">maximumDictionarySize</span><span class="p">(</span><span class="n">maximum_dictionary_size</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">target_page_size</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">targetPageSize</span><span class="p">(</span><span class="n">target_page_size</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">sort_order_provider</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">sortOrderProvider</span><span class="p">(</span><span class="n">sort_order_provider</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">data_instructions</span><span class="p">:</span>
+                <span class="n">builder</span><span class="o">.</span><span class="n">dataInstructions</span><span class="p">(</span><span class="n">data_instructions</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build Iceberg write instructions&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_object</span></div>
+
+
+
+<div class="viewcode-block" id="IcebergTable">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTable">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IcebergTable</span><span class="p">(</span><span class="n">Table</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `IcebergTable` is a subclass of Table that allows users to dynamically update the table with new snapshots</span>
+<span class="sd">    from the Iceberg catalog.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JIcebergTable</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_table</span><span class="p">:</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">j_table</span><span class="p">)</span>
+
+<div class="viewcode-block" id="IcebergTable.update">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTable.update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">snapshot_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>  <span class="c1"># type: ignore[override]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the table to match the contents of the specified snapshot. This may result in row removes and additions</span>
+<span class="sd">        that will be propagated asynchronously via this IcebergTable&#39;s UpdateGraph. If no snapshot is provided, the</span>
+<span class="sd">        most recent snapshot is used.</span>
+
+<span class="sd">        NOTE: this method is only valid when the table is in `manual_refresh()` mode. Iceberg tables in `static()` or</span>
+<span class="sd">        `auto_refresh()` mode cannot be updated manually and will throw an exception if this method is called.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            snapshot_id (Optional[int]): the snapshot id to update to; if omitted the most recent snapshot will be used.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DHError: If unable to update the Iceberg table.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">snapshot_id</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">snapshot_id</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to update Iceberg table&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table</span></div>
+
+
+
+<div class="viewcode-block" id="IcebergTableWriter">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTableWriter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IcebergTableWriter</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `IcebergTableWriter` is responsible for writing Deephaven tables to an Iceberg table. Each</span>
+<span class="sd">    `IcebergTableWriter` instance associated with a single `IcebergTableAdapter` and can be used to</span>
+<span class="sd">    write multiple Deephaven tables to this Iceberg table.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JIcebergTableWriter</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_object</span><span class="p">:</span> <span class="n">_JIcebergTableWriter</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j_table_writer</span> <span class="o">=</span> <span class="n">j_object</span>
+
+<div class="viewcode-block" id="IcebergTableWriter.append">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTableWriter.append">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instructions</span><span class="p">:</span> <span class="n">IcebergWriteInstructions</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append the provided Deephaven tables as new partitions to the existing Iceberg table in a single snapshot.</span>
+<span class="sd">        Users can provide the tables using the :attr:`.IcebergWriteInstructions.tables` parameter and optionally provide the</span>
+<span class="sd">        partition paths where each table will be written using the :attr:`.IcebergWriteInstructions.partition_paths`</span>
+<span class="sd">        parameter.</span>
+<span class="sd">        This method will not perform any compatibility checks between the existing schema and the provided Deephaven</span>
+<span class="sd">        tables. All such checks happen at the time of creation of the `IcebergTableWriter` instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            instructions (IcebergWriteInstructions): the customization instructions for write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table_writer</span></div>
+
+
+
+<div class="viewcode-block" id="IcebergTableAdapter">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTableAdapter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IcebergTableAdapter</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `IcebergTableAdapter` provides an interface for interacting with Iceberg tables. It allows the user to list</span>
+<span class="sd">    snapshots, retrieve table definitions and reading Iceberg tables into Deephaven tables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JIcebergTableAdapter</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_object</span><span class="p">:</span> <span class="n">_JIcebergTableAdapter</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j_table_adapter</span> <span class="o">=</span> <span class="n">j_object</span>
+
+<div class="viewcode-block" id="IcebergTableAdapter.snapshots">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTableAdapter.snapshots">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">snapshots</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns information on the snapshots of this table as a Deephaven table. The table contains the</span>
+<span class="sd">        following columns:</span>
+<span class="sd">        - `Id`: the snapshot identifier (can be used for updating the table or loading a specific snapshot).</span>
+<span class="sd">        - `TimestampMs`: the timestamp of the snapshot.</span>
+<span class="sd">        - `Operation`: the data operation that created this snapshot.</span>
+<span class="sd">        - `Summary`: additional information about this snapshot from the Iceberg metadata.</span>
+<span class="sd">        - `SnapshotObject`: a Java object containing the Iceberg API snapshot.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a table containing the snapshot information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">snapshots</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="IcebergTableAdapter.definition">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTableAdapter.definition">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">definition</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IcebergReadInstructions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the Deephaven table definition as a Deephaven table.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            instructions (Optional[IcebergReadInstructions]): has no effect, deprecated</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a table containing the table definition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">instructions</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The instructions parameter is deprecated, has no effect&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">definitionTable</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="IcebergTableAdapter.table">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTableAdapter.table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IcebergReadInstructions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">snapshot_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">update_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IcebergUpdateMode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">s3</span><span class="o">.</span><span class="n">S3Instructions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignore_resolving_errors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergTable</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads the table using the provided instructions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            instructions (Optional[IcebergReadInstructions]): deprecated, use other parameters directly</span>
+<span class="sd">            snapshot_id (Optional[int]): the snapshot id to read; if omitted the most recent snapshot will be selected.</span>
+<span class="sd">            update_mode (Optional[IcebergUpdateMode]): The update mode for the table. If omitted, the default update</span>
+<span class="sd">                mode of :py:func:`IcebergUpdateMode.static() &lt;IcebergUpdateMode.static&gt;` is used.</span>
+<span class="sd">            data_instructions (Optional[s3.S3Instructions]): Special instructions for reading data files, useful when</span>
+<span class="sd">                reading files from a non-local file system, like S3. If omitted, the data instructions will be derived</span>
+<span class="sd">                from the catalog.</span>
+<span class="sd">            ignore_resolving_errors (bool): Controls whether to ignore unexpected resolving errors by silently returning</span>
+<span class="sd">                null data for columns that can&#39;t be resolved in DataFiles where they should be present. These errors may</span>
+<span class="sd">                be a sign of an incorrect resolver or name mapping; or an Iceberg metadata / data issue. By default, is</span>
+<span class="sd">                `False`.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            the table read from the catalog.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">snapshot_id</span> <span class="ow">or</span> <span class="n">update_mode</span> <span class="ow">or</span> <span class="n">data_instructions</span> <span class="ow">or</span> <span class="n">ignore_resolving_errors</span><span class="p">:</span>
+            <span class="n">instructions</span> <span class="o">=</span> <span class="n">IcebergReadInstructions</span><span class="p">(</span>
+                <span class="n">snapshot_id</span><span class="o">=</span><span class="n">snapshot_id</span><span class="p">,</span>
+                <span class="n">update_mode</span><span class="o">=</span><span class="n">update_mode</span><span class="p">,</span>
+                <span class="n">data_instructions</span><span class="o">=</span><span class="n">data_instructions</span><span class="p">,</span>
+                <span class="n">ignore_resolving_errors</span><span class="o">=</span><span class="n">ignore_resolving_errors</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">instructions</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;instructions on table are deprecated, prefer settings the other parameters&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">instructions</span> <span class="o">=</span> <span class="n">IcebergReadInstructions</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">IcebergTable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">j_object</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="IcebergTableAdapter.table_writer">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergTableAdapter.table_writer">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">table_writer</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">writer_options</span><span class="p">:</span> <span class="n">TableParquetWriterOptions</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergTableWriter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new `IcebergTableWriter` for this Iceberg table using the provided writer options.</span>
+<span class="sd">        This method will perform schema validation to ensure that the provided table definition from the writer options</span>
+<span class="sd">        is compatible with the Iceberg table schema. All further writes performed by the returned writer will not be</span>
+<span class="sd">        validated against the table&#39;s schema, and thus will be faster.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            writer_options: The options to configure the table writer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the table writer object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">IcebergTableWriter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">tableWriter</span><span class="p">(</span><span class="n">writer_options</span><span class="o">.</span><span class="n">j_object</span><span class="p">))</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_table_adapter</span></div>
+
+
+
+<div class="viewcode-block" id="IcebergCatalogAdapter">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergCatalogAdapter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IcebergCatalogAdapter</span><span class="p">(</span><span class="n">JObjectWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `IcebergCatalogAdapter` provides an interface for interacting with Iceberg catalogs. It allows listing</span>
+<span class="sd">    namespaces, tables and snapshots, as well as reading Iceberg tables into Deephaven tables.</span>
+
+<span class="sd">    Can be used as a context manager:</span>
+<span class="sd">    ```</span>
+<span class="sd">    with iceberg.adapter(name=&quot;MyCatalog&quot;, properties={...}) as catalog:</span>
+<span class="sd">        t = catalog.load_table(&quot;db.tbl&quot;).table(update_mode=IcebergUpdateMode.static())</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JIcebergCatalogAdapter</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">j_object</span><span class="p">:</span> <span class="n">_JIcebergCatalogAdapter</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j_catalog_adapter</span> <span class="o">=</span> <span class="n">j_object</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergCatalogAdapter</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="IcebergCatalogAdapter.namespaces">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergCatalogAdapter.namespaces">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">namespaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns information on the namespaces in the catalog as a Deephaven table. If a namespace is specified, the</span>
+<span class="sd">        tables in that namespace are listed; otherwise the top-level namespaces are listed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            namespace (Optional[str]): the higher-level namespace from which to list namespaces; if omitted, the</span>
+<span class="sd">                top-level namespaces are listed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a table containing the namespaces.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">namespace</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">namespaces</span><span class="p">(</span><span class="n">namespace</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">namespaces</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="IcebergCatalogAdapter.tables">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergCatalogAdapter.tables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns information on the tables in the specified namespace as a Deephaven table.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            namespace (str): the namespace from which to list tables.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a table containing the tables in the provided namespace.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">tables</span><span class="p">(</span><span class="n">namespace</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="IcebergCatalogAdapter.load_table">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergCatalogAdapter.load_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">resolver</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InferenceResolver</span><span class="p">,</span> <span class="n">UnboundResolver</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergTableAdapter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the table from the catalog.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            table_identifier (str): the table to read.</span>
+<span class="sd">            resolver (Optional[Union[InferenceResolver, UnboundResolver]]): the resolver, defaults to None, meaning to use a</span>
+<span class="sd">                InferenceResolver with all the default options.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Table: the table read from the catalog.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">builder</span> <span class="o">=</span> <span class="n">_JLoadTableOptions</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="n">table_identifier</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">resolver</span><span class="p">((</span><span class="n">resolver</span> <span class="k">if</span> <span class="n">resolver</span> <span class="k">else</span> <span class="n">InferenceResolver</span><span class="p">())</span><span class="o">.</span><span class="n">j_object</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">IcebergTableAdapter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">loadTable</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()))</span></div>
+
+
+<div class="viewcode-block" id="IcebergCatalogAdapter.create_table">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.IcebergCatalogAdapter.create_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">table_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_definition</span><span class="p">:</span> <span class="n">TableDefinitionLike</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergTableAdapter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new Iceberg table in the catalog with the given table identifier and definition.</span>
+<span class="sd">        All columns of partitioning type will be used to create the partition spec for the table.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            table_identifier (str): the identifier of the new table.</span>
+<span class="sd">            table_definition (TableDefinitionLike): the table definition of the new table.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            `IcebergTableAdapter`: the table adapter for the new Iceberg table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">IcebergTableAdapter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">createTable</span><span class="p">(</span>
+                <span class="n">table_identifier</span><span class="p">,</span> <span class="n">TableDefinition</span><span class="p">(</span><span class="n">table_definition</span><span class="p">)</span><span class="o">.</span><span class="n">j_table_definition</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_object</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">j_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">j_catalog_adapter</span></div>
+
+
+
+<div class="viewcode-block" id="adapter_s3_rest">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.adapter_s3_rest">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">adapter_s3_rest</span><span class="p">(</span>
+    <span class="n">catalog_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">warehouse_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">region_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_point_override</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergCatalogAdapter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DEPRECATED: Use `adapter()` instead.</span>
+
+<span class="sd">    Create a catalog adapter using an S3-compatible provider and a REST catalog.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        catalog_uri (str): the URI of the REST catalog.</span>
+<span class="sd">        warehouse_location (str): the location of the warehouse.</span>
+<span class="sd">        name (Optional[str]): a descriptive name of the catalog; if omitted the catalog name is inferred from the</span>
+<span class="sd">            catalog URI.</span>
+<span class="sd">        region_name (Optional[str]): the S3 region name to use; If not provided, the default region will be</span>
+<span class="sd">            picked by the AWS SDK from &#39;aws.region&#39; system property, &quot;AWS_REGION&quot; environment variable, the</span>
+<span class="sd">            {user.home}/.aws/credentials or {user.home}/.aws/config files, or from EC2 metadata service, if running in</span>
+<span class="sd">            EC2.</span>
+<span class="sd">        access_key_id (Optional[str]): the access key for reading files. Both access key and secret access key must be</span>
+<span class="sd">            provided to use static credentials, else default credentials will be used.</span>
+<span class="sd">        secret_access_key (Optional[str]): the secret access key for reading files. Both access key and secret key</span>
+<span class="sd">            must be provided to use static credentials, else default credentials will be used.</span>
+<span class="sd">        end_point_override (Optional[str]): the S3 endpoint to connect to. Callers connecting to AWS do not typically</span>
+<span class="sd">            need to set this; it is most useful when connecting to non-AWS, S3-compatible APIs.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        `IcebergCatalogAdapter`: the catalog adapter for the provided S3 REST catalog.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError: If unable to build the catalog adapter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_JIcebergToolsS3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span>
+            <span class="n">message</span><span class="o">=</span><span class="s2">&quot;`adapter_s3_rest` requires the Iceberg specific deephaven S3 extensions to be &quot;</span>
+            <span class="s2">&quot;included in the package&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">IcebergCatalogAdapter</span><span class="p">(</span>
+            <span class="n">_JIcebergToolsS3</span><span class="o">.</span><span class="n">createS3Rest</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span>
+                <span class="n">catalog_uri</span><span class="p">,</span>
+                <span class="n">warehouse_location</span><span class="p">,</span>
+                <span class="n">region_name</span><span class="p">,</span>
+                <span class="n">access_key_id</span><span class="p">,</span>
+                <span class="n">secret_access_key</span><span class="p">,</span>
+                <span class="n">end_point_override</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build Iceberg Catalog Adapter&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+
+<div class="viewcode-block" id="adapter_aws_glue">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.adapter_aws_glue">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">adapter_aws_glue</span><span class="p">(</span>
+    <span class="n">catalog_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">warehouse_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergCatalogAdapter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DEPRECATED: Use `adapter()` instead.</span>
+
+<span class="sd">    Create a catalog adapter using an AWS Glue catalog.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        catalog_uri (str): the URI of the REST catalog.</span>
+<span class="sd">        warehouse_location (str): the location of the warehouse.</span>
+<span class="sd">        name (Optional[str]): a descriptive name of the catalog; if omitted the catalog name is inferred from the</span>
+<span class="sd">            catalog URI.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        `IcebergCatalogAdapter`: the catalog adapter for the provided AWS Glue catalog.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError: If unable to build the catalog adapter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_JIcebergToolsS3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span>
+            <span class="n">message</span><span class="o">=</span><span class="s2">&quot;`adapter_aws_glue` requires the Iceberg specific deephaven S3 extensions to &quot;</span>
+            <span class="s2">&quot;be included in the package&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">IcebergCatalogAdapter</span><span class="p">(</span>
+            <span class="n">_JIcebergToolsS3</span><span class="o">.</span><span class="n">createGlue</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">catalog_uri</span><span class="p">,</span> <span class="n">warehouse_location</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build Iceberg Catalog Adapter&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+
+<div class="viewcode-block" id="adapter">
+<a class="viewcode-back" href="../../../code/deephaven.experimental.iceberg.html#deephaven.experimental.iceberg.adapter">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">adapter</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hadoop_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">s3_instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">s3</span><span class="o">.</span><span class="n">S3Instructions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">enable_property_injection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IcebergCatalogAdapter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an Iceberg catalog adapter from configuration properties. These properties map to the Iceberg catalog Java</span>
+<span class="sd">    API properties and are used to select the catalog and file IO implementations.</span>
+
+<span class="sd">    The minimal set of properties required to create an Iceberg catalog are the following:</span>
+<span class="sd">    - `catalog-impl` or `type` - the Java catalog implementation to use. When providing `catalog-impl`, the</span>
+<span class="sd">            implementing Java class should be provided (e.g. `org.apache.iceberg.rest.RESTCatalog` or</span>
+<span class="sd">            `org.apache.iceberg.aws.glue.GlueCatalog`). Choices for `type` include `hive`, `hadoop`, `rest`, `glue`,</span>
+<span class="sd">            `nessie`, `jdbc`.</span>
+
+<span class="sd">    To ensure consistent behavior across Iceberg-managed and Deephaven-managed AWS clients, it&#39;s recommended to use the</span>
+<span class="sd">    `s3_instructions` parameter to specify AWS/S3 connectivity details. This approach offers a high degree of parity in</span>
+<span class="sd">    construction logic.</span>
+
+<span class="sd">    For complex use cases, consider using S3 Instruction profiles, which provide extensive configuration options. When</span>
+<span class="sd">    set, these instructions are automatically included in the :meth:`.IcebergInstructions.__init__` `data_instructions`.</span>
+
+<span class="sd">    If you prefer to use Iceberg&#39;s native AWS properties, Deephaven will attempt to infer the necessary construction</span>
+<span class="sd">    logic. However, in advanced scenarios, there might be discrepancies between the two clients, potentially leading to</span>
+<span class="sd">    limitations like being able to browse catalog metadata but not retrieve table data.</span>
+
+<span class="sd">    Other common properties include:</span>
+<span class="sd">    - `uri` - the URI of the catalog</span>
+<span class="sd">    - `warehouse` - the root path of the data warehouse.</span>
+
+<span class="sd">    Example usage #1 - REST catalog with an S3 backend:</span>
+<span class="sd">    ```</span>
+<span class="sd">    from deephaven.experimental import iceberg</span>
+<span class="sd">    from deephaven.experimental.s3 import S3Instructions, Credentials</span>
+
+<span class="sd">    adapter = iceberg.adapter(</span>
+<span class="sd">        name=&quot;MyCatalog&quot;,</span>
+<span class="sd">        properties={</span>
+<span class="sd">            &quot;type&quot;: &quot;rest&quot;,</span>
+<span class="sd">            &quot;uri&quot;: &quot;http://my-rest-catalog:8181/api&quot;,</span>
+<span class="sd">            # Note: Other properties may be needed depending on the REST Catalog implementation</span>
+<span class="sd">            # &quot;warehouse&quot;: &quot;catalog-id&quot;,</span>
+<span class="sd">            # &quot;credential&quot;: &quot;username:password&quot;</span>
+<span class="sd">        },</span>
+<span class="sd">        s3_instructions=S3Instructions(</span>
+<span class="sd">            region_name=&quot;us-east-1&quot;,</span>
+<span class="sd">            credentials=Credentials.basic(&quot;my_access_key_id&quot;, &quot;my_secret_access_key&quot;),</span>
+<span class="sd">        ),</span>
+<span class="sd">    )</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Example usage #2 - AWS Glue catalog:</span>
+<span class="sd">    ```</span>
+<span class="sd">    from deephaven.experimental import iceberg</span>
+<span class="sd">    from deephaven.experimental.s3 import S3Instructions</span>
+
+<span class="sd">    # Note: region and credential information will be loaded from the specified profile</span>
+<span class="sd">    adapter = iceberg.adapter(</span>
+<span class="sd">        name=&quot;MyCatalog&quot;,</span>
+<span class="sd">        properties={</span>
+<span class="sd">            &quot;type&quot;: &quot;glue&quot;,</span>
+<span class="sd">            &quot;uri&quot;: &quot;s3://lab-warehouse/sales&quot;,</span>
+<span class="sd">        },</span>
+<span class="sd">        s3_instructions=S3Instructions(</span>
+<span class="sd">            profile_name=&quot;MyGlueProfile&quot;,</span>
+<span class="sd">        ),</span>
+<span class="sd">    )</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (Optional[str]): a descriptive name of the catalog; if omitted the catalog name is inferred from the</span>
+<span class="sd">            catalog URI property.</span>
+<span class="sd">        properties (Optional[dict[str, str]]): the properties of the catalog to load. By default, no properties are set.</span>
+<span class="sd">        hadoop_config (Optional[dict[str, str]]): hadoop configuration properties for the catalog to load. By default,</span>
+<span class="sd">            no properties are set.</span>
+<span class="sd">        s3_instructions (Optional[s3.S3Instructions]): the S3 instructions to use for configuring the Deephaven managed</span>
+<span class="sd">            AWS clients. If not provided, the catalog will internally use the Iceberg-managed AWS clients configured</span>
+<span class="sd">            using the provided `properties`.</span>
+<span class="sd">        enable_property_injection (Optional[bool]): whether to enable Deephaven’s automatic injection of additional properties</span>
+<span class="sd">            that work around upstream issues and supply defaults needed for Deephaven’s Iceberg usage. The injection is</span>
+<span class="sd">            strictly additive—any keys already present in `properties` are left unchanged. When set to `False` (not</span>
+<span class="sd">            recommended), the property map is forwarded exactly as supplied, with no automatic additions. Defaults to</span>
+<span class="sd">            `True`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    `IcebergCatalogAdapter`: the catalog adapter created from the provided properties</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError: If unable to build the catalog adapter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">catalog_options</span> <span class="o">=</span> <span class="n">_build_catalog_options</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">,</span>
+        <span class="n">hadoop_config</span><span class="o">=</span><span class="n">hadoop_config</span><span class="p">,</span>
+        <span class="n">enable_property_injection</span><span class="o">=</span><span class="n">enable_property_injection</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">s3_instructions</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_JIcebergToolsS3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span>
+                <span class="n">message</span><span class="o">=</span><span class="s2">&quot;`adapter` with s3_instructions requires the Iceberg-specific Deephaven S3 extensions to be installed&quot;</span>
+            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IcebergCatalogAdapter</span><span class="p">(</span>
+                <span class="n">_JIcebergToolsS3</span><span class="o">.</span><span class="n">createAdapter</span><span class="p">(</span>
+                    <span class="n">catalog_options</span><span class="p">,</span>
+                    <span class="n">s3_instructions</span><span class="o">.</span><span class="n">j_object</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build Iceberg Catalog Adapter&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">IcebergCatalogAdapter</span><span class="p">(</span><span class="n">_JIcebergTools</span><span class="o">.</span><span class="n">createAdapter</span><span class="p">(</span><span class="n">catalog_options</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build Iceberg Catalog Adapter&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_catalog_options</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hadoop_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">enable_property_injection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">builder</span> <span class="o">=</span> <span class="n">_JBuildCatalogOptions</span><span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">builder</span><span class="o">.</span><span class="n">putAllProperties</span><span class="p">(</span><span class="n">j_hashmap</span><span class="p">(</span><span class="n">properties</span> <span class="k">if</span> <span class="n">properties</span> <span class="k">else</span> <span class="p">{}))</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">putAllHadoopConfig</span><span class="p">(</span><span class="n">j_hashmap</span><span class="p">(</span><span class="n">hadoop_config</span> <span class="k">if</span> <span class="n">hadoop_config</span> <span class="k">else</span> <span class="p">{}))</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">enablePropertyInjection</span><span class="p">(</span><span class="n">enable_property_injection</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;Failed to build catalog options&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Deephaven Data Labs
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>
+    </body>
+</html>

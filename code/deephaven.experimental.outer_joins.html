@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.experimental.s3" href="deephaven.experimental.s3.html" /><link rel="prev" title="deephaven.experimental.ema" href="deephaven.experimental.ema.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="deephaven.experimental.s3" href="deephaven.experimental.s3.html" /><link rel="prev" title="deephaven.experimental.iceberg" href="deephaven.experimental.iceberg.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.svg"/><!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>deephaven.experimental.outer_joins - deephaven_ib documentation</title>
@@ -231,6 +231,7 @@
 <li class="toctree-l3"><a class="reference internal" href="deephaven.barrage.html">barrage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.calendar.html">calendar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.column.html">column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.concurrency_control.html">concurrency_control</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.constants.html">constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.csv.html">csv</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.dbc.html">dbc</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of dbc</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -244,28 +245,34 @@
 <li class="toctree-l3 current has-children"><a class="reference internal" href="deephaven.experimental.html">experimental</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.data_index.html">data_index</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.ema.html">ema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.iceberg.html">iceberg</a></li>
 <li class="toctree-l4 current current-page"><a class="current reference internal" href="#">outer_joins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.s3.html">s3</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.sql.html">sql</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.experimental.table_data_service.html">table_data_service</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.filters.html">filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.html.html">html</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.jcompat.html">jcompat</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of learn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.json.html">json</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of json</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="deephaven.json.jackson.html">jackson</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.learn.html">learn</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of learn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.learn.gather.html">gather</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.liveness_scope.html">liveness_scope</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.numpy.html">numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.pandas.html">pandas</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of pandasplugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.pandasplugin.html">pandasplugin</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of pandasplugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.pandasplugin.pandas_as_table.html">pandas_as_table</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.parquet.html">parquet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.perfmon.html">perfmon</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plot.html">plot</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axisformat.html">axisformat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.axistransform.html">axistransform</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.color.html">color</a></li>
@@ -277,19 +284,19 @@
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plot.shape.html">shape</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of plugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.plugin.html">plugin</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of plugin</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.js.html">js</a></li>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.plugin.object_type.html">object_type</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.query_library.html">query_library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.replay.html">replay</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.server.html">server</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of server</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="deephaven.server.executors.html">executors</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of stream</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of kafka</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="deephaven.stream.html">stream</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of stream</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="deephaven.stream.kafka.html">kafka</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of kafka</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.cdc.html">cdc</a></li>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.consumer.html">consumer</a></li>
 <li class="toctree-l5"><a class="reference internal" href="deephaven.stream.kafka.producer.html">producer</a></li>
@@ -298,6 +305,7 @@
 <li class="toctree-l4"><a class="reference internal" href="deephaven.stream.table_publisher.html">table_publisher</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="deephaven.systemic_obj_tracker.html">systemic_obj_tracker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table.html">table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_factory.html">table_factory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="deephaven.table_listener.html">table_listener</a></li>
@@ -369,9 +377,9 @@ table. If no columns to match (on) are specified, then every combination of left
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>l_table</strong> (<a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – the left table</p></li>
 <li><p><strong>r_table</strong> (<a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – the right table</p></li>
-<li><p><strong>on</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
+<li><p><strong>on</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
 i.e. “col_a = col_b” for different column names; default is None</p></li>
-<li><p><strong>joins</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column(s) to be added from right table to the result
+<li><p><strong>joins</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>]</em>) – the column(s) to be added from right table to the result
 table, can be renaming expressions, i.e. “new_col = col”; default is None, meaning all the columns from
 the right table</p></li>
 </ul>
@@ -400,9 +408,9 @@ table. If no columns to match (on) are specified, then every combination of left
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>l_table</strong> (<a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – the left table</p></li>
 <li><p><strong>r_table</strong> (<a class="reference internal" href="deephaven.table.html#deephaven.table.Table" title="deephaven.table.Table"><em>Table</em></a>) – the right table</p></li>
-<li><p><strong>on</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
+<li><p><strong>on</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>]</em>) – the column(s) to match, can be a common name or an equal expression,
 i.e. “col_a = col_b” for different column names</p></li>
-<li><p><strong>joins</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – the column(s) to be added from right table to the result
+<li><p><strong>joins</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>]</em>) – the column(s) to be added from right table to the result
 table, can be renaming expressions, i.e. “new_col = col”; default is None, default is None, meaning all
 the columns from the right table</p></li>
 </ul>
@@ -435,14 +443,14 @@ the columns from the right table</p></li>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="deephaven.experimental.ema.html">
+          <a class="prev-page" href="deephaven.experimental.iceberg.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">deephaven.experimental.ema</div>
+                <div class="title">deephaven.experimental.iceberg</div>
                 
               </div>
             </a>

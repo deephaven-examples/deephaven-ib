@@ -1,0 +1,10 @@
+deephaven.experimental.table_data_service
+=========================================
+
+
+.. automodule:: deephaven.experimental.table_data_service
+    :members:
+    :no-undoc-members:
+    :show-inheritance:
+    :inherited-members:
+

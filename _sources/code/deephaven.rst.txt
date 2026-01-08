@@ -8,6 +8,7 @@ deephaven
     barrage <deephaven.barrage>
     calendar <deephaven.calendar>
     column <deephaven.column>
+    concurrency_control <deephaven.concurrency_control>
     constants <deephaven.constants>
     csv <deephaven.csv>
     dbc <deephaven.dbc>
@@ -18,6 +19,7 @@ deephaven
     filters <deephaven.filters>
     html <deephaven.html>
     jcompat <deephaven.jcompat>
+    json <deephaven.json>
     learn <deephaven.learn>
     liveness_scope <deephaven.liveness_scope>
     numpy <deephaven.numpy>
@@ -31,6 +33,7 @@ deephaven
     replay <deephaven.replay>
     server <deephaven.server>
     stream <deephaven.stream>
+    systemic_obj_tracker <deephaven.systemic_obj_tracker>
     table <deephaven.table>
     table_factory <deephaven.table_factory>
     table_listener <deephaven.table_listener>
