@@ -36,7 +36,7 @@ pip install -r requirements_dhib_env.txt
 
 # Build the release virtual environment
 # This creates venv-release-dhib-<version> with all required packages
-python ./dhib_env.py release 
+python ./dhib_env.py release
 
 # Clean up temporary installer venv
 deactivate
