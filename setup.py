@@ -91,7 +91,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.10",
     install_requires=[
-        f"deephaven-server~={dh_version}",
+        f"deephaven-server>={dh_version}",
         "pandas",
         f"ibapi=={ib_version}",
         "lxml",
