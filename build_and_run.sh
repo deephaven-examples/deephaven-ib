@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Exit on any error, undefined variable, or error in a pipeline
+set -e
+set -u
+set -o pipefail
+
 # Convenience script to build a release virtual environment and start the Deephaven server.
 # This script automates the process of:
 # 1. Creating a temporary installer virtual environment
