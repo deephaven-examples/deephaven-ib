@@ -613,7 +613,7 @@ def release(
     wheel = download_wheel(python, "deephaven_ib", dh_ib_version)
     deps = pkg_dependencies(wheel)
     ib_version = deps["ibapi"].replace("==", "")
-    dh_version = deps["deephaven-server"].replace("==", "").replace("~=", "")
+    dh_version = deps["deephaven-server"].replace("==", "").replace("~=", "").replace(">=", "")
 
     version_assert_format(dh_version)
     version_assert_format(ib_version)
