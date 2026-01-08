@@ -2,6 +2,11 @@
 
 """ A script to build a virtual environment for Deephaven-IB development or release."""
 
+import sys
+
+if sys.version_info < (3, 11):
+    raise RuntimeError(f"This script requires Python 3.11 or higher. You are using Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+
 import atexit
 import logging
 import os
@@ -15,7 +20,6 @@ import pkginfo
 import requests
 
 IB_VERSION_DEFAULT="10.19.04"
-DH_VERSION_DEFAULT="0.36.1"
 MIN_PY_VERSION="3.10.0"
 
 ########################################################################################################################
@@ -126,6 +130,23 @@ def delete_file_on_exit(file_path: Union[str, Path]) -> None:
     atexit.register(delete_file)
 
 
+def get_latest_version(package: str) -> str:
+    """Get the latest version of a package from PyPI.
+    
+    Args:
+        package: The name of the package.
+        
+    Returns:
+        The latest version string.
+    """
+    logging.warning(f"Determining latest version of package: {package}")
+    response = requests.get(f"https://pypi.org/pypi/{package}/json")
+    response.raise_for_status()
+    version = response.json()["info"]["version"]
+    logging.warning(f"Latest {package} version: {version}")
+    return version
+
+
 def download_wheel(python: str, package: str, version: Optional[str], delete_on_exit: bool = True) -> Path:
     """Download a wheel file for a package with a specific version.
 
@@ -144,10 +165,7 @@ def download_wheel(python: str, package: str, version: Optional[str], delete_on_
     logging.warning(f"Downloading wheel for package: {package}, version: {version}, delete_on_exit: {delete_on_exit}")
 
     if not version:
-        logging.warning(f"Determining latest version of package: {package}")
-        response = requests.get(f"https://pypi.org/pypi/{package}/json")
-        response.raise_for_status()
-        version = response.json()["info"]["version"]
+        version = get_latest_version(package)
 
     ver = f"=={version}" if version else ""
     shell_exec(f"{python} -m pip download {package}{ver} --no-deps")
@@ -180,15 +198,13 @@ def pkg_dependencies(path_or_module: Union[str, Path, ModuleType]) -> Dict[str, 
     rst = {}
 
     for req in meta.requires_dist:
-        s = req.split(" ")
-        name = s[0]
-
-        if len(s) > 1:
-            version = s[1].strip("()")
+        match = re.match(r'^([a-zA-Z0-9_-]+)(.*)$', req.strip())
+        if match:
+            name = match.group(1)
+            version_spec = match.group(2).strip()
+            rst[name] = version_spec if version_spec else None
         else:
-            version = None
-
-        rst[name] = version
+            rst[req] = None
 
     return rst
 
@@ -475,12 +491,12 @@ def ib_wheel(
 
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
-@click.option('--dh_version', default=DH_VERSION_DEFAULT, help='The version of Deephaven.')
+@click.option('--dh_version', default=None, help='The version of Deephaven. If not specified, uses the latest version from PyPI.')
 @click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
 def dhib_wheel(
         python: str,
-        dh_version: str,
+        dh_version: Optional[str],
         ib_version: str,
         dh_ib_version: Optional[str],
 ):
@@ -489,9 +505,11 @@ def dhib_wheel(
 
     if dh_ib_version is None:
         dh_ib_version = "0.0.0.dev0"
+    
+    if not dh_version:
+        dh_version = get_latest_version("deephaven-server")
 
     version_assert_format(ib_version)
-    version_assert_format(dh_version)
     version_assert_format(dh_ib_version)
 
     python = Path(python).absolute() if python.startswith("./") else python
@@ -510,8 +528,7 @@ def dhib_wheel(
 
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
-@click.option('--dh_version', default=DH_VERSION_DEFAULT, help='The version of Deephaven.')
-@click.option('--dh_version_exact', default=None, help='The exact version of Deephaven.')
+@click.option('--dh_version', default=None, help='The version of Deephaven. If not specified, uses the latest version from PyPI.')
 @click.option('--ib_version', default=IB_VERSION_DEFAULT, help='The version of ibapi.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
 @click.option('--use_venv', default=True, help='Whether to use a python virtual environment or system python.')
@@ -521,8 +538,7 @@ def dhib_wheel(
 @click.option('--install_dhib', default=True, help='Whether to install deephaven-ib.  If set to false, the resulting venv can be used to develop deephaven-ib in PyCharm or other development environments.')
 def dev(
         python: str,
-        dh_version: str,
-        dh_version_exact: str,
+        dh_version: Optional[str],
         ib_version: str,
         dh_ib_version: Optional[str],
         use_venv: bool,
@@ -532,26 +548,19 @@ def dev(
         install_dhib: bool
 ):
     """Create a development environment."""
-    logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, dh_version_exact={dh_version_exact}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
+    logging.warning(f"Creating development environment: python={python} dh_version={dh_version}, ib_version={ib_version}, dh_ib_version={dh_ib_version}, delete_vm_if_exists={delete_venv}")
 
     python = Path(python).absolute() if python.startswith("./") else python
     assert_python_version(python)
 
-    if dh_version_exact:
-        if dh_version != DH_VERSION_DEFAULT:
-            raise ValueError(f"Cannot specify both dh_version={dh_version} and dh_version_exact={dh_version_exact}")
-
-        dh_version = dh_version_exact
-        dh_version_pip = f"=={dh_version}"
-    else:
-        dh_version_pip = f"~={dh_version}"
+    if not dh_version:
+        dh_version = get_latest_version("deephaven-server")
 
     use_dev = dh_ib_version is None
 
     if dh_ib_version is None:
         dh_ib_version = "0.0.0.dev0"
 
-    version_assert_format(dh_version)
     version_assert_format(ib_version)
     version_assert_format(dh_ib_version)
 
@@ -573,7 +582,8 @@ def dev(
     ib_wheel.build(pyenv)
     ib_wheel.install(pyenv)
 
-    pyenv.pip_install("deephaven-server", dh_version_pip)
+    logging.warning(f"Installing deephaven-server: {dh_version}")
+    pyenv.pip_install("deephaven-server", f"~={dh_version}")
 
     if install_dhib:
         if use_dev:
@@ -591,6 +601,7 @@ def dev(
 
 @click.command()
 @click.option('--python', default="python3", help='The path to the Python executable to use.')
+@click.option('--dh_version', default=None, help='The version of Deephaven. If not specified, uses the latest version from PyPI.')
 @click.option('--dh_ib_version', default=None, help='The version of deephaven-ib.')
 @click.option('--use_venv', default=True, help='Whether to use a python virtual environment or system python.')
 @click.option('--path_venv', default=None, help='The path to the virtual environment.')
@@ -598,6 +609,7 @@ def dev(
 @click.option('--delete_venv', default=False, help='Whether to delete the virtual environment if it already exists.')
 def release(
         python: str,
+        dh_version: Optional[str],
         dh_ib_version: Optional[str],
         use_venv: bool,
         path_venv: Optional[str],
@@ -610,19 +622,18 @@ def release(
     python = Path(python).absolute() if python.startswith("./") else python
     assert_python_version(python)
 
+    if not dh_ib_version:
+        dh_ib_version = get_latest_version("deephaven_ib")
+
     wheel = download_wheel(python, "deephaven_ib", dh_ib_version)
     deps = pkg_dependencies(wheel)
     ib_version = deps["ibapi"].replace("==", "")
-    dh_version = deps["deephaven-server"].replace("==", "").replace("~=", "").replace(">=", "")
+    
+    if not dh_version:
+        dh_version = get_latest_version("deephaven-server")
 
-    version_assert_format(dh_version)
     version_assert_format(ib_version)
-
-    if dh_ib_version:
-        version_assert_format(dh_ib_version)
-        dh_ib_version_pip = f"=={dh_ib_version}"
-    else:
-        dh_ib_version_pip = ""
+    version_assert_format(dh_ib_version)
 
     if use_venv:
         if path_venv:
@@ -642,8 +653,11 @@ def release(
     ib_wheel.build(pyenv)
     ib_wheel.install(pyenv)
 
+    logging.warning(f"Installing deephaven-server: {dh_version}")
+    pyenv.pip_install("deephaven-server", f"~={dh_version}")
+
     logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
-    pyenv.pip_install("deephaven-ib", dh_ib_version_pip)
+    pyenv.pip_install("deephaven-ib", f"=={dh_ib_version}")
     success(pyenv)
 
 
