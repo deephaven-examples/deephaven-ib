@@ -193,6 +193,14 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     ```
 4) Build a [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) virtual environment:
 
+   **Quick Start:** For a one-command setup that builds the environment and starts the server, use the convenience script:
+    ```bash
+    ./build_and_run.sh
+    ```
+   This script automatically creates the virtual environment, installs the latest release version, and starts the Deephaven server. Press Ctrl-C to stop the server when done.
+
+   **Manual Setup:** For more control over the installation process, follow these steps:
+
    First, create a small, local virtual environment that will be used only to run the `dhib_env.py` script (this avoids installing packages system-wide):
     ```bash
     python3 -m venv .venv-installer
@@ -201,7 +209,7 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
 
    Install the dependencies needed to run the script into this installer virtual environment:
     ```bash
-    pip --upgrade pip
+    python -m pip install --upgrade pip
     pip install -r requirements_dhib_env.txt
     ```
 

@@ -338,9 +338,9 @@ def venv_path(is_release: bool, dh_version: str, dh_ib_version: str) -> Path:
         The path to the new virtual environment.
     """
     if is_release:
-        return Path(f"venv-release-dhib={dh_version}").absolute()
+        return Path(f"venv-release-dhib-{dh_version}").absolute()
     else:
-        return Path(f"venv-dev-dhib={dh_ib_version}-dh={dh_version}").absolute()
+        return Path(f"venv-dev-dhib-{dh_ib_version}-dh-{dh_version}").absolute()
 
 
 ########################################################################################################################
@@ -578,12 +578,12 @@ def dev(
         logging.warning(f"Using system python: {python}")
         pyenv = Pyenv(python)
 
+    logging.warning(f"Installing deephaven-server: {dh_version}")
+    pyenv.pip_install("deephaven-server", f"~={dh_version}")
+
     ib_wheel = IbWheel(ib_version)
     ib_wheel.build(pyenv)
     ib_wheel.install(pyenv)
-
-    logging.warning(f"Installing deephaven-server: {dh_version}")
-    pyenv.pip_install("deephaven-server", f"~={dh_version}")
 
     if install_dhib:
         if use_dev:
@@ -649,12 +649,12 @@ def release(
         logging.warning(f"Using system python: {python}")
         pyenv = Pyenv(python)
 
+    logging.warning(f"Installing deephaven-server: {dh_version}")
+    pyenv.pip_install("deephaven-server", f"~={dh_version}")
+
     ib_wheel = IbWheel(ib_version)
     ib_wheel.build(pyenv)
     ib_wheel.install(pyenv)
-
-    logging.warning(f"Installing deephaven-server: {dh_version}")
-    pyenv.pip_install("deephaven-server", f"~={dh_version}")
 
     logging.warning(f"Installing deephaven-ib from PyPI: {dh_ib_version}")
     pyenv.pip_install("deephaven-ib", f"=={dh_ib_version}")
