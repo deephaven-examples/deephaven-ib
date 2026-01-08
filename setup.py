@@ -11,11 +11,6 @@ dh_ib_version = os.getenv("DH_IB_VERSION")
 if not dh_ib_version:
     raise Exception("deephaven-ib version must be set via the DH_IB_VERSION environment variable.")
 
-dh_version = os.getenv("DH_VERSION")
-
-if not dh_version:
-    raise Exception("deephaven version must be set via the DH_VERSION environment variable.")
-
 ib_version = os.getenv("IB_VERSION")
 
 if not ib_version:
@@ -59,7 +54,6 @@ def version_assert_format(version: str, allow_zero_prefix: bool=False) -> None:
 
 
 version_assert_format(dh_ib_version)
-version_assert_format(dh_version)
 version_assert_format(ib_version, allow_zero_prefix=True)
 
 setuptools.setup(
@@ -91,7 +85,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.10",
     install_requires=[
-        f"deephaven-server>={dh_version}",
+        "deephaven-server",
         "pandas",
         f"ibapi=={ib_version}",
         "lxml",

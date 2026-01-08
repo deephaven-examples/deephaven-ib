@@ -201,6 +201,7 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
 
    Install the dependencies needed to run the script into this installer virtual environment:
     ```bash
+    pip --upgrade pip
     pip install -r requirements_dhib_env.txt
     ```
 
@@ -211,17 +212,17 @@ you can use the `--use_venv false` option to [./dhib_env.py](./dhib_env.py).
     python ./dhib_env.py --help
     ```
 
-   To install the latest production release version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from PyPi plus the release-specified `ibapi` and `deephaven` versions: 
+   To install the latest production release version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from PyPI. This command will automatically install the latest `deephaven-server` from PyPI and extract the required `ibapi` version from the deephaven-ib package dependencies: 
     ```bash
     python ./dhib_env.py release
     ```
    
-   To install the latest development version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from source plus the default `ibapi` and `deephaven` versions:
+   To install the latest development version of [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) from source. This command will automatically install the latest `deephaven-server` and `ibapi` versions from PyPI:
     ```bash
     python ./dhib_env.py dev
     ```
 
-   To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install `deephaven-ib`, but it will install the default `ibapi` and `deephaven` versions.)
+   To create a venv for developing [deephaven-ib](https://github.com/deephaven-examples/deephaven-ib) in PyCharm: (This will not install `deephaven-ib`, but it will install the latest `deephaven-server` and `ibapi` versions from PyPI.)
     ```bash
     python ./dhib_env.py dev --install_dhib false
     ```
