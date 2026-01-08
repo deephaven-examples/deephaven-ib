@@ -9,7 +9,11 @@
 # Press Ctrl-C to stop the server when done.
 
 # Display Java home (required for Deephaven)
-echo $JAVA_HOME
+if [ -z "${JAVA_HOME:-}" ]; then
+    echo "Error: JAVA_HOME is not set. Deephaven requires Java. Please set JAVA_HOME before running this script." >&2
+    exit 1
+fi
+echo "JAVA_HOME=${JAVA_HOME}"
 
 # Clean up any existing virtual environments
 deactivate 2>/dev/null || true  # Deactivate if already in a venv
@@ -35,5 +39,6 @@ rm -rf .venv-installer
 
 # Activate the release virtual environment and start Deephaven server
 source ./venv-release-dhib*/bin/activate
+# Ensure the release virtual environment is deactivated when the script exits
+trap 'deactivate 2>/dev/null || true' EXIT INT TERM
 deephaven server
-deactivate
