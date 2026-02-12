@@ -23,7 +23,7 @@ echo "JAVA_HOME=${JAVA_HOME}"
 # Clean up any existing virtual environments
 deactivate 2>/dev/null || true  # Deactivate if already in a venv
 rm -rf .venv-installer
-rm -rf venv-release-dhib*
+rm -rf .venv-release-dhib*
 
 # Create temporary installer virtual environment
 # This small venv is only used to run the dhib_env.py script
