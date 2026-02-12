@@ -360,13 +360,13 @@
 <span class="c1"># Copyright (c) 2016-2025 Deephaven Data Labs and Patent Pending</span>
 <span class="c1">#</span>
 
-<span class="sd">&quot;&quot;&quot;This module implement various filters that can be used in deephaven table&#39;s filter operations.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;This module implements various filters that can be used in deephaven table&#39;s filter operations.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">jpy</span>
 
@@ -376,6 +376,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">deephaven.jcompat</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_sequence</span>
 
 <span class="n">_JFilter</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.filter.Filter&quot;</span><span class="p">)</span>
+<span class="n">_JFilterNot</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.filter.FilterNot&quot;</span><span class="p">)</span>
+<span class="n">_JFilterIn</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.filter.FilterIn&quot;</span><span class="p">)</span>
+<span class="n">_JFilterComparison</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.filter.FilterComparison&quot;</span><span class="p">)</span>
+<span class="n">_JLiteral</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.literal.Literal&quot;</span><span class="p">)</span>
 <span class="n">_JColumnName</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.ColumnName&quot;</span><span class="p">)</span>
 <span class="n">_JFilterPattern</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.filter.FilterPattern&quot;</span><span class="p">)</span>
 <span class="n">_JPatternMode</span> <span class="o">=</span> <span class="n">jpy</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="s2">&quot;io.deephaven.api.filter.FilterPattern$Mode&quot;</span><span class="p">)</span>
@@ -385,12 +389,21 @@
 <span class="p">)</span>
 
 
+<div class="viewcode-block" id="ColumnName">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.ColumnName">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ColumnName</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string subclass representing a column name.&quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span></div>
+
+
+
 <div class="viewcode-block" id="Filter">
 <a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.Filter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Filter</span><span class="p">(</span><span class="n">ConcurrencyControl</span><span class="p">[</span><span class="s2">&quot;Filter&quot;</span><span class="p">],</span> <span class="n">JObjectWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A Filter object represents a filter that can be used in Table&#39;s filtering(where) operations.</span>
-<span class="sd">    Explicit concurrency and ordering control can be specified on a Filter to affects the parallelization of its</span>
-<span class="sd">    evaluation during Table filtering operation.</span>
+<span class="sd">    Explicit concurrency and ordering control can be specified on a Filter to affect the parallelization of its</span>
+<span class="sd">    evaluation during the Table filtering operation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">j_object_type</span> <span class="o">=</span> <span class="n">_JFilter</span>
@@ -473,7 +486,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            a new not Filter</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_JFilter</span><span class="p">,</span> <span class="s2">&quot;not&quot;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_filter</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_JFilterNot</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j_filter</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Filter.from_">
@@ -555,7 +568,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        a new not Filter</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">filter_</span><span class="o">.</span><span class="n">not_</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_JFilter</span><span class="p">,</span> <span class="s2">&quot;not&quot;</span><span class="p">)(</span><span class="n">filter_</span><span class="o">.</span><span class="n">j_filter</span><span class="p">))</span></div>
 
 
 
@@ -662,6 +675,167 @@
         <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_JIncrementalReleaseFilter</span><span class="p">(</span><span class="n">initial_rows</span><span class="p">,</span> <span class="n">increment</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create incremental release filter.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+
+<div class="viewcode-block" id="in_">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.in_">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">in_</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the column&#39;s value is in the given values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        col (str): the column name</span>
+<span class="sd">        values (Sequence[Union[bool, int, float, str]]): the values to check against</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a new in Filter</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        DHError</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">j_literals</span> <span class="o">=</span> <span class="p">[</span><span class="n">_JLiteral</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_JFilterIn</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">_JColumnName</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">col</span><span class="p">),</span> <span class="n">j_literals</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DHError</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;failed to create an in filter.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+
+<span class="n">_FILTER_COMPARISON_MAP</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;eq&quot;</span><span class="p">:</span> <span class="n">_JFilterComparison</span><span class="o">.</span><span class="n">eq</span><span class="p">,</span>
+    <span class="s2">&quot;ne&quot;</span><span class="p">:</span> <span class="n">_JFilterComparison</span><span class="o">.</span><span class="n">neq</span><span class="p">,</span>
+    <span class="s2">&quot;lt&quot;</span><span class="p">:</span> <span class="n">_JFilterComparison</span><span class="o">.</span><span class="n">lt</span><span class="p">,</span>
+    <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="n">_JFilterComparison</span><span class="o">.</span><span class="n">leq</span><span class="p">,</span>
+    <span class="s2">&quot;gt&quot;</span><span class="p">:</span> <span class="n">_JFilterComparison</span><span class="o">.</span><span class="n">gt</span><span class="p">,</span>
+    <span class="s2">&quot;ge&quot;</span><span class="p">:</span> <span class="n">_JFilterComparison</span><span class="o">.</span><span class="n">geq</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_j_filter_comparison</span><span class="p">(</span>
+    <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jpy</span><span class="o">.</span><span class="n">JType</span><span class="p">:</span>
+    <span class="n">j_left</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">_JColumnName</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">)</span> <span class="k">else</span> <span class="n">_JLiteral</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">j_right</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">_JColumnName</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">)</span> <span class="k">else</span> <span class="n">_JLiteral</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">_FILTER_COMPARISON_MAP</span><span class="p">[</span><span class="n">op</span><span class="p">](</span><span class="n">j_left</span><span class="p">,</span> <span class="n">j_right</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="eq">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.eq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eq</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the left operand is equal to the right operand.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (Union[bool, int, float, str, ColumnName]): the left operand, either a literal value or a column name</span>
+<span class="sd">        right (Union[bool, int, float, str, ColumnName]): the right operand, either a literal value or a column name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filter: a new equality filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_j_filter_comparison</span><span class="p">(</span><span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="ne">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.ne">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ne</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the left operand is not equal to the right operand.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (Union[bool, int, float, str, ColumnName]): the left operand, either a literal value or a column name</span>
+<span class="sd">        right (Union[bool, int, float, str, ColumnName]): the right operand, either a literal value or a column name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filter: a new inequality filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_j_filter_comparison</span><span class="p">(</span><span class="s2">&quot;ne&quot;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="lt">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.lt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lt</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the left operand is less than the right operand.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (Union[bool, int, float, str, ColumnName]): the left operand, either a literal value or a column name</span>
+<span class="sd">        right (Union[bool, int, float, str, ColumnName]): the right operand, either a literal value or a column name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filter: a new less-than filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_j_filter_comparison</span><span class="p">(</span><span class="s2">&quot;lt&quot;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="le">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.le">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">le</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the left operand is less than or equal to the right operand.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (Union[bool, int, float, str, ColumnName]): the left operand, either a literal value or a column name</span>
+<span class="sd">        right (Union[bool, int, float, str, ColumnName]): the right operand, either a literal value or a column name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filter: a new less-than-or-equal filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_j_filter_comparison</span><span class="p">(</span><span class="s2">&quot;le&quot;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="gt">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.gt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gt</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the left operand is greater than the right operand.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (Union[bool, int, float, str, ColumnName]): the left operand, either a literal value or a column name</span>
+<span class="sd">        right (Union[bool, int, float, str, ColumnName]): the right operand, either a literal value or a column name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filter: a new greater-than filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_j_filter_comparison</span><span class="p">(</span><span class="s2">&quot;gt&quot;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="ge">
+<a class="viewcode-back" href="../../code/deephaven.filters.html#deephaven.filters.ge">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ge</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+    <span class="n">right</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ColumnName</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new filter that evaluates to true when the left operand is greater than or equal to the right operand.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (Union[bool, int, float, str, ColumnName]): the left operand, either a literal value or a column name</span>
+<span class="sd">        right (Union[bool, int, float, str, ColumnName]): the right operand, either a literal value or a column name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filter: a new greater-than-or-equal filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">j_filter</span><span class="o">=</span><span class="n">_j_filter_comparison</span><span class="p">(</span><span class="s2">&quot;ge&quot;</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">))</span></div>
 
 </pre></div>
         </article>
